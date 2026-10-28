@@ -1,0 +1,470 @@
+{
+  "run_id": 40622014775,
+  "head_sha": "7d9986c2d2f539d11d680ff161d4554e636fbce7",
+  "job_id": 122598040379,
+  "job_name": "Repaired components (windows-2022)",
+  "report_sha256": "83540dd64e8d99b549ce2391aa6fc97acc6c84347707fa38f30466ae65d759d2",
+  "retrieved_via": "SHA-verified gzip/base64 check annotation chunks",
+  "payload": {
+    "SchemaVersion": 1,
+    "UpstreamBaselineCommit": "70f3560465ba73cef0250109af7cf167b508516f",
+    "Framework": ".NET 10.0.14",
+    "ProcessArchitecture": "X64",
+    "Executed": 64,
+    "Passed": 64,
+    "Failed": 0,
+    "GameServerStarted": false,
+    "NativeCryptoExecuted": false,
+    "LoopbackComponentSocketsStarted": true,
+    "Results": [
+      {
+        "Id": "AUTH-01-success-length",
+        "Status": "PASS",
+        "Expected": "52",
+        "Observed": "52",
+        "Scope": "Managed packet bytes only; no socket, native crypto, login server, or client is started."
+      },
+      {
+        "Id": "AUTH-02-success-header",
+        "Status": "PASS",
+        "Expected": "52,1055",
+        "Observed": "52,1055",
+        "Scope": "Managed packet bytes only; no socket, native crypto, login server, or client is started."
+      },
+      {
+        "Id": "AUTH-03-field-offsets",
+        "Status": "PASS",
+        "Expected": "1000001,305419896,5816,0",
+        "Observed": "1000001,305419896,5816,0",
+        "Scope": "Managed packet bytes only; no socket, native crypto, login server, or client is started."
+      },
+      {
+        "Id": "AUTH-04-IP-at-offset-20",
+        "Status": "PASS",
+        "Expected": "192.0.2.10",
+        "Observed": "192.0.2.10",
+        "Scope": "Managed packet bytes only; no socket, native crypto, login server, or client is started."
+      },
+      {
+        "Id": "AUTH-05-rejection",
+        "Status": "PASS",
+        "Expected": "12,12,1055,1",
+        "Observed": "12,12,1055,1",
+        "Scope": "Managed packet bytes only; no socket, native crypto, login server, or client is started."
+      },
+      {
+        "Id": "PACKET-01-short-field-control",
+        "Status": "PASS",
+        "Expected": "A1B2C3D4",
+        "Observed": "A1B2C3D4",
+        "Scope": "Managed packet bytes only; no socket, native crypto, login server, or client is started."
+      },
+      {
+        "Id": "PACKET-02-field-boundary",
+        "Status": "PASS",
+        "Expected": "A1B2C3D4",
+        "Observed": "A1B2C3D4",
+        "Scope": "Contract probe: length is documented as maximum field length. Synthetic bytes only; checks adjacent-field corruption, not remote exploitability."
+      },
+      {
+        "Id": "ARENA-01-all-configured-tiers-reachable",
+        "Status": "PASS",
+        "Expected": "1500,2200,2700,3200,4000",
+        "Observed": "1500,2200,2700,3200,4000",
+        "Scope": "Enumerates the real method over all possible byte levels. Unreachable configured tiers are a logic defect; intended new balancing/ranges are NOT specified by this test."
+      },
+      {
+        "Id": "ARENA-02-observed-boundary-control",
+        "Status": "PASS",
+        "Expected": "3200,4000",
+        "Observed": "3200,4000",
+        "Scope": "Characterization of original boundary only; not approval of those reward values."
+      },
+      {
+        "Id": "ENCODING-01-fresh-process-ASCII-read",
+        "Status": "PASS",
+        "Expected": "192.0.2.10",
+        "Observed": "192.0.2.10",
+        "Scope": "Fresh .NET process, no explicit code-page registration or server/database startup. Failure here is conditional; dependency initialization during real startup remains untested."
+      },
+      {
+        "Id": "TCP-01-whole-frame-control",
+        "Status": "PASS",
+        "Expected": "08-00-EC-03-01-02-03-04",
+        "Observed": "08-00-EC-03-01-02-03-04",
+        "Scope": "Loopback-only connected sockets driving original AsynchronousServerSocket callbacks. Valid 8-byte synthetic frame, no cipher or game process. Fragment consumption is observed before the remainder is sent; HARNESS_TIMEOUT is not a reproduced defect."
+      },
+      {
+        "Id": "TCP-02-split-body-control",
+        "Status": "PASS",
+        "Expected": "08-00-EC-03-01-02-03-04",
+        "Observed": "08-00-EC-03-01-02-03-04",
+        "Scope": "Loopback-only connected sockets driving original AsynchronousServerSocket callbacks. Valid 8-byte synthetic frame, no cipher or game process. Fragment consumption is observed before the remainder is sent; HARNESS_TIMEOUT is not a reproduced defect."
+      },
+      {
+        "Id": "TCP-03-split-header",
+        "Status": "PASS",
+        "Expected": "08-00-EC-03-01-02-03-04",
+        "Observed": "08-00-EC-03-01-02-03-04",
+        "Scope": "Loopback-only connected sockets driving original AsynchronousServerSocket callbacks. Valid 8-byte synthetic frame, no cipher or game process. Fragment consumption is observed before the remainder is sent; HARNESS_TIMEOUT is not a reproduced defect."
+      },
+      {
+        "Id": "PACKET-03-CP1252-roundtrip",
+        "Status": "PASS",
+        "Expected": "café",
+        "Observed": "café",
+        "Scope": "Repaired source component regression; not an end-to-end client test."
+      },
+      {
+        "Id": "PACKET-04-UTF8-whole-character-truncation",
+        "Status": "PASS",
+        "Expected": "éA,A1B2C3D4",
+        "Observed": "éA,A1B2C3D4",
+        "Scope": "Repaired source component regression; not an end-to-end client test."
+      },
+      {
+        "Id": "PACKET-05-first-character-does-not-fit",
+        "Status": "PASS",
+        "Expected": "0,A1B2C3D4",
+        "Observed": "0,A1B2C3D4",
+        "Scope": "Repaired source component regression; not an end-to-end client test."
+      },
+      {
+        "Id": "PACKET-06-surrogate-not-split",
+        "Status": "PASS",
+        "Expected": "0",
+        "Observed": "0",
+        "Scope": "Repaired source component regression; not an end-to-end client test."
+      },
+      {
+        "Id": "PACKET-07-read-bounds",
+        "Status": "PASS",
+        "Expected": "REJECTED",
+        "Observed": "REJECTED",
+        "Scope": "Repaired source component regression; not an end-to-end client test."
+      },
+      {
+        "Id": "PACKET-08-write-bounds",
+        "Status": "PASS",
+        "Expected": "REJECTED",
+        "Observed": "REJECTED",
+        "Scope": "Repaired source component regression; not an end-to-end client test."
+      },
+      {
+        "Id": "PACKET-09-array-copies-data",
+        "Status": "PASS",
+        "Expected": "01-02-03-04",
+        "Observed": "01-02-03-04",
+        "Scope": "Repaired source component regression; not an end-to-end client test."
+      },
+      {
+        "Id": "PACKET-10-length-prefix-overflow",
+        "Status": "PASS",
+        "Expected": "REJECTED",
+        "Observed": "REJECTED",
+        "Scope": "Repaired source component regression; not an end-to-end client test."
+      },
+      {
+        "Id": "PACKET-11-length-prefixed-CP1252",
+        "Status": "PASS",
+        "Expected": "4,café",
+        "Observed": "4,café",
+        "Scope": "Repaired source component regression; not an end-to-end client test."
+      },
+      {
+        "Id": "ARENA-03-all-existing-boundaries",
+        "Status": "PASS",
+        "Expected": "1500,1500,2200,2200,2700,2700,3200,3200,4000",
+        "Observed": "1500,1500,2200,2200,2700,2700,3200,3200,4000",
+        "Scope": "Preserves upstream values and existing predicates; fixes ordering, not a new economy design."
+      },
+      {
+        "Id": "TCP-server-disconnect-cleanup-synchronous-once",
+        "Status": "PASS",
+        "Expected": "True",
+        "Observed": "True",
+        "Scope": "Repaired source component regression; not an end-to-end client test."
+      },
+      {
+        "Id": "TCP-server-one-byte-header",
+        "Status": "PASS",
+        "Expected": "True",
+        "Observed": "True",
+        "Scope": "Repaired source component regression; not an end-to-end client test."
+      },
+      {
+        "Id": "TCP-server-coalesced-frames",
+        "Status": "PASS",
+        "Expected": "True",
+        "Observed": "True",
+        "Scope": "Repaired source component regression; not an end-to-end client test."
+      },
+      {
+        "Id": "TCP-server-invalid-small",
+        "Status": "PASS",
+        "Expected": "REJECTED",
+        "Observed": "REJECTED",
+        "Scope": "Repaired source component regression; not an end-to-end client test."
+      },
+      {
+        "Id": "TCP-server-invalid-large",
+        "Status": "PASS",
+        "Expected": "REJECTED",
+        "Observed": "REJECTED",
+        "Scope": "Repaired source component regression; not an end-to-end client test."
+      },
+      {
+        "Id": "TCP-server-invalid-type",
+        "Status": "PASS",
+        "Expected": "REJECTED",
+        "Observed": "REJECTED",
+        "Scope": "Repaired source component regression; not an end-to-end client test."
+      },
+      {
+        "Id": "TCP-client-disconnect-cleanup-synchronous-once",
+        "Status": "PASS",
+        "Expected": "True",
+        "Observed": "True",
+        "Scope": "Repaired source component regression; not an end-to-end client test."
+      },
+      {
+        "Id": "TCP-client-one-byte-header",
+        "Status": "PASS",
+        "Expected": "True",
+        "Observed": "True",
+        "Scope": "Repaired source component regression; not an end-to-end client test."
+      },
+      {
+        "Id": "TCP-client-coalesced-frames",
+        "Status": "PASS",
+        "Expected": "True",
+        "Observed": "True",
+        "Scope": "Repaired source component regression; not an end-to-end client test."
+      },
+      {
+        "Id": "TCP-client-invalid-small",
+        "Status": "PASS",
+        "Expected": "REJECTED",
+        "Observed": "REJECTED",
+        "Scope": "Repaired source component regression; not an end-to-end client test."
+      },
+      {
+        "Id": "TCP-client-invalid-large",
+        "Status": "PASS",
+        "Expected": "REJECTED",
+        "Observed": "REJECTED",
+        "Scope": "Repaired source component regression; not an end-to-end client test."
+      },
+      {
+        "Id": "TCP-client-invalid-type",
+        "Status": "PASS",
+        "Expected": "REJECTED",
+        "Observed": "REJECTED",
+        "Scope": "Repaired source component regression; not an end-to-end client test."
+      },
+      {
+        "Id": "TCP-internal-disconnect-cleanup-synchronous-once",
+        "Status": "PASS",
+        "Expected": "True",
+        "Observed": "True",
+        "Scope": "Repaired source component regression; not an end-to-end client test."
+      },
+      {
+        "Id": "TCP-internal-one-byte-header",
+        "Status": "PASS",
+        "Expected": "True",
+        "Observed": "True",
+        "Scope": "Repaired source component regression; not an end-to-end client test."
+      },
+      {
+        "Id": "TCP-internal-coalesced-frames",
+        "Status": "PASS",
+        "Expected": "True",
+        "Observed": "True",
+        "Scope": "Repaired source component regression; not an end-to-end client test."
+      },
+      {
+        "Id": "TCP-internal-invalid-small",
+        "Status": "PASS",
+        "Expected": "REJECTED",
+        "Observed": "REJECTED",
+        "Scope": "Repaired source component regression; not an end-to-end client test."
+      },
+      {
+        "Id": "TCP-internal-invalid-large",
+        "Status": "PASS",
+        "Expected": "REJECTED",
+        "Observed": "REJECTED",
+        "Scope": "Repaired source component regression; not an end-to-end client test."
+      },
+      {
+        "Id": "TCP-internal-invalid-type",
+        "Status": "PASS",
+        "Expected": "REJECTED",
+        "Observed": "REJECTED",
+        "Scope": "Repaired source component regression; not an end-to-end client test."
+      },
+      {
+        "Id": "DH-03-fragments-and-following-new-key-frame",
+        "Status": "PASS",
+        "Expected": "True",
+        "Observed": "True",
+        "Scope": "Repaired source component regression; not an end-to-end client test."
+      },
+      {
+        "Id": "VIP-01-five-different-city-maps",
+        "Status": "PASS",
+        "Expected": "1002,1011,1020,1000,1015",
+        "Observed": "1002,1011,1020,1000,1015",
+        "Scope": "City entry points are from cq_map and checked against the archived walkable tiles; real teleport UI remains untested."
+      },
+      {
+        "Id": "VIP-02-unverified-subdestination-is-not-misrouted",
+        "Status": "PASS",
+        "Expected": "False",
+        "Observed": "False",
+        "Scope": "Repaired source component regression; not an end-to-end client test."
+      },
+      {
+        "Id": "PASSWORD-roundtrip-15-lower",
+        "Status": "PASS",
+        "Expected": "localfixture123",
+        "Observed": "localfixture123",
+        "Scope": "Synthetic fixed-field password test, including 16 non-NUL bytes; no actual owner's password."
+      },
+      {
+        "Id": "PASSWORD-roundtrip-12-mixed",
+        "Status": "PASS",
+        "Expected": "MixedCase123",
+        "Observed": "MixedCase123",
+        "Scope": "Synthetic fixed-field password test, including 16 non-NUL bytes; no actual owner's password."
+      },
+      {
+        "Id": "PASSWORD-roundtrip-16-mixed",
+        "Status": "PASS",
+        "Expected": "AbCdEfGh12345678",
+        "Observed": "AbCdEfGh12345678",
+        "Scope": "Synthetic fixed-field password test, including 16 non-NUL bytes; no actual owner's password."
+      },
+      {
+        "Id": "RC5-managed-block-roundtrip",
+        "Status": "PASS",
+        "Expected": "True",
+        "Observed": "True",
+        "Scope": "Repaired source component regression; not an end-to-end client test."
+      },
+      {
+        "Id": "INTERSERVER-01-auth-length-and-fields",
+        "Status": "PASS",
+        "Expected": "512,512,redmoon,0123456789abcdef,RedMoon,500",
+        "Observed": "512,512,redmoon,0123456789abcdef,RedMoon,500",
+        "Scope": "Only the private LoginServer/MsgServer link changes; its sockets have no client footer."
+      },
+      {
+        "Id": "INTERSERVER-02-information-length-name-port",
+        "Status": "PASS",
+        "Expected": "36,36,RedMoon,5816",
+        "Observed": "36,36,RedMoon,5816",
+        "Scope": "Repaired source component regression; not an end-to-end client test."
+      },
+      {
+        "Id": "INTERSERVER-03-response-length",
+        "Status": "PASS",
+        "Expected": "24,24",
+        "Observed": "24,24",
+        "Scope": "Repaired source component regression; not an end-to-end client test."
+      },
+      {
+        "Id": "TCP-listener-dispose-server",
+        "Status": "PASS",
+        "Expected": "True",
+        "Observed": "True",
+        "Scope": "Repaired source component regression; not an end-to-end client test."
+      },
+      {
+        "Id": "TCP-listener-dispose-internal",
+        "Status": "PASS",
+        "Expected": "True",
+        "Observed": "True",
+        "Scope": "Repaired source component regression; not an end-to-end client test."
+      },
+      {
+        "Id": "INTERSERVER-04-empty-MAC-is-initialized",
+        "Status": "PASS",
+        "Expected": "72,72,",
+        "Observed": "72,72,",
+        "Scope": "Repaired source component regression; not an end-to-end client test."
+      },
+      {
+        "Id": "INTERSERVER-05-login-metadata-roundtrip",
+        "Status": "PASS",
+        "Expected": "1000001,1234,3,2,192.0.2.10,001122334455",
+        "Observed": "1000001,1234,3,2,192.0.2.10,001122334455",
+        "Scope": "Repaired source component regression; not an end-to-end client test."
+      },
+      {
+        "Id": "CAST5-01-independent-OpenSSL-vector",
+        "Status": "PASS",
+        "Expected": "21B62E73A298BDED38AF98F1ECCA156F6AC82F194C654E2A207B23D17D64FC51638A96E897EC3FC1C7BCB11B6A52060E7A820086E8940E2F805DB9D0607456A44B0EE8",
+        "Observed": "21B62E73A298BDED38AF98F1ECCA156F6AC82F194C654E2A207B23D17D64FC51638A96E897EC3FC1C7BCB11B6A52060E7A820086E8940E2F805DB9D0607456A44B0EE8",
+        "Scope": "Repaired source component regression; not an end-to-end client test."
+      },
+      {
+        "Id": "CAST5-02-decrypt-independent-vector",
+        "Status": "PASS",
+        "Expected": "0102030405060708090A0B0C0D0E0F101112131415161718191A1B1C1D1E1F202122232425262728292A2B2C2D2E2F303132333435363738393A3B3C3D3E3F40414243",
+        "Observed": "0102030405060708090A0B0C0D0E0F101112131415161718191A1B1C1D1E1F202122232425262728292A2B2C2D2E2F303132333435363738393A3B3C3D3E3F40414243",
+        "Scope": "Repaired source component regression; not an end-to-end client test."
+      },
+      {
+        "Id": "CAST5-03-arbitrary-fragment-boundaries",
+        "Status": "PASS",
+        "Expected": "21B62E73A298BDED38AF98F1ECCA156F6AC82F194C654E2A207B23D17D64FC51638A96E897EC3FC1C7BCB11B6A52060E7A820086E8940E2F805DB9D0607456A44B0EE8",
+        "Observed": "21B62E73A298BDED38AF98F1ECCA156F6AC82F194C654E2A207B23D17D64FC51638A96E897EC3FC1C7BCB11B6A52060E7A820086E8940E2F805DB9D0607456A44B0EE8",
+        "Scope": "Repaired source component regression; not an end-to-end client test."
+      },
+      {
+        "Id": "CAST5-04-offset-decryption",
+        "Status": "PASS",
+        "Expected": "True",
+        "Observed": "True",
+        "Scope": "Repaired source component regression; not an end-to-end client test."
+      },
+      {
+        "Id": "CAST5-05-DH-key-truncation-matches-OpenSSL",
+        "Status": "PASS",
+        "Expected": "21B62E73A298BDED38AF98F1ECCA156F6AC82F194C654E2A207B23D17D64FC51638A96E897EC3FC1C7BCB11B6A52060E7A820086E8940E2F805DB9D0607456A44B0EE8",
+        "Observed": "21B62E73A298BDED38AF98F1ECCA156F6AC82F194C654E2A207B23D17D64FC51638A96E897EC3FC1C7BCB11B6A52060E7A820086E8940E2F805DB9D0607456A44B0EE8",
+        "Scope": "Upstream CAST_set_key truncates long DH secrets to 16 bytes; changing to Blowfish would not be equivalent."
+      },
+      {
+        "Id": "CAST5-06-invalid-output-does-not-advance-feedback",
+        "Status": "PASS",
+        "Expected": "REJECTED,True",
+        "Observed": "REJECTED,True",
+        "Scope": "Repaired source component regression; not an end-to-end client test."
+      },
+      {
+        "Id": "CAST5-07-reset-key-and-IV",
+        "Status": "PASS",
+        "Expected": "True",
+        "Observed": "True",
+        "Scope": "Repaired source component regression; not an end-to-end client test."
+      },
+      {
+        "Id": "DH-01-independent-peers-agree",
+        "Status": "PASS",
+        "Expected": "True",
+        "Observed": "True",
+        "Scope": "Repaired source component regression; not an end-to-end client test."
+      },
+      {
+        "Id": "DH-02-reject-trivial-public-key",
+        "Status": "PASS",
+        "Expected": "REJECTED",
+        "Observed": "REJECTED",
+        "Scope": "Repaired source component regression; not an end-to-end client test."
+      }
+    ]
+  }
+}
