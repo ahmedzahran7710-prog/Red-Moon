@@ -21,13 +21,19 @@ try {
         if ($actualPath -ine $expectedPath -or $recordedPath -ine $expectedPath -or !$sameTime) {
             throw 'A recorded PID/path/start-time does not match this installation. No other process will be touched.'
         }
+        # Get-Process attaches to an existing PID. Keep its native handle alive
+        # BEFORE exit so Windows PowerShell 5.1 can retrieve a trustworthy ExitCode.
+        $null = $p.Handle
         $owned += $p
     }
     # The stop request is installation-local, not a signal to an arbitrary PID.
     Write-Utf8 (Join-Path $Root 'server/redmoon.stop') 'requested safe shutdown'
     foreach ($p in $owned) {
         if (!$p.WaitForExit(20000)) { throw 'Graceful shutdown is still pending. Inspect logs; no force-kill was performed.' }
-        if ($p.ExitCode -ne 0) { throw 'A server exited with an error during shutdown. Inspect local logs.' }
+        $exit = $p.ExitCode
+        $observed += @{ Name=$p.ProcessName; Id=$p.Id; ExitCode=$exit }
+        if ($null -eq $exit) { throw 'Shutdown completed but an exit code could not be retrieved; not claiming a clean stop.' }
+        if ($exit -ne 0) { throw "A server exited with code $exit during shutdown. Inspect local logs." }
     }
     Remove-Item -LiteralPath $record
     Write-Host 'STOPPED. MySQL/XAMPP and unrelated processes were not stopped.'
