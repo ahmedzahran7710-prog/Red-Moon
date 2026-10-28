@@ -170,16 +170,28 @@ namespace ServerCore.Networking.Sockets
             catch (SocketException e)
             {
                 // Was the connection issue a problem on the server's side or the client's side?
-                if (e.SocketErrorCode != SocketError.Disconnecting &&
+                if (e.SocketErrorCode != SocketError.OperationAborted &&
+                    e.SocketErrorCode != SocketError.Interrupted &&
+                    e.SocketErrorCode != SocketError.Disconnecting &&
                     e.SocketErrorCode != SocketError.NotConnected &&
                     e.SocketErrorCode != SocketError.ConnectionReset &&
                     e.SocketErrorCode != SocketError.ConnectionAborted &&
                     e.SocketErrorCode != SocketError.Shutdown)
                     Console.WriteLine(e);
             }
+            catch (ObjectDisposedException) { } // listener closed during shutdown
             finally
             {
-                BeginAccept(AcceptConnection, null);
+                try
+                {
+                    if (!SafeHandle.IsClosed) BeginAccept(AcceptConnection, null);
+                }
+                catch (ObjectDisposedException) { }
+                catch (SocketException error)
+                {
+                    if (error.SocketErrorCode != SocketError.OperationAborted && error.SocketErrorCode != SocketError.Interrupted)
+                        Console.WriteLine("Accept loop stopped: " + error.SocketErrorCode);
+                }
             }
         }
 

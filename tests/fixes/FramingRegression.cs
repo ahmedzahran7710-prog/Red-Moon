@@ -42,6 +42,20 @@ internal static class FramingRegression
         while (offset < bytes.Length)
         { int n = s.Send(bytes, offset, bytes.Length - offset, SocketFlags.None); if (n <= 0) throw new Exception("Closed test socket"); offset += n; }
     }
+    internal static string CloseListener(bool internalRole)
+    {
+        var sink = new Sink();
+        if (internalRole)
+        {
+            var listener = new InternalRole(sink); listener.Bind("127.0.0.1", 0); listener.Listen(1); listener.Dispose();
+        }
+        else
+        {
+            var listener = new ServerRole(sink, null); listener.Bind("127.0.0.1", 0); listener.Listen(1); listener.Dispose();
+        }
+        Thread.Sleep(150); // outstanding Accept callback must return, not restart a disposed listener
+        return "True";
+    }
     internal static string Run(string role, string mode)
     {
         var sink = new Sink();

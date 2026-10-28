@@ -27,7 +27,7 @@ namespace ServerCore.Networking.Packets
         /// <param name="szServerName">The server name, so the LoginServer will be enabled to redirect the player to the right game server.</param>
         /// <param name="usMaxOnline">The max amount of players enabled on this server.</param>
         public MsgLoginSvAuthentication(string szName, string szPass, string szServerName, ushort usMaxOnline)
-            : base(PacketType.LOGIN_AUTH_CONFIRM, 512, 504)
+            : base(PacketType.LOGIN_AUTH_CONFIRM, 512, 512)
         {
             for (int i = 4; i < Length; i++)
                 WriteByte((byte)ThreadSafeRandom.RandGet(1, 254), i);

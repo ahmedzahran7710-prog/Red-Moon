@@ -22,7 +22,7 @@ namespace ServerCore.Networking.Packets
         /// </summary>
         /// <param name="pMsg">The reply that will be sent to the server.</param>
         public LoginSvResponsePacket(LoginServerResponse pMsg)
-            : base(PacketType.LOGIN_COMPLETE_AUTHENTICATION, 24, 16)
+            : base(PacketType.LOGIN_COMPLETE_AUTHENTICATION, 24, 24)
         {
             Response = pMsg;
         }

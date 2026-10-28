@@ -93,6 +93,26 @@ internal static partial class Program
             var rc5 = new RivestCipher5(7654321); rc5.Encrypt(data); rc5.Decrypt(data); return data.SequenceEqual(expected).ToString();
         }, RepairScope);
 
+        Check("INTERSERVER-01-auth-length-and-fields", "512,512,redmoon,0123456789abcdef,RedMoon,500", () =>
+        {
+            var sent = new ServerCore.Networking.Packets.MsgLoginSvAuthentication("redmoon", "0123456789abcdef", "RedMoon", 500);
+            byte[] bytes = sent; var read = new ServerCore.Networking.Packets.MsgLoginSvAuthentication(bytes);
+            return BitConverter.ToUInt16(bytes, 0) + "," + bytes.Length + "," + read.Username + "," + read.Password + "," + read.ServerName + "," + read.MaxOnlinePlayers;
+        }, "Only the private LoginServer/MsgServer link changes; its sockets have no client footer.");
+        Check("INTERSERVER-02-information-length-name-port", "36,36,RedMoon,5816", () =>
+        {
+            var sent = new ServerCore.Networking.Packets.MsgServerInformation(500, 0, "RedMoon", 5816);
+            byte[] bytes = sent; var read = new ServerCore.Networking.Packets.MsgServerInformation(bytes);
+            return BitConverter.ToUInt16(bytes, 0) + "," + bytes.Length + "," + read.ServerName + "," + read.GamePort;
+        }, RepairScope);
+        Check("INTERSERVER-03-response-length", "24,24", () =>
+        {
+            byte[] bytes = new ServerCore.Networking.Packets.LoginSvResponsePacket(ServerCore.Common.Enums.LoginServerResponse.LOGIN_SUCCESSFUL);
+            return BitConverter.ToUInt16(bytes, 0) + "," + bytes.Length;
+        }, RepairScope);
+        Check("TCP-listener-dispose-server", "True", () => FramingRegression.CloseListener(false), RepairScope);
+        Check("TCP-listener-dispose-internal", "True", () => FramingRegression.CloseListener(true), RepairScope);
+
         var fixture = JsonDocument.Parse(File.ReadAllText(Path.Combine(AppContext.BaseDirectory, "cast5-cfb64.json"))).RootElement;
         byte[] key = Convert.FromHexString(fixture.GetProperty("key_hex").GetString());
         byte[] iv = Convert.FromHexString(fixture.GetProperty("iv_hex").GetString());

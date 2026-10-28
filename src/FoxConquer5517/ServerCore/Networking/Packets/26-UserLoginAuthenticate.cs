@@ -22,7 +22,7 @@ namespace ServerCore.Networking.Packets
         }
 
         public MsgUsrLogin(uint dwUserId, uint dwPacketHash)
-            : base(PacketType.LOGIN_REQUEST_USER_SIGNIN, 72, 64)
+            : base(PacketType.LOGIN_REQUEST_USER_SIGNIN, 72, 72)
         {
             RequestTime = (uint) UnixTimestamp.Timestamp();
             UserIdentity = dwUserId;

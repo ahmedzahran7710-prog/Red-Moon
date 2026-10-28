@@ -18,13 +18,13 @@ namespace ServerCore.Networking.Packets
         /// This constructor build the packet to ask for the online amount.
         /// </summary>
         public MsgLoginSvPlayerAmount()
-            : base(PacketType.LOGIN_REQUEST_ONLINE_NUMBER, 16, 8)
+            : base(PacketType.LOGIN_REQUEST_ONLINE_NUMBER, 16, 16)
         {
             Type = LoginPlayerAmountRequest.REQUEST_ONLINE_AMOUNT;
         }
 
         public MsgLoginSvPlayerAmount(ushort usValue, LoginPlayerAmountRequest request)
-            : base(PacketType.LOGIN_REQUEST_ONLINE_NUMBER, 16, 8)
+            : base(PacketType.LOGIN_REQUEST_ONLINE_NUMBER, 16, 16)
         {
             Amount = usValue;
             Type = request;

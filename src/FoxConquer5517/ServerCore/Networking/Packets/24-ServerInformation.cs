@@ -18,7 +18,7 @@ namespace ServerCore.Networking.Packets
         }
 
         public MsgServerInformation(ushort usMaxOnline, ushort usOnline, string szServerName, int nPort)
-            : base(PacketType.LOGIN_REQUEST_SERVER_INFO, 36, 28)
+            : base(PacketType.LOGIN_REQUEST_SERVER_INFO, 36, 36)
         {
             MaxOnlinePlayers = usMaxOnline;
             OnlinePlayers = usOnline;
@@ -30,7 +30,7 @@ namespace ServerCore.Networking.Packets
 
         public ushort OnlinePlayers { get { return ReadUShort(6); } set { WriteUShort(value, 6); } }
 
-        public string ServerName { get { return ReadString(9, 10); } set { WriteStringWithLength(value, 9); } }
+        public string ServerName { get { return ReadString(ReadByte(9), 10); } set { WriteStringWithLength(value, 9); } }
 
         public int GamePort { get { return ReadInt(26); } set { WriteInt(value, 26); } }
     }

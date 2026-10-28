@@ -34,7 +34,7 @@ namespace ServerCore.Networking.Packets
         /// <param name="helloMsg">The message should have 16 characters at max.</param>
         /// <param name="nMessageOffset">A value from 12 to 1000.</param>
         public MsgLoginSvAuthRequest(string helloMsg, int nMessageOffset = 48)
-            : base(PacketType.LOGIN_AUTH_REQUEST, 1024, 1016)
+            : base(PacketType.LOGIN_AUTH_REQUEST, 1024, 1024)
         {
             for (int i = 4; i < Length; i++)
                 if (i < 8 || i > 11)
