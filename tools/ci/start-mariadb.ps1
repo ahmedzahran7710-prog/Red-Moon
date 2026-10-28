@@ -13,16 +13,16 @@ if ((Get-FileHash -LiteralPath $archive -Algorithm SHA256).Hash.ToLowerInvariant
 $unpack = Join-Path $env:RUNNER_TEMP 'mariadb-official'
 $stage = 'extract'
 Expand-Archive -LiteralPath $archive -DestinationPath $unpack
-$home = (Get-ChildItem -LiteralPath $unpack -Directory | Select-Object -First 1).FullName
+$mariaHome = (Get-ChildItem -LiteralPath $unpack -Directory | Select-Object -First 1).FullName
 $data = Join-Path $env:RUNNER_TEMP 'mariadb-ci-data'
-$install = Join-Path $home 'bin/mysql_install_db.exe'
+$install = Join-Path $mariaHome 'bin/mysql_install_db.exe'
 $stage = 'initialize'
 & $install "--datadir=$data" --port=13306
 if ($LASTEXITCODE -ne 0) { throw 'Disposable MariaDB initialization failed.' }
-$exe = Join-Path $home 'bin/mysqld.exe'
+$exe = Join-Path $mariaHome 'bin/mysqld.exe'
 $stage = 'start'
-$process = Start-Process -FilePath $exe -ArgumentList @('--no-defaults',"--basedir=`"$home`"","--datadir=`"$data`"",'--port=13306','--bind-address=127.0.0.1','--skip-name-resolve','--console') -PassThru -RedirectStandardOutput (Join-Path $env:RUNNER_TEMP 'maria.stdout.log') -RedirectStandardError (Join-Path $env:RUNNER_TEMP 'maria.stderr.log')
-$mysql = Join-Path $home 'bin/mysql.exe'
+$process = Start-Process -FilePath $exe -ArgumentList @('--no-defaults',"--basedir=`"$mariaHome`"","--datadir=`"$data`"",'--port=13306','--bind-address=127.0.0.1','--skip-name-resolve','--console') -PassThru -RedirectStandardOutput (Join-Path $env:RUNNER_TEMP 'maria.stdout.log') -RedirectStandardError (Join-Path $env:RUNNER_TEMP 'maria.stderr.log')
+$mysql = Join-Path $mariaHome 'bin/mysql.exe'
 $stage = 'wait-ready'
 $deadline = [DateTime]::UtcNow.AddSeconds(60)
 $ready = $false

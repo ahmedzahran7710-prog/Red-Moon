@@ -6,6 +6,7 @@ first-party view of our own test results, not a replacement for failing exit cod
 Never include raw SQL, configuration, credentials, binary files, or arbitrary logs.
 """
 import base64
+import gzip
 import hashlib
 import json
 import os
@@ -34,16 +35,25 @@ def main():
         path = directory / filename
         if not path.exists():
             continue
-        if path.stat().st_size > 20000:
+        if path.stat().st_size > 40000:
             raise ValueError("Refusing oversized evidence annotation")
-        envelope = {"evidence_schema": 2, "run_id": os.environ.get("GITHUB_RUN_ID"),
-                    "run_attempt": os.environ.get("GITHUB_RUN_ATTEMPT"),
-                    "head_sha": os.environ.get("GITHUB_SHA"), "file": filename,
-                    "file_sha256": hashlib.sha256(path.read_bytes()).hexdigest(),
-                    "payload_base64": base64.b64encode(path.read_bytes()).decode("ascii")}
-        message = json.dumps(envelope, ensure_ascii=True, separators=(",", ":"))
-        message = message.replace("%", "%25").replace("\r", "%0D").replace("\n", "%0A")
-        print(f"::notice title=FOX_EVIDENCE_{filename}::{message}")
+        raw = path.read_bytes()
+        # Check annotations are truncated at 4096 characters in the current API
+        # transport. Compress repeated test scopes, then use bounded ASCII chunks.
+        encoded = base64.b64encode(gzip.compress(raw, mtime=0)).decode("ascii")
+        pieces = [encoded[i:i + 2000] for i in range(0, len(encoded), 2000)]
+        for index, piece in enumerate(pieces):
+            envelope = {"evidence_schema": 3, "run_id": os.environ.get("GITHUB_RUN_ID"),
+                        "run_attempt": os.environ.get("GITHUB_RUN_ATTEMPT"),
+                        "head_sha": os.environ.get("GITHUB_SHA"), "file": filename,
+                        "file_sha256": hashlib.sha256(raw).hexdigest(),
+                        "encoding": "gzip+base64", "part": index, "parts": len(pieces),
+                        "payload_chunk": piece}
+            message = json.dumps(envelope, separators=(",", ":"))
+            if len(message) >= 3500:
+                raise ValueError("Evidence envelope must remain below transport truncation")
+            print(f"::notice title=FOX_EVIDENCE_{filename}_{index}::{message}")
+
 
 
 if __name__ == "__main__":

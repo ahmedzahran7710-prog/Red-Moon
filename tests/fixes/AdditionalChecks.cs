@@ -50,6 +50,29 @@ internal static partial class Program
             var a = new ArenaEngine(); return string.Join(",", new byte[] { 70, 89, 90, 109, 110, 119, 120, 129, 130 }.Select(a.GetStartupPoints));
         }, "Preserves upstream values and existing predicates; fixes ordering, not a new economy design.");
 
+        foreach (string role in new[] { "server", "client", "internal" })
+        {
+            string copy = role;
+            Check("TCP-" + role + "-one-byte-header", "True", () => FramingRegression.Run(copy, "split"), RepairScope);
+            Check("TCP-" + role + "-coalesced-frames", "True", () => FramingRegression.Run(copy, "coalesced"), RepairScope);
+            foreach (string bad in new[] { "invalid-small", "invalid-large", "invalid-type" })
+            {
+                string mode = bad;
+                Check("TCP-" + role + "-" + mode, "REJECTED", () => FramingRegression.Run(copy, mode), RepairScope);
+            }
+        }
+        Check("DH-03-fragments-and-following-new-key-frame", "True", () => FramingRegression.Run("server", "exchange"), RepairScope);
+        Check("VIP-01-five-different-city-maps", "1002,1011,1020,1000,1015", () =>
+        {
+            return string.Join(",", Enumerable.Range(1, 5).Select(i =>
+            {
+                MsgServer.Structures.World.VipTeleportRoutes.TryGet((ServerCore.Common.Enums.VIPTeleportLocations)i, out var route);
+                return route.Map;
+            }));
+        }, "City entry points are from cq_map and checked against the archived walkable tiles; real teleport UI remains untested.");
+        Check("VIP-02-unverified-subdestination-is-not-misrouted", "False", () =>
+            MsgServer.Structures.World.VipTeleportRoutes.TryGet(ServerCore.Common.Enums.VIPTeleportLocations.WP_ALTAR, out _).ToString(), RepairScope);
+
         var fixture = JsonDocument.Parse(File.ReadAllText(Path.Combine(AppContext.BaseDirectory, "cast5-cfb64.json"))).RootElement;
         byte[] key = Convert.FromHexString(fixture.GetProperty("key_hex").GetString());
         byte[] iv = Convert.FromHexString(fixture.GetProperty("iv_hex").GetString());
