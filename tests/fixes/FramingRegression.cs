@@ -14,25 +14,26 @@ internal static class FramingRegression
     {
         internal readonly ConcurrentQueue<byte[]> Frames = new ConcurrentQueue<byte[]>();
         internal byte[] Exchange;
+        internal int Closed;
         internal void Receive(AsynchronousState state) { Frames.Enqueue(((Passport)state.Client).Packet.ToArray()); }
     }
     private sealed class ServerRole : AsynchronousServerSocket
     {
         internal ServerRole(Sink s, byte[] nextKey) : base("test", AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp)
         {
-            OnClientReceive = s.Receive; OnClientDisconnect = _ => { };
+            OnClientReceive = s.Receive; OnClientDisconnect = _ => Interlocked.Increment(ref s.Closed);
             OnClientExchange = state => { s.Exchange = ((Passport)state.Client).Packet.ToArray(); if (nextKey != null) ((Passport)state.Client).Cipher = Cipher(nextKey); };
         }
     }
     private sealed class ClientRole : AsynchronousClientSocket
     {
         internal ClientRole(Sink s) : base("test", AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp)
-        { OnClientReceive = s.Receive; OnClientDisconnect = _ => { }; }
+        { OnClientReceive = s.Receive; OnClientDisconnect = _ => Interlocked.Increment(ref s.Closed); }
     }
     private sealed class InternalRole : AsynchronousGameServerSocket
     {
         internal InternalRole(Sink s) : base("test", AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp)
-        { OnClientReceive = s.Receive; OnClientDisconnect = _ => { }; }
+        { OnClientReceive = s.Receive; OnClientDisconnect = _ => Interlocked.Increment(ref s.Closed); }
     }
     private static BlowfishCipher Cipher(byte[] key) { BlowfishCipher.InitialKey = key; return new BlowfishCipher(); }
     private static void Send(Socket s, byte[] bytes)
@@ -61,6 +62,11 @@ internal static class FramingRegression
                 AsyncCallback callback = role == "client" ? ((ClientRole)driver).AnnounceReceive : role == "internal" ? ((InternalRole)driver).AnnounceReceive : ((ServerRole)driver).AnnounceReceive;
                 if (exchange) callback = ((ServerRole)driver).PrepareReceive;
                 receive.BeginReceive(state.Buffer, 0, state.Buffer.Length, SocketFlags.None, ar => { try { callback(ar); } finally { consumed.Set(); } }, state);
+                if (mode == "disconnect")
+                {
+                    passport.Disconnect(); passport.Disconnect();
+                    return (sink.Closed == 1 && passport.IsDisconnected).ToString();
+                }
                 byte[] frame = { 8, 0, 0xEC, 3, 1, 2, 3, 4 };
                 if (mode == "invalid-small" || mode == "invalid-large" || mode == "invalid-type")
                 {

@@ -22,6 +22,7 @@ namespace ServerCore.Interfaces
         string Name { get; set; }            // The name of the server.
         int FooterLength { get; set; }       // The length of the footer for each packet.
         string Footer { get; set; }          // The text for the footer at the end of each packet.
+        void OnDisconnected(ServerCore.Networking.Sockets.Passport passport);
         void Disconnect(IAsyncResult result);// Disconnection method for the client / server.
     }
 }

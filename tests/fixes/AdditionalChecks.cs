@@ -53,6 +53,7 @@ internal static partial class Program
         foreach (string role in new[] { "server", "client", "internal" })
         {
             string copy = role;
+            Check("TCP-" + role + "-disconnect-cleanup-synchronous-once", "True", () => FramingRegression.Run(copy, "disconnect"), RepairScope);
             Check("TCP-" + role + "-one-byte-header", "True", () => FramingRegression.Run(copy, "split"), RepairScope);
             Check("TCP-" + role + "-coalesced-frames", "True", () => FramingRegression.Run(copy, "coalesced"), RepairScope);
             foreach (string bad in new[] { "invalid-small", "invalid-large", "invalid-type" })

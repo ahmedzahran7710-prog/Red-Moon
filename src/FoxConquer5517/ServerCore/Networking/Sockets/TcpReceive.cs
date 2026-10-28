@@ -8,8 +8,17 @@ namespace ServerCore.Networking.Sockets
     {
         private static void Close(AsynchronousState state)
         {
-            if (state?.Client is Passport passport) passport.Disconnect();
-            else state?.Socket?.Close();
+            try
+            {
+                if (state?.Client is Passport passport) passport.Disconnect();
+                else state?.Socket?.Close();
+            }
+            catch (Exception error)
+            {
+                // Application cleanup failures are logged, not allowed to escape an
+                // asynchronous I/O callback and terminate every other connection.
+                Console.WriteLine("Connection cleanup failed: " + error.GetType().Name);
+            }
         }
 
         private static void Next(AsynchronousState state, AsyncCallback header)

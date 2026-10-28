@@ -45,8 +45,11 @@ namespace LoginServer.Network.MsgServer
             var pServer = pObj as GameServer;
             if (pServer == null) return;
 
-            ServerKernel.OnlineServers.TryRemove(pServer.ServerName, out pServer);
-            ServerKernel.Log.SaveLog(string.Format("Server [{0}] has disconnected.", pServer.ServerName), true, LogType.WARNING);
+            string name = pServer.ServerName;
+            if (!string.IsNullOrEmpty(name))
+                ((System.Collections.Generic.ICollection<System.Collections.Generic.KeyValuePair<string, GameServer>>)ServerKernel.OnlineServers)
+                    .Remove(new System.Collections.Generic.KeyValuePair<string, GameServer>(name, pServer));
+            ServerKernel.Log.SaveLog(string.Format("Server [{0}] has disconnected.", name ?? "unregistered"), true, LogType.WARNING);
         }
     }
 }

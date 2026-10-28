@@ -245,6 +245,12 @@ namespace ServerCore.Networking.Sockets
         /// game structures.
         /// </summary>
         /// <param name="result">Represents the status of an asynchronous operation.</param>
+        // Passport owns transport shutdown; notification is synchronous and occurs once.
+        void IAsynchronousSocket.OnDisconnected(Passport passport)
+        {
+            if (passport != null) OnClientDisconnect?.Invoke(passport);
+        }
+
         public void Disconnect(IAsyncResult result)
         {
             // Dispose of the asynchronous state:

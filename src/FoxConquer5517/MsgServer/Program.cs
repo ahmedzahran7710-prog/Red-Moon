@@ -184,6 +184,7 @@ namespace MsgServer
             do
             {
                 command = Console.ReadLine();
+                if (command == null) break;
                 if (!string.IsNullOrEmpty(command))
                 {
                     string[] pCom = command.Split(' ');

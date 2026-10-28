@@ -27,6 +27,9 @@ namespace ServerCore.Networking.Sockets
     /// </summary>
     public unsafe class Passport
     {
+        private int _disconnectStarted;
+        public bool IsDisconnected => System.Threading.Volatile.Read(ref _disconnectStarted) != 0;
+
         // Global-Scope Variables:
         public IAsynchronousSocket Server { get; private set; }      // The server the client is currently connected to.
         public Socket Socket { get; private set; }      // The client's remote socket.
@@ -62,10 +65,12 @@ namespace ServerCore.Networking.Sockets
         /// <param name="packet">The packet being encrypted and sent to the client.</param>
         public void Send(byte[] packet)
         {
+            if (IsDisconnected) return;
             try
             {
                 lock (SendLock) // Locked to prevent two packets from being encrypted and sent at the same time.
                 {
+                    if (IsDisconnected) return;
                     // Add the footer to the end of the packet:
                     if (Server.FooterLength > 0)
                     {
@@ -90,7 +95,7 @@ namespace ServerCore.Networking.Sockets
                     while (sent < encryptedPacket.Length)
                     {
                         int count = Socket.Send(encryptedPacket, sent, encryptedPacket.Length - sent, SocketFlags.None);
-                        if (count == 0) { Disconnect(); return; }
+                        if (count == 0) throw new SocketException((int)SocketError.ConnectionReset);
                         sent += count;
                     }
                 }
@@ -104,7 +109,9 @@ namespace ServerCore.Networking.Sockets
                     e.SocketErrorCode != SocketError.ConnectionAborted &&
                     e.SocketErrorCode != SocketError.Shutdown)
                     Console.WriteLine(e);
+                Disconnect();
             }
+            catch (ObjectDisposedException) { Disconnect(); }
         }
 
         /// <summary> 
@@ -114,21 +121,14 @@ namespace ServerCore.Networking.Sockets
         /// </summary>
         public void Disconnect()
         {
-            try // This function can fail if the client is already disconnecting.
-            {
-                if (Socket.Connected) // If the socket is connected, disconnect the client:
-                    Socket.BeginDisconnect(true, Server.Disconnect, this);
-            }
-            catch (SocketException e)
-            {
-                // If the socket has already been disconnected, then don't display the error.
-                if (e.SocketErrorCode != SocketError.Disconnecting &&
-                    e.SocketErrorCode != SocketError.NotConnected &&
-                    e.SocketErrorCode != SocketError.ConnectionReset &&
-                    e.SocketErrorCode != SocketError.ConnectionAborted &&
-                    e.SocketErrorCode != SocketError.Shutdown)
-                    Console.WriteLine(e);
-            }
+            if (System.Threading.Interlocked.Exchange(ref _disconnectStarted, 1) != 0) return;
+            try { Socket.Shutdown(SocketShutdown.Both); }
+            catch (SocketException) { }
+            catch (ObjectDisposedException) { }
+            finally { Socket.Dispose(); }
+            // In particular, SaveAll must not exit the process while an asynchronous
+            // disconnect callback (which saves the character) is still pending.
+            Server.OnDisconnected(this);
         }
     }
 }
