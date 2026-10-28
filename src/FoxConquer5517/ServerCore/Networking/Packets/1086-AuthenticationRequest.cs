@@ -42,8 +42,7 @@ namespace ServerCore.Networking.Packets
             // Decrypt Password:
             rivestCipher.Decrypt(encrypted);
             netdragonCipher.Decrypt(encrypted);
-            fixed (byte* decrypted = encrypted)
-                Password = new string((sbyte*)decrypted);
+            Password = System.Text.Encoding.GetEncoding(1252).GetString(encrypted, 0, encrypted.Length).TrimEnd('\0');
         }
 
         // Packet Structure:

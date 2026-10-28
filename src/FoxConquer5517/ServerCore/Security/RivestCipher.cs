@@ -107,32 +107,19 @@ namespace ServerCore.Security
         /// <param name="input">The inputted buffer to be decrypted.</param>
         public bool Decrypt(byte[] input)
         {
-            // Error check length:
-            if (input.Length % 8 != 0) return false;
-
-            // Prepare the buffer:
-            uint* buffer = null;
-            fixed (byte* ptr = input)
-                buffer = (uint*)ptr;
-
-            // Decrypt the buffer:
-            int rounds = input.Length / 8;
-            for (int index = 0; index < rounds; index++)
+            if (input == null || input.Length % 8 != 0) return false;
+            for (int offset = 0; offset < input.Length; offset += 8)
             {
-                // Using the left and right ints in the block, calculate the resultant substitution:
-                uint left = buffer[2 * index];
-                uint right = buffer[(2 * index) + 1];
-                for (int subIndex = 12; subIndex > 0; subIndex--)
+                uint left = System.Buffers.Binary.BinaryPrimitives.ReadUInt32LittleEndian(input.AsSpan(offset, 4));
+                uint right = System.Buffers.Binary.BinaryPrimitives.ReadUInt32LittleEndian(input.AsSpan(offset + 4, 4));
+                for (int round = 12; round > 0; round--)
                 {
-                    right = RotateRight(right - _substitutionBuffer[(2 * subIndex) + 1], (int)left) ^ left;
-                    left = RotateRight(left - _substitutionBuffer[2 * subIndex], (int)right) ^ right;
+                    right = RotateRight(right - _substitutionBuffer[2 * round + 1], (int)left) ^ left;
+                    left = RotateRight(left - _substitutionBuffer[2 * round], (int)right) ^ right;
                 }
-                uint resultLeft = left - _substitutionBuffer[0];
-                uint resultRight = right - _substitutionBuffer[1];
-
-                // Replace the data with the substituted data:
-                buffer[2 * index] = resultLeft;
-                buffer[(2 * index) + 1] = resultRight;
+                left -= _substitutionBuffer[0]; right -= _substitutionBuffer[1];
+                System.Buffers.Binary.BinaryPrimitives.WriteUInt32LittleEndian(input.AsSpan(offset, 4), left);
+                System.Buffers.Binary.BinaryPrimitives.WriteUInt32LittleEndian(input.AsSpan(offset + 4, 4), right);
             }
             return true;
         }
@@ -145,30 +132,19 @@ namespace ServerCore.Security
         /// <param name="input">The inputted buffer to be encrypted.</param>
         public bool Encrypt(byte[] input)
         {
-            // Error check length:
-            if (input.Length % 8 != 0) return false;
-
-            // Prepare the buffer:
-            uint* buffer = null;
-            fixed (byte* ptr = input)
-                buffer = (uint*)ptr;
-
-            // Decrypt the buffer:
-            int rounds = input.Length / 8;
-            for (int index = 0; index < rounds; index++)
+            if (input == null || input.Length % 8 != 0) return false;
+            for (int offset = 0; offset < input.Length; offset += 8)
             {
-                // Using the left and right ints in the block, calculate the resultant substitution:
-                uint left = buffer[2 * index] + _substitutionBuffer[0];
-                uint right = buffer[(2 * index) + 1] + _substitutionBuffer[1];
-                for (int subIndex = 1; subIndex <= 12; subIndex++)
+                uint left = System.Buffers.Binary.BinaryPrimitives.ReadUInt32LittleEndian(input.AsSpan(offset, 4));
+                uint right = System.Buffers.Binary.BinaryPrimitives.ReadUInt32LittleEndian(input.AsSpan(offset + 4, 4));
+                left += _substitutionBuffer[0]; right += _substitutionBuffer[1];
+                for (int round = 1; round <= 12; round++)
                 {
-                    left = RotateLeft(left ^ right, (int)right) + _substitutionBuffer[2 * subIndex];
-                    right = RotateLeft(right ^ left, (int)left) + _substitutionBuffer[(2 * subIndex) + 1];
+                    left = RotateLeft(left ^ right, (int)right) + _substitutionBuffer[2 * round];
+                    right = RotateLeft(right ^ left, (int)left) + _substitutionBuffer[2 * round + 1];
                 }
-
-                // Replace the data with the substituted data:
-                buffer[2 * index] = left;
-                buffer[(2 * index) + 1] = right;
+                System.Buffers.Binary.BinaryPrimitives.WriteUInt32LittleEndian(input.AsSpan(offset, 4), left);
+                System.Buffers.Binary.BinaryPrimitives.WriteUInt32LittleEndian(input.AsSpan(offset + 4, 4), right);
             }
             return true;
         }

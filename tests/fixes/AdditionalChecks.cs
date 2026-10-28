@@ -73,6 +73,25 @@ internal static partial class Program
         Check("VIP-02-unverified-subdestination-is-not-misrouted", "False", () =>
             MsgServer.Structures.World.VipTeleportRoutes.TryGet(ServerCore.Common.Enums.VIPTeleportLocations.WP_ALTAR, out _).ToString(), RepairScope);
 
+        foreach (string password in new[] { "localfixture123", "MixedCase123", "AbCdEfGh12345678" })
+        {
+            string sample = password;
+            Check("PASSWORD-roundtrip-" + sample.Length + "-" + (sample[0] == 'l' ? "lower" : "mixed"), sample, () =>
+            {
+                const string account = "ci_player"; const int seed = 123456;
+                var packet = new ProbePacket(276); packet.WriteHeader(276, ServerCore.Networking.Packets.PacketType.MSG_ACCOUNT1);
+                packet.WriteString(account, 16, 4); packet.WriteString("RedMoon", 16, 260);
+                byte[] bytes = new byte[16]; Encoding.ASCII.GetBytes(sample).CopyTo(bytes, 0);
+                new NetDragonPasswordCipher(account).Encrypt(bytes); new RivestCipher5(seed).Encrypt(bytes); packet.WriteArray(bytes, 132);
+                return new ServerCore.Networking.Packets.MsgAccount(packet, seed).Password;
+            }, "Synthetic fixed-field password test, including 16 non-NUL bytes; no actual owner's password.");
+        }
+        Check("RC5-managed-block-roundtrip", "True", () =>
+        {
+            byte[] data = Enumerable.Range(0, 128).Select(i => (byte)i).ToArray(), expected = (byte[])data.Clone();
+            var rc5 = new RivestCipher5(7654321); rc5.Encrypt(data); rc5.Decrypt(data); return data.SequenceEqual(expected).ToString();
+        }, RepairScope);
+
         var fixture = JsonDocument.Parse(File.ReadAllText(Path.Combine(AppContext.BaseDirectory, "cast5-cfb64.json"))).RootElement;
         byte[] key = Convert.FromHexString(fixture.GetProperty("key_hex").GetString());
         byte[] iv = Convert.FromHexString(fixture.GetProperty("iv_hex").GetString());

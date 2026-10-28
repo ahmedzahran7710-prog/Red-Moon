@@ -23,7 +23,7 @@ $client = $p.ClientPath
 if (!(Test-Path -LiteralPath (Join-Path $client 'Conquer.exe'))) { throw 'Conquer.exe is not at the configured client path. No client file was changed.' }
 $versionFile = Join-Path $client 'version.dat'
 if (!(Test-Path -LiteralPath $versionFile)) { throw 'version.dat is missing; client compatibility cannot be assumed.' }
-$versionText = Get-Content -LiteralPath $versionFile -Raw -Encoding ASCII
+$versionText = [IO.File]::ReadAllText($versionFile)
 if ($versionText.Trim() -ne '5517') { throw 'version.dat does not explicitly contain 5517. Stop and review the actual client, do not overwrite its version.' }
 $loader = Join-Path $client 'ConquerLoader.exe'
 if (!(Test-Path -LiteralPath $loader)) { throw 'Copy the verified ConquerLoader.exe you obtained from its original publisher into the client folder first. Do not rename MoonQueenLoader to bypass this check.' }

@@ -163,12 +163,12 @@ namespace ServerCore.Security
                 if (position >= 0x61 && position <= 0x7A)
                     input[index] = (byte)(input[index] - 0x20);
                 byte vectorPosition = _encryptionSubstitutionBox[input[index]];
-                if (vectorPosition >= 0x41 && vectorPosition <= 90)
+                if (position >= 0x41 && position <= 90)
                     vectorPosition = (byte)(vectorPosition + 0x80);
-                for (byte j = 0; j <= 0xff; j = (byte)(j + 1))
+                for (int j = 0; j <= 0xff; j++)
                     if (_keyBuffer[j * 2] == vectorPosition)
                     {
-                        input[index] = j;
+                        input[index] = (byte)j;
                         break;
                     }
             }

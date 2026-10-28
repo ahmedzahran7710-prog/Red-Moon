@@ -32,7 +32,7 @@ try {
     if ([int]$existing -ne 0 -or [int]$userExists -ne 0) { throw 'Target schema or runtime user already exists. Nothing was overwritten. Use a distinct installation profile or review it manually.' }
     $account = if ($CI) { 'ci_player' } else { Read-Host 'New game account name (3-16 letters, numbers or underscore)' }
     if ($account -notmatch '^[A-Za-z0-9_]{3,16}$') { throw 'Invalid game account name.' }
-    $gamePassword = if ($CI) { [string]$env:REDMOON_CI_GAME_PASSWORD } else { ConvertTo-Plain (Read-Host 'New GAME password (8-16 ASCII characters; not the DB password)' -AsSecureString) }
+    $gamePassword = if ($CI) { [string]$env:REDMOON_CI_GAME_PASSWORD } else { ConvertTo-Plain (Read-Host 'New GAME password (8-16 English letters/digits, no symbols; not the DB password)' -AsSecureString) }
     $hash = Invoke-PrivateProcess $admin 'hash-password' ($gamePassword + "`n")
     $gamePassword = $null
     if ($hash -notmatch '^[A-Fa-f0-9]{128}$') { throw 'Unexpected password-hash format; database setup stopped.' }
