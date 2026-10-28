@@ -1,0 +1,74 @@
+name: Red Moon repaired source and Windows package
+on:
+  push:
+    branches: ["arena/77615412-red-moon"]
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: redmoon-repair-${{ github.ref }}
+  cancel-in-progress: false
+jobs:
+  components:
+    name: Repaired components (${{ matrix.os }})
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [windows-2022, ubuntu-24.04]
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 18
+    env:
+      DOTNET_CLI_TELEMETRY_OPTOUT: "1"
+      DOTNET_NOLOGO: "1"
+      REDMOON_SDK: "10.0.403"
+      NUGET_XMLDOC_MODE: skip
+    steps:
+      - uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5
+        with:
+          persist-credentials: false
+      - uses: actions/setup-dotnet@26b0ec14cb23fa6904739307f278c14f94c95bf1 # v5
+        with:
+          dotnet-version: "10.0.403"
+      - name: Pristine vendor integrity
+        shell: pwsh
+        run: |
+          python tools/fox_baseline.py verify
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+          python -m unittest discover -s tests -p "test_*.py" -v
+          exit $LASTEXITCODE
+      - name: Build Debug working solution
+        shell: pwsh
+        working-directory: src
+        run: |
+          New-Item -ItemType Directory -Force "$env:RUNNER_TEMP/fox-evidence" | Out-Null
+          dotnet build FoxConquer5517/FoxConquer5517.sln -c Debug --verbosity minimal 2>&1 | Tee-Object "$env:RUNNER_TEMP/fox-evidence/build-debug.log"
+          exit $LASTEXITCODE
+      - name: Build Release working solution
+        shell: pwsh
+        working-directory: src
+        run: |
+          dotnet build FoxConquer5517/FoxConquer5517.sln -c Release --verbosity minimal 2>&1 | Tee-Object "$env:RUNNER_TEMP/fox-evidence/build-release.log"
+          exit $LASTEXITCODE
+      - name: Regressions and independent crypto reference vectors
+        shell: pwsh
+        working-directory: src
+        run: |
+          dotnet build ../tests/fixes/FoxBaseline.Probes.csproj -c Release --verbosity minimal
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+          dotnet ../tests/fixes/bin/Release/net10.0/FoxBaseline.Probes.dll --report "$env:RUNNER_TEMP/fox-evidence/managed-results.json"
+          exit $LASTEXITCODE
+      - name: Verify baseline not altered by repairs
+        if: ${{ !cancelled() }}
+        shell: pwsh
+        run: python tools/fox_baseline.py verify
+      - name: Publish sanitized API-readable evidence
+        if: ${{ !cancelled() }}
+        shell: pwsh
+        run: python tools/publish_evidence.py "$env:RUNNER_TEMP/fox-evidence"
+      - name: Text-only diagnostics
+        if: ${{ !cancelled() }}
+        uses: actions/upload-artifact@330a01c490aca151604b8cf639adc76d48f6c5d4 # v5
+        with:
+          name: repaired-components-${{ matrix.os }}
+          path: ${{ runner.temp }}/fox-evidence/
+          retention-days: 14

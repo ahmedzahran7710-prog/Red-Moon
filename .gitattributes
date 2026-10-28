@@ -1,2 +1,4 @@
 # Preserve the imported upstream snapshot byte-for-byte, including CRLF and BOMs.
 vendor/FoxConquer5517/** -text
+# Initial working copy is also byte-preserving; modified files have explicit diffs.
+src/FoxConquer5517/** -text

@@ -28,7 +28,7 @@ def main():
                        "errors": int(errors[-1]) if errors else None,
                        "log_sha256": hashlib.sha256(path.read_bytes()).hexdigest()})
     if builds:
-        (directory / "build-results.json").write_text(json.dumps({"sdk_requested": "3.1.426", "builds": builds}, indent=2) + "\n", encoding="utf-8")
+        (directory / "build-results.json").write_text(json.dumps({"sdk_requested": os.environ.get("REDMOON_SDK", "3.1.426"), "builds": builds}, indent=2) + "\n", encoding="utf-8")
     for filename in ("managed-results.json", "sql-results.json", "build-results.json"):
         path = directory / filename
         if not path.exists():
