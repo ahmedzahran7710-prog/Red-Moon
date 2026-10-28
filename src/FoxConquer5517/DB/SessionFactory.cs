@@ -27,6 +27,9 @@ namespace DB
         {
             // A builder correctly escapes delimiters in local credentials. No root
             // password is baked into source, a command line, or the distributed INIs.
+            string host = config.Get("MySQL", "Hostname");
+            if (host != "127.0.0.1" && host != "localhost")
+                throw new System.InvalidOperationException("This local setup only permits loopback database connections.");
             var connection = new MySqlConnectionStringBuilder
             {
                 Server = config.Get("MySQL", "Hostname"),

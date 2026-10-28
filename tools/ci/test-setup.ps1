@@ -16,7 +16,7 @@ Save-LocalSecrets $vaultTest $secretTest $false
 $unsealed = Load-LocalSecrets $vaultTest $false
 if ($unsealed.Value -ne $secretTest.Value) { throw 'Windows DPAPI round-trip failed.' }
 & (Join-Path $repo 'setup/Setup-RedMoon.ps1') -Root $RuntimeRoot -ProfilePath $profile -MysqlExe $MysqlExe -CI
-if ($LASTEXITCODE -ne 0) { throw 'Setup did not complete.' }
+if (!(Test-Path -LiteralPath (Join-Path $RuntimeRoot '.local/installed.json'))) { throw 'Setup marker was not created.' }
 # A re-run must not import/drop anything; it must exit via the existing local marker.
 & (Join-Path $repo 'setup/Setup-RedMoon.ps1') -Root $RuntimeRoot -ProfilePath $profile -MysqlExe $MysqlExe -CI
 $secrets = Load-LocalSecrets $RuntimeRoot $true
@@ -26,7 +26,7 @@ foreach ($name in @('LoginServer','MsgServer')) {
     if ($LASTEXITCODE -ne 0) { throw "$name configuration did not validate." }
 }
 & (Join-Path $repo 'setup/Start-RedMoon.ps1') -Root $RuntimeRoot -CI -TimeoutSeconds 180
-if ($LASTEXITCODE -ne 0) { throw 'Start did not complete.' }
+# PowerShell functions throw on failure; LASTEXITCODE is meaningful only for native commands.
 $finalCount = Invoke-Mysql $MysqlExe $p '' 'SELECT COUNT(*) FROM account;' $p.AccountDatabase
 $playerCount = Invoke-Mysql $MysqlExe $p '' 'SELECT COUNT(*) FROM cq_user;' $p.GameDatabase
 if ([int]$finalCount -ne 1 -or [int]$playerCount -ne 0) { throw 'Unexpected seed/account state after provisioning.' }

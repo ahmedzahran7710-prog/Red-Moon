@@ -12,7 +12,7 @@ $profile = Read-Profile $ProfilePath
 $marker = Join-Path $Root '.local/installed.json'
 if (Test-Path -LiteralPath $marker) {
     Write-Host 'Setup already completed. Existing schemas and accounts are not re-imported. Use Start-RedMoon.cmd.'
-    exit 0
+    return
 }
 $mysql = Find-Mysql $MysqlExe
 $admin = Join-Path $Root 'server/RedMoon.Admin.exe'

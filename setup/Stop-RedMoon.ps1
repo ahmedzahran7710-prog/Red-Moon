@@ -4,7 +4,7 @@ param([string]$Root = (Split-Path -Parent $PSScriptRoot), [switch]$CI)
 Assert-CiMode ([bool]$CI)
 $Root = [IO.Path]::GetFullPath($Root)
 $record = Join-Path $Root '.local/processes.json'
-if (!(Test-Path -LiteralPath $record)) { Write-Host 'No process record for this installation.'; exit 0 }
+if (!(Test-Path -LiteralPath $record)) { Write-Host 'No process record for this installation.'; return }
 $entries = @(Get-Content -LiteralPath $record -Raw | ConvertFrom-Json)
 $owned = @()
 foreach ($entry in $entries) {

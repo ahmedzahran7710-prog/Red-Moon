@@ -18,7 +18,7 @@ $config = [ordered]@{
 $json = $config | ConvertTo-Json -Depth 10
 $generated = Join-Path $Root 'client-config/config.json'
 Write-Utf8 $generated $json
-if ($GenerateOnly) { Write-Host 'Client configuration generated; no client files were changed and no loader was executed.'; exit 0 }
+if ($GenerateOnly) { Write-Host 'Client configuration generated; no client files were changed and no loader was executed.'; return }
 $client = $p.ClientPath
 if (!(Test-Path -LiteralPath (Join-Path $client 'Conquer.exe'))) { throw 'Conquer.exe is not at the configured client path. No client file was changed.' }
 $versionFile = Join-Path $client 'version.dat'

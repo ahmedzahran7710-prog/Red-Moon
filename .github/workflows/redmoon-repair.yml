@@ -112,6 +112,7 @@ jobs:
       - name: Build fresh distribution, not the credential-bearing smoke workspace
         shell: pwsh
         run: |
+          if (!(Test-Path "$env:RUNNER_TEMP/fox-evidence/integration-results.json")) { throw "No verified integration report; do not ship a bundle." }
           ./tools/ci/publish-runtime.ps1 -Destination "$env:RUNNER_TEMP/redmoon-distribution"
           python tools/package_windows.py --staging "$env:RUNNER_TEMP/redmoon-distribution" --data "$env:RUNNER_TEMP/redmoon-data" --output "$env:RUNNER_TEMP/redmoon-delivery/RedMoon-Windows-x64.zip"
           if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
@@ -123,6 +124,10 @@ jobs:
           path: ${{ runner.temp }}/redmoon-delivery/
           retention-days: 30
           if-no-files-found: error
+      - name: Redacted local failure context only (not databases/vaults)
+        if: ${{ !cancelled() }}
+        shell: pwsh
+        run: python tools/ci/summarize_startup.py
       - name: Publish API-readable installation result
         if: ${{ !cancelled() }}
         shell: pwsh
