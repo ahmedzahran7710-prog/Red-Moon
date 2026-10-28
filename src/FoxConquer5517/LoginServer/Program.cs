@@ -31,10 +31,28 @@ namespace LoginServer
     {
         private const string _LOGIN_ANALYTIC_LOG = "Login Analytic";
 
-        static void Main()
+        static void Main(string[] args)
         {
-            Console.Title = "Starting login server, please wait...";
-            CheckConfigurationFile();
+            RuntimeSettings.UseConfigurationDirectory(args);
+            var settings = RuntimeSettings.Load("Login.cfg");
+            ServerKernel.ServerName = settings.Get("Network", "ServerName");
+            ServerKernel.Username = settings.Get("AccountServer", "LOGINNAME");
+            ServerKernel.Password = settings.Get("AccountServer", "PASSWORD");
+            ServerKernel.LoginTransferKey = settings.Get("TransferKey", "Key");
+            ServerKernel.LoginTransferSalt = settings.Get("TransferKey", "Salt");
+            ServerKernel.AdvertisedGameAddress = settings.Address("Network", "AdvertisedAddress", "127.0.0.1");
+            ServerKernel.AdvertisedGamePort = settings.Port("Network", "GamePort", 5816);
+            ServerKernel.LoginBindAddress = settings.Address("Network", "LoginBindAddress", "127.0.0.1");
+            ServerKernel.InternalBindAddress = settings.Address("Network", "InternalBindAddress", "127.0.0.1");
+            if (!System.Net.IPAddress.IsLoopback(System.Net.IPAddress.Parse(ServerKernel.InternalBindAddress)))
+                throw new InvalidOperationException("The local inter-server listener must stay on loopback.");
+            ServerKernel.InternalPort = settings.Port("AccountServer", "ACCOUNT_PORT", 9865);
+            ServerKernel.LoginPort = settings.Port("ServerConfig", "LISTEN_PORT", 9958);
+            if (ServerKernel.Username.Length > 16 || ServerKernel.Password.Length > 16)
+                throw new FormatException("Inter-server credentials must fit the 16-byte protocol fields.");
+            if (args.Contains("--check-config")) { Console.WriteLine("REDMOON_LOGIN_CONFIG_OK"); return; }
+            if (!Console.IsOutputRedirected) Console.Title = "Starting login server, please wait...";
+            // Configuration is provisioned explicitly by the local setup tool.
 
             try
             {
@@ -57,7 +75,7 @@ namespace LoginServer
 
             // file handling
 
-            Console.Title = "[FoxConquer Project] Login Server";
+            if (!Console.IsOutputRedirected) Console.Title = "[FoxConquer Project] Login Server";
             Console.ForegroundColor = ConsoleColor.Green;
             Console.WriteLine("\tFoxConquer Project: Conquer Online Private Server Emulator. 5517 Client Version.");
             Console.WriteLine("\t\tProject created by Felipe Vieira (FTW! Masters) and maintained by DaRkFoxDeveloper");
@@ -87,14 +105,22 @@ namespace LoginServer
             ServerStartup();
 
             ServerKernel.ServerStartTime = DateTime.Now;
-            ConsoleHandle();
+            Console.WriteLine("REDMOON_LOGIN_READY");
+            if (args.Contains("--headless"))
+            {
+                while (!File.Exists("redmoon.stop")) System.Threading.Thread.Sleep(250);
+            }
+            else ConsoleHandle();
+            ServerKernel.LoginSocket.Close();
+            ServerKernel.GameSocket.Close();
+            Environment.Exit(0);
         }
 
         private static void ServerStartup()
         {
             if (ServerCore.Utils.IsWindows)
             {
-                BlowfishCipher.InitialKey = Encoding.ASCII.GetBytes(ServerKernel.ConfigReader.GetEntryValue("Blowfish", "Key").ToString());
+                BlowfishCipher.InitialKey = Encoding.ASCII.GetBytes(RuntimeSettings.Load("Login.cfg").Get("Blowfish", "Key"));
             }
 
             ServerKernel.Log.SaveLog("Checking database...", true, "Login_Server");
@@ -124,7 +150,8 @@ namespace LoginServer
             try
             {
                 ServerKernel.GameSocket = new MsgServerSocket();
-                ServerKernel.GameSocket.Bind("0.0.0.0", 9865);
+                if (!ServerKernel.GameSocket.Bind(ServerKernel.InternalBindAddress, ServerKernel.InternalPort))
+                    throw new InvalidOperationException("Inter-server listener could not bind; check port conflicts.");
                 ServerKernel.GameSocket.Listen(5);
                 ServerKernel.Log.SaveLog("Waiting for game server connections...", true, "Login_Server", LogType.MESSAGE);
             }
@@ -139,7 +166,8 @@ namespace LoginServer
             try
             {
                 ServerKernel.LoginSocket = new LoginSocket();
-                ServerKernel.LoginSocket.Bind("0.0.0.0", ServerKernel.LoginPort);
+                if (!ServerKernel.LoginSocket.Bind(ServerKernel.LoginBindAddress, ServerKernel.LoginPort))
+                    throw new InvalidOperationException("Login listener could not bind; enable Hamachi and check port conflicts.");
                 ServerKernel.LoginSocket.Listen(50);
             }
             catch (Exception ex)
@@ -196,7 +224,8 @@ namespace LoginServer
             do
             {
                 szCommand = Console.ReadLine();
-                if (string.IsNullOrEmpty(szCommand)) continue;
+                if (szCommand == null) break;
+                if (string.IsNullOrWhiteSpace(szCommand)) continue;
 
                 string[] szParsed = szCommand.Split(' ');
                 switch (szParsed[0].ToLower())
@@ -403,7 +432,7 @@ namespace LoginServer
         public static void UpdateWindowTitle()
         {
             var now = DateTime.Now;
-            Console.Title = string.Format("[{0}] FoxConquer Project. LoginServer - {4:00}/{5:00}/{6:00} {1:00}:{2:00}:{3:00} - Online: {7}",
+            if (!Console.IsOutputRedirected) Console.Title = string.Format("[{0}] FoxConquer Project. LoginServer - {4:00}/{5:00}/{6:00} {1:00}:{2:00}:{3:00} - Online: {7}",
                 ServerKernel.ServerName, now.Hour, now.Minute, now.Second,
                 now.Month, now.Day, now.Year, OnlineCount());
         }

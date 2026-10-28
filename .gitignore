@@ -12,3 +12,7 @@ runtime/
 .local/
 packages/
 *.user
+server/
+database/
+client-config/
+data-provenance.json

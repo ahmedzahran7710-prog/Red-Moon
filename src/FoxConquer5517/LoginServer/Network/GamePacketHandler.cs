@@ -84,6 +84,12 @@ namespace LoginServer.Network
             }
 
             var pMsg = new MsgServerInformation(pBuffer);
+            if (pMsg.ServerName != ServerKernel.ServerName || pMsg.GamePort != ServerKernel.AdvertisedGamePort)
+            {
+                pServer.Disconnect();
+                ServerKernel.Log.SaveLog("Inter-server name/port does not match local configuration.", true, LogType.ERROR);
+                return;
+            }
             pServer.ServerName = pMsg.ServerName;
             pServer.MaxPermitedPlayers = pMsg.MaxOnlinePlayers;
             pServer.OnlinePlayers = pMsg.OnlinePlayers;
@@ -95,6 +101,7 @@ namespace LoginServer.Network
                 return;
             }
 
+            Console.WriteLine("REDMOON_GAME_REGISTERED");
             ServerKernel.Log.SaveLog(string.Format("Server [{0}] has connected with the following information>\r\n\tPort: {1}, Online: {2}, MaxOnline: {3}", pServer.ServerName, pServer.GamePort, pServer.OnlinePlayers, pServer.MaxPermitedPlayers), true, LogType.MESSAGE);
         }
         #endregion

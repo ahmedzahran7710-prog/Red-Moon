@@ -68,6 +68,11 @@ namespace LoginServer
         public static DateTime ServerStartTime;
 
         public static int LoginPort = 9958;
+        public static int InternalPort = 9865;
+        public static int AdvertisedGamePort = 5816;
+        public static string AdvertisedGameAddress = "127.0.0.1";
+        public static string LoginBindAddress = "127.0.0.1";
+        public static string InternalBindAddress = "127.0.0.1";
 
         /// <summary>
         /// This dictionary holds information about banned IP Addresses.

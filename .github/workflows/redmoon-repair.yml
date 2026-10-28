@@ -72,3 +72,73 @@ jobs:
           name: repaired-components-${{ matrix.os }}
           path: ${{ runner.temp }}/fox-evidence/
           retention-days: 14
+
+  windows-installation:
+    name: Windows setup, actual server startup, and self-contained package
+    needs: components
+    runs-on: windows-2022
+    timeout-minutes: 30
+    env:
+      DOTNET_CLI_TELEMETRY_OPTOUT: "1"
+      DOTNET_NOLOGO: "1"
+      REDMOON_SDK: "10.0.403"
+    steps:
+      - uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09
+        with:
+          persist-credentials: false
+      - uses: actions/setup-dotnet@26b0ec14cb23fa6904739307f278c14f94c95bf1
+        with:
+          dotnet-version: "10.0.403"
+      - name: Verified official MariaDB 10.4.32, disposable loopback service
+        shell: pwsh
+        run: ./tools/ci/start-mariadb.ps1
+      - name: Prepare reference assets and empty-account seeds outside Git
+        shell: pwsh
+        run: |
+          python tools/fox_baseline.py materialize --dest "$env:RUNNER_TEMP/fox-original" --archive "$env:RUNNER_TEMP/fox.zip"
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+          python tools/prepare_runtime_data.py --source "$env:RUNNER_TEMP/fox-original" --dest "$env:RUNNER_TEMP/redmoon-data"
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+      - name: Publish actual Windows executables (no preinstalled runtime needed)
+        shell: pwsh
+        run: |
+          ./tools/ci/publish-runtime.ps1 -Destination "$env:RUNNER_TEMP/redmoon-ci"
+          Copy-Item "$env:RUNNER_TEMP/redmoon-data/runtime-data/*" "$env:RUNNER_TEMP/redmoon-ci/server" -Recurse
+          Copy-Item "$env:RUNNER_TEMP/redmoon-data/database" "$env:RUNNER_TEMP/redmoon-ci/database" -Recurse
+          Copy-Item "$env:RUNNER_TEMP/redmoon-data/data-provenance.json" "$env:RUNNER_TEMP/redmoon-ci/data-provenance.json"
+      - name: Setup + DPAPI + real server link + safe stop on Windows PowerShell 5.1
+        shell: powershell
+        run: ./tools/ci/test-setup.ps1 -RuntimeRoot "$env:RUNNER_TEMP/redmoon-ci" -MysqlExe "$env:REDMOON_MYSQL_EXE"
+      - name: Build fresh distribution, not the credential-bearing smoke workspace
+        shell: pwsh
+        run: |
+          ./tools/ci/publish-runtime.ps1 -Destination "$env:RUNNER_TEMP/redmoon-distribution"
+          python tools/package_windows.py --staging "$env:RUNNER_TEMP/redmoon-distribution" --data "$env:RUNNER_TEMP/redmoon-data" --output "$env:RUNNER_TEMP/redmoon-delivery/RedMoon-Windows-x64.zip"
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+          Copy-Item "$env:RUNNER_TEMP/redmoon-delivery/RedMoon-Windows-x64.json" "$env:RUNNER_TEMP/fox-evidence/package-results.json"
+      - name: Deliver source + runtime + clean data (no client or secrets)
+        uses: actions/upload-artifact@330a01c490aca151604b8cf639adc76d48f6c5d4
+        with:
+          name: RedMoon-Windows-x64
+          path: ${{ runner.temp }}/redmoon-delivery/
+          retention-days: 30
+          if-no-files-found: error
+      - name: Publish API-readable installation result
+        if: ${{ !cancelled() }}
+        shell: pwsh
+        run: python tools/publish_evidence.py "$env:RUNNER_TEMP/fox-evidence"
+      - name: Stop owned CI processes only
+        if: ${{ always() }}
+        shell: pwsh
+        run: |
+          $record = "$env:RUNNER_TEMP/redmoon-ci/.local/processes.json"
+          if (Test-Path $record) {
+            foreach ($entry in @(Get-Content $record -Raw | ConvertFrom-Json)) {
+              $p = Get-Process -Id $entry.Id -ErrorAction SilentlyContinue
+              if ($p -and $p.Path -eq $entry.Executable) { $p | Stop-Process -Force }
+            }
+          }
+          if ($env:REDMOON_MARIADB_PID) {
+            $p = Get-Process -Id $env:REDMOON_MARIADB_PID -ErrorAction SilentlyContinue
+            if ($p -and $p.Path -like "$env:RUNNER_TEMP/mariadb-official/*") { $p | Stop-Process -Force }
+          }

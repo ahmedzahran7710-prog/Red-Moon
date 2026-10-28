@@ -203,7 +203,7 @@ namespace ServerCore.Networking.Sockets
         /// <param name="result">Represents the status of an asynchronous operation.</param>
         public void AnnounceReceive(IAsyncResult result)
         {
-            TcpReceive.Header(result, FooterLength, MAX_PACKET_SIZE, MAX_PACKET_ID,
+            TcpReceive.Header(result, FooterLength, MAX_PACKET_SIZE, AsynchronousServerSocket.MAX_PACKET_ID,
                 AnnounceReceive, CompleteReceive, state => OnClientReceive(state));
         }
 

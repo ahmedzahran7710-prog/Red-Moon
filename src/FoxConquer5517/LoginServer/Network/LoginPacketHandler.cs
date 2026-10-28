@@ -154,7 +154,7 @@ namespace LoginServer.Network
                         //}
 
                         // temporary just to leave people join using any server
-                        GameServer pServer = ServerKernel.OnlineServers.Values.FirstOrDefault();
+                        ServerKernel.OnlineServers.TryGetValue(ServerKernel.ServerName, out GameServer pServer);
                         if (pServer == null)//!ServerKernel.OnlineServers.TryGetValue(pRequest.Server, out pServer))
                         // server is not online
                         {
@@ -167,19 +167,17 @@ namespace LoginServer.Network
                             return;
                         }
 
-                        uint dwHash = (uint)ThreadSafeRandom.RandGet(1000, int.MaxValue);
+                        uint dwHash = (uint)System.Security.Cryptography.RandomNumberGenerator.GetInt32(1000, int.MaxValue);
 
                         var pTransferCipher = new TransferCipher(ServerKernel.LoginTransferKey,
                             ServerKernel.LoginTransferSalt, pClient.IpAddress);
                         var pCrypto = pTransferCipher.Encrypt(new[] { pUser.Identity, dwHash });
 
-                        string szAddress = "135.12.15.139"; // random ip just to connect
-                        if (!pServer.IpAddress.StartsWith("127") && pServer.IpAddress != "localhost")
-                            szAddress = pServer.IpAddress;
+                        string szAddress = ServerKernel.AdvertisedGameAddress;
 
                         pServer.Send(new MsgUsrLogin(pUser.Identity, dwHash) { IpAddress = pClient.IpAddress });
 
-                        pClient.Send(new MsgConnectEx(pCrypto[0], pCrypto[1], szAddress, 5816));
+                        pClient.Send(new MsgConnectEx(pCrypto[0], pCrypto[1], szAddress, ServerKernel.AdvertisedGamePort));
                         ServerKernel.Log.SaveLog(string.Format("User [{0}] has successfully logged into {1}({2}:{3}).",
                             pUser.Username, pRequest.Server, szAddress, pServer.GamePort), true, "Login_Server", LogType.MESSAGE);
 

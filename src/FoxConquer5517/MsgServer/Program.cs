@@ -54,8 +54,9 @@ namespace MsgServer
         [DllImport("kernel32.dll", ExactSpelling = true)]
         private static extern IntPtr GetConsoleWindow();
 
-        static void Main()
+        static void Main(string[] args)
         {
+            RuntimeSettings.UseConfigurationDirectory(args);
             if (Utils.IsWindows)
             {
                 // set close handler
@@ -68,7 +69,7 @@ namespace MsgServer
 
             ServerKernel.Log = new LogWriter(Environment.CurrentDirectory);
 
-            Console.Title = "Starting server...";
+            if (!Console.IsOutputRedirected) Console.Title = "Starting server...";
 
             // Server header
             Console.ForegroundColor = ConsoleColor.Green;
@@ -89,33 +90,21 @@ namespace MsgServer
             Console.WriteLine();
             ServerKernel.Log.SaveLog("Initializing game server...", true);
 
-            if (Utils.IsWindows)
-            {
-                // read the configuration file
-                ServerKernel.ConfigReader = new IniFileName(Environment.CurrentDirectory + @"\Shell.ini");
-                ServerKernel.LoginServerAddress = ServerKernel.ConfigReader.GetEntryValue("AccountServer", "ACCOUNT_IP").ToString();
-                ServerKernel.ServerName = ServerKernel.ConfigReader.GetEntryValue("AccountServer", "SERVERNAME").ToString();
-                ServerKernel.LoginServerPort = int.Parse(ServerKernel.ConfigReader.GetEntryValue("AccountServer", "ACCOUNT_PORT").ToString());
-                ServerKernel.MaxOnlinePlayer = ushort.Parse(ServerKernel.ConfigReader.GetEntryValue("AccountServer", "MAXLOGINTABLESIZE").ToString());
-                ServerKernel.Username = ServerKernel.ConfigReader.GetEntryValue("AccountServer", "LOGINNAME").ToString();
-                ServerKernel.Password = ServerKernel.ConfigReader.GetEntryValue("AccountServer", "PASSWORD").ToString();
-                ServerKernel.TransferKey = ServerKernel.ConfigReader.GetEntryValue("TransferKey", "Key").ToString();
-                ServerKernel.TransferSalt = ServerKernel.ConfigReader.GetEntryValue("TransferKey", "Salt").ToString();
-                ServerKernel.Blowfish = ServerKernel.ConfigReader.GetEntryValue("Blowfish", "Key").ToString();
-            } else
-            {
-                var parser = new FileIniDataParser();
-                IniData data = parser.ReadFile(Path.Combine(Environment.CurrentDirectory, "Shell.ini"));
-                ServerKernel.LoginServerAddress = data["AccountServer"]["ACCOUNT_IP"];
-                ServerKernel.ServerName = data["AccountServer"]["SERVERNAME"];
-                ServerKernel.LoginServerPort = int.Parse(data["AccountServer"]["ACCOUNT_PORT"]);
-                ServerKernel.MaxOnlinePlayer = ushort.Parse(data["AccountServer"]["MAXLOGINTABLESIZE"]);
-                ServerKernel.Username = data["AccountServer"]["LOGINNAME"];
-                ServerKernel.Password = data["AccountServer"]["PASSWORD"];
-                ServerKernel.TransferKey = data["TransferKey"]["Key"];
-                ServerKernel.TransferSalt = data["TransferKey"]["Salt"];
-                ServerKernel.Blowfish = data["Blowfish"]["Key"];
-            }
+            var settings = RuntimeSettings.Load("Shell.ini");
+            ServerKernel.LoginServerAddress = settings.Address("AccountServer", "ACCOUNT_IP", "127.0.0.1");
+            ServerKernel.ServerName = settings.Get("AccountServer", "SERVERNAME");
+            ServerKernel.LoginServerPort = settings.Port("AccountServer", "ACCOUNT_PORT", 9865);
+            ServerKernel.MaxOnlinePlayer = ushort.Parse(settings.Get("AccountServer", "MAXLOGINTABLESIZE", "500"));
+            ServerKernel.Username = settings.Get("AccountServer", "LOGINNAME");
+            ServerKernel.Password = settings.Get("AccountServer", "PASSWORD");
+            ServerKernel.TransferKey = settings.Get("TransferKey", "Key");
+            ServerKernel.TransferSalt = settings.Get("TransferKey", "Salt");
+            ServerKernel.Blowfish = settings.Get("Blowfish", "Key");
+            ServerKernel.GamePort = settings.Port("Network", "GamePort", 5816);
+            string bindAddress = settings.Address("Network", "GameBindAddress", "127.0.0.1");
+            if (ServerKernel.Username.Length > 16 || ServerKernel.Password.Length > 16)
+                throw new FormatException("Inter-server credentials must fit the 16-byte protocol fields.");
+            if (args.Contains("--check-config")) { Console.WriteLine("REDMOON_GAME_CONFIG_OK"); return; }
 
             ServerKernel.Log.SaveLog("Initializing blowfish", true);
             // set the blowfish key before anything else
@@ -134,7 +123,8 @@ namespace MsgServer
                 {
                     ServerKernel.GameServer.SetSecurity(IPProtectionLevel.Unrestricted, 6, 15);
                 }
-                ServerKernel.GameServer.Bind("0.0.0.0", ServerKernel.GamePort);
+                if (!ServerKernel.GameServer.Bind(bindAddress, ServerKernel.GamePort))
+                    throw new InvalidOperationException("Game listener could not bind; enable Hamachi and check port conflicts.");
                 ServerKernel.GameServer.Listen(10);
                 ServerKernel.Log.SaveLog("Game Server waiting for client connections...", true, LogType.MESSAGE);
             }
@@ -151,8 +141,14 @@ namespace MsgServer
             new GameAction().ProcessAction(80000000u, null, null, null, null);
             ThreadHandler.StartThreading();
 
-            HandleCommands();
+            Console.WriteLine("REDMOON_GAME_READY");
+            if (args.Contains("--headless"))
+            {
+                while (!File.Exists("redmoon.stop")) System.Threading.Thread.Sleep(250);
+            }
+            else HandleCommands();
 
+            ServerKernel.GameServer.Close();
             SaveAll();
 
             Environment.Exit(0);
@@ -337,7 +333,7 @@ namespace MsgServer
         public static void UpdateTitle()
         {
             DateTime now = DateTime.Now;
-            Console.Title = string.Format("[{0}] FoxConquer Project. GameServer - Server Time: {1:0000}/{2:00}/{3:00} {4:00}:{5:00} - Online/Max: {6}/{7}",
+            if (!Console.IsOutputRedirected) Console.Title = string.Format("[{0}] FoxConquer Project. GameServer - Server Time: {1:0000}/{2:00}/{3:00} {4:00}:{5:00} - Online/Max: {6}/{7}",
                 ServerKernel.ServerName, now.Year, now.Month, now.Day, now.Hour, now.Minute, ServerKernel.Players.Count,
                 ServerKernel.OnlineRecord);
         }
