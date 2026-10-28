@@ -175,5 +175,11 @@ function Get-NormalizedProcessPath([string]$Value) {
     if ($native.StartsWith($provider, [StringComparison]::OrdinalIgnoreCase)) { $native = $native.Substring($provider.Length) }
     if ($native.StartsWith('\\?\UNC\', [StringComparison]::OrdinalIgnoreCase)) { $native = '\\' + $native.Substring(8) }
     elseif ($native.StartsWith('\\?\') -or $native.StartsWith('\??\')) { $native = $native.Substring(4) }
-    return [IO.Path]::GetFullPath($native)
+    # MainModule and our records already contain absolute paths. Preserve identity
+    # rather than asking legacy .NET Framework to reinterpret an NT device path.
+    $native = $native.Replace('/', '\')
+    if ($native -notmatch '^[A-Za-z]:\\' -and !$native.StartsWith('\\')) {
+        throw 'Executable path is not an absolute Windows path; refusing PID-based action.'
+    }
+    return $native
 }

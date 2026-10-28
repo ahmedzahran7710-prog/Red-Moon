@@ -82,7 +82,7 @@ Write-Host 'WINDOWS_SETUP_START_STOP_PASS. Real TQ client remains a local verifi
         $value = [Environment]::GetEnvironmentVariable($name)
         if ($value) { $message = $message.Replace($value, '[redacted]') }
     }
-    $failure = @{ DatabasePort=$p.DatabasePort; MariaDbProcessAlive=[bool](Get-Process -Id $env:REDMOON_MARIADB_PID -ErrorAction SilentlyContinue); Stage=$stage; Success=$false; ErrorType=$_.Exception.GetType().FullName; Message=$message; Line=$_.InvocationInfo.ScriptLineNumber }
+    $failure = @{ DatabasePort=$p.DatabasePort; MariaDbProcessAlive=[bool](Get-Process -Id $env:REDMOON_MARIADB_PID -ErrorAction SilentlyContinue); Stage=$stage; Success=$false; ErrorType=$_.Exception.GetType().FullName; Message=$message; Line=$_.InvocationInfo.ScriptLineNumber; Stack=$_.ScriptStackTrace }
     [IO.File]::WriteAllText((Join-Path $outDir 'integration-results.json'), ($failure | ConvertTo-Json), (New-Object Text.UTF8Encoding($false)))
     Write-Host "::error title=Windows installation stage::$stage failed. See sanitized integration report."
     throw
