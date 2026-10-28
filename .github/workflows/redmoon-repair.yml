@@ -29,6 +29,10 @@ jobs:
       - uses: actions/setup-dotnet@26b0ec14cb23fa6904739307f278c14f94c95bf1 # v5
         with:
           dotnet-version: "10.0.403"
+      - name: Windows PowerShell 5.1 process-record contract
+        if: runner.os == 'Windows'
+        shell: powershell
+        run: ./tools/ci/test-process-records.ps1
       - name: Pristine vendor integrity
         shell: pwsh
         run: |
@@ -140,7 +144,8 @@ jobs:
         run: |
           $record = "$env:RUNNER_TEMP/redmoon-ci/.local/processes.json"
           if (Test-Path $record) {
-            foreach ($entry in @(Get-Content $record -Raw | ConvertFrom-Json)) {
+            $entries = Get-Content $record -Raw | ConvertFrom-Json
+            foreach ($entry in $entries) {
               $p = Get-Process -Id $entry.Id -ErrorAction SilentlyContinue
               if ($p -and $p.Path -eq $entry.Executable) { $p | Stop-Process -Force }
             }

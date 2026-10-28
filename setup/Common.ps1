@@ -183,3 +183,16 @@ function Get-NormalizedProcessPath([string]$Value) {
     }
     return $native
 }
+
+function Read-OwnedProcessRecords([string]$Path) {
+    # Windows PowerShell 5.1 writes a root JSON array as ONE pipeline object.
+    # Enumerate the assigned result explicitly; wrapping ConvertFrom-Json's pipeline
+    # in @() can create a nested array and join two PID paths into one invalid string.
+    $parsed = Get-Content -LiteralPath $Path -Raw -Encoding UTF8 | ConvertFrom-Json
+    foreach ($entry in $parsed) {
+        if ($entry -is [Array] -or [string]$entry.Name -notin @('LoginServer','MsgServer') -or [int]$entry.Id -le 0) {
+            throw 'Invalid owned-process record; no PID action is allowed.'
+        }
+        Write-Output $entry
+    }
+}

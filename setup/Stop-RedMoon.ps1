@@ -5,7 +5,7 @@ Assert-CiMode ([bool]$CI)
 $Root = (Resolve-Path -LiteralPath $Root).ProviderPath
 $record = Join-Path $Root '.local/processes.json'
 if (!(Test-Path -LiteralPath $record)) { Write-Host 'No process record for this installation.'; return }
-$entries = @(Get-Content -LiteralPath $record -Raw | ConvertFrom-Json)
+$entries = @(Read-OwnedProcessRecords $record)
 $owned = @()
 $observed = @()
 try {
