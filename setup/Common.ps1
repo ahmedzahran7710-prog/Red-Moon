@@ -81,7 +81,12 @@ function Invoke-PrivateProcess([string]$Exe, [string]$Arguments, [string]$InputT
         if ($process.ExitCode -ne 0) {
             $match = [regex]::Match($stderr, 'ERROR (\d+)')
             $code = if ($match.Success) { $match.Groups[1].Value } else { [string]$process.ExitCode }
-            throw "Local helper failed (code $code). Raw SQL/credential-bearing errors are deliberately not printed. Check the supplied password, service and setup stage."
+            $reason = ''
+            if ($code -in @('2002','2003','1045')) {
+                $safeLine = @($stderr -split "`n" | Where-Object { $_ -match '^ERROR (2002|2003|1045)' } | Select-Object -First 1)
+                if ($safeLine.Count -gt 0) { $reason = ' ' + $safeLine[0].Trim() }
+            }
+            throw "Local helper failed (code $code).$reason Raw SQL/credential-bearing errors are deliberately not printed."
         }
         return $stdout.Trim()
     } finally { $process.Dispose() }

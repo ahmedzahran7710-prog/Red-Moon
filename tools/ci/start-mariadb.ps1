@@ -34,6 +34,8 @@ while ([DateTime]::UtcNow -lt $deadline) {
     Start-Sleep -Seconds 1
 }
 if (!$ready) { throw 'Disposable MariaDB readiness timed out.' }
+$env:REDMOON_MYSQL_EXE = $mysql
+$env:REDMOON_MARIADB_PID = [string]$process.Id
 "REDMOON_MYSQL_EXE=$mysql" | Out-File -FilePath $env:GITHUB_ENV -Append -Encoding utf8
 "REDMOON_MARIADB_PID=$($process.Id)" | Out-File -FilePath $env:GITHUB_ENV -Append -Encoding utf8
 Write-Host 'DISPOSABLE_MARIADB_READY 10.4.32, loopback port 13306; no existing service modified.'

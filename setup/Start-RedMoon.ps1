@@ -23,7 +23,9 @@ function Start-OwnedServer([string]$Name) {
     $exe = Join-Path $server ($Name + $(if ($script:OnWindows) { '.exe' } else { '' }))
     if (!(Test-Path -LiteralPath $exe)) { throw "Missing published executable: $Name" }
     # Logs contain local runtime output; they are not uploaded by these scripts.
-    $process = Start-Process -FilePath $exe -ArgumentList '--headless' -WorkingDirectory $server -PassThru -RedirectStandardOutput (Join-Path $logs "$Name.stdout.log") -RedirectStandardError (Join-Path $logs "$Name.stderr.log")
+    $startArguments = @{ FilePath=$exe; ArgumentList='--headless'; WorkingDirectory=$server; PassThru=$true; RedirectStandardOutput=(Join-Path $logs "$Name.stdout.log"); RedirectStandardError=(Join-Path $logs "$Name.stderr.log") }
+    if ($script:OnWindows) { $startArguments.WindowStyle = 'Hidden' }
+    $process = Start-Process @startArguments
     $started.Add(@{ Name=$Name; Id=$process.Id; Executable=[IO.Path]::GetFullPath($exe); StartUtc=$process.StartTime.ToUniversalTime().ToString('o') })
     Write-Utf8 (Join-Path $Root '.local/processes.json') (@($started.ToArray()) | ConvertTo-Json)
     return $process

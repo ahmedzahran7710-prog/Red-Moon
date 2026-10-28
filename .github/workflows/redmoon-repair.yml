@@ -89,9 +89,6 @@ jobs:
       - uses: actions/setup-dotnet@26b0ec14cb23fa6904739307f278c14f94c95bf1
         with:
           dotnet-version: "10.0.403"
-      - name: Verified official MariaDB 10.4.32, disposable loopback service
-        shell: pwsh
-        run: ./tools/ci/start-mariadb.ps1
       - name: Prepare reference assets and empty-account seeds outside Git
         shell: pwsh
         run: |
@@ -107,8 +104,13 @@ jobs:
           Copy-Item "$env:RUNNER_TEMP/redmoon-data/database" "$env:RUNNER_TEMP/redmoon-ci/database" -Recurse
           Copy-Item "$env:RUNNER_TEMP/redmoon-data/data-provenance.json" "$env:RUNNER_TEMP/redmoon-ci/data-provenance.json"
       - name: Setup + DPAPI + real server link + safe stop on Windows PowerShell 5.1
-        shell: powershell
-        run: ./tools/ci/test-setup.ps1 -RuntimeRoot "$env:RUNNER_TEMP/redmoon-ci" -MysqlExe "$env:REDMOON_MYSQL_EXE"
+        shell: pwsh
+        run: |
+          # Keep the service-owning shell alive through the PS5.1 integration child,
+          # rather than relying on survival across CI step process boundaries.
+          ./tools/ci/start-mariadb.ps1
+          & powershell.exe -NoProfile -ExecutionPolicy Bypass -File ./tools/ci/test-setup.ps1 -RuntimeRoot "$env:RUNNER_TEMP/redmoon-ci" -MysqlExe "$env:REDMOON_MYSQL_EXE"
+          exit $LASTEXITCODE
       - name: Build fresh distribution, not the credential-bearing smoke workspace
         shell: pwsh
         run: |
@@ -145,5 +147,5 @@ jobs:
           }
           if ($env:REDMOON_MARIADB_PID) {
             $p = Get-Process -Id $env:REDMOON_MARIADB_PID -ErrorAction SilentlyContinue
-            if ($p -and $p.Path -like "$env:RUNNER_TEMP/mariadb-official/*") { $p | Stop-Process -Force }
+            if ($p -and $p.Path.StartsWith([IO.Path]::GetFullPath("$env:RUNNER_TEMP/mariadb-official"), [StringComparison]::OrdinalIgnoreCase)) { $p | Stop-Process -Force }
           }

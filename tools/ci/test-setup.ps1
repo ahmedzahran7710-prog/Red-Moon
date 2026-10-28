@@ -17,6 +17,10 @@ $secretTest = @{ Value = (New-RandomHex 16) }
 Save-LocalSecrets $vaultTest $secretTest $false
 $unsealed = Load-LocalSecrets $vaultTest $false
 if ($unsealed.Value -ne $secretTest.Value) { throw 'Windows DPAPI round-trip failed.' }
+$stage = 'database-liveness'
+$alive = Get-Process -Id $env:REDMOON_MARIADB_PID -ErrorAction SilentlyContinue
+$listening = @([Net.NetworkInformation.IPGlobalProperties]::GetIPGlobalProperties().GetActiveTcpListeners() | ForEach-Object { $_.Port })
+if (!$alive -or $listening -notcontains 13306) { throw 'Owned MariaDB service did not survive until the provisioning call.' }
 $stage = 'provision'
 & (Join-Path $repo 'setup/Setup-RedMoon.ps1') -Root $RuntimeRoot -ProfilePath $profile -MysqlExe $MysqlExe -CI
 if (!(Test-Path -LiteralPath (Join-Path $RuntimeRoot '.local/installed.json'))) { throw 'Setup marker was not created.' }
@@ -65,7 +69,7 @@ Write-Host 'WINDOWS_SETUP_START_STOP_PASS. Real TQ client remains a local verifi
         $value = [Environment]::GetEnvironmentVariable($name)
         if ($value) { $message = $message.Replace($value, '[redacted]') }
     }
-    $failure = @{ Stage=$stage; Success=$false; ErrorType=$_.Exception.GetType().FullName; Message=$message; Line=$_.InvocationInfo.ScriptLineNumber }
+    $failure = @{ DatabasePort=$p.DatabasePort; MariaDbProcessAlive=[bool](Get-Process -Id $env:REDMOON_MARIADB_PID -ErrorAction SilentlyContinue); Stage=$stage; Success=$false; ErrorType=$_.Exception.GetType().FullName; Message=$message; Line=$_.InvocationInfo.ScriptLineNumber }
     [IO.File]::WriteAllText((Join-Path $outDir 'integration-results.json'), ($failure | ConvertTo-Json), (New-Object Text.UTF8Encoding($false)))
     Write-Host "::error title=Windows installation stage::$stage failed. See sanitized integration report."
     throw
