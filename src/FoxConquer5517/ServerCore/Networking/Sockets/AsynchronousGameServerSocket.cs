@@ -1,0 +1,267 @@
+﻿// World Conquer Online Project 2.5517 - Phoenix Project Based
+// This project has been created by Felipe Vieira Vendramini and updated by Cristian Ocaña Soler
+// Source Infrastructure based on Phoenix Source, written by Gareth Jensen
+// This source is targeted to Conquer Online, client version 5517
+// 
+
+// File Created by:  Felipe Vieira Vendramini 
+// zfserver v2.5517 - ServerCore - Asynchronous Game Server Socket.cs
+// Last Edit: 2016/11/23 07:59
+// Created: 2016/11/23 07:52
+
+using System;
+using System.Net;
+using System.Net.Sockets;
+using System.Runtime.InteropServices;
+using ServerCore.Common;
+using ServerCore.Interfaces;
+using ServerCore.Networking.Packets;
+
+namespace ServerCore.Networking.Sockets
+{
+    /// <summary>
+    /// The asynchronous socket class encapsulates an asynchronous server socket. It allows multiple clients to connect 
+    /// to the server and process packets. It makes use of Microsoft's .NET socket class to control asynchronous 
+    /// packet processing requests. The class must be inherited with defined socket events to be implemented.
+    /// </summary>
+    public abstract unsafe class AsynchronousGameServerSocket : Socket, IAsynchronousSocket
+    {
+        // Socket Events - Pure virtual functions (Defined when the abstract class is constructed):
+        protected delegate void AsynchronousConnect(AsynchronousState state);      // Invoked on a successful client accept.
+        protected delegate void AsynchronousExchange(AsynchronousState state);     // Invoked to exchange keys with the client.
+        protected delegate void AsynchronousReceive(AsynchronousState state);      // Invoked to receive data from the client.
+        protected delegate void AsynchronousDisconnect(object state);              // Invoked when the client has disconnected.
+
+        // Protected Variable Declarations:
+        protected AsynchronousConnect OnClientConnect;         // Invoked on a successful client accept.
+        protected AsynchronousExchange OnClientExchange;       // Invoked to exchange keys with the client.
+        protected AsynchronousReceive OnClientReceive;         // Invoked to receive data from the client.
+        protected AsynchronousDisconnect OnClientDisconnect;   // Invoked when the client has disconnected.
+
+        // Global-Scope Properties & Constants.
+        public string Name { get; set; }                // The name of the server.
+        public int FooterLength { get; set; }           // The length of the footer for each packet.
+        public string Footer { get; set; }              // The text for the footer at the end of each packet.
+        public const int EXCHANGE_BUFFER_SIZE = 1024;   // The largest possible length of the exchange buffer.
+        public const int MAX_PACKET_SIZE = 2048;        // The largest possible length of a data packet.
+        public const int NPC_PACKET_SIZE = 32767;        // The largest possible length of a data packet.
+        public const int MAX_PACKET_ID = 1000;         // The largest possible packet identity of a data packet.
+
+        /// <summary>
+        /// The asynchronous socket class encapsulates an asynchronous server socket. It allows multiple clients to connect 
+        /// to the server and process packets. It makes use of Microsoft's .NET socket class to control asynchronous 
+        /// packet processing requests. The class must be inherited with defined socket events to be implemented.
+        /// </summary>
+        /// <param name="name">The name of the server.</param>
+        /// <param name="family">Specifies the addressing scheme that the socket instance will use.</param>
+        /// <param name="socketType">Specifies the socket type that the instance represents.</param>
+        /// <param name="protocol">Specifies the protocol the socket instance will support.</param>
+        public AsynchronousGameServerSocket(string name, AddressFamily family, SocketType socketType, ProtocolType protocol)
+            : base(family, socketType, protocol)
+        {
+            Name = name;
+            FooterLength = 0;
+            Footer = "";
+            if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+            {
+                base.SetSocketOption(SocketOptionLevel.Socket, SocketOptionName.DontLinger, true);
+            }
+            base.SetSocketOption(SocketOptionLevel.Socket, SocketOptionName.KeepAlive, true);
+        }
+
+        /// <summary>
+        /// The asynchronous socket class encapsulates an asynchronous server socket. It allows multiple clients to connect 
+        /// to the server and process packets. It makes use of Microsoft's .NET socket class to control asynchronous 
+        /// packet processing requests. The class must be inherited with defined socket events to be implemented.
+        /// </summary>
+        /// <param name="name">The name of the server.</param>
+        /// <param name="footer">The footer for each packet.</param>
+        /// <param name="family">Specifies the addressing scheme that the socket instance will use.</param>
+        /// <param name="socketType">Specifies the socket type that the instance represents.</param>
+        /// <param name="protocol">Specifies the protocol the socket instance will support.</param>
+        public AsynchronousGameServerSocket(string name, string footer, AddressFamily family, SocketType socketType,
+            ProtocolType protocol)
+            : base(family, socketType, protocol)
+        {
+            Name = name;
+            FooterLength = footer.Length;
+            Footer = footer;
+            if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+            {
+                base.SetSocketOption(SocketOptionLevel.Socket, SocketOptionName.DontLinger, true);
+            }
+            base.SetSocketOption(SocketOptionLevel.Socket, SocketOptionName.KeepAlive, true);
+        }
+
+        /// <summary>
+        /// This method associates the socket with an IP address and a port. It does this by creating an IP endpoint
+        /// using the address and port, then assigning that IP endpoint to the socket. Only one socket can be
+        /// bound to an IP address and port at the same time.
+        /// </summary>
+        /// <param name="ipAddress">The IP address the socket will bind and listen to.</param>
+        /// <param name="port">The port the socket will bind to.</param>
+        public bool Bind(string ipAddress, int port)
+        {
+            try
+            {
+                // Create the endpoint and bind the socket:
+                base.Bind(new IPEndPoint(IPAddress.Parse(ipAddress), port));
+                return true;
+            }
+            catch (SocketException exception) { Console.WriteLine(exception); }
+            return false;
+        }
+
+        /// <summary>
+        /// This method places the socket into the listening socket state. It listens with a backlog of the
+        /// specified amount and starts accepting incoming connections.
+        /// </summary>
+        /// <param name="backlog">The maximum length of the pending connections queue.</param>
+        public new void Listen(int backlog)
+        {
+            try
+            {
+                // Start listening for incoming connections and start accepting connections:
+                base.Listen(backlog);
+                base.BeginAccept(AcceptConnection, null);
+            }
+            catch (SocketException exception) { Console.WriteLine(exception); }
+        }
+
+        /// <summary>
+        /// This method begins accepting a client from the pending connections queue. In this method, the client is
+        /// created and the IP address is checked for brute-force attacks. If the client is validated, then the server
+        /// will begin receiving data packets from the client.
+        /// </summary>
+        /// <param name="result">Represents the status of an asynchronous operation.</param>
+        public void AcceptConnection(IAsyncResult result)
+        {
+            try
+            {
+                // Accept the socket from the asynchronous result:
+                Socket clientSocket = EndAccept(result);
+                // Assign a new asynchronous state to the socket:
+                AsynchronousState state = new AsynchronousState(clientSocket);
+                if (OnClientConnect != null) OnClientConnect(state);
+
+
+                // Begin Receiving data and handling the client. If the exchange socket event is not null, 
+                // handle the key exchange for the packet cipher; else, accept data from the client.
+                if (OnClientExchange != null)
+                {
+                    state.Buffer = new byte[11];
+                    state.Socket.BeginReceive(state.Buffer, 0, 11,
+                        SocketFlags.None, PrepareReceive, state);
+                }
+                else if (OnClientReceive != null)
+                {
+                    // The server does not process key exchange. Start receiving packets immediately.
+                    state.Buffer = new byte[4];
+                    state.Socket.BeginReceive(state.Buffer, 0, 4,
+                        SocketFlags.None, AnnounceReceive, state);
+                }
+                else
+                {
+                    // There are no processing methods for this server!
+                    Console.WriteLine("No processing methods defined for the " + Name);
+                    clientSocket.Disconnect(false);
+                }
+            }
+            catch (SocketException e)
+            {
+                // Was the connection issue a problem on the server's side or the client's side?
+                if (e.SocketErrorCode != SocketError.OperationAborted &&
+                    e.SocketErrorCode != SocketError.Interrupted &&
+                    e.SocketErrorCode != SocketError.Disconnecting &&
+                    e.SocketErrorCode != SocketError.NotConnected &&
+                    e.SocketErrorCode != SocketError.ConnectionReset &&
+                    e.SocketErrorCode != SocketError.ConnectionAborted &&
+                    e.SocketErrorCode != SocketError.Shutdown)
+                    Console.WriteLine(e);
+            }
+            catch (ObjectDisposedException) { } // listener closed during shutdown
+            finally
+            {
+                try
+                {
+                    if (!SafeHandle.IsClosed) BeginAccept(AcceptConnection, null);
+                }
+                catch (ObjectDisposedException) { }
+                catch (SocketException error)
+                {
+                    if (error.SocketErrorCode != SocketError.OperationAborted && error.SocketErrorCode != SocketError.Interrupted)
+                        Console.WriteLine("Accept loop stopped: " + error.SocketErrorCode);
+                }
+            }
+        }
+
+        /// <summary>
+        /// This method begins the client and server key exchange. The client sends key exchange data first, which is
+        /// picked up by the server in this socket event and processed. Then, the exchange packet is sent back to the
+        /// client so both the client and server have matching cipher keys, and packets are sent to the server.
+        /// </summary>
+        /// <param name="result">Represents the status of an asynchronous operation.</param>
+        public void PrepareReceive(IAsyncResult result)
+        {
+            TcpReceive.Exchange(result, EXCHANGE_BUFFER_SIZE, PrepareReceive,
+                AnnounceReceive, state => OnClientExchange(state));
+        }
+
+        /// <summary>
+        /// This method begins the receiving of a packet from the client's socket. It receives the first four bytes
+        /// of a packet, then requests to receive the body of the packet. If the length of the packet is less than
+        /// the length of the packet header, the client will be disconnected from the server.
+        /// </summary>
+        /// <param name="result">Represents the status of an asynchronous operation.</param>
+        public void AnnounceReceive(IAsyncResult result)
+        {
+            TcpReceive.Header(result, FooterLength, MAX_PACKET_SIZE, AsynchronousServerSocket.MAX_PACKET_ID,
+                AnnounceReceive, CompleteReceive, state => OnClientReceive(state));
+        }
+
+        /// <summary>
+        /// This method completes the receiving of a packet from the client's socket. It attempts to receive the 
+        /// remaining bytes of a packet, then requests to receive the header of the next packet. If the length of 
+        /// the packet is zero, the client will be disconnected from the server. If the length of the buffer is
+        /// not the expected length, then the packet is a fragment and the server will attempt to receive the
+        /// completed packet again.
+        /// </summary>
+        /// <param name="result">Represents the status of an asynchronous operation.</param>
+        public void CompleteReceive(IAsyncResult result)
+        {
+            TcpReceive.Body(result, AnnounceReceive, CompleteReceive, state => OnClientReceive(state));
+        }
+
+        /// <summary>
+        /// This method is called once a previously connected and authenticated client has been disconnected 
+        /// from the server. The method calls the disconnect socket event to dispose of the client's initialized
+        /// game structures.
+        /// </summary>
+        /// <param name="result">Represents the status of an asynchronous operation.</param>
+        // Passport owns transport shutdown; notification is synchronous and occurs once.
+        void IAsynchronousSocket.OnDisconnected(Passport passport)
+        {
+            if (passport != null) OnClientDisconnect?.Invoke(passport);
+        }
+
+        public void Disconnect(IAsyncResult result)
+        {
+            // Dispose of the asynchronous state:
+            if (result.AsyncState != null && OnClientDisconnect != null)
+                OnClientDisconnect(result.AsyncState);
+        }
+
+        /// <summary>
+        /// This method is called once a previously connected and authenticated client has been disconnected 
+        /// from the server. The method calls the disconnect socket event to dispose of the client's initialized
+        /// game structures.
+        /// </summary>
+        /// <param name="result">Represents the status of an asynchronous operation.</param>
+        public void Disconnect(AsynchronousState state)
+        {
+            // Dispose of the asynchronous state:
+            if (state != null && state.Client != null && OnClientDisconnect != null)
+                OnClientDisconnect(state.Client);
+        }
+    }
+}

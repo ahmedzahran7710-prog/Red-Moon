@@ -1,0 +1,10 @@
+{
+  "run_id": 40622014775,
+  "source_head": "7d9986c2d2f539d11d680ff161d4554e636fbce7",
+  "artifact_id": 12787283740,
+  "artifact_name": "RedMoon-Windows-x64",
+  "download_page": "https://github.com/ahmedzahran7710-prog/Red-Moon/actions/runs/40622014775/artifacts/12787283740",
+  "outer_artifact_digest": "sha256:591270353d96e314c76a9c4cddc99df90f98744b14bdac10cf1663530a27db5b",
+  "outer_artifact_bytes": 47290103,
+  "note": "GitHub wraps the inner ZIP; its digest differs from the inner archive hash. Artifact was published by the successful job; the sandbox cannot fetch the Azure artifact host."
+}

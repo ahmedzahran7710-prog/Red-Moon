@@ -1,0 +1,156 @@
+name: Red Moon repaired source and Windows package
+on:
+  push:
+    branches: ["arena/77615412-red-moon"]
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: redmoon-repair-${{ github.ref }}
+  cancel-in-progress: false
+jobs:
+  components:
+    name: Repaired components (${{ matrix.os }})
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [windows-2022, ubuntu-24.04]
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 18
+    env:
+      DOTNET_CLI_TELEMETRY_OPTOUT: "1"
+      DOTNET_NOLOGO: "1"
+      REDMOON_SDK: "10.0.403"
+      NUGET_XMLDOC_MODE: skip
+    steps:
+      - uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5
+        with:
+          persist-credentials: false
+      - uses: actions/setup-dotnet@26b0ec14cb23fa6904739307f278c14f94c95bf1 # v5
+        with:
+          dotnet-version: "10.0.403"
+      - name: Windows PowerShell 5.1 process-record contract
+        if: runner.os == 'Windows'
+        shell: powershell
+        run: ./tools/ci/test-process-records.ps1
+      - name: Pristine vendor integrity
+        shell: pwsh
+        run: |
+          python tools/fox_baseline.py verify
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+          python -m unittest discover -s tests -p "test_*.py" -v
+          exit $LASTEXITCODE
+      - name: Build Debug working solution
+        shell: pwsh
+        working-directory: src
+        run: |
+          New-Item -ItemType Directory -Force "$env:RUNNER_TEMP/fox-evidence" | Out-Null
+          dotnet build FoxConquer5517/FoxConquer5517.sln -c Debug --verbosity minimal 2>&1 | Tee-Object "$env:RUNNER_TEMP/fox-evidence/build-debug.log"
+          exit $LASTEXITCODE
+      - name: Build Release working solution
+        shell: pwsh
+        working-directory: src
+        run: |
+          dotnet build FoxConquer5517/FoxConquer5517.sln -c Release --verbosity minimal 2>&1 | Tee-Object "$env:RUNNER_TEMP/fox-evidence/build-release.log"
+          exit $LASTEXITCODE
+      - name: Regressions and independent crypto reference vectors
+        shell: pwsh
+        working-directory: src
+        run: |
+          dotnet build ../tests/fixes/FoxBaseline.Probes.csproj -c Release --verbosity minimal
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+          dotnet ../tests/fixes/bin/Release/net10.0/FoxBaseline.Probes.dll --report "$env:RUNNER_TEMP/fox-evidence/managed-results.json"
+          exit $LASTEXITCODE
+      - name: Verify baseline not altered by repairs
+        if: ${{ !cancelled() }}
+        shell: pwsh
+        run: python tools/fox_baseline.py verify
+      - name: Publish sanitized API-readable evidence
+        if: ${{ !cancelled() }}
+        shell: pwsh
+        run: python tools/publish_evidence.py "$env:RUNNER_TEMP/fox-evidence"
+      - name: Text-only diagnostics
+        if: ${{ !cancelled() }}
+        uses: actions/upload-artifact@330a01c490aca151604b8cf639adc76d48f6c5d4 # v5
+        with:
+          name: repaired-components-${{ matrix.os }}
+          path: ${{ runner.temp }}/fox-evidence/
+          retention-days: 14
+
+  windows-installation:
+    name: Windows setup, actual server startup, and self-contained package
+    needs: components
+    runs-on: windows-2022
+    timeout-minutes: 30
+    env:
+      DOTNET_CLI_TELEMETRY_OPTOUT: "1"
+      DOTNET_NOLOGO: "1"
+      REDMOON_SDK: "10.0.403"
+    steps:
+      - uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09
+        with:
+          persist-credentials: false
+      - uses: actions/setup-dotnet@26b0ec14cb23fa6904739307f278c14f94c95bf1
+        with:
+          dotnet-version: "10.0.403"
+      - name: Prepare reference assets and empty-account seeds outside Git
+        shell: pwsh
+        run: |
+          python tools/fox_baseline.py materialize --dest "$env:RUNNER_TEMP/fox-original" --archive "$env:RUNNER_TEMP/fox.zip"
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+          python tools/prepare_runtime_data.py --source "$env:RUNNER_TEMP/fox-original" --dest "$env:RUNNER_TEMP/redmoon-data"
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+      - name: Publish actual Windows executables (no preinstalled runtime needed)
+        shell: pwsh
+        run: |
+          ./tools/ci/publish-runtime.ps1 -Destination "$env:RUNNER_TEMP/redmoon-ci"
+          Copy-Item "$env:RUNNER_TEMP/redmoon-data/runtime-data/*" "$env:RUNNER_TEMP/redmoon-ci/server" -Recurse
+          Copy-Item "$env:RUNNER_TEMP/redmoon-data/database" "$env:RUNNER_TEMP/redmoon-ci/database" -Recurse
+          Copy-Item "$env:RUNNER_TEMP/redmoon-data/data-provenance.json" "$env:RUNNER_TEMP/redmoon-ci/data-provenance.json"
+      - name: Setup + DPAPI + real server link + safe stop on Windows PowerShell 5.1
+        shell: pwsh
+        run: |
+          # Keep the service-owning shell alive through the PS5.1 integration child,
+          # rather than relying on survival across CI step process boundaries.
+          ./tools/ci/start-mariadb.ps1
+          & powershell.exe -NoProfile -ExecutionPolicy Bypass -File ./tools/ci/test-setup.ps1 -RuntimeRoot "$env:RUNNER_TEMP/redmoon-ci" -MysqlExe "$env:REDMOON_MYSQL_EXE"
+          exit $LASTEXITCODE
+      - name: Build fresh distribution, not the credential-bearing smoke workspace
+        shell: pwsh
+        run: |
+          if (!(Test-Path "$env:RUNNER_TEMP/fox-evidence/integration-results.json")) { throw "No verified integration report; do not ship a bundle." }
+          ./tools/ci/publish-runtime.ps1 -Destination "$env:RUNNER_TEMP/redmoon-distribution"
+          python tools/package_windows.py --staging "$env:RUNNER_TEMP/redmoon-distribution" --data "$env:RUNNER_TEMP/redmoon-data" --output "$env:RUNNER_TEMP/redmoon-delivery/RedMoon-Windows-x64.zip"
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+          Copy-Item "$env:RUNNER_TEMP/redmoon-delivery/RedMoon-Windows-x64.json" "$env:RUNNER_TEMP/fox-evidence/package-results.json"
+      - name: Deliver source + runtime + clean data (no client or secrets)
+        uses: actions/upload-artifact@330a01c490aca151604b8cf639adc76d48f6c5d4
+        with:
+          name: RedMoon-Windows-x64
+          path: ${{ runner.temp }}/redmoon-delivery/
+          retention-days: 30
+          if-no-files-found: error
+      - name: Redacted local failure context only (not databases/vaults)
+        if: ${{ !cancelled() }}
+        shell: pwsh
+        run: python tools/ci/summarize_startup.py
+      - name: Publish API-readable installation result
+        if: ${{ !cancelled() }}
+        shell: pwsh
+        run: python tools/publish_evidence.py "$env:RUNNER_TEMP/fox-evidence"
+      - name: Stop owned CI processes only
+        if: ${{ always() }}
+        shell: pwsh
+        run: |
+          $record = "$env:RUNNER_TEMP/redmoon-ci/.local/processes.json"
+          if (Test-Path $record) {
+            $entries = Get-Content $record -Raw | ConvertFrom-Json
+            foreach ($entry in $entries) {
+              $p = Get-Process -Id $entry.Id -ErrorAction SilentlyContinue
+              if ($p -and $p.Path -eq $entry.Executable) { $p | Stop-Process -Force }
+            }
+          }
+          if ($env:REDMOON_MARIADB_PID) {
+            $p = Get-Process -Id $env:REDMOON_MARIADB_PID -ErrorAction SilentlyContinue
+            if ($p -and $p.Path.StartsWith([IO.Path]::GetFullPath("$env:RUNNER_TEMP/mariadb-official"), [StringComparison]::OrdinalIgnoreCase)) { $p | Stop-Process -Force }
+          }

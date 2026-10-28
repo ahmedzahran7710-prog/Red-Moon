@@ -1,0 +1,27 @@
+{
+  "run_id": 40622014775,
+  "head_sha": "7d9986c2d2f539d11d680ff161d4554e636fbce7",
+  "job_id": 122598040379,
+  "job_name": "Repaired components (windows-2022)",
+  "report_sha256": "b82e0947a911b7dc1b9388344b92d835f92aeb71a38319b61c0acc2f43c6d10f",
+  "retrieved_via": "SHA-verified gzip/base64 check annotation chunks",
+  "payload": {
+    "sdk_requested": "10.0.403",
+    "builds": [
+      {
+        "configuration": "debug",
+        "succeeded": true,
+        "warnings": 18,
+        "errors": 0,
+        "log_sha256": "9ccf2bd0c5eeb40bfb071874000b064ce7da58e2043e195a907f307d4a019978"
+      },
+      {
+        "configuration": "release",
+        "succeeded": true,
+        "warnings": 18,
+        "errors": 0,
+        "log_sha256": "098f49579c5b2e25610792b5c2f45a43148c403cca0f5ba1c90bbd2f8286cc23"
+      }
+    ]
+  }
+}

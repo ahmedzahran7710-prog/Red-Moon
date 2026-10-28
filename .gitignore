@@ -6,3 +6,13 @@ artifacts/
 .vs/
 __pycache__/
 *.pyc
+
+# Machine-local generated secrets, runtime state, and distributable binaries.
+runtime/
+.local/
+packages/
+*.user
+server/
+database/
+client-config/
+data-provenance.json
