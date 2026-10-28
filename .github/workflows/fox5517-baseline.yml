@@ -92,6 +92,10 @@ jobs:
           if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
           python tools/fox_baseline.py verify --source "$env:RUNNER_TEMP/fox-original" --full
           exit $LASTEXITCODE
+      - name: Expose sanitized reports through GitHub API annotations
+        if: ${{ !cancelled() }}
+        shell: pwsh
+        run: python tools/publish_evidence.py "$env:RUNNER_TEMP/fox-evidence"
       - name: Publish text-only evidence (no binaries, configs, maps, or SQL dumps)
         if: ${{ !cancelled() }}
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
@@ -134,6 +138,9 @@ jobs:
       - name: Verify original files remain untouched
         if: ${{ !cancelled() }}
         run: python3 tools/fox_baseline.py verify --source "$RUNNER_TEMP/fox-original" --full
+      - name: Expose sanitized SQL counts through GitHub API annotations
+        if: ${{ !cancelled() }}
+        run: python3 tools/publish_evidence.py "$RUNNER_TEMP/fox-evidence"
       - name: Publish sanitized SQL result only
         if: ${{ !cancelled() }}
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4

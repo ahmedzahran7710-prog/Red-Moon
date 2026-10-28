@@ -3,7 +3,6 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Reflection;
 using System.Text;
 using System.Text.Json;
 using MsgServer.Structures.Qualifier;
@@ -107,6 +106,14 @@ internal static class Program
             return new MsgConnectEx(1000001, 0x12345678, "192.0.2.10", 5816).IPAddress;
         }, "Fresh .NET process, no explicit code-page registration or server/database startup. Failure here is conditional; dependency initialization during real startup remains untested.");
 
+        const string networkScope = "Loopback-only connected sockets driving original AsynchronousServerSocket callbacks. Valid 8-byte synthetic frame, no cipher or game process. Fragment consumption is observed before the remainder is sent; HARNESS_TIMEOUT is not a reproduced defect.";
+        Check("TCP-01-whole-frame-control", "08-00-EC-03-01-02-03-04",
+            () => NetworkProbes.Run("whole"), networkScope);
+        Check("TCP-02-split-body-control", "08-00-EC-03-01-02-03-04",
+            () => NetworkProbes.Run("split-body"), networkScope);
+        Check("TCP-03-split-header", "08-00-EC-03-01-02-03-04",
+            () => NetworkProbes.Run("split-header"), networkScope);
+
         var report = new
         {
             SchemaVersion = 1,
@@ -118,6 +125,7 @@ internal static class Program
             Failed = Results.Count(result => result.Status == "FAIL"),
             GameServerStarted = false,
             NativeCryptoExecuted = false,
+            LoopbackComponentSocketsStarted = true,
             Results
         };
         if (args.Length == 2 && args[0] == "--report")
