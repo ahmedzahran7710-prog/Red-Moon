@@ -35,7 +35,14 @@ function Wait-Ready($Process, [string]$File, [string]$Marker) {
     do {
         $Process.Refresh()
         if ($Process.HasExited) { throw "Server exited before readiness. See local logs in $logs (do not share secrets)." }
-        if ((Test-Path -LiteralPath $File) -and [IO.File]::ReadAllText($File).Contains($Marker)) { return }
+        if (Test-Path -LiteralPath $File) {
+            # Start-Process writes the log continuously. A reader must explicitly
+            # share WRITE access too; ReadAllText's default sharing conflicts on Windows.
+            $stream = [IO.File]::Open($File, [IO.FileMode]::Open, [IO.FileAccess]::Read, [IO.FileShare]::ReadWrite)
+            $reader = New-Object IO.StreamReader($stream, [Text.Encoding]::UTF8, $true)
+            try { if ($reader.ReadToEnd().Contains($Marker)) { return } }
+            finally { $reader.Dispose() }
+        }
         Start-Sleep -Milliseconds 500
     } while ([DateTime]::UtcNow -lt $deadline)
     throw "Timed out waiting for $Marker. Inspect local logs before retrying."
