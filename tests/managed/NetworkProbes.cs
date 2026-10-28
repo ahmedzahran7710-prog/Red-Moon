@@ -56,7 +56,24 @@ internal static class NetworkProbes
                 if (mode == "split-header")
                 {
                     // The first EndReceive has consumed just two header bytes.
-                    if (driver.Disconnected.Wait(300))
+                    // BeginDisconnect completion may wait on the peer. Observe the
+                    // peer's receive side too: readable EOF confirms the FIN without
+                    // depending on the server's asynchronous disconnect callback.
+                    if (sender.Poll(1500000, SelectMode.SelectRead))
+                    {
+                        try
+                        {
+                            var eof = new byte[1];
+                            if (sender.Receive(eof, 0, 1, SocketFlags.Peek) == 0)
+                                return "PEER_EOF_AFTER_2_HEADER_BYTES";
+                            return "HARNESS_UNEXPECTED: driver sent response bytes";
+                        }
+                        catch (SocketException ex) when (ex.SocketErrorCode == SocketError.ConnectionReset)
+                        {
+                            return "PEER_RESET_AFTER_2_HEADER_BYTES";
+                        }
+                    }
+                    if (driver.Disconnected.IsSet)
                         return "DISCONNECTED_AFTER_2_HEADER_BYTES";
                     SendAll(sender, frame, 2, 6);
                 }

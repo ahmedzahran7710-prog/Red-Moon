@@ -3,13 +3,7 @@ name: Fox 5517 unchanged baseline audit
 on:
   push:
     branches: ["arena/47cdd4b4-red-moon"]
-    paths:
-      - "vendor/FoxConquer5517/**"
-      - "audit/fox5517-manifest.json"
-      - "tools/**"
-      - "tests/**"
-      - ".gitattributes"
-      - ".github/workflows/fox5517-baseline.yml"
+    # Run even for report-only follow-ups, so red baseline checks stay visible on the PR head.
   workflow_dispatch:
 
 permissions:
