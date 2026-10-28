@@ -1,0 +1,144 @@
+name: Fox 5517 unchanged baseline audit
+
+on:
+  push:
+    branches: ["arena/47cdd4b4-red-moon"]
+    paths:
+      - "vendor/FoxConquer5517/**"
+      - "audit/fox5517-manifest.json"
+      - "tools/**"
+      - "tests/**"
+      - ".gitattributes"
+      - ".github/workflows/fox5517-baseline.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: fox5517-baseline-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  windows-build-and-probes:
+    name: Original .NET 3.1 build and managed regression probes
+    runs-on: windows-2022
+    timeout-minutes: 20
+    env:
+      DOTNET_CLI_TELEMETRY_OPTOUT: "1"
+      DOTNET_SKIP_FIRST_TIME_EXPERIENCE: "1"
+      DOTNET_NOLOGO: "1"
+      NUGET_XMLDOC_MODE: skip
+    steps:
+      - name: Checkout Red Moon (read-only credentials)
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        with:
+          persist-credentials: false
+      - name: Verify tracked bytes and reconstruct original source outside Git
+        shell: pwsh
+        run: |
+          python -m unittest discover -s tests -p "test_*.py" -v
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+          python tools/fox_baseline.py materialize --dest "$env:RUNNER_TEMP/fox-original" --archive "$env:RUNNER_TEMP/fox-original.zip"
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+          New-Item -ItemType Directory -Force "$env:RUNNER_TEMP/fox-sdk", "$env:RUNNER_TEMP/fox-evidence" | Out-Null
+          '{"sdk":{"version":"3.1.426","rollForward":"disable"}}' | Set-Content -Encoding utf8 "$env:RUNNER_TEMP/fox-sdk/global.json"
+      - name: Install exact original SDK (unsupported legacy baseline, not a deployment recommendation)
+        uses: actions/setup-dotnet@67a3573c9a986a3f9c594539f4ab511d57bb3ce9 # v4
+        with:
+          dotnet-version: "3.1.426"
+      - name: SDK environment
+        shell: pwsh
+        working-directory: ${{ runner.temp }}/fox-sdk
+        run: dotnet --info | Tee-Object -FilePath "$env:RUNNER_TEMP/fox-evidence/dotnet-info.txt"
+      - name: Restore unchanged solution
+        id: restore
+        shell: pwsh
+        working-directory: ${{ runner.temp }}/fox-sdk
+        run: |
+          dotnet restore "$env:RUNNER_TEMP/fox-original/FoxConquer5517.sln" --verbosity minimal 2>&1 | Tee-Object -FilePath "$env:RUNNER_TEMP/fox-evidence/restore.log"
+          exit $LASTEXITCODE
+      - name: Build unchanged Debug solution
+        id: debug
+        if: ${{ !cancelled() && steps.restore.outcome == 'success' }}
+        shell: pwsh
+        working-directory: ${{ runner.temp }}/fox-sdk
+        run: |
+          dotnet build "$env:RUNNER_TEMP/fox-original/FoxConquer5517.sln" -c Debug --no-restore --verbosity minimal 2>&1 | Tee-Object -FilePath "$env:RUNNER_TEMP/fox-evidence/build-debug.log"
+          exit $LASTEXITCODE
+      - name: Build unchanged Release solution
+        id: release
+        if: ${{ !cancelled() && steps.restore.outcome == 'success' }}
+        shell: pwsh
+        working-directory: ${{ runner.temp }}/fox-sdk
+        run: |
+          dotnet build "$env:RUNNER_TEMP/fox-original/FoxConquer5517.sln" -c Release --no-restore --verbosity minimal 2>&1 | Tee-Object -FilePath "$env:RUNNER_TEMP/fox-evidence/build-release.log"
+          exit $LASTEXITCODE
+      - name: Managed regressions (unfixed defects intentionally remain failing)
+        if: ${{ !cancelled() && steps.release.outcome == 'success' }}
+        shell: pwsh
+        working-directory: ${{ runner.temp }}/fox-sdk
+        run: |
+          $project = "$env:GITHUB_WORKSPACE/tests/managed/FoxBaseline.Probes.csproj"
+          dotnet build $project -c Release "-p:BaselineRoot=$env:RUNNER_TEMP/fox-original" --verbosity minimal 2>&1 | Tee-Object -FilePath "$env:RUNNER_TEMP/fox-evidence/probe-build.log"
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+          dotnet "$env:GITHUB_WORKSPACE/tests/managed/bin/Release/netcoreapp3.1/FoxBaseline.Probes.dll" --report "$env:RUNNER_TEMP/fox-evidence/managed-results.json" 2>&1 | Tee-Object -FilePath "$env:RUNNER_TEMP/fox-evidence/probes.log"
+          exit $LASTEXITCODE
+      - name: Verify source files were not modified during builds/tests
+        if: ${{ !cancelled() }}
+        shell: pwsh
+        run: |
+          python tools/fox_baseline.py verify
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+          python tools/fox_baseline.py verify --source "$env:RUNNER_TEMP/fox-original" --full
+          exit $LASTEXITCODE
+      - name: Publish text-only evidence (no binaries, configs, maps, or SQL dumps)
+        if: ${{ !cancelled() }}
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: fox5517-windows-evidence
+          path: ${{ runner.temp }}/fox-evidence/
+          if-no-files-found: warn
+          retention-days: 7
+
+  isolated-mariadb-import:
+    name: Disposable MariaDB 10.4.32 SQL import (no game server)
+    runs-on: ubuntu-22.04
+    timeout-minutes: 12
+    env:
+      FOX_DISPOSABLE_SQL: "1"
+    services:
+      mariadb:
+        image: mariadb:10.4.32
+        env:
+          # Test-only VM, loopback-published service; never an owner's database.
+          MYSQL_ALLOW_EMPTY_PASSWORD: "yes"
+        ports:
+          - "127.0.0.1:3306:3306"
+        options: >-
+          --health-cmd="mysqladmin ping --silent"
+          --health-interval=5s
+          --health-timeout=5s
+          --health-retries=20
+    steps:
+      - name: Checkout Red Moon (read-only credentials)
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        with:
+          persist-credentials: false
+      - name: Verify import tooling and materialize original SQL outside Git
+        run: |
+          python3 -m unittest discover -s tests -p 'test_*.py' -v
+          python3 tools/fox_baseline.py materialize --dest "$RUNNER_TEMP/fox-original" --archive "$RUNNER_TEMP/fox-original.zip"
+      - name: Import into empty disposable service (counts only, seed values suppressed)
+        run: python3 tools/sql_probe.py --source "$RUNNER_TEMP/fox-original" --report "$RUNNER_TEMP/fox-evidence/sql-results.json"
+      - name: Verify original files remain untouched
+        if: ${{ !cancelled() }}
+        run: python3 tools/fox_baseline.py verify --source "$RUNNER_TEMP/fox-original" --full
+      - name: Publish sanitized SQL result only
+        if: ${{ !cancelled() }}
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: fox5517-sql-evidence
+          path: ${{ runner.temp }}/fox-evidence/sql-results.json
+          if-no-files-found: warn
+          retention-days: 7

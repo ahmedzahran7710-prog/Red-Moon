@@ -1,0 +1,5044 @@
+{
+  "upstream": "darkfoxdeveloper/FoxConquer5517",
+  "commit": "70f3560465ba73cef0250109af7cf167b508516f",
+  "archive_url": "https://github.com/darkfoxdeveloper/FoxConquer5517/archive/70f3560465ba73cef0250109af7cf167b508516f.zip",
+  "archive_sha256": "6c0561b395869bcfb8f6b633efa38916ae8dffa1d2ad52ac6a7fceb14febeb20",
+  "files": [
+    {
+      "path": ".editorconfig",
+      "bytes": 102,
+      "sha256": "2abe2bed8fd8f836ce47245dc50dfc0f319a423c41210c29e475b10b364c3bd1",
+      "tracked": true
+    },
+    {
+      "path": ".gitattributes",
+      "bytes": 48,
+      "sha256": "de4b5348fab90b3988cb6ec4331c840f1133735d39e9d0662848eadb314bfa2f",
+      "tracked": false,
+      "excluded_reason": "upstream-git-policy"
+    },
+    {
+      "path": ".gitignore",
+      "bytes": 5582,
+      "sha256": "7a67f576b78384397450b91f2139c1ab237bd07c9849db7a8a336105b6e96e8f",
+      "tracked": false,
+      "excluded_reason": "upstream-git-policy"
+    },
+    {
+      "path": "DB/DB.csproj",
+      "bytes": 522,
+      "sha256": "191c76270f4ffd930bf04d26bd1653064a5c3563d1815613a59c9716fe3e0140",
+      "tracked": true
+    },
+    {
+      "path": "DB/Entities/AccountTable.cs",
+      "bytes": 1719,
+      "sha256": "c16a58fb5eb012067a3f64ac06cac0e353cb9131a46dee6305a58a8a40a51527",
+      "tracked": true
+    },
+    {
+      "path": "DB/Entities/ArenaQualifier.cs",
+      "bytes": 1462,
+      "sha256": "535f36e673c6759a736e07954b7dd497f598e204df8cfdaca6c0ee8ad6cd356f",
+      "tracked": true
+    },
+    {
+      "path": "DB/Entities/BroadcastLog.cs",
+      "bytes": 692,
+      "sha256": "eb101098c284ecacb423fc7660a796910aa0b603286a5811bb063e2706406ef0",
+      "tracked": true
+    },
+    {
+      "path": "DB/Entities/BroadcastQueue.cs",
+      "bytes": 751,
+      "sha256": "4bed4e0fcd5710e5e35799488da52ab908a88213fa7bde43b580e1d63eb84e4d",
+      "tracked": true
+    },
+    {
+      "path": "DB/Entities/Business.cs",
+      "bytes": 614,
+      "sha256": "4a0b822e93759d492ab9db164fd723ed266c3ada6e4e22eae7b3c2a4dcde6602",
+      "tracked": true
+    },
+    {
+      "path": "DB/Entities/Carry.cs",
+      "bytes": 828,
+      "sha256": "02da763e355797e06249dc170160dd092dff5fe6175c956de59302d93360dbf6",
+      "tracked": true
+    },
+    {
+      "path": "DB/Entities/DbFamily.cs",
+      "bytes": 1679,
+      "sha256": "c13884e9ff6d5b03f7a097bb1aa851406dcf1f0f58da884030840aadbe4fa091",
+      "tracked": true
+    },
+    {
+      "path": "DB/Entities/DbFamilyMember.cs",
+      "bytes": 783,
+      "sha256": "6e2829e95a31858a10833c6658ebc7e8212c0aa942943fd6a87a14106355715f",
+      "tracked": true
+    },
+    {
+      "path": "DB/Entities/DbFlower.cs",
+      "bytes": 381,
+      "sha256": "15cdc8af7d7ab3d74c43bc25235e6ba7865ce95df1dabb92cf2dcc604cc7b263",
+      "tracked": true
+    },
+    {
+      "path": "DB/Entities/DetainedItem.cs",
+      "bytes": 506,
+      "sha256": "9ae31d50498c5e53b76b13a9c2ad4cfc694daee09ed20f5f0186dde1a4ed91b8",
+      "tracked": true
+    },
+    {
+      "path": "DB/Entities/DynamicMap.cs",
+      "bytes": 1549,
+      "sha256": "e4b235ebbc0504e5fe28b6eb9e68e5dc002354af12edbf7d418e5585ed6ea126",
+      "tracked": true
+    },
+    {
+      "path": "DB/Entities/DynamicNPC.cs",
+      "bytes": 1894,
+      "sha256": "f2c7ca65edf2d7780cd6bc98e5bcfd2ce5f553ba68e1700857f0d04a08911dfa",
+      "tracked": true
+    },
+    {
+      "path": "DB/Entities/DynamicRankRecords.cs",
+      "bytes": 1205,
+      "sha256": "176ba15276641b6e2ba384fc70d0e5af89e13f1f1b56f3fde9ef5b3af43293bf",
+      "tracked": true
+    },
+    {
+      "path": "DB/Entities/GameAction.cs",
+      "bytes": 675,
+      "sha256": "0a98c3315ab3d8ad295e79bf6d511d51cf5c2ee9f5aeeafdbd2e889112d3024c",
+      "tracked": true
+    },
+    {
+      "path": "DB/Entities/GameBonus.cs",
+      "bytes": 685,
+      "sha256": "e71304d1ac6c76b5980952d9f3d02d592dc76407f25435d99284e22b7b89edb9",
+      "tracked": true
+    },
+    {
+      "path": "DB/Entities/GameItemAddition.cs",
+      "bytes": 1246,
+      "sha256": "12cb359943734155a37a2d06dc25e54cddd3d02df0913b5a4a223ddc1d70c4b5",
+      "tracked": true
+    },
+    {
+      "path": "DB/Entities/GameItemtype.cs",
+      "bytes": 3495,
+      "sha256": "73bbbd5598eb0337c43450fc78f0b82bf264ac0d2bf4cb6640ffce87b56fb25b",
+      "tracked": true
+    },
+    {
+      "path": "DB/Entities/GameLottery.cs",
+      "bytes": 520,
+      "sha256": "e82a88c684f1da933b70cac7279196bcd19b57a67e8bcf273f40153e7a2f4170",
+      "tracked": true
+    },
+    {
+      "path": "DB/Entities/GameMagictype.cs",
+      "bytes": 2295,
+      "sha256": "4339917a8e71488d09b3553fe974ad73fdf00c9beebb2d8f13ffa9b5c4aec075",
+      "tracked": true
+    },
+    {
+      "path": "DB/Entities/GameMagictypeop.cs",
+      "bytes": 3763,
+      "sha256": "5074e5ee791a3a97e09bdd053d13a2b5562127f1338b04000a84a1d9d2b3912d",
+      "tracked": true
+    },
+    {
+      "path": "DB/Entities/GameMap.cs",
+      "bytes": 1083,
+      "sha256": "724f9757d8ba586f474be827d8f6cf72cf380469badb6b82d23ebd444c7cc5b9",
+      "tracked": true
+    },
+    {
+      "path": "DB/Entities/GameMonstertype.cs",
+      "bytes": 3295,
+      "sha256": "f5c8b94cff89a9b20d6af315bb5dc3a79673635b55d449f0d3f455014119e742",
+      "tracked": true
+    },
+    {
+      "path": "DB/Entities/GameNpc.cs",
+      "bytes": 1887,
+      "sha256": "1415bdd92e86ae4b2d97dbf915c410b8ecc5a29bb332b7f8adcb8365bdd47a39",
+      "tracked": true
+    },
+    {
+      "path": "DB/Entities/GamePassway.cs",
+      "bytes": 634,
+      "sha256": "069360824ec49778ff6fc71c16281a78cd4ce1866d8e03bb9999bc66ef046290",
+      "tracked": true
+    },
+    {
+      "path": "DB/Entities/GamePointAllot.cs",
+      "bytes": 743,
+      "sha256": "a4e3c5fad8b70cd8975bdbdee2b01c7688eb7f410aeac88ef5bff187ef49293b",
+      "tracked": true
+    },
+    {
+      "path": "DB/Entities/GamePortal.cs",
+      "bytes": 626,
+      "sha256": "0451c104b8c608210bb75fe65c21122bba67f73c4ef9f508d038488a7e8b7562",
+      "tracked": true
+    },
+    {
+      "path": "DB/Entities/GameQuiz.cs",
+      "bytes": 430,
+      "sha256": "2aae6e45e885470e5292c3afe37bce78a45897631a17a0702f2a6176d96e4655",
+      "tracked": true
+    },
+    {
+      "path": "DB/Entities/GameRebirth.cs",
+      "bytes": 705,
+      "sha256": "b1364efeb8c2884b6eeecdc70862f840a457fc2100588b99b6d54b77e0b17470",
+      "tracked": true
+    },
+    {
+      "path": "DB/Entities/GameRefinery.cs",
+      "bytes": 616,
+      "sha256": "9921464e82156e903e341dec0267e43b0b7bdebde582da19117ae2924336337f",
+      "tracked": true
+    },
+    {
+      "path": "DB/Entities/GameRegion.cs",
+      "bytes": 1035,
+      "sha256": "b23abf0507bf17b27022b7a20f66cc6ce4604891f3c92be93a3c479ec4146b10",
+      "tracked": true
+    },
+    {
+      "path": "DB/Entities/GameTasks.cs",
+      "bytes": 1129,
+      "sha256": "d3464fb5fc4452775550092c767b53218379eaa55fc76ef35f19a105ca4044ab",
+      "tracked": true
+    },
+    {
+      "path": "DB/Entities/KoBoard.cs",
+      "bytes": 217,
+      "sha256": "1682f2bb438457b23cc284d8cef9d767df12181cd514592804e135049ecf2925",
+      "tracked": true
+    },
+    {
+      "path": "DB/Entities/LoginRcd.cs",
+      "bytes": 447,
+      "sha256": "d2004618809100c05d2760fd6cc48c82a1f9f3a0a2e9e1419281ce7cdb0ec6e3",
+      "tracked": true
+    },
+    {
+      "path": "DB/Entities/Mentor.cs",
+      "bytes": 442,
+      "sha256": "ec2ac9323a5058285d61c2005902c601ad29a2a178d490cfa95e65650141bfa9",
+      "tracked": true
+    },
+    {
+      "path": "DB/Entities/MentorAccess.cs",
+      "bytes": 342,
+      "sha256": "a804ddc3225dd8f07657e679f4a644d23941d727e7906c782efd9a38d97409e5",
+      "tracked": true
+    },
+    {
+      "path": "DB/Entities/MentorBattleLimit.cs",
+      "bytes": 375,
+      "sha256": "f611a70eb0287f94e50a2e1696f815ca6383a4580ead66b9c4439602c1ce16f8",
+      "tracked": true
+    },
+    {
+      "path": "DB/Entities/MentorContribution.cs",
+      "bytes": 454,
+      "sha256": "3f2abafed4a9d52d6be5179291f9bb58c1db020479d1df14b49216fd1ba37ba4",
+      "tracked": true
+    },
+    {
+      "path": "DB/Entities/MentorType.cs",
+      "bytes": 793,
+      "sha256": "a157ea538529fd4eb6bdfca9a78982240cfa444c9404ad4528d3aaee663bf556",
+      "tracked": true
+    },
+    {
+      "path": "DB/Entities/MonsterMagic.cs",
+      "bytes": 339,
+      "sha256": "b3c0c4f7eb04546865786cd1a3db336fb89618cef7ef88007e4e830715d2cc41",
+      "tracked": true
+    },
+    {
+      "path": "DB/Entities/NameChangeLog.cs",
+      "bytes": 839,
+      "sha256": "358179b75286a27c334c3d91aafb466195cd1ef0a7fc56c35365bee9aefcbaa3",
+      "tracked": true
+    },
+    {
+      "path": "DB/Entities/PkReward.cs",
+      "bytes": 443,
+      "sha256": "17656bb7d68e93b07427069e42762cc7c61ee0f58038fdd384d5103847a9df41",
+      "tracked": true
+    },
+    {
+      "path": "DB/Entities/PlayerCharacter.cs",
+      "bytes": 3765,
+      "sha256": "b6d9374afe249bcc7dd6212f272c7cd8dfde63a038d15b1b918b80fc7246e7b6",
+      "tracked": true
+    },
+    {
+      "path": "DB/Entities/PlayerDeleted.cs",
+      "bytes": 3684,
+      "sha256": "a840be28b583e5ca780bda4548681036a5d459654e1f74dc14bfa13d9135cb4b",
+      "tracked": true
+    },
+    {
+      "path": "DB/Entities/PlayerEnemy.cs",
+      "bytes": 636,
+      "sha256": "c23068dcc0215ebb3af5257acb8968346be60c52ee13d2a86204d02133058af1",
+      "tracked": true
+    },
+    {
+      "path": "DB/Entities/PlayerFriend.cs",
+      "bytes": 585,
+      "sha256": "accb27746e7a3c722aea62a8954991d2a9ef7ff982beff72fde1973baec3707e",
+      "tracked": true
+    },
+    {
+      "path": "DB/Entities/PlayerItem.cs",
+      "bytes": 5542,
+      "sha256": "3edf0ba9558fc442c6e62ce88aabafa49f51577fa806856d55a0cd44cf1f5c5c",
+      "tracked": true
+    },
+    {
+      "path": "DB/Entities/PlayerLevexp.cs",
+      "bytes": 521,
+      "sha256": "e1c48317426f50c0045719dade17c853651e39513adcf29266b0d3ab421271bc",
+      "tracked": true
+    },
+    {
+      "path": "DB/Entities/PlayerMagic.cs",
+      "bytes": 723,
+      "sha256": "24b9810f5a5d3020982ba26dc9e5596cdd0103ca37f18ce986c51773857753e8",
+      "tracked": true
+    },
+    {
+      "path": "DB/Entities/PlayerNobilityRank.cs",
+      "bytes": 435,
+      "sha256": "bb2df22dcb052a0fb38a262288690542c98627ac3440296fa1b2c6508c39ad9e",
+      "tracked": true
+    },
+    {
+      "path": "DB/Entities/PlayerPkExploitTable.cs",
+      "bytes": 1111,
+      "sha256": "6b1811af7555c9c5c6c8be714849b63b4096e14e9fc16ba016af2e938dff2f7c",
+      "tracked": true
+    },
+    {
+      "path": "DB/Entities/PlayerStatistic.cs",
+      "bytes": 746,
+      "sha256": "e3f365ea801909472e5c7159dfbd3874355be2f49c1919e5db1d3cb3501c4c6a",
+      "tracked": true
+    },
+    {
+      "path": "DB/Entities/PlayerStatus.cs",
+      "bytes": 824,
+      "sha256": "86ae00260ee508d0e4bb75aa90914c3137548a40cd49be1db78e852a66b9a26f",
+      "tracked": true
+    },
+    {
+      "path": "DB/Entities/PlayerSubclass.cs",
+      "bytes": 621,
+      "sha256": "ee2894a1e2b1dea39b429a21d977e2bf9420352fb32ddd13fe00b69a2ce6cb9c",
+      "tracked": true
+    },
+    {
+      "path": "DB/Entities/PlayerTitle.cs",
+      "bytes": 567,
+      "sha256": "289849fd085c19926c90ca09e3116999e948c28caa1e6e48ef5af133bc54bb46",
+      "tracked": true
+    },
+    {
+      "path": "DB/Entities/PlayerWeaponSkill.cs",
+      "bytes": 1547,
+      "sha256": "48add5cef27c54f65ab965325c099616a467b4a246f451363473d85cc502bd7a",
+      "tracked": true
+    },
+    {
+      "path": "DB/Entities/ShopGoods.cs",
+      "bytes": 632,
+      "sha256": "0dcbaf5c63280ae38b65b6a8fd558e935331de21356533a1ebeff1e564e38740",
+      "tracked": true
+    },
+    {
+      "path": "DB/Entities/SpawnGenerator.cs",
+      "bytes": 1074,
+      "sha256": "de3e8d945faa90a26e7d4b3465e7c4ad54e2fda2f89dd57a8e6d305b876c6435",
+      "tracked": true
+    },
+    {
+      "path": "DB/Entities/Syndicate.cs",
+      "bytes": 2079,
+      "sha256": "5454f5f9eb7f4c6574f9603d13084caa42650a7b4f5b79a594b7f7c0ff47d1a3",
+      "tracked": true
+    },
+    {
+      "path": "DB/Entities/SyndicateAdvertising.cs",
+      "bytes": 1100,
+      "sha256": "eb4e0a2e9bfd2c5e08c0a6fe866701f07a40ca3d4e95de73be0b28f2f9140c2a",
+      "tracked": true
+    },
+    {
+      "path": "DB/Entities/SyndicateAlly.cs",
+      "bytes": 624,
+      "sha256": "3af4ae39cda66a440b3af313f670640c91b16ace0b0d674e065868b6fe06623e",
+      "tracked": true
+    },
+    {
+      "path": "DB/Entities/SyndicateAttr.cs",
+      "bytes": 1129,
+      "sha256": "819b33f4d579207c40fe30f295904b522fe17916a47da2e247ca1f081fac26e2",
+      "tracked": true
+    },
+    {
+      "path": "DB/Entities/SyndicateEnemy.cs",
+      "bytes": 630,
+      "sha256": "53fbaaf472933805f1adbe3fc6552359354fc4f2ed00d7f0329365cdfb525f0d",
+      "tracked": true
+    },
+    {
+      "path": "DB/Entities/SyndicateTotem.cs",
+      "bytes": 623,
+      "sha256": "573c77568d68e0dbbcd2658d0bc68cc36241d8d4ebfaa9b0837a349f1ab47b19",
+      "tracked": true
+    },
+    {
+      "path": "DB/HibernateDataRow.cs",
+      "bytes": 4565,
+      "sha256": "6561e3df9c9833a30c30c84adc1c9e71dde1623979bf264ac4c24aa58b4c6899",
+      "tracked": true
+    },
+    {
+      "path": "DB/Mappings/Account.cs",
+      "bytes": 1212,
+      "sha256": "11af4acc6eaaf47148339336ffbfdcb13cd968c30fb789745ed46faa991ad931",
+      "tracked": true
+    },
+    {
+      "path": "DB/Mappings/Action.cs",
+      "bytes": 933,
+      "sha256": "67d483732fb67a6fe849ef06e20f14f0d454396426f6bb066485684fa07c88a9",
+      "tracked": true
+    },
+    {
+      "path": "DB/Mappings/ArenaQualifier.cs",
+      "bytes": 2228,
+      "sha256": "9d21b8807b3a9852a571c57fcc1ef3d7ae4d2ccd4818e0bb40fdda502423a2be",
+      "tracked": true
+    },
+    {
+      "path": "DB/Mappings/Bonus.cs",
+      "bytes": 955,
+      "sha256": "0f079ed41fc13f7a972f6824554dba317c8c3b9d3759fe7eab13fecfe469384c",
+      "tracked": true
+    },
+    {
+      "path": "DB/Mappings/BroadcastLog.cs",
+      "bytes": 963,
+      "sha256": "9e9ec5fcc269ce72b07eaad19cba5c795c79e1094f6e955ddc1aea7c525af1c2",
+      "tracked": true
+    },
+    {
+      "path": "DB/Mappings/BroadcastQueue.cs",
+      "bytes": 983,
+      "sha256": "e4abe86501f4584797f1b1829e331c37e4a5d6d428831035e6f0dee848b0b7ae",
+      "tracked": true
+    },
+    {
+      "path": "DB/Mappings/Business.cs",
+      "bytes": 880,
+      "sha256": "8d4358b9d6cb9f8b6de160e7d937b05faa3b1941a5fe1b2b69a01e79e3b2445c",
+      "tracked": true
+    },
+    {
+      "path": "DB/Mappings/Carry.cs",
+      "bytes": 1182,
+      "sha256": "fb73872277962f8caeee57e80d853c244b17c9bc3394c98ee127be4dedbcaa5a",
+      "tracked": true
+    },
+    {
+      "path": "DB/Mappings/Character.cs",
+      "bytes": 5164,
+      "sha256": "fd604f5209ee0d7d6a4205cb7aaa6cdeaf4d2481b17ff40fff7152367b97015c",
+      "tracked": true
+    },
+    {
+      "path": "DB/Mappings/CharacterDeleted.cs",
+      "bytes": 5088,
+      "sha256": "94b2b936728e1ed8f776b5fcd7de7d915c4c4e6092b65e9980321fd88d19bea9",
+      "tracked": true
+    },
+    {
+      "path": "DB/Mappings/DetainedItem.cs",
+      "bytes": 964,
+      "sha256": "0c31b3b43658598ff77ec26e2baa2e0232437e1c6ea87aa4f3d2b809176c254a",
+      "tracked": true
+    },
+    {
+      "path": "DB/Mappings/DynamicMap.cs",
+      "bytes": 2110,
+      "sha256": "3e7a8be47c5ec67be66a0ea8f756f91a09f04b5915f8daa87f27d53a4cae9a3a",
+      "tracked": true
+    },
+    {
+      "path": "DB/Mappings/DynamicNPC.cs",
+      "bytes": 2529,
+      "sha256": "0222b6ffe643fd204be704aa01453309fccb29b7da2b9aa2e3ab4a69d6f4a8fe",
+      "tracked": true
+    },
+    {
+      "path": "DB/Mappings/DynamicRankRecMap.cs",
+      "bytes": 1796,
+      "sha256": "b238b7e4428d6385289615e712fa6b811926c40a7577b9e092f68a06dbd50473",
+      "tracked": true
+    },
+    {
+      "path": "DB/Mappings/EnemyPlayer.cs",
+      "bytes": 896,
+      "sha256": "5e7d61ee6a095fd452d214dbae09da9c5212f8d5df28293d835286a55c6f83fe",
+      "tracked": true
+    },
+    {
+      "path": "DB/Mappings/Family.cs",
+      "bytes": 2442,
+      "sha256": "71eec0af108fa731e55f6f68f4451ea71fd5d2aa311da82792240107fc5d95a0",
+      "tracked": true
+    },
+    {
+      "path": "DB/Mappings/FamilyMember.cs",
+      "bytes": 1119,
+      "sha256": "b2a7c7c2bd9f5b33a5ca56d726a5aed32d035f17437fe4812bd761162a51f9e4",
+      "tracked": true
+    },
+    {
+      "path": "DB/Mappings/FlowerMap.cs",
+      "bytes": 737,
+      "sha256": "d432e67ce26b6266f2ac82a385984b489853f9b19a87051e065065484a8fc8bb",
+      "tracked": true
+    },
+    {
+      "path": "DB/Mappings/FriendPlayer.cs",
+      "bytes": 832,
+      "sha256": "2dd28033c77bba7ce80cc0bd24d6314b4e862d12a190fa11827cf0b0814a78cc",
+      "tracked": true
+    },
+    {
+      "path": "DB/Mappings/Generator.cs",
+      "bytes": 1193,
+      "sha256": "799a18c834f2716bcc88f7848f710ce8a91941b90a3afa47af58c38c34c54a51",
+      "tracked": true
+    },
+    {
+      "path": "DB/Mappings/Goods.cs",
+      "bytes": 852,
+      "sha256": "6b585305f6b9f62b95f05ad0636fc2b0b33517c48f1ad2318a3046a87fb80464",
+      "tracked": true
+    },
+    {
+      "path": "DB/Mappings/ItemAddition.cs",
+      "bytes": 1424,
+      "sha256": "74199f05bef9db065a71b0791e02b0430ae2ff9b084198f03034ba479a1e0de7",
+      "tracked": true
+    },
+    {
+      "path": "DB/Mappings/ItemPlayer.cs",
+      "bytes": 3055,
+      "sha256": "cb920f58c28c894df7ccaa308ddcf969132d2af0bd4d6bd9416b6e9c09c409a1",
+      "tracked": true
+    },
+    {
+      "path": "DB/Mappings/Itemtype.cs",
+      "bytes": 4531,
+      "sha256": "4c98fa3c295698671a8053d17ac1376c0d3afebde224074dc0d1cde383f48b7d",
+      "tracked": true
+    },
+    {
+      "path": "DB/Mappings/KoBoard.cs",
+      "bytes": 483,
+      "sha256": "e4638fe3c85f5614892e4c2a38b6d79c1be1aa0b8f14278af2461c9ee3661bb7",
+      "tracked": true
+    },
+    {
+      "path": "DB/Mappings/Levexp.cs",
+      "bytes": 754,
+      "sha256": "e00b4f340292f3b4c27aac92789478ed764ae0fb32030bf7ef57d6c9ddaf7a36",
+      "tracked": true
+    },
+    {
+      "path": "DB/Mappings/LoginResource.cs",
+      "bytes": 781,
+      "sha256": "87b509dd8cf3c6bda6c1f12461566f01dbec42c4e8fd141288f8309b9bbee912",
+      "tracked": true
+    },
+    {
+      "path": "DB/Mappings/LotteryMapping.cs",
+      "bytes": 980,
+      "sha256": "3126d7f9f58686f6277f00b8fb5a9f5d4e0cab9d046f9ce8b0d2486d7659b5b5",
+      "tracked": true
+    },
+    {
+      "path": "DB/Mappings/Magic.cs",
+      "bytes": 1016,
+      "sha256": "6014cf14d7e06f97ae1a2891f7c95f35a659b259cbf166b7d8e00a8cadc6b404",
+      "tracked": true
+    },
+    {
+      "path": "DB/Mappings/Magictype.cs",
+      "bytes": 3087,
+      "sha256": "f395cd64bf1c0f953f30e9bed6bc642323806fb73631c93a90939274073283c0",
+      "tracked": true
+    },
+    {
+      "path": "DB/Mappings/MagictypeOP.cs",
+      "bytes": 4640,
+      "sha256": "a5ac53c9fcd18b99e09faa42ca8e3a9af7234e7c89c3a712fbcc8b49b12e7d93",
+      "tracked": true
+    },
+    {
+      "path": "DB/Mappings/Map.cs",
+      "bytes": 1404,
+      "sha256": "5daffe3b8b31a09227ccfe4ed0c982898611c15f3e990e921313bbb114a4ba20",
+      "tracked": true
+    },
+    {
+      "path": "DB/Mappings/Mentor.cs",
+      "bytes": 825,
+      "sha256": "cd2f6dfb2a57a770075e0bf3f5c33e77559b013363644f3ad37bd10279d34826",
+      "tracked": true
+    },
+    {
+      "path": "DB/Mappings/MentorAccess.cs",
+      "bytes": 679,
+      "sha256": "f59d1ee7a2f5b28eb1354e978ed1837d26e2992263e6395852c1fcd80833b7cd",
+      "tracked": true
+    },
+    {
+      "path": "DB/Mappings/MentorBattleLimitMapping.cs",
+      "bytes": 479,
+      "sha256": "53c56198d391031d7e6f42a79e37d1ee69619d3ee6b805456528449833086d54",
+      "tracked": true
+    },
+    {
+      "path": "DB/Mappings/MentorContribution.cs",
+      "bytes": 882,
+      "sha256": "f0f2cb7226a2c3c7eee98cc75366a16d8e337dbc7282f6edfbf1c6807e902dc3",
+      "tracked": true
+    },
+    {
+      "path": "DB/Mappings/MentorTypeMap.cs",
+      "bytes": 711,
+      "sha256": "f086397dbd29ac6606727ce218d2e1c27d0b1fa93658004ea07516f92bcda06e",
+      "tracked": true
+    },
+    {
+      "path": "DB/Mappings/MonsterMagic.cs",
+      "bytes": 698,
+      "sha256": "1251292dba07303fb068c538499c8bc654862f05027e4a6716b4cfc0bd8b09e9",
+      "tracked": true
+    },
+    {
+      "path": "DB/Mappings/Monstertype.cs",
+      "bytes": 4522,
+      "sha256": "60032060980790c8cf3fe70419e5cdb11e3e998d32d7731919523b73179d30e5",
+      "tracked": true
+    },
+    {
+      "path": "DB/Mappings/NameChangeLog.cs",
+      "bytes": 1228,
+      "sha256": "26154959f848c208aa521b2b9a8d3904fe9a10bc8deb5099a063371e1d545758",
+      "tracked": true
+    },
+    {
+      "path": "DB/Mappings/NobilityRanking.cs",
+      "bytes": 1058,
+      "sha256": "27152e998fbdb794490340388da1e448535e0e3a7a26f567125109bf08bd9c9a",
+      "tracked": true
+    },
+    {
+      "path": "DB/Mappings/Npc.cs",
+      "bytes": 2095,
+      "sha256": "263b79ab63c32a2b88a8a1899cb218f02ec51467ed70bc047614dd4d87bc7c58",
+      "tracked": true
+    },
+    {
+      "path": "DB/Mappings/Passway.cs",
+      "bytes": 935,
+      "sha256": "ac5327d7b80bbe90e94308cc31027345159d623221b94ec26d8495c47688cfcb",
+      "tracked": true
+    },
+    {
+      "path": "DB/Mappings/PkExploit.cs",
+      "bytes": 1394,
+      "sha256": "5214b7833ad29cd327f1b24499df2c37dddb11dd9e229043c5f7b05def869a40",
+      "tracked": true
+    },
+    {
+      "path": "DB/Mappings/PkRewardMapping.cs",
+      "bytes": 843,
+      "sha256": "13472a9c0ca0fac99c93532a4d2c5840c271e315b4675252286e635eda93012d",
+      "tracked": true
+    },
+    {
+      "path": "DB/Mappings/PointAllot.cs",
+      "bytes": 1052,
+      "sha256": "1b4c23eea1cbbe6e9616bb2579115533b91042d144f304661d505e5b08c80ff6",
+      "tracked": true
+    },
+    {
+      "path": "DB/Mappings/Portal.cs",
+      "bytes": 903,
+      "sha256": "73ca131c0c5132d770b40c7304be8d12311314cf60c1a1cb33e654c8a85000bf",
+      "tracked": true
+    },
+    {
+      "path": "DB/Mappings/Quiz.cs",
+      "bytes": 718,
+      "sha256": "0977993c935c77f64db9cc6242d2960196c5407543325de416f847d94242c46f",
+      "tracked": true
+    },
+    {
+      "path": "DB/Mappings/Rebirth.cs",
+      "bytes": 994,
+      "sha256": "39f7cd7b353e871a1ab5aa833e8a2df08092e112f93ef57eede4593e92043d20",
+      "tracked": true
+    },
+    {
+      "path": "DB/Mappings/Refinery.cs",
+      "bytes": 875,
+      "sha256": "19dbf1e4be752227bcbb47ac597fbec1596e80a079b6723830ad1a5588030179",
+      "tracked": true
+    },
+    {
+      "path": "DB/Mappings/Region.cs",
+      "bytes": 1411,
+      "sha256": "142ab6a768b0a7df22131f7be2a7200339c0436d9579d450a79bb8593e47c789",
+      "tracked": true
+    },
+    {
+      "path": "DB/Mappings/Statistic.cs",
+      "bytes": 1153,
+      "sha256": "d27b97e1c1d09134ba1cf70a5746ddb5567997af6a690de645a6680d03194734",
+      "tracked": true
+    },
+    {
+      "path": "DB/Mappings/Status.cs",
+      "bytes": 1156,
+      "sha256": "c1dfab08757c0410b3241170483e3c6b84a0de9ebc40bb3478ba902fa729fcda",
+      "tracked": true
+    },
+    {
+      "path": "DB/Mappings/Subclass.cs",
+      "bytes": 881,
+      "sha256": "a573d7c28acf6f0bed847e1930c9738bf2c9edd9f0986bc4775a660f0f8756c2",
+      "tracked": true
+    },
+    {
+      "path": "DB/Mappings/Syndicate.cs",
+      "bytes": 2393,
+      "sha256": "f45e600ca2e18a3c1b497745bda19c2180efbcc71125d93dccdfc0aad30e1174",
+      "tracked": true
+    },
+    {
+      "path": "DB/Mappings/SyndicateAlly.cs",
+      "bytes": 886,
+      "sha256": "68ef22f8bfa910b7e34184aa67b57a773b6fc60f35a353dcd0acc5030eb02d18",
+      "tracked": true
+    },
+    {
+      "path": "DB/Mappings/SyndicateAttr.cs",
+      "bytes": 1555,
+      "sha256": "694d479963372f67f954997bad4a222d934bdeba26699c8212738065249fb9be",
+      "tracked": true
+    },
+    {
+      "path": "DB/Mappings/SyndicateEnemy.cs",
+      "bytes": 897,
+      "sha256": "179312fffd1083e1439f94ee2667a9e6f0a93916e1e4b786bfe2aa03b010b594",
+      "tracked": true
+    },
+    {
+      "path": "DB/Mappings/SyndicateRecruitment.cs",
+      "bytes": 1652,
+      "sha256": "0b2118cbeb0d26c833670f74f7c17d0337bf760c6808fb7ac24728bbcfc3864d",
+      "tracked": true
+    },
+    {
+      "path": "DB/Mappings/SyndicateTotem.cs",
+      "bytes": 884,
+      "sha256": "e835ff0753e019d14db06f6e2d25643c482835f2f3a1ea4c2ae2463895247f6e",
+      "tracked": true
+    },
+    {
+      "path": "DB/Mappings/Task.cs",
+      "bytes": 1381,
+      "sha256": "df91fbe5bc2d55a61d74981d53e7c57249d130ca9b5576fa674cd43266a76880",
+      "tracked": true
+    },
+    {
+      "path": "DB/Mappings/Title.cs",
+      "bytes": 804,
+      "sha256": "372ec81922b104c95f12249698fc25ead591283da4059c8c67b19d558f9f2529",
+      "tracked": true
+    },
+    {
+      "path": "DB/Mappings/Tutor.cs",
+      "bytes": 958,
+      "sha256": "96ca9bc48b58e5900d0714ffc271ec70193adb1336c71981fb170e669970ae1b",
+      "tracked": true
+    },
+    {
+      "path": "DB/Mappings/WeaponSkill.cs",
+      "bytes": 1061,
+      "sha256": "a036090cba5d12ee95aae27f50ea3226f49b61a68a37fc7dbb2b75efd6b9eec0",
+      "tracked": true
+    },
+    {
+      "path": "DB/Repositories/Account.cs",
+      "bytes": 2021,
+      "sha256": "a4cc74d685c247e512237aa53c72bc4ffb137e3d9a345cedf5fab5819a0a8713",
+      "tracked": true
+    },
+    {
+      "path": "DB/Repositories/Action.cs",
+      "bytes": 835,
+      "sha256": "7212a946a097643fad5b1772c36cb00a021fb182cf14777638e6144c6308b207",
+      "tracked": true
+    },
+    {
+      "path": "DB/Repositories/ArenaRepository.cs",
+      "bytes": 1557,
+      "sha256": "a7b1a5f6759c5e3d145f921ce3e87adde574e1dbb45309314af7d153af18320f",
+      "tracked": true
+    },
+    {
+      "path": "DB/Repositories/Bonus.cs",
+      "bytes": 1718,
+      "sha256": "3bb304aa2f4f325f88631bf18629c57ac9f6674d568b682fa5f6e6464604ee7b",
+      "tracked": true
+    },
+    {
+      "path": "DB/Repositories/BroadcastNext.cs",
+      "bytes": 1149,
+      "sha256": "6ca00b47f11a90a260a45fb2e457a2a394e1be4ca337bd90e889e15d76d8629a",
+      "tracked": true
+    },
+    {
+      "path": "DB/Repositories/BroadcastPast.cs",
+      "bytes": 1168,
+      "sha256": "d271a68e01534d6bc2fb0e68dcc91308b06bfe4e98c6cad8a99c514b6d3178fd",
+      "tracked": true
+    },
+    {
+      "path": "DB/Repositories/Business.cs",
+      "bytes": 2066,
+      "sha256": "cbd8fb493d0052d3e85f1538225be4158ee2811c46fba38afb3124acc9ffeea4",
+      "tracked": true
+    },
+    {
+      "path": "DB/Repositories/CarryRepository.cs",
+      "bytes": 1246,
+      "sha256": "6abca1855945f7f151e2cd1251715886521f3af155af7e7231c91dd04787b902",
+      "tracked": true
+    },
+    {
+      "path": "DB/Repositories/Character.cs",
+      "bytes": 4371,
+      "sha256": "f07658ea071287894440bfb195ca03e2ece8c81e20d48ef30560c743ca17bef4",
+      "tracked": true
+    },
+    {
+      "path": "DB/Repositories/CharacterDeleted.cs",
+      "bytes": 1151,
+      "sha256": "5b8420c453160907403e6f8fb88dcf507729b4665e19cb507462b71880102b99",
+      "tracked": true
+    },
+    {
+      "path": "DB/Repositories/DetainedItem.cs",
+      "bytes": 750,
+      "sha256": "696e0d5697db105b58cca8a7155305802b87cf899b74d25acaa7b065a95b95b7",
+      "tracked": true
+    },
+    {
+      "path": "DB/Repositories/DynamicMap.cs",
+      "bytes": 1060,
+      "sha256": "3d4ca96e4e7ee931205c42c78a889b509702c7c125e1f8b7a83150c80f1cba4d",
+      "tracked": true
+    },
+    {
+      "path": "DB/Repositories/DynamicNpc.cs",
+      "bytes": 1187,
+      "sha256": "5e0602002bb830324799e0a3b297685f405fd23e41deb30b1650cf28df916b6e",
+      "tracked": true
+    },
+    {
+      "path": "DB/Repositories/DynamicRankRecordRepo.cs",
+      "bytes": 1328,
+      "sha256": "72dc3faaee18dc7e0a62975e5c9f73744e0b5f49391141752e6aaf8156f74a15",
+      "tracked": true
+    },
+    {
+      "path": "DB/Repositories/EnemyRepository.cs",
+      "bytes": 864,
+      "sha256": "a45586fb72601ee5018aa8c648cd246c66ae23072d3ee082a7998783370156e1",
+      "tracked": true
+    },
+    {
+      "path": "DB/Repositories/FamilyMemberRepository.cs",
+      "bytes": 1666,
+      "sha256": "d85d6d385b572314e0a9ce4a6f27ccd9e9629f2b1704c97a0595f7d9e8f9c7b0",
+      "tracked": true
+    },
+    {
+      "path": "DB/Repositories/FamilyRepository.cs",
+      "bytes": 1164,
+      "sha256": "304953dce4f001474d2ec78ef98cf9466076e4c33525fe2ddb31e387cfac118a",
+      "tracked": true
+    },
+    {
+      "path": "DB/Repositories/Flower.cs",
+      "bytes": 1070,
+      "sha256": "57e1645e4f0a3cb9253bf6c8b1522061c2a0e36473ed24ebe122d884f5e16f26",
+      "tracked": true
+    },
+    {
+      "path": "DB/Repositories/FriendRepository.cs",
+      "bytes": 1333,
+      "sha256": "6cd56140422e3c90300760185026f053712fb920b0119fc5ee72317475a9d340",
+      "tracked": true
+    },
+    {
+      "path": "DB/Repositories/Generator.cs",
+      "bytes": 1178,
+      "sha256": "227822a65420beacd05bcf5971ae16d7f51be9c12d755e5455905718bd5b6eb0",
+      "tracked": true
+    },
+    {
+      "path": "DB/Repositories/Goods.cs",
+      "bytes": 414,
+      "sha256": "aeb94468a10ccee63346f1d27065811a9c45e5f6fffd2fef788eabeb2cb566b9",
+      "tracked": true
+    },
+    {
+      "path": "DB/Repositories/Item.cs",
+      "bytes": 2654,
+      "sha256": "7c332fad4084e6b628b9bdcbff2f33214aa0c9bca420663e33eb44ae30fab576",
+      "tracked": true
+    },
+    {
+      "path": "DB/Repositories/ItemAddition.cs",
+      "bytes": 1100,
+      "sha256": "fde8098fba1bcbe5c201b20c3f9f54132c2911d48213aa6f9872c878bbff154f",
+      "tracked": true
+    },
+    {
+      "path": "DB/Repositories/Itemtype.cs",
+      "bytes": 1579,
+      "sha256": "45676aace0184d647e6b0cb34d1fab6c5e9ac07816260d8df1800b2313557122",
+      "tracked": true
+    },
+    {
+      "path": "DB/Repositories/ItemtypeRepository.cs",
+      "bytes": 192,
+      "sha256": "b974404e085b43e70362e4a5cd70f1cbeba5f1a3732e150fe547cfc13a5db858",
+      "tracked": true
+    },
+    {
+      "path": "DB/Repositories/KoBoard.cs",
+      "bytes": 721,
+      "sha256": "f7e459ac15f528d97fbc0c94a324f12f018d7ee4ad4763e0d44be20c5552ba6d",
+      "tracked": true
+    },
+    {
+      "path": "DB/Repositories/LevelExperience.cs",
+      "bytes": 418,
+      "sha256": "97928fca8966ea9f24b53fd754d8a7309f49a568e2f79d4427b256fdca7d0807",
+      "tracked": true
+    },
+    {
+      "path": "DB/Repositories/LoginRcdRepository.cs",
+      "bytes": 435,
+      "sha256": "b4c44382de4d6a13b419139317790dd3fc3e9bb439055317b6de14f6e823850d",
+      "tracked": true
+    },
+    {
+      "path": "DB/Repositories/LotteryRepository.cs",
+      "bytes": 1232,
+      "sha256": "a0047f0532e6624c9a68cf4526903ea769d0814131367d46b5e1ef3782264cd6",
+      "tracked": true
+    },
+    {
+      "path": "DB/Repositories/Magic.cs",
+      "bytes": 1014,
+      "sha256": "a967d8ea12db89e48acd6baeddfacf0d7156fb0a3b85c4595d8a3a15cdaf4fcc",
+      "tracked": true
+    },
+    {
+      "path": "DB/Repositories/MagicType.cs",
+      "bytes": 434,
+      "sha256": "038f8ae495c9381f12ea4e52ef8a55bad4881eff396e1f5a11c8d3fd184de75e",
+      "tracked": true
+    },
+    {
+      "path": "DB/Repositories/MagictypeOpRepository.cs",
+      "bytes": 444,
+      "sha256": "3bb65e3a4e4e8b6329f20db6445d9ef3b6a36582a8cbdb5d52da136434f3758c",
+      "tracked": true
+    },
+    {
+      "path": "DB/Repositories/Map.cs",
+      "bytes": 1004,
+      "sha256": "1c5d27797ff3ea118266475763dcea6a674ce654e7a63347f8123dd86787a167",
+      "tracked": true
+    },
+    {
+      "path": "DB/Repositories/MentorAccess.cs",
+      "bytes": 801,
+      "sha256": "091a98d9404d27f32d8e4a8c69f75c76236defa06efb07976d7d373d20d3da9a",
+      "tracked": true
+    },
+    {
+      "path": "DB/Repositories/MentorBattleLimit.cs",
+      "bytes": 466,
+      "sha256": "50824fb44cc3ea9c9ce5e94e9ae755bb249622f28752a6ed6d3c0134b79a5dc5",
+      "tracked": true
+    },
+    {
+      "path": "DB/Repositories/MentorContribution.cs",
+      "bytes": 960,
+      "sha256": "3a5f0dee659eae56b9c6bf732e2e8736af26dac9faa3935f2ba824b29fe2ec3a",
+      "tracked": true
+    },
+    {
+      "path": "DB/Repositories/MentorRepository.cs",
+      "bytes": 1182,
+      "sha256": "d8acfa6ed55e7d2de6b5b66859b3d9d7531f54bc67481efe0b6b5316453cdde1",
+      "tracked": true
+    },
+    {
+      "path": "DB/Repositories/MentorType.cs",
+      "bytes": 439,
+      "sha256": "dc17dbcee803891281a811ae2f2b02743bca6dc522825ef43752e7b65522c195",
+      "tracked": true
+    },
+    {
+      "path": "DB/Repositories/MonsterMagic.cs",
+      "bytes": 449,
+      "sha256": "ef9a29e752ecec0078cbcd9b362183bbc433c6d9a33a8051f0e2a7e1a192e6a7",
+      "tracked": true
+    },
+    {
+      "path": "DB/Repositories/Monsters.cs",
+      "bytes": 441,
+      "sha256": "e64431d6199d2745cd08d55044cec1a6b9e910cb62dc61791e6a770c83f0d901",
+      "tracked": true
+    },
+    {
+      "path": "DB/Repositories/NameChangeLogRepo.cs",
+      "bytes": 1560,
+      "sha256": "d5948c2d8720cf0f25defeffaca52bd967d1f324abc175e772c8a91e9a409b20",
+      "tracked": true
+    },
+    {
+      "path": "DB/Repositories/NobilityRank.cs",
+      "bytes": 750,
+      "sha256": "d66dd5e44f598065ed2fd3f55c5f070113344b28e764b2738c97e531da98ff98",
+      "tracked": true
+    },
+    {
+      "path": "DB/Repositories/Npc.cs",
+      "bytes": 687,
+      "sha256": "c56746478054d465ae1f7d3b9260b0238e81c1a01c4d6eef235064251e1925c5",
+      "tracked": true
+    },
+    {
+      "path": "DB/Repositories/Passway.cs",
+      "bytes": 470,
+      "sha256": "ec901ab2cea53c16e9090f950af77744cd636e12881d76c2eb805cef76b02091",
+      "tracked": true
+    },
+    {
+      "path": "DB/Repositories/PkBonusRepository.cs",
+      "bytes": 1180,
+      "sha256": "1e3f46a68fb3242acd2dc0beabbbd07395af0a7798a34e7f063a8f3a5ccdc88d",
+      "tracked": true
+    },
+    {
+      "path": "DB/Repositories/PkExploit.cs",
+      "bytes": 1364,
+      "sha256": "8fbb69e7854da0a6524388e9b12995ab7da75c8294ad8fc8e02342d04ce286b6",
+      "tracked": true
+    },
+    {
+      "path": "DB/Repositories/PointAllot.cs",
+      "bytes": 746,
+      "sha256": "7ffc8c78575b6fc0addcafdbe3b3c53cebbec6167813cd3a03d5dec70b521dff",
+      "tracked": true
+    },
+    {
+      "path": "DB/Repositories/Portals.cs",
+      "bytes": 970,
+      "sha256": "3605e542afc6ac35479133a1dda0b423bedecaa2c061f1657867675c08e99c12",
+      "tracked": true
+    },
+    {
+      "path": "DB/Repositories/QueryExecuter.cs",
+      "bytes": 964,
+      "sha256": "f91d2c54697d55dc8eb31462069decf29170ce2c0460ecb536c5f1d1feb2d64e",
+      "tracked": true
+    },
+    {
+      "path": "DB/Repositories/QuizShow.cs",
+      "bytes": 732,
+      "sha256": "5ea4e601302e9c690b9645b0ae3c3e900146d9a67b1940fc14a9a9b8cdda71f1",
+      "tracked": true
+    },
+    {
+      "path": "DB/Repositories/RebirthRepository.cs",
+      "bytes": 433,
+      "sha256": "083780ea6850bcbe1f0d9081c75415a5e5ac8851729b7b18dbc2f616b227be28",
+      "tracked": true
+    },
+    {
+      "path": "DB/Repositories/Refinery.cs",
+      "bytes": 900,
+      "sha256": "fa6e5e9379b60d8ed77e6ec31acb909b04bf8b185e56bb7b50efbcfc968eab3e",
+      "tracked": true
+    },
+    {
+      "path": "DB/Repositories/Region.cs",
+      "bytes": 412,
+      "sha256": "09f4d61a1aecce8bd95a84fc877bad56c4398e0a59a6a2c8a7718e51b25c1553",
+      "tracked": true
+    },
+    {
+      "path": "DB/Repositories/RegionRepository.cs",
+      "bytes": 419,
+      "sha256": "3e8988e095d1939d4c98395de9c5336ce64d234f1fbafdbb672b84c0fbe45b5d",
+      "tracked": true
+    },
+    {
+      "path": "DB/Repositories/StatisticRepository.cs",
+      "bytes": 858,
+      "sha256": "1d9f1ae43f21e04dea683958c621e9f624879fadb7e16689bb301b5b498205a7",
+      "tracked": true
+    },
+    {
+      "path": "DB/Repositories/StatusRepository.cs",
+      "bytes": 1306,
+      "sha256": "26a987b07c3ec64aa2195caad483c266931c4c490e39ab558bcabd83455172e0",
+      "tracked": true
+    },
+    {
+      "path": "DB/Repositories/SubClass.cs",
+      "bytes": 1293,
+      "sha256": "5400dd7cd28ac73cd64e0c07519e8e8c01fb13c14bbe93899515107dc4e4b5db",
+      "tracked": true
+    },
+    {
+      "path": "DB/Repositories/Syndicate.cs",
+      "bytes": 729,
+      "sha256": "a989c514061b0495f038a3ff5a0f15f2ea18fbfe4c050c5113147e721e1b5dc4",
+      "tracked": true
+    },
+    {
+      "path": "DB/Repositories/SyndicateAllies.cs",
+      "bytes": 1687,
+      "sha256": "7064db9e7c6d4747ccffec8e9958e4e19ad06e0a1bbf23bd009c97de52beed3f",
+      "tracked": true
+    },
+    {
+      "path": "DB/Repositories/SyndicateEnemies.cs",
+      "bytes": 1708,
+      "sha256": "5a8c0c21c5e363753ea9ea59d242e9accd0fc8403f961130af982306989e08cc",
+      "tracked": true
+    },
+    {
+      "path": "DB/Repositories/SyndicateMembers.cs",
+      "bytes": 1169,
+      "sha256": "e1024c8ce11b6f18f79c4f719c0fe47112521b576a0e298920e4567560a18662",
+      "tracked": true
+    },
+    {
+      "path": "DB/Repositories/SyndicateRecruitment.cs",
+      "bytes": 1274,
+      "sha256": "20f2aba97b9852b63649604a774567df858ac549e1eced18a9cfef2d97568236",
+      "tracked": true
+    },
+    {
+      "path": "DB/Repositories/SyndicateTotem.cs",
+      "bytes": 877,
+      "sha256": "a8f651a0aaf4d83d38dc658806da5008e05a644463d249b9953abc9f30ec25b9",
+      "tracked": true
+    },
+    {
+      "path": "DB/Repositories/Tasks.cs",
+      "bytes": 412,
+      "sha256": "becd16bb7c5e362caec29313271769524aa6581ad52b345201a5ae78a39e04dc",
+      "tracked": true
+    },
+    {
+      "path": "DB/Repositories/Title.cs",
+      "bytes": 1316,
+      "sha256": "a746892064a66a1ce85f8d4b588ac692071c39769b7a1e67e5381d62194ef300",
+      "tracked": true
+    },
+    {
+      "path": "DB/Repositories/Totem.cs",
+      "bytes": 1539,
+      "sha256": "2fe2408d0d615f56c3ab94e75b2839954dace70dfb8d5dfbf5807b00defbd4ea",
+      "tracked": true
+    },
+    {
+      "path": "DB/Repositories/WeaponSkill.cs",
+      "bytes": 820,
+      "sha256": "5b4f9b42af3c42646d75f842e0d9a4e3ffffe6e5f1039278522b64602630e4bb",
+      "tracked": true
+    },
+    {
+      "path": "DB/SessionFactory.cs",
+      "bytes": 7052,
+      "sha256": "509a4bb6b23b04771fa72b1c42f520ac82f8c46123e1ab062c8c09e7d3bbe022",
+      "tracked": true
+    },
+    {
+      "path": "DB/TableNames.cs",
+      "bytes": 4083,
+      "sha256": "dd4f3fa1c7be940878ad7bff181abb7211db7672517b12387098453afb7e23e0",
+      "tracked": true
+    },
+    {
+      "path": "Database/accountzf.sql",
+      "bytes": 2461,
+      "sha256": "7f561bf46aadcc82749f77b757f5f49d9a22b01c2f662a724d52177535e084f2",
+      "tracked": false,
+      "excluded_reason": "upstream-account-records"
+    },
+    {
+      "path": "Database/cq_action_mod.sql",
+      "bytes": 276,
+      "sha256": "d6f784b445825e226ec4043fcf2a43256ccfeb718450abbb79e29c8066ac724b",
+      "tracked": true
+    },
+    {
+      "path": "Database/fix_cq_levexp.sql",
+      "bytes": 8745,
+      "sha256": "a995db86961e188a294b6447e125f2b1567499ad036ddb4ae0c4c07ad667ccc3",
+      "tracked": true
+    },
+    {
+      "path": "Database/zf.sql",
+      "bytes": 9212428,
+      "sha256": "abd432cdfb81b60a573a14118d2772fb42b02e1cd8e1675099352398cb11625f",
+      "tracked": false,
+      "excluded_reason": "upstream-player-records"
+    },
+    {
+      "path": "ExampleConfig/LoginServer/Login.cfg",
+      "bytes": 793,
+      "sha256": "3ec4a000c7cade96f8dd72bc7a083c3420e96177099edab7a735ac4e44b91710",
+      "tracked": false,
+      "excluded_reason": "upstream-credential-examples"
+    },
+    {
+      "path": "ExampleConfig/MsgServer/Login.cfg",
+      "bytes": 793,
+      "sha256": "3ec4a000c7cade96f8dd72bc7a083c3420e96177099edab7a735ac4e44b91710",
+      "tracked": false,
+      "excluded_reason": "upstream-credential-examples"
+    },
+    {
+      "path": "ExampleConfig/MsgServer/Shell.ini",
+      "bytes": 635,
+      "sha256": "bfc6a48209e1a897e3300ea01a2cc877ddb381da123e3433b3d07c54d93a3807",
+      "tracked": false,
+      "excluded_reason": "upstream-credential-examples"
+    },
+    {
+      "path": "FoxConquer5517.sln",
+      "bytes": 2521,
+      "sha256": "717338310e8400daf970dbe0b8d6357c10f0b93896255624e10629938cca2930",
+      "tracked": true
+    },
+    {
+      "path": "LICENSE",
+      "bytes": 1073,
+      "sha256": "db066e85542081cb8ebf83bc826ef80324d57b2387ab554cf6326805bb2ff6a7",
+      "tracked": true
+    },
+    {
+      "path": "LoginServer/Constants.cs",
+      "bytes": 1443,
+      "sha256": "85de5b37ad5716c92c2305ff64a6d194148e87769e75449c18d7c9d9ba21990e",
+      "tracked": true
+    },
+    {
+      "path": "LoginServer/LoginServer.csproj",
+      "bytes": 609,
+      "sha256": "426f5c6367df90c5877e61276d65c89e3f5780675002d4336f311ab70ec995f3",
+      "tracked": true
+    },
+    {
+      "path": "LoginServer/Network/GamePacketHandler.cs",
+      "bytes": 4799,
+      "sha256": "0c80ea00c2e05b995c1479e77dfac9afef4587601fdc5a73f176ebd884df923f",
+      "tracked": true
+    },
+    {
+      "path": "LoginServer/Network/GamePlayer.cs",
+      "bytes": 1775,
+      "sha256": "9b2cdbef36dfcaa515fd03b8ba4041875460980587a8ff27c002af988f3fb756",
+      "tracked": true
+    },
+    {
+      "path": "LoginServer/Network/GameServer.cs",
+      "bytes": 2892,
+      "sha256": "ac7c1c2fd3175833e27138362f14ec7a8d12a94049490edbecf9e06cffb25989",
+      "tracked": true
+    },
+    {
+      "path": "LoginServer/Network/LoginPacketHandler.cs",
+      "bytes": 11793,
+      "sha256": "958e9794065f514d7b7d9a7d9b54f37034d70bdb3794c9b26adb2d743abfa7d6",
+      "tracked": true
+    },
+    {
+      "path": "LoginServer/Network/LoginServer/LoginSocket.cs",
+      "bytes": 13316,
+      "sha256": "720500edd237ab250fd8be9497a3a7417f2a9194a511f0ba046c8e6b11fb708f",
+      "tracked": true
+    },
+    {
+      "path": "LoginServer/Network/MsgServer/GameSocket.cs",
+      "bytes": 1892,
+      "sha256": "948e2da93e9679d3519135c029326621354e4b3805b91a76ce94f05b1b3315f4",
+      "tracked": true
+    },
+    {
+      "path": "LoginServer/Program.cs",
+      "bytes": 21635,
+      "sha256": "ac8715725cf2b350d041205966b7cc2ff9d4d753437ab31ff87a38692131732d",
+      "tracked": true
+    },
+    {
+      "path": "LoginServer/ServerKernel.cs",
+      "bytes": 4602,
+      "sha256": "757331bf2a0b9cf95487b586bf2b305bea543cc53655872edbc32d0a173195f8",
+      "tracked": true
+    },
+    {
+      "path": "LoginServer/Structures/BannedAddresses.cs",
+      "bytes": 1726,
+      "sha256": "8f64f9ec48f96a0e72da77e16249c4716de12434290e7e7d6e48e7fb956fb8ca",
+      "tracked": true
+    },
+    {
+      "path": "LoginServer/Structures/EnabledGameServer.cs",
+      "bytes": 1062,
+      "sha256": "3a416768ec7093502d6d2aef95c0aab954258091d6ad2b67dbaa4f2651baa4cb",
+      "tracked": true
+    },
+    {
+      "path": "LoginServer/Structures/LoginAttemptRecord.cs",
+      "bytes": 1841,
+      "sha256": "ab47cd151a742c1c05dda86c7075d66ec00e84ac7a495d78849febb6044ace13",
+      "tracked": true
+    },
+    {
+      "path": "LoginServer/Threading/ThreadHandler.cs",
+      "bytes": 1843,
+      "sha256": "a0f023e69c8794f8ad99f10928fdf90bc0141972627614600605f833ab336af1",
+      "tracked": true
+    },
+    {
+      "path": "LoginServer/Threading/Workers/ThreadHandling.cs",
+      "bytes": 1996,
+      "sha256": "c6d4f50599b224f9b6189b284bee6c771eaa661bec6e4e12a765d3443aca23bf",
+      "tracked": true
+    },
+    {
+      "path": "LoginServer/build-packaged-version.bat",
+      "bytes": 158,
+      "sha256": "69cfec5941e7a4023466ed2971c9210e992582cab529c49133482321f945889c",
+      "tracked": true
+    },
+    {
+      "path": "LoginServer/fconquerlogo_source.ico",
+      "bytes": 127780,
+      "sha256": "76f4349c1766da1a8068b208a2a2474cb71d03d079ab030409cc2ce424d9d538",
+      "tracked": true
+    },
+    {
+      "path": "LoginServer/libeay32.dll",
+      "bytes": 1177600,
+      "sha256": "95550b81825ae3fb4298b0de1f7ebd116754d99483a6d73cc7271e002484a928",
+      "tracked": false,
+      "excluded_reason": "native-binary"
+    },
+    {
+      "path": "MsgServer/Database.cs",
+      "bytes": 77458,
+      "sha256": "23c71ed3afb28d72e346eb9f5d510112b54843b6ae39fe18f80f1cd831e3fcd3",
+      "tracked": true
+    },
+    {
+      "path": "MsgServer/MsgServer.csproj",
+      "bytes": 657,
+      "sha256": "13895b6121646a54e7aeb42e477aa2d35adfe484d63cab6a2dd9333ae4cd683d",
+      "tracked": true
+    },
+    {
+      "path": "MsgServer/Network/Client.cs",
+      "bytes": 3766,
+      "sha256": "361972e066e32737cda3d244aaffa52375a7561e1c4477c00dc72b76d59cef71",
+      "tracked": true
+    },
+    {
+      "path": "MsgServer/Network/GameServer/GamePacketHandler.cs",
+      "bytes": 25982,
+      "sha256": "17f829c14cc9565f5b3aecbc38b33ee112687a533e275dc3533bc680b1efd852",
+      "tracked": true
+    },
+    {
+      "path": "MsgServer/Network/GameServer/GameSocket.cs",
+      "bytes": 6512,
+      "sha256": "2cc44e3639fb7d32a258052fa742a9ae7c1dac924a79fdd23dea83d31512a9b1",
+      "tracked": true
+    },
+    {
+      "path": "MsgServer/Network/GameServer/Handlers/10005-MsgWalk.cs",
+      "bytes": 3502,
+      "sha256": "2c1086c03d17ab9b2b4023093552e2d5fefecd7b086c37d339d43ee6904e388e",
+      "tracked": true
+    },
+    {
+      "path": "MsgServer/Network/GameServer/Handlers/1001-MsgRegister.cs",
+      "bytes": 19111,
+      "sha256": "4d6cb74bd8817e0a90dd5034449f9a468b3d48c522f635991911c1e05b119b91",
+      "tracked": true
+    },
+    {
+      "path": "MsgServer/Network/GameServer/Handlers/10010-MsgAction.cs",
+      "bytes": 47662,
+      "sha256": "63f23b67b55a5bd24a9eb4905e7d75e605bc1af37366c27ee771bdebe988baa2",
+      "tracked": true
+    },
+    {
+      "path": "MsgServer/Network/GameServer/Handlers/1004-MsgTalk.cs",
+      "bytes": 78038,
+      "sha256": "a370323163ed81d425c114dc9b62b62c593ef171d33181f1fdfa6f1bc73407b2",
+      "tracked": true
+    },
+    {
+      "path": "MsgServer/Network/GameServer/Handlers/1009-MsgItem.cs",
+      "bytes": 57486,
+      "sha256": "ec0c3a005024d3f957016cd172a7c40a0a5d0ed61ca1b97ff750178ac9305b53",
+      "tracked": true
+    },
+    {
+      "path": "MsgServer/Network/GameServer/Handlers/1015-MsgName.cs",
+      "bytes": 3844,
+      "sha256": "d8a9df3b0405d5dc5613d7bf919fe468b1681cfb77f1a289099b2dfc9c3e8470",
+      "tracked": true
+    },
+    {
+      "path": "MsgServer/Network/GameServer/Handlers/1019-MsgFriend.cs",
+      "bytes": 3590,
+      "sha256": "8fda277822952c1da014c905970a9588d9d17c95e879697433a0a3e42374ad49",
+      "tracked": true
+    },
+    {
+      "path": "MsgServer/Network/GameServer/Handlers/1022-MsgInteract.cs",
+      "bytes": 11239,
+      "sha256": "8988e78ba11aa8995f4895a54149bea0fb46dc322e1e0c402e057d26085782e7",
+      "tracked": true
+    },
+    {
+      "path": "MsgServer/Network/GameServer/Handlers/1023-MsgTeam.cs",
+      "bytes": 10213,
+      "sha256": "ffb688b70c5b2cf19f2ac462f60bc3c0ca31494e7de0e5323956890b2f470d53",
+      "tracked": true
+    },
+    {
+      "path": "MsgServer/Network/GameServer/Handlers/1024-MsgAllot.cs",
+      "bytes": 1247,
+      "sha256": "d6ec1ecd102b9a90a7d02db05ec6930b0853716b5e1119bd1a047e68aae53a61",
+      "tracked": true
+    },
+    {
+      "path": "MsgServer/Network/GameServer/Handlers/1027-MsgGemEmbed.cs",
+      "bytes": 7582,
+      "sha256": "c5ff851ce6e7fe25af980ea2463ecfbd4d4ea2de69d60627cabcbb97beb1818d",
+      "tracked": true
+    },
+    {
+      "path": "MsgServer/Network/GameServer/Handlers/1038-MsgSolidify.cs",
+      "bytes": 7171,
+      "sha256": "1340ae1a76235f6cc2ec4a3a4114ab6a004e263d97d95fb180a36f29b0d999fe",
+      "tracked": true
+    },
+    {
+      "path": "MsgServer/Network/GameServer/Handlers/1052-MsgConnect.cs",
+      "bytes": 12091,
+      "sha256": "d7977e50be1a224d733a9ec506b193c2d3650a03be4b992dd9cddb3454af5f57",
+      "tracked": true
+    },
+    {
+      "path": "MsgServer/Network/GameServer/Handlers/1056-MsgTrade.cs",
+      "bytes": 4357,
+      "sha256": "4ac405920b35b737f06874d116c0933c6967ca72ce3f0bba73f91592810ab027",
+      "tracked": true
+    },
+    {
+      "path": "MsgServer/Network/GameServer/Handlers/1063-MsgSelfSynMemAwardRank.cs",
+      "bytes": 14062,
+      "sha256": "7b9ad15cd2db22c1b38d87116895edf879f68cc8cc9f682a975cbe5fd2343a59",
+      "tracked": true
+    },
+    {
+      "path": "MsgServer/Network/GameServer/Handlers/1066-MsgMeteSpecial.cs",
+      "bytes": 1872,
+      "sha256": "51bbc1cfe35bade031383df6362eccddeda7a82e01d0cf5c6d91e6f12cf2d403",
+      "tracked": true
+    },
+    {
+      "path": "MsgServer/Network/GameServer/Handlers/1101-MsgMapItem.cs",
+      "bytes": 1353,
+      "sha256": "5b8f3591891e15fffa8b3b3f1373abf3183bc954fe2412836954a5d0845480b6",
+      "tracked": true
+    },
+    {
+      "path": "MsgServer/Network/GameServer/Handlers/1102-MsgAccountSoftKb.cs",
+      "bytes": 5585,
+      "sha256": "081af51c0d27e70856884008f1cfed3538c2b8aa124de60ffb28b60cb6679997",
+      "tracked": true
+    },
+    {
+      "path": "MsgServer/Network/GameServer/Handlers/1107-MsgSyndicate.cs",
+      "bytes": 16432,
+      "sha256": "b2e54f6ec98c8c1774e9f51d1da336c2a14871d2d9825dbf6817a44eea270f98",
+      "tracked": true
+    },
+    {
+      "path": "MsgServer/Network/GameServer/Handlers/1128-MsgVipUserHandle.cs",
+      "bytes": 5230,
+      "sha256": "17d26ca4c6f70c54fd91d840770d7c2be953ad55135394270e7b45fca900a9b1",
+      "tracked": true
+    },
+    {
+      "path": "MsgServer/Network/GameServer/Handlers/1130-MsgTitle.cs",
+      "bytes": 3714,
+      "sha256": "bf6cdda037835031a04daa1141cf5297140b1951610f362b943c7ab357b09b56",
+      "tracked": true
+    },
+    {
+      "path": "MsgServer/Network/GameServer/Handlers/1150-MsgFlower.cs",
+      "bytes": 12912,
+      "sha256": "053097277ba18b3b51b4c5beae57b82017cc1822bb1bf7a41f930e4a209a737e",
+      "tracked": true
+    },
+    {
+      "path": "MsgServer/Network/GameServer/Handlers/1151-MsgRank.cs",
+      "bytes": 2079,
+      "sha256": "c72156e6cc41392e0bce6679e72de898a98c285a95171fe93d1e4ef50f0e195d",
+      "tracked": true
+    },
+    {
+      "path": "MsgServer/Network/GameServer/Handlers/1312-MsgFamily.cs",
+      "bytes": 11453,
+      "sha256": "ab61b566d900571073d5498c89489ef3c506e38ba090b3784ca6fd3b545dc7c0",
+      "tracked": true
+    },
+    {
+      "path": "MsgServer/Network/GameServer/Handlers/1313-MsgFamilyOccupy.cs",
+      "bytes": 3969,
+      "sha256": "673b49f9eab84ff2b1b42b6774d01bfa72a20942f3eb3bbeaaf3c8ea5ff56ac4",
+      "tracked": true
+    },
+    {
+      "path": "MsgServer/Network/GameServer/Handlers/2030-MsgNpcInfo.cs",
+      "bytes": 1014,
+      "sha256": "5a7386c3ebd53e65466e7f0ba276b05c993aec166f5860d3ceab45fcfd18c8eb",
+      "tracked": true
+    },
+    {
+      "path": "MsgServer/Network/GameServer/Handlers/2032-MsgTaskDialog.cs",
+      "bytes": 35309,
+      "sha256": "296914a29d09ade2a8c4924323e4073bd0231271b0f48b0fd1fb1a63f22960d2",
+      "tracked": true
+    },
+    {
+      "path": "MsgServer/Network/GameServer/Handlers/2036-MsgDataArray.cs",
+      "bytes": 7304,
+      "sha256": "5cf8e129d72c97b5194cc9d12d0e1085eb98a0e33948debd7227a519ead6f196",
+      "tracked": true
+    },
+    {
+      "path": "MsgServer/Network/GameServer/Handlers/2046-MsgTradeBuddy.cs",
+      "bytes": 5138,
+      "sha256": "31553cc49e19049113d08c3cb90815ed3ca4dd57115f5e1baf317fd89a29af94",
+      "tracked": true
+    },
+    {
+      "path": "MsgServer/Network/GameServer/Handlers/2048-MsgEquipLock.cs",
+      "bytes": 3168,
+      "sha256": "5986e55f3801833edf72d10e14974510a3cc4292c114e4cce65edec96b33ca0d",
+      "tracked": true
+    },
+    {
+      "path": "MsgServer/Network/GameServer/Handlers/2050-MsgPigeon.cs",
+      "bytes": 2040,
+      "sha256": "d3a840ac210b79c8ac2742f84c2530b03341732984c61f82cbc6e07ebc0866b0",
+      "tracked": true
+    },
+    {
+      "path": "MsgServer/Network/GameServer/Handlers/2064-MsgPeerage.cs",
+      "bytes": 11023,
+      "sha256": "f60745a7ce0cf3ca309b3974f44da5d54620f8e9ffb9f89a65a669fec2f01a53",
+      "tracked": true
+    },
+    {
+      "path": "MsgServer/Network/GameServer/Handlers/2065-MsgGuide.cs",
+      "bytes": 8435,
+      "sha256": "ad42aeefe0f909cc0c092e1ac12ac9ebb655b3989284ce097f669b26141d18ba",
+      "tracked": true
+    },
+    {
+      "path": "MsgServer/Network/GameServer/Handlers/2066-MsgGuideInfo.cs",
+      "bytes": 2159,
+      "sha256": "3398736dfcbb2d3656afc0512bba129bafc3031abf9b8e2e65edb4f4b33450f1",
+      "tracked": true
+    },
+    {
+      "path": "MsgServer/Network/GameServer/Handlers/2067-MsgGuideContribute.cs",
+      "bytes": 2142,
+      "sha256": "ead7602468a5405433952c188fe3d8fd6459230dbaf269fc6de55c98ccf704f6",
+      "tracked": true
+    },
+    {
+      "path": "MsgServer/Network/GameServer/Handlers/2068-MsgQuiz.cs",
+      "bytes": 1470,
+      "sha256": "7f820318622a7a5f06f590796aac5d6937fdcc03700c2a6706a2d34bbf1deabd",
+      "tracked": true
+    },
+    {
+      "path": "MsgServer/Network/GameServer/Handlers/2076-MsgQuench.cs",
+      "bytes": 13985,
+      "sha256": "a7b1148353b652d7dd9883ea20f3a3230c78a36c8734b1d65d0802e11d0e23d0",
+      "tracked": true
+    },
+    {
+      "path": "MsgServer/Network/GameServer/Handlers/2080-MsgChangeName.cs",
+      "bytes": 4160,
+      "sha256": "ecaf6fcd820680df6040fd6f29d6ebc16d1bb443c7f03866c5cb0fec9f34448c",
+      "tracked": true
+    },
+    {
+      "path": "MsgServer/Network/GameServer/Handlers/2101-MsgFactionRankInfo.cs",
+      "bytes": 6093,
+      "sha256": "7dbcba9d62d5c2ced3924e3658bb52b176f4b1eb80b5d5df4417b01935e0c49c",
+      "tracked": true
+    },
+    {
+      "path": "MsgServer/Network/GameServer/Handlers/2102-MsgSynMemberList.cs",
+      "bytes": 896,
+      "sha256": "60af19248bc242ee5024383bd1f374e8c301f039696602f535dc409306da275e",
+      "tracked": true
+    },
+    {
+      "path": "MsgServer/Network/GameServer/Handlers/2110-MsgSuperFlag.cs",
+      "bytes": 4930,
+      "sha256": "2adf6dfa076341f74fd30ae64eddbb044d26ef11e8bf684949ce2d66848f649a",
+      "tracked": true
+    },
+    {
+      "path": "MsgServer/Network/GameServer/Handlers/2202-MsgWeaponsInfo.cs",
+      "bytes": 2332,
+      "sha256": "ba59c5127d2e70bbadf9c2b229ee1fc9fa4bee9520d967b5a9b04b1607918535",
+      "tracked": true
+    },
+    {
+      "path": "MsgServer/Network/GameServer/Handlers/2203-MsgTotemPole.cs",
+      "bytes": 2755,
+      "sha256": "f7cbff4529af14afac7691b3e76d45a02fa6535187712fdf52260004ddabc27d",
+      "tracked": true
+    },
+    {
+      "path": "MsgServer/Network/GameServer/Handlers/2205-MsgQualifyingInteractive.cs",
+      "bytes": 4457,
+      "sha256": "065399e3d97aac8dbeab3c84be1feae6456b349d26623468c273825c2ec1ca8e",
+      "tracked": true
+    },
+    {
+      "path": "MsgServer/Network/GameServer/Handlers/2206-MsgQualifyingFightersList.cs",
+      "bytes": 2046,
+      "sha256": "ce52e7ee67c95cecd3daf92a107d679e8ecaa9abbb0b74bd29024715de833549",
+      "tracked": true
+    },
+    {
+      "path": "MsgServer/Network/GameServer/Handlers/2207-MsgQualifyingRank.cs",
+      "bytes": 4409,
+      "sha256": "c43d430ae0f2cbd71d57738254e6192704c7a0904e9a887eb1a07444663355df",
+      "tracked": true
+    },
+    {
+      "path": "MsgServer/Network/GameServer/Handlers/2208-MsgQualifyingSeasonRankList.cs",
+      "bytes": 1418,
+      "sha256": "f044ffac674b8ab792719eda7a08d47bf1848332ea7ec5ce31e3538c718656b4",
+      "tracked": true
+    },
+    {
+      "path": "MsgServer/Network/GameServer/Handlers/2209-MsgQualifyingDetailInfo.cs",
+      "bytes": 817,
+      "sha256": "096c003d38a13b581471bd290b1ef67a172cc6d1cce26390e1dbe60d3893e9fb",
+      "tracked": true
+    },
+    {
+      "path": "MsgServer/Network/GameServer/Handlers/2211-MsgArenicWitness.cs",
+      "bytes": 1258,
+      "sha256": "145df2cf4f0b1c10f343def6158ce5ee79e0223c230742352a29ae3174273aa6",
+      "tracked": true
+    },
+    {
+      "path": "MsgServer/Network/GameServer/Handlers/2219-MsgPKEliteMatchInfo.cs",
+      "bytes": 3930,
+      "sha256": "24d769d70f6f7483ea0ad51e69be14c990ff0b904235895218f5da041260e801",
+      "tracked": true
+    },
+    {
+      "path": "MsgServer/Network/GameServer/Handlers/2220-MsgPkStatistic.cs",
+      "bytes": 1158,
+      "sha256": "82fe287a5d60eeff4371979764a757db6a97dd2f80cce1926a0f28cb02ebbc46",
+      "tracked": true
+    },
+    {
+      "path": "MsgServer/Network/GameServer/Handlers/2223-MsgElitePKGameRankInfo.cs",
+      "bytes": 1833,
+      "sha256": "81d256cd3a683af643c87cc26b5c6d39f7aaf32173058293dd5cb7acf83d1201",
+      "tracked": true
+    },
+    {
+      "path": "MsgServer/Network/GameServer/Handlers/2224-MsgWarFlag.cs",
+      "bytes": 1476,
+      "sha256": "73fdb9dcc2365bbb1068f5a55aa999026338df3158950eae866c4ab70807fb0a",
+      "tracked": true
+    },
+    {
+      "path": "MsgServer/Network/GameServer/Handlers/2225-MsgSynAdvertising.cs",
+      "bytes": 997,
+      "sha256": "ad8cc1fa1051298d012b35c3fe3791321d5a09d42fa07160cb1abcbe7c77481d",
+      "tracked": true
+    },
+    {
+      "path": "MsgServer/Network/GameServer/Handlers/2227-MsgSynAdversitingOpt.cs",
+      "bytes": 1800,
+      "sha256": "6c32437bde735361e3213f84523518439816b12043bc02f638fee816409c4842",
+      "tracked": true
+    },
+    {
+      "path": "MsgServer/Network/GameServer/Handlers/2320-MsgSubPro.cs",
+      "bytes": 2914,
+      "sha256": "4b6a8c579dd2fdb7e4fdbc0d94323744f8f98f99b36a2ef242960594a0a0ad48",
+      "tracked": true
+    },
+    {
+      "path": "MsgServer/Network/GameServer/Handlers/GeneralData.cs",
+      "bytes": 1092,
+      "sha256": "9350855a83344d6907081dde6b0aa9fb556dd0a1186f408e8b0f4ed2b08775fd",
+      "tracked": true
+    },
+    {
+      "path": "MsgServer/Network/LoginClient.cs",
+      "bytes": 976,
+      "sha256": "f0c53428d949be9c93e8d486612d58420160752ea376fa961c6f848466daafa5",
+      "tracked": true
+    },
+    {
+      "path": "MsgServer/Network/LoginServer/LoginPacketHandler.cs",
+      "bytes": 4338,
+      "sha256": "3c1fc1bbc1764b2d8d4515284405adcfe1e81aaaaed777722a6c812b60e8a3f7",
+      "tracked": true
+    },
+    {
+      "path": "MsgServer/Network/LoginServer/LoginSocket.cs",
+      "bytes": 3301,
+      "sha256": "111ae74a85379ebccc0d7be9d03dea4870902c7da2c59201bee832d95de83f19",
+      "tracked": true
+    },
+    {
+      "path": "MsgServer/Program.cs",
+      "bytes": 19888,
+      "sha256": "a2c3ed5526b7c075c871d9821fd36b13e8a4b0d36f4a160d1b98f51921937257",
+      "tracked": true
+    },
+    {
+      "path": "MsgServer/ServerKernel.cs",
+      "bytes": 14282,
+      "sha256": "5fc4ac3fb3a4b464292b7a712dd50e4e1e6c77bfc193858fc2feae89df33ad51",
+      "tracked": true
+    },
+    {
+      "path": "MsgServer/ServerStrings.cs",
+      "bytes": 43741,
+      "sha256": "f02df31d70de986506351d893df2fa1b1d195042c851d044390b7c89bab9bf5e",
+      "tracked": true
+    },
+    {
+      "path": "MsgServer/Structures/Actions/AutomaticEvents.cs",
+      "bytes": 3259,
+      "sha256": "3ed586eff4397c5c254d5471189df9248fa80f8c161431fa1f2d40023c71dcb5",
+      "tracked": true
+    },
+    {
+      "path": "MsgServer/Structures/Actions/GameAction.cs",
+      "bytes": 235044,
+      "sha256": "de5d7b3efed3f73849a8f34481ec938af31d62d15ec5068f4f3dc32ff1b4c850",
+      "tracked": true
+    },
+    {
+      "path": "MsgServer/Structures/BattleSystem.cs",
+      "bytes": 38753,
+      "sha256": "b2e214b61c197e44e56e66a90204a93d03cd44caa60e6b8bb3a86f8115205fbe",
+      "tracked": true
+    },
+    {
+      "path": "MsgServer/Structures/CaptchaBox.cs",
+      "bytes": 2295,
+      "sha256": "206532c581c31206313417dd7f8c2222ffaf72ed3ff461ecc760164060482e75",
+      "tracked": true
+    },
+    {
+      "path": "MsgServer/Structures/Carry.cs",
+      "bytes": 3693,
+      "sha256": "2ba24033a55a5006bc1ade773ffa7eb4bd5235531b99d74e49a4746ed27f8f47",
+      "tracked": true
+    },
+    {
+      "path": "MsgServer/Structures/DetainedObject.cs",
+      "bytes": 12914,
+      "sha256": "83d53cd4c9ae33f0717eac694b180f5b5294832839adb3fd862e4d5f42016fcd",
+      "tracked": true
+    },
+    {
+      "path": "MsgServer/Structures/Entities/Character.cs",
+      "bytes": 292918,
+      "sha256": "1d1695f2680e74f9d97da9408ef328ab366f070ad75978db775a5e3b0f1a34c2",
+      "tracked": true
+    },
+    {
+      "path": "MsgServer/Structures/Entities/DynamicNpc.cs",
+      "bytes": 31590,
+      "sha256": "43372fe1d30af9e88f1491a9614c694c9d83226df505029ff7e9e12650099720",
+      "tracked": true
+    },
+    {
+      "path": "MsgServer/Structures/Entities/EventFlag.cs",
+      "bytes": 2361,
+      "sha256": "858262f1e3695d7c6e69835cfe205e02d0338386aaeab5236ee57804c8e06361",
+      "tracked": true
+    },
+    {
+      "path": "MsgServer/Structures/Entities/GameNpc.cs",
+      "bytes": 3933,
+      "sha256": "6ff22e80dbe82c61620e0c95ead6d972891147cba9bd329adb555e76632e22b8",
+      "tracked": true
+    },
+    {
+      "path": "MsgServer/Structures/Entities/Monster.cs",
+      "bytes": 84975,
+      "sha256": "5841ae2cef118a081b84bbd6c670fa39120d8baec4a5d1972a670a7af3eef7f8",
+      "tracked": true
+    },
+    {
+      "path": "MsgServer/Structures/EntityStatus.cs",
+      "bytes": 17069,
+      "sha256": "2713e1698bd84f6d8bc0e903af707c4b7cd7ba8a83a79abcc6d1921e5ded1e14",
+      "tracked": true
+    },
+    {
+      "path": "MsgServer/Structures/Events/CapturetheFlag.cs",
+      "bytes": 22261,
+      "sha256": "1dbab58fa199a1b6c5619565fe3115c3edd6862203bc28e71dfc52c0a2a3cb9c",
+      "tracked": true
+    },
+    {
+      "path": "MsgServer/Structures/Events/ElitePKTournament.cs",
+      "bytes": 627,
+      "sha256": "6f90a5990496e42ea5a54fb6f1e4d62ee97d1c3cf64df49279b980c8ce064b25",
+      "tracked": true
+    },
+    {
+      "path": "MsgServer/Structures/Events/FamilyWar.cs",
+      "bytes": 1092,
+      "sha256": "4ef6c7cdd6172e3849344d318404d1a976f37e56c726def3fc18961ea4948709",
+      "tracked": true
+    },
+    {
+      "path": "MsgServer/Structures/Events/FlowerRanking.cs",
+      "bytes": 5080,
+      "sha256": "b2814655e041321c8f6b1e0e4454bb984d3e9263c1d655b5ecd67ad2b2dd2968",
+      "tracked": true
+    },
+    {
+      "path": "MsgServer/Structures/Events/GuildContest.cs",
+      "bytes": 553,
+      "sha256": "663f1f5c2afd4d5408306e577982031acbd3de7b19a75449fad51928999beafc",
+      "tracked": true
+    },
+    {
+      "path": "MsgServer/Structures/Events/LineSkillPKTournament.cs",
+      "bytes": 12078,
+      "sha256": "4f3e6d4557c7ec5e3424aa8f2c6973e8c16fe78a43d00fed4a55dbae010b65de",
+      "tracked": true
+    },
+    {
+      "path": "MsgServer/Structures/Events/QuizShow.cs",
+      "bytes": 22701,
+      "sha256": "f7591f70950bc9f598af95d9dab2bc1e52c2e282f60514243c2b481b5d0173c0",
+      "tracked": true
+    },
+    {
+      "path": "MsgServer/Structures/Events/ScorePKEvent.cs",
+      "bytes": 11106,
+      "sha256": "893dee68c91715cf077ee731c66cda6cd53efb30e30e675ca271841d34dab42d",
+      "tracked": true
+    },
+    {
+      "path": "MsgServer/Structures/Events/SyndicateScoreWar.cs",
+      "bytes": 10542,
+      "sha256": "d609acd0c8fdd2912096a9f5118dc04435129b822bbab29e3e04f7bfe4dc0397",
+      "tracked": true
+    },
+    {
+      "path": "MsgServer/Structures/FlowerObject.cs",
+      "bytes": 1782,
+      "sha256": "6ff8d3663c782cc17c08998b12a88787ebd4ac9ab3bf6365f6b4e61a6dd4c8f3",
+      "tracked": true
+    },
+    {
+      "path": "MsgServer/Structures/Guide.cs",
+      "bytes": 5165,
+      "sha256": "807793e287dad84be8d0952142212f44ea8d04e36995f0930f906d1e41183340",
+      "tracked": true
+    },
+    {
+      "path": "MsgServer/Structures/Interfaces/IActionStruct.cs",
+      "bytes": 635,
+      "sha256": "355c6785f82d2b824236a22b16565a76eb04d0386ed8f98632b7acc76a2c2404",
+      "tracked": true
+    },
+    {
+      "path": "MsgServer/Structures/Interfaces/IArtifact.cs",
+      "bytes": 1351,
+      "sha256": "fb4122b883c1a9eaddad5ca731315791ac1ed9d1435d00feef8824753008f81c",
+      "tracked": true
+    },
+    {
+      "path": "MsgServer/Structures/Interfaces/IHonorReward.cs",
+      "bytes": 664,
+      "sha256": "91ae22a4b2f438e40a48ce509cf50283c221128caa20ae8fb9e4112cb58b0a57",
+      "tracked": true
+    },
+    {
+      "path": "MsgServer/Structures/Interfaces/IKoCount.cs",
+      "bytes": 1282,
+      "sha256": "a1719e59b3f2c36ef59f57cc2516f06472265cb4a9463d3ccff35e9c6c2e6f0e",
+      "tracked": true
+    },
+    {
+      "path": "MsgServer/Structures/Interfaces/INextAction.cs",
+      "bytes": 725,
+      "sha256": "0f92874f0eebc64c5dc0a3e42b8a2bd32cf49c85b07c6e46fff44143bb0c0967",
+      "tracked": true
+    },
+    {
+      "path": "MsgServer/Structures/Interfaces/INpc.cs",
+      "bytes": 888,
+      "sha256": "944cb3bcf01d06533150dbcf7da117f6da33a7425bb945ac2da270a049565956",
+      "tracked": true
+    },
+    {
+      "path": "MsgServer/Structures/Interfaces/IOnTimer.cs",
+      "bytes": 568,
+      "sha256": "fd4839f42ee7ebb07bf404aa9ff64fee9c773ebce03416724652e137dc5640a2",
+      "tracked": true
+    },
+    {
+      "path": "MsgServer/Structures/Interfaces/IPassway.cs",
+      "bytes": 625,
+      "sha256": "0cc49c7462bfe7a5423e5a21e4cfc7850fd9095973b2110176dc9ee41b689331",
+      "tracked": true
+    },
+    {
+      "path": "MsgServer/Structures/Interfaces/IQualifierRank.cs",
+      "bytes": 4055,
+      "sha256": "e061e1173d305d4b96cb46373981312eaea49833ada6dea363f9b55076d4aeac",
+      "tracked": true
+    },
+    {
+      "path": "MsgServer/Structures/Interfaces/IQuenchDrop.cs",
+      "bytes": 929,
+      "sha256": "59853ecd7dd1050565556966665db652212875968270287c2f19aab89e73a01c",
+      "tracked": true
+    },
+    {
+      "path": "MsgServer/Structures/Interfaces/IRefinery.cs",
+      "bytes": 900,
+      "sha256": "56ddf72f0d88b4f6af95c26566d746fdfa0bb58fad25b1267cd68e6e6eacb30e",
+      "tracked": true
+    },
+    {
+      "path": "MsgServer/Structures/Interfaces/IRole.cs",
+      "bytes": 5367,
+      "sha256": "755756c7a1d32e446cb0060a63fcb9902c7bdbb694dce74b211fcdb75521f52d",
+      "tracked": true
+    },
+    {
+      "path": "MsgServer/Structures/Interfaces/IScore.cs",
+      "bytes": 636,
+      "sha256": "6bb9ed6d339854a1cbb4157505a23916ff22cab42c1ce8a7502cc8b0d01e2cae",
+      "tracked": true
+    },
+    {
+      "path": "MsgServer/Structures/Interfaces/IScreenObject.cs",
+      "bytes": 956,
+      "sha256": "d8d44c0be26e7b76cc54dd330818bdefecaea6261e433218eb8fa65fcad7fe70",
+      "tracked": true
+    },
+    {
+      "path": "MsgServer/Structures/Interfaces/IStatus.cs",
+      "bytes": 2000,
+      "sha256": "425bd3d616982169f03baeb40f572b57ad1ca5a3b75fd975e67c728e2259ebeb",
+      "tracked": true
+    },
+    {
+      "path": "MsgServer/Structures/Interfaces/ISubClass.cs",
+      "bytes": 954,
+      "sha256": "e393aafeebe1a50165b42bab019beec154ea50ed1bb7b1a789133cfd65da5dc3",
+      "tracked": true
+    },
+    {
+      "path": "MsgServer/Structures/Interfaces/ITaskStruct.cs",
+      "bytes": 809,
+      "sha256": "c695e9b5d89e718b7578f62852a0f4c0a62a1e11beff8a6ac3bc87f3b66ae862",
+      "tracked": true
+    },
+    {
+      "path": "MsgServer/Structures/Interfaces/LineSkillPKStatistic.cs",
+      "bytes": 2968,
+      "sha256": "a3ca4a5e41b9212e3899a1b277bed4ee221714c3c2778b961b44dc009bf96f15",
+      "tracked": true
+    },
+    {
+      "path": "MsgServer/Structures/Items/BoothItem.cs",
+      "bytes": 1018,
+      "sha256": "8ee642e3d2f686e362e060c4f6c25707fcd2391f24eea27bab0884a815c46613",
+      "tracked": true
+    },
+    {
+      "path": "MsgServer/Structures/Items/Equipment.cs",
+      "bytes": 35296,
+      "sha256": "de02cc31dfc7a7462c363ef25f8092dd6357d26ac59d97f4a720edb0652fa647",
+      "tracked": true
+    },
+    {
+      "path": "MsgServer/Structures/Items/Inventory.cs",
+      "bytes": 41128,
+      "sha256": "a245079ad3e5d1126280b8336607db4dcf8a835010a0d35e88e09ca10ab66f03",
+      "tracked": true
+    },
+    {
+      "path": "MsgServer/Structures/Items/Item.cs",
+      "bytes": 56819,
+      "sha256": "0c0dcc71fb70be80de75fd3507a355c60ec9f4bcca581a478470212daf67bec2",
+      "tracked": true
+    },
+    {
+      "path": "MsgServer/Structures/Items/MapItem.cs",
+      "bytes": 11564,
+      "sha256": "aad32defd2d5b87808608e7e48410edcbcc6fb8ed0a476eb330e17249883b280",
+      "tracked": true
+    },
+    {
+      "path": "MsgServer/Structures/Items/Warehouse.cs",
+      "bytes": 9275,
+      "sha256": "558ef785eb161055682af03dbe2322e38c77fb5e1188d0d477cbe70b68021f23",
+      "tracked": true
+    },
+    {
+      "path": "MsgServer/Structures/LoginRequest.cs",
+      "bytes": 1596,
+      "sha256": "e22edbfba7243c307b2de94e7c469d73d990e754efd3c166d0a730d4665dac91",
+      "tracked": true
+    },
+    {
+      "path": "MsgServer/Structures/Magic.cs",
+      "bytes": 10076,
+      "sha256": "de565455cba15003fc447ec4465fc1d69f1b3de87eb1f122e2760d7d71579ce2",
+      "tracked": true
+    },
+    {
+      "path": "MsgServer/Structures/MagicData.cs",
+      "bytes": 152300,
+      "sha256": "ca866caba7399851797bb766ea0d73107eee5ee15a7426128dafe526452258d3",
+      "tracked": true
+    },
+    {
+      "path": "MsgServer/Structures/MagicTypeOperation.cs",
+      "bytes": 5988,
+      "sha256": "ec98f3515ec61e76f29fb463d01dc21bba1a4bf80fdc493814e9a6555fb7b76e",
+      "tracked": true
+    },
+    {
+      "path": "MsgServer/Structures/Nobility.cs",
+      "bytes": 4950,
+      "sha256": "7d9e2812f4ecb5c64aba4925975e6ccc71626d03b866bccc7184876e70fbf7c7",
+      "tracked": true
+    },
+    {
+      "path": "MsgServer/Structures/PetData.cs",
+      "bytes": 849,
+      "sha256": "2baea1ce975b8a162839c01298d97b67dc3d43f4b5ec73e2141a6885f60c7659",
+      "tracked": true
+    },
+    {
+      "path": "MsgServer/Structures/Pigeon.cs",
+      "bytes": 9880,
+      "sha256": "2a8a1a8d85e0bc695e541ef26dc87b70ec19a020c7cf2d3a3e3d2f66a941ff77",
+      "tracked": true
+    },
+    {
+      "path": "MsgServer/Structures/PkExploit.cs",
+      "bytes": 4110,
+      "sha256": "73f9bd4b4b661a6ce17c6b00947433cf3158a071af446f9416a35420be7ded06",
+      "tracked": true
+    },
+    {
+      "path": "MsgServer/Structures/PlayerBooth.cs",
+      "bytes": 4962,
+      "sha256": "0d7a6931809444807e6cfb21ee90b8152ef99d50279f477bdc7e7e6aafdf9eff",
+      "tracked": true
+    },
+    {
+      "path": "MsgServer/Structures/Qualifier/ArenaEngine.cs",
+      "bytes": 12853,
+      "sha256": "0479dc167fb3b24d20b29c37689fc4a87860f35d1df75de618b244ef3eec291f",
+      "tracked": true
+    },
+    {
+      "path": "MsgServer/Structures/Qualifier/ArenaMatch.cs",
+      "bytes": 17654,
+      "sha256": "3527be772afbf39fe95168684dbe959ee39a2572fd0151af36ee9e537cfbf9e4",
+      "tracked": true
+    },
+    {
+      "path": "MsgServer/Structures/QuestJar.cs",
+      "bytes": 3384,
+      "sha256": "50b0fca66071189f7c7b0a47ec7b1a51838faf7697ef85a7aa265b7a7ef632ec",
+      "tracked": true
+    },
+    {
+      "path": "MsgServer/Structures/QuizShowUserObject.cs",
+      "bytes": 1189,
+      "sha256": "aba70b6beb090fc334f22e6a6d65c88a87d9be6cff4ff86d76d6dcb5e0f4b7a8",
+      "tracked": true
+    },
+    {
+      "path": "MsgServer/Structures/Relationship.cs",
+      "bytes": 982,
+      "sha256": "82f44681742b2b4da66114c256a7163522648e9bf9d58df0ebe65728c18c51e1",
+      "tracked": true
+    },
+    {
+      "path": "MsgServer/Structures/RequestBox.cs",
+      "bytes": 10630,
+      "sha256": "9a0d90b3b18b57f5140583f9590aedb1106f8873a6cd21bca6bbade620488e46",
+      "tracked": true
+    },
+    {
+      "path": "MsgServer/Structures/Society/Arsenal.cs",
+      "bytes": 20823,
+      "sha256": "193d8250bb24162ef95b0b48bf91936cc7cfb44a06f2d8417705126902c8dc16",
+      "tracked": true
+    },
+    {
+      "path": "MsgServer/Structures/Society/Family.cs",
+      "bytes": 26604,
+      "sha256": "de2c0e12e04c23c91d8e8c0e5646662cd59894e37d21bccd01afc22e33fd08c1",
+      "tracked": true
+    },
+    {
+      "path": "MsgServer/Structures/Society/FamilyMember.cs",
+      "bytes": 2773,
+      "sha256": "735a0bc6d1096e0d741f111b929e942ee5daafadcfb9bc6e579e97e8203b15a4",
+      "tracked": true
+    },
+    {
+      "path": "MsgServer/Structures/Society/Syndicate.cs",
+      "bytes": 87535,
+      "sha256": "1d31de850956694d1a5a5f6b8da61140d8950c5a7aa3366daf92a9ff51d533b3",
+      "tracked": true
+    },
+    {
+      "path": "MsgServer/Structures/Society/SyndicateMember.cs",
+      "bytes": 23826,
+      "sha256": "291857a7e498e74d1dd34adf3af9c756cc3ee4e2130726ad0e15b3b3fe18acc4",
+      "tracked": true
+    },
+    {
+      "path": "MsgServer/Structures/Society/SyndicateRecruitment.cs",
+      "bytes": 9797,
+      "sha256": "f35b1a1a690ee09a19c80b67796f5833d0d7f1d65aedb49e6a12a61e25be686f",
+      "tracked": true
+    },
+    {
+      "path": "MsgServer/Structures/Society/Totem.cs",
+      "bytes": 3721,
+      "sha256": "a91c3cb2a0f302b40bea37d9d188fd5e9ee3ec266d3f7946ed1e3bcc94771401",
+      "tracked": true
+    },
+    {
+      "path": "MsgServer/Structures/Society/TotemPole.cs",
+      "bytes": 988,
+      "sha256": "d9409082a79657bb708a0d9099d700e61969c6ce54f612f6e60d3a131e7b1e21",
+      "tracked": true
+    },
+    {
+      "path": "MsgServer/Structures/Student.cs",
+      "bytes": 4978,
+      "sha256": "290566a978877b4023e3c5133f26137163d209202b162c39ff8f51d344efebe9",
+      "tracked": true
+    },
+    {
+      "path": "MsgServer/Structures/SubProfession.cs",
+      "bytes": 9593,
+      "sha256": "d580a08e1f3d6b67ce7dc896172e3084ccc9b0b944f284805c28a0ae40cfe3be",
+      "tracked": true
+    },
+    {
+      "path": "MsgServer/Structures/SyndicateScore.cs",
+      "bytes": 1031,
+      "sha256": "115e920987bfd11d76f62386c2d202ff73873ee6205c0370217d0d948f961a3a",
+      "tracked": true
+    },
+    {
+      "path": "MsgServer/Structures/TQDialog.cs",
+      "bytes": 2316,
+      "sha256": "50cbeeee6e0889034a20cdc16980a15c3a61fdd590a53caca06c87d613b60e6a",
+      "tracked": true
+    },
+    {
+      "path": "MsgServer/Structures/Team.cs",
+      "bytes": 16198,
+      "sha256": "bec2714796ecb633a4a540191f3181ee8e03de9cae9650a5f12db729ffe79728",
+      "tracked": true
+    },
+    {
+      "path": "MsgServer/Structures/Tournament/TournamentMatches.cs",
+      "bytes": 4554,
+      "sha256": "be969311ebaf64507fa251cf8ac30b0e4aa87bccfcf8a1e24a31a46281404c2a",
+      "tracked": true
+    },
+    {
+      "path": "MsgServer/Structures/Tournament/TournamentStructure.cs",
+      "bytes": 627,
+      "sha256": "742fd593e64cf084224ca2e337fc1fc8b345601e3ef7236f7f144b96d91e7c04",
+      "tracked": true
+    },
+    {
+      "path": "MsgServer/Structures/Trade.cs",
+      "bytes": 16835,
+      "sha256": "a288d4d8dc6c70f504d4af4eb0da8f039b61d863f745ddc1dc74fd9e39a7f395",
+      "tracked": true
+    },
+    {
+      "path": "MsgServer/Structures/TradePartner.cs",
+      "bytes": 4015,
+      "sha256": "e3adf00380b53457bbc181c9876fa9fc23331d58dc793c016fc4748600f81ce9",
+      "tracked": true
+    },
+    {
+      "path": "MsgServer/Structures/Transformation.cs",
+      "bytes": 3681,
+      "sha256": "9e322a0a9ba5667528222ce4b21cf0fb77e43214395f2045660736acc9dba099",
+      "tracked": true
+    },
+    {
+      "path": "MsgServer/Structures/UserScore.cs",
+      "bytes": 1016,
+      "sha256": "77a1e928dc22b35054689fea4b46380693355aec1b8fdeb5863d162542f162d9",
+      "tracked": true
+    },
+    {
+      "path": "MsgServer/Structures/WeaponSkill.cs",
+      "bytes": 3166,
+      "sha256": "e451a97148562cc6d3bea25c28d7dd5eeb18eaa7c44ba9c6e28a32f9ac2796c2",
+      "tracked": true
+    },
+    {
+      "path": "MsgServer/Structures/World/Floor.cs",
+      "bytes": 14557,
+      "sha256": "3750b8d9ee3c4ca2be9d6f2dbfc70d77a4e3e265a7e5b208ac59812397997035",
+      "tracked": true
+    },
+    {
+      "path": "MsgServer/Structures/World/Generator.cs",
+      "bytes": 10039,
+      "sha256": "d588505bc5a2e46cbbd0117cd3ad02a83b1d1fccde60972fa6ceb0debfeb3f9e",
+      "tracked": true
+    },
+    {
+      "path": "MsgServer/Structures/World/Map.cs",
+      "bytes": 30826,
+      "sha256": "42e72ed7a292ebae79661ae651c679565c47a7ce94a3380dba081fc38d658cf2",
+      "tracked": true
+    },
+    {
+      "path": "MsgServer/Structures/World/Screen.cs",
+      "bytes": 13642,
+      "sha256": "a7f64b300310ad4f6ce9131851fde9ca6c3b8dcfb6accca61d5bc157004a542d",
+      "tracked": true
+    },
+    {
+      "path": "MsgServer/Structures/World/Tile.cs",
+      "bytes": 2460,
+      "sha256": "1f3b9fd0e46c52a48f9d8c3658cdc007fca98cdaf56efe8a5a7e54480a6bc83e",
+      "tracked": true
+    },
+    {
+      "path": "MsgServer/Threads/ThreadHandler.cs",
+      "bytes": 5125,
+      "sha256": "e5df4fdab1e1c92ce95ca83229a22bad537805796633919eff8d24b63b2eb6b6",
+      "tracked": true
+    },
+    {
+      "path": "MsgServer/Threads/Workers/BattleSystemProcessing.cs",
+      "bytes": 1634,
+      "sha256": "65635e8b306ec5f9c14c9a9da1c61ab7a7ccc14ec6d4fbb1d5ba9a7caa3f65ec",
+      "tracked": true
+    },
+    {
+      "path": "MsgServer/Threads/Workers/EventsProcessing.cs",
+      "bytes": 6857,
+      "sha256": "d78bc19d07476641a2ca325ec875f445453ad55718a88a68d556840c1c696dfd",
+      "tracked": true
+    },
+    {
+      "path": "MsgServer/Threads/Workers/GeneratorProcessing.cs",
+      "bytes": 1383,
+      "sha256": "ea1a8788749b3abc7bf8427a23aa5901ad2983f4c46bb9bfc7020a191615582e",
+      "tracked": true
+    },
+    {
+      "path": "MsgServer/Threads/Workers/ItemsProcessing.cs",
+      "bytes": 4604,
+      "sha256": "1f1ba9bd0e801d323794fc6a83b56d33b24554fa792451c7ccdd2bdfde738174",
+      "tracked": true
+    },
+    {
+      "path": "MsgServer/Threads/Workers/MonsterAI.cs",
+      "bytes": 2809,
+      "sha256": "785de7a08ac564ec82da442dc8194db04af82a626eca893adc8ac428479153b0",
+      "tracked": true
+    },
+    {
+      "path": "MsgServer/Threads/Workers/ServerProcessing.cs",
+      "bytes": 11466,
+      "sha256": "d082e43ed81c4981da33ccc44577dc68ebbbff966958519a0d32fd3108e6d346",
+      "tracked": true
+    },
+    {
+      "path": "MsgServer/Threads/Workers/UserProcessing.cs",
+      "bytes": 2378,
+      "sha256": "8834bd274f7f95f66279016f5ac13f202832f766381ec7b3fea71ce09b113851",
+      "tracked": true
+    },
+    {
+      "path": "MsgServer/build-packaged-version.bat",
+      "bytes": 158,
+      "sha256": "69cfec5941e7a4023466ed2971c9210e992582cab529c49133482321f945889c",
+      "tracked": true
+    },
+    {
+      "path": "MsgServer/fconquerlogo_source.ico",
+      "bytes": 127780,
+      "sha256": "76f4349c1766da1a8068b208a2a2474cb71d03d079ab030409cc2ce424d9d538",
+      "tracked": true
+    },
+    {
+      "path": "MsgServer/libeay32.dll",
+      "bytes": 1177600,
+      "sha256": "95550b81825ae3fb4298b0de1f7ebd116754d99483a6d73cc7271e002484a928",
+      "tracked": false,
+      "excluded_reason": "native-binary"
+    },
+    {
+      "path": "README.md",
+      "bytes": 519,
+      "sha256": "2d36891c30508bc917fea9f1aa533b095d284e94de50fd16cb85b3af6056f08b",
+      "tracked": true
+    },
+    {
+      "path": "RequiredFiles/Copy this in Debug or Release Folder of MsgServer Project.txt",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "tracked": true
+    },
+    {
+      "path": "RequiredFiles/GameMap.dat",
+      "bytes": 8131,
+      "sha256": "0676b7d6969dd8277438704a289b1f57e8debb89fe5d3f912819c3a7880686a0",
+      "tracked": true
+    },
+    {
+      "path": "RequiredFiles/Maps/09Christmas04.DMap",
+      "bytes": 392008,
+      "sha256": "b3609802efaf796754a9c5dd622d7a6692bb87160230db04c87fb63a2cfd171e",
+      "tracked": false,
+      "excluded_reason": "large-map-assets"
+    },
+    {
+      "path": "RequiredFiles/Maps/09christmas01.DMap",
+      "bytes": 224728,
+      "sha256": "aea132fe1f673260bb80338fa0bceac5455a8dd932fc5a7d87750b458165868c",
+      "tracked": false,
+      "excluded_reason": "large-map-assets"
+    },
+    {
+      "path": "RequiredFiles/Maps/09christmas03.DMap",
+      "bytes": 297688,
+      "sha256": "e8a8cf90e9d8725890ad3457806a5cf5af80d283e537a475d3464482e47b9adb",
+      "tracked": false,
+      "excluded_reason": "large-map-assets"
+    },
+    {
+      "path": "RequiredFiles/Maps/2009-7x.DMap",
+      "bytes": 1568008,
+      "sha256": "e8c8ce694b67d7ee879a569595275741ead31b42c151c75be4e852813d34c1d2",
+      "tracked": false,
+      "excluded_reason": "large-map-assets"
+    },
+    {
+      "path": "RequiredFiles/Maps/Dcloister.DMap",
+      "bytes": 2284888,
+      "sha256": "de514d0126c38702693e699b557210480c570cd2e0e137406126b63e6e405ae3",
+      "tracked": false,
+      "excluded_reason": "large-map-assets"
+    },
+    {
+      "path": "RequiredFiles/Maps/Dgate.DMap",
+      "bytes": 1512508,
+      "sha256": "60b883c34ad7e1096f9da699cbba7f8dc7f63a5d7ac568c1e230559a9ae92475",
+      "tracked": false,
+      "excluded_reason": "large-map-assets"
+    },
+    {
+      "path": "RequiredFiles/Maps/Dsigil.DMap",
+      "bytes": 456028,
+      "sha256": "8a8babd64cde5ebc038e5f3e732159b920c8b2e2b4ee772611859ae43e352950",
+      "tracked": false,
+      "excluded_reason": "large-map-assets"
+    },
+    {
+      "path": "RequiredFiles/Maps/Dsquare.DMap",
+      "bytes": 898888,
+      "sha256": "37981ed4011729936cf51691c131c26205104dd779d289c2deedd5eac3359fb0",
+      "tracked": false,
+      "excluded_reason": "large-map-assets"
+    },
+    {
+      "path": "RequiredFiles/Maps/Gulf.DMap",
+      "bytes": 7762588,
+      "sha256": "4923bd546ac2d29db8bc94fbe0c3f1c1c25a54e222eaf414c2a54346fd1e34f1",
+      "tracked": false,
+      "excluded_reason": "large-map-assets"
+    },
+    {
+      "path": "RequiredFiles/Maps/Halloween2007a.DMap",
+      "bytes": 134488,
+      "sha256": "11a74f07c7101be19965034bc04f0a9ad92d49df630d7c3b7aea304e1765a63d",
+      "tracked": false,
+      "excluded_reason": "large-map-assets"
+    },
+    {
+      "path": "RequiredFiles/Maps/Halloween2007b.DMap",
+      "bytes": 134488,
+      "sha256": "2b3fda45656a2971c8f20fe154b1554a47129c1f37b5c972ad7d886bb14b0f75",
+      "tracked": false,
+      "excluded_reason": "large-map-assets"
+    },
+    {
+      "path": "RequiredFiles/Maps/Halloween2007boss.DMap",
+      "bytes": 58328,
+      "sha256": "55a85413dad8a51e90474620a7cd7ea2df8f03105e3125154747eda5ab71c7ef",
+      "tracked": false,
+      "excluded_reason": "large-map-assets"
+    },
+    {
+      "path": "RequiredFiles/Maps/Hallowmas.DMap",
+      "bytes": 169288,
+      "sha256": "ba1d671d82ff0603f9068b4241388c9092f0af7368e212946a77948e16c5fa68",
+      "tracked": false,
+      "excluded_reason": "large-map-assets"
+    },
+    {
+      "path": "RequiredFiles/Maps/Nhouse03.DMap",
+      "bytes": 81928,
+      "sha256": "05f73eeca287ffb4cb6f67a6bf8cb4f9e4632f7ee95bf132ea526bbd856ee5b9",
+      "tracked": false,
+      "excluded_reason": "large-map-assets"
+    },
+    {
+      "path": "RequiredFiles/Maps/Nhouse04.DMap",
+      "bytes": 81928,
+      "sha256": "2beac6ed5ccfc4b248c982c693f83d31c29e3fb0dd385f554b1ea470dfd2a78b",
+      "tracked": false,
+      "excluded_reason": "large-map-assets"
+    },
+    {
+      "path": "RequiredFiles/Maps/SpringTown.DMap",
+      "bytes": 648008,
+      "sha256": "57f5bcab10aa7aaf18304dc5d588dbee1134488e178823539260550794aad590",
+      "tracked": false,
+      "excluded_reason": "large-map-assets"
+    },
+    {
+      "path": "RequiredFiles/Maps/arena-none.DMap",
+      "bytes": 46088,
+      "sha256": "744ce971885195a3917da1d6a7ce78ad01b5ef03b2bb0e7d85e8928c1937336c",
+      "tracked": false,
+      "excluded_reason": "large-map-assets"
+    },
+    {
+      "path": "RequiredFiles/Maps/arena.DMap",
+      "bytes": 46088,
+      "sha256": "4592c63d33ab4d57da950a6160cd20f8a9abbc5cfcb209fb6da7dde370f42cb3",
+      "tracked": false,
+      "excluded_reason": "large-map-assets"
+    },
+    {
+      "path": "RequiredFiles/Maps/arenamap.DMap",
+      "bytes": 50008,
+      "sha256": "56c03206794b63bafb73195ecf7a3b0472b4a81cc3c369f0565e6d742754f6b6",
+      "tracked": false,
+      "excluded_reason": "large-map-assets"
+    },
+    {
+      "path": "RequiredFiles/Maps/babel.DMap",
+      "bytes": 677128,
+      "sha256": "b4b78ecaaff4b7dddd3f4249a6d7b0e1f68f7cc9c2ae362aa215a408420e3968",
+      "tracked": false,
+      "excluded_reason": "large-map-assets"
+    },
+    {
+      "path": "RequiredFiles/Maps/blpk.DMap",
+      "bytes": 216328,
+      "sha256": "a2012f25bb54820c5560908e90d81deb2f9f9922f8d6b3537c58af93e2592be2",
+      "tracked": false,
+      "excluded_reason": "large-map-assets"
+    },
+    {
+      "path": "RequiredFiles/Maps/boa.DMap",
+      "bytes": 233288,
+      "sha256": "b8e05d229983299647d50457648b9366427f5fb09c50b0e068befd960c36a408",
+      "tracked": false,
+      "excluded_reason": "large-map-assets"
+    },
+    {
+      "path": "RequiredFiles/Maps/bp-contest02.DMap",
+      "bytes": 348488,
+      "sha256": "7d3ee7630bae75def2f4dbdeea531f609d3bb0e7f509642ff71b64651794330b",
+      "tracked": false,
+      "excluded_reason": "large-map-assets"
+    },
+    {
+      "path": "RequiredFiles/Maps/bp-flag.DMap",
+      "bytes": 1590488,
+      "sha256": "0dd813e419e429deea9085ff5ae881b03d03f9093c39fc2c37bd8c1b711bf589",
+      "tracked": false,
+      "excluded_reason": "large-map-assets"
+    },
+    {
+      "path": "RequiredFiles/Maps/bp-kingfight.DMap",
+      "bytes": 348488,
+      "sha256": "62b12ef27265ddcacb052694c09c8b814142488cc61d2b6988f6f7003439a97d",
+      "tracked": false,
+      "excluded_reason": "large-map-assets"
+    },
+    {
+      "path": "RequiredFiles/Maps/brave.DMap",
+      "bytes": 1568008,
+      "sha256": "6e3ebdb11d5e3d41eac7944676d01193f3160057f3416418cb84c7796c088c4f",
+      "tracked": false,
+      "excluded_reason": "large-map-assets"
+    },
+    {
+      "path": "RequiredFiles/Maps/canyon-fairy.DMap",
+      "bytes": 10368008,
+      "sha256": "083bb41524690c8b5e5017169c02b881751073e27c5c4733fb942010e98d7621",
+      "tracked": false,
+      "excluded_reason": "large-map-assets"
+    },
+    {
+      "path": "RequiredFiles/Maps/canyon.DMap",
+      "bytes": 4343128,
+      "sha256": "4f7db08f1d745c260d442b9c2859f70ea982d8eff4128b61d381c8420c26ebc7",
+      "tracked": false,
+      "excluded_reason": "large-map-assets"
+    },
+    {
+      "path": "RequiredFiles/Maps/christmas01.DMap",
+      "bytes": 2178008,
+      "sha256": "0a50bbf8183410c88dd00bfbd272fc0b606c54b1c40408a9f6e05057aa9eede0",
+      "tracked": false,
+      "excluded_reason": "large-map-assets"
+    },
+    {
+      "path": "RequiredFiles/Maps/christmas02.DMap",
+      "bytes": 317528,
+      "sha256": "ee048193b3756c389e557b8199b18ad7c5fba7b87aefff899c27872191d297a0",
+      "tracked": false,
+      "excluded_reason": "large-map-assets"
+    },
+    {
+      "path": "RequiredFiles/Maps/climate.DMap",
+      "bytes": 2284888,
+      "sha256": "ffabf11f1bff6783a23d4496d545b93ee8a109ba273cbf4b38087ad84c6de31c",
+      "tracked": false,
+      "excluded_reason": "large-map-assets"
+    },
+    {
+      "path": "RequiredFiles/Maps/cordiform.DMap",
+      "bytes": 882008,
+      "sha256": "a34aad693023d18216c427378b302d930004777daaf23036e56ec824741a73ea",
+      "tracked": false,
+      "excluded_reason": "large-map-assets"
+    },
+    {
+      "path": "RequiredFiles/Maps/d_antre01.DMap",
+      "bytes": 4122328,
+      "sha256": "5e70502ed6dcbfee3fc8d203cac15ca2fc347b8ee3358235810ed50489ba5ab4",
+      "tracked": false,
+      "excluded_reason": "large-map-assets"
+    },
+    {
+      "path": "RequiredFiles/Maps/desert-snail.DMap",
+      "bytes": 5832008,
+      "sha256": "49a200cead4a2cbcfe260b631362aa2a1cb381b22e72c55dbfb69884b1676c7f",
+      "tracked": false,
+      "excluded_reason": "large-map-assets"
+    },
+    {
+      "path": "RequiredFiles/Maps/desert.DMap",
+      "bytes": 4841288,
+      "sha256": "5f39aec0efcf614039f8340c0ac00784406d8e5959f3b3d5cb2776ad3cff116a",
+      "tracked": false,
+      "excluded_reason": "large-map-assets"
+    },
+    {
+      "path": "RequiredFiles/Maps/dragon.DMap",
+      "bytes": 147928,
+      "sha256": "32db4960d2aac988839e49e27c8d895851118a940d1c3ab19596cd9a01fa2e4f",
+      "tracked": false,
+      "excluded_reason": "large-map-assets"
+    },
+    {
+      "path": "RequiredFiles/Maps/faction-black.DMap",
+      "bytes": 816088,
+      "sha256": "6b6d8b385fba7469ad548c7384439156c6d93f9184060491c7929e6e9b3218da",
+      "tracked": false,
+      "excluded_reason": "large-map-assets"
+    },
+    {
+      "path": "RequiredFiles/Maps/faction.DMap",
+      "bytes": 800008,
+      "sha256": "6223930f0297a71a4166380c9e3244972b518f5842266b77b63fb19853e3beac",
+      "tracked": false,
+      "excluded_reason": "large-map-assets"
+    },
+    {
+      "path": "RequiredFiles/Maps/faction01.DMap",
+      "bytes": 800008,
+      "sha256": "264a2321b1361f5da60adaf376cd558006c549e2f9935a52cf782235648bc6f2",
+      "tracked": false,
+      "excluded_reason": "large-map-assets"
+    },
+    {
+      "path": "RequiredFiles/Maps/fairylandPK-02.DMap",
+      "bytes": 46088,
+      "sha256": "20e31282e35c23f33bdcc6af7817b23b6dfccb2c854ec6a2180a38aeea80cdee",
+      "tracked": false,
+      "excluded_reason": "large-map-assets"
+    },
+    {
+      "path": "RequiredFiles/Maps/fairylandPK-03.DMap",
+      "bytes": 46088,
+      "sha256": "1d108e1ebe7536c3fde5eff5240f1703c7129e17c53e8587ef9322202a721828",
+      "tracked": false,
+      "excluded_reason": "large-map-assets"
+    },
+    {
+      "path": "RequiredFiles/Maps/fairylandPK-04.DMap",
+      "bytes": 46088,
+      "sha256": "5d37e63f5cb4737db27106f91a4eb92d4f6d472880141eae0024cc2f8426a015",
+      "tracked": false,
+      "excluded_reason": "large-map-assets"
+    },
+    {
+      "path": "RequiredFiles/Maps/fairylandPK-05.DMap",
+      "bytes": 46088,
+      "sha256": "08e67c3c4fcd90da62a69ef8d0af23126d33629c2e1eb062645f81e0d2c14952",
+      "tracked": false,
+      "excluded_reason": "large-map-assets"
+    },
+    {
+      "path": "RequiredFiles/Maps/fairylandPK-06.DMap",
+      "bytes": 46088,
+      "sha256": "679fce5819a182fa460fe43c356d0fbe639ab77708aceb6de6d4ef184a06e1bc",
+      "tracked": false,
+      "excluded_reason": "large-map-assets"
+    },
+    {
+      "path": "RequiredFiles/Maps/fairylandPK-07.DMap",
+      "bytes": 46088,
+      "sha256": "c66cf2e630e8d747dc2b3229dc616b559307c0507e2d3c7b4cd3e6318430ff7d",
+      "tracked": false,
+      "excluded_reason": "large-map-assets"
+    },
+    {
+      "path": "RequiredFiles/Maps/fairylandPK-08.DMap",
+      "bytes": 46088,
+      "sha256": "338f10a4b11fafb587419016ef2542657fc68c8b3fb2d84c6328a38955c69350",
+      "tracked": false,
+      "excluded_reason": "large-map-assets"
+    },
+    {
+      "path": "RequiredFiles/Maps/fairylandPK-10.DMap",
+      "bytes": 76888,
+      "sha256": "4c12544e71083ccc9f57359aaec62c4e4e649ad4acff173dc995cf134fb19425",
+      "tracked": false,
+      "excluded_reason": "large-map-assets"
+    },
+    {
+      "path": "RequiredFiles/Maps/family.DMap",
+      "bytes": 144508,
+      "sha256": "3b088fa7faf86a5d3c46345676a4d4fd7cd0e6f4b7dc412b54e27d66c829de23",
+      "tracked": false,
+      "excluded_reason": "large-map-assets"
+    },
+    {
+      "path": "RequiredFiles/Maps/flower.DMap",
+      "bytes": 250888,
+      "sha256": "7b57c260bb65f320e4e6c406620d74dbb1c4543cf85440fab6b64f0090101e5c",
+      "tracked": false,
+      "excluded_reason": "large-map-assets"
+    },
+    {
+      "path": "RequiredFiles/Maps/forum.DMap",
+      "bytes": 46088,
+      "sha256": "2dd811fa5cbc465f9fa8d4d2c2742d101f0fc7a75f3f735bd4700dc807f174aa",
+      "tracked": false,
+      "excluded_reason": "large-map-assets"
+    },
+    {
+      "path": "RequiredFiles/Maps/grocery.DMap",
+      "bytes": 8008,
+      "sha256": "b1fb4d8bc846c61287b08d3ad78db0bf53a961c06a22494451fac3590bb648e4",
+      "tracked": false,
+      "excluded_reason": "large-map-assets"
+    },
+    {
+      "path": "RequiredFiles/Maps/halloween01.DMap",
+      "bytes": 38728,
+      "sha256": "10ad373aff9a3a70a38eb768936b42c67f418360986e415ddf5463688a65869f",
+      "tracked": false,
+      "excluded_reason": "large-map-assets"
+    },
+    {
+      "path": "RequiredFiles/Maps/halloween02.DMap",
+      "bytes": 9031688,
+      "sha256": "88d9ffe64e7465156fd002b6d2cb72db19694941532758ec7a6ef70008c7de1d",
+      "tracked": false,
+      "excluded_reason": "large-map-assets"
+    },
+    {
+      "path": "RequiredFiles/Maps/halloween03.DMap",
+      "bytes": 15688,
+      "sha256": "450dbf592d11114d25e573440a278495ce6e3255f3699c186a4a4e519529dced",
+      "tracked": false,
+      "excluded_reason": "large-map-assets"
+    },
+    {
+      "path": "RequiredFiles/Maps/hhpk.DMap",
+      "bytes": 176728,
+      "sha256": "b6d52852930ad47d3a78d31de05fd8976a7fa7e6ac1ef3bf218b8bd2c3606ff8",
+      "tracked": false,
+      "excluded_reason": "large-map-assets"
+    },
+    {
+      "path": "RequiredFiles/Maps/horse.DMap",
+      "bytes": 13528,
+      "sha256": "1d1d380d75532170e905bde9002fc42da1ed88c84fc6167dd5641223322630e6",
+      "tracked": false,
+      "excluded_reason": "large-map-assets"
+    },
+    {
+      "path": "RequiredFiles/Maps/horserate-ic1.DMap",
+      "bytes": 6094088,
+      "sha256": "88232c4cefc3da347eaae993f764f6dc3cec4a5a776d0f9545be0f1d71ee5398",
+      "tracked": false,
+      "excluded_reason": "large-map-assets"
+    },
+    {
+      "path": "RequiredFiles/Maps/horserate-ic2.DMap",
+      "bytes": 6094088,
+      "sha256": "824ec05ed53f60fe7c80b0f653368113a2ae512eca4b75ff484bee982cf98385",
+      "tracked": false,
+      "excluded_reason": "large-map-assets"
+    },
+    {
+      "path": "RequiredFiles/Maps/horserate-is.DMap",
+      "bytes": 6094088,
+      "sha256": "057f6bcae43592061ca055d008950c5c91141da0749b9a228e441d116ef105df",
+      "tracked": false,
+      "excluded_reason": "large-map-assets"
+    },
+    {
+      "path": "RequiredFiles/Maps/horserate.DMap",
+      "bytes": 1523528,
+      "sha256": "2f2bfbc74beda560a05768222f9d2f2c956992539bbacfa3e15122573d98fdab",
+      "tracked": false,
+      "excluded_reason": "large-map-assets"
+    },
+    {
+      "path": "RequiredFiles/Maps/house01.DMap",
+      "bytes": 15688,
+      "sha256": "0dddfcc645c2f3bee16e14e2fdf29890678341138698f5760ceb4a4fb2f3b245",
+      "tracked": false,
+      "excluded_reason": "large-map-assets"
+    },
+    {
+      "path": "RequiredFiles/Maps/house03.DMap",
+      "bytes": 42328,
+      "sha256": "5f9786fb67c928ed341839f2d6ced1a9a4c7d8d02a049b79d262c405d834cb0c",
+      "tracked": false,
+      "excluded_reason": "large-map-assets"
+    },
+    {
+      "path": "RequiredFiles/Maps/icecrypt-lev1.DMap",
+      "bytes": 2366728,
+      "sha256": "525e2ba84665aa53477585546c596f9f6bf20397f3efd01db11c8e9aec9a4b28",
+      "tracked": false,
+      "excluded_reason": "large-map-assets"
+    },
+    {
+      "path": "RequiredFiles/Maps/icecrypt-lev3.DMap",
+      "bytes": 3362008,
+      "sha256": "477628864d89da1f21eb716578a103708bdfc3b7f8e006cbb3c387c7fcea9d67",
+      "tracked": false,
+      "excluded_reason": "large-map-assets"
+    },
+    {
+      "path": "RequiredFiles/Maps/icecrypt-lev4.DMap",
+      "bytes": 2366728,
+      "sha256": "5aae8293845605d6318768c8b1a498bcef92a915b5a215180bfa41c81576d07a",
+      "tracked": false,
+      "excluded_reason": "large-map-assets"
+    },
+    {
+      "path": "RequiredFiles/Maps/icecrypt-lev5.DMap",
+      "bytes": 2738008,
+      "sha256": "d0857f7a793ffb62e7b72b7e682a55fef1ab6fc1921003757a1bc5f15f40c422",
+      "tracked": false,
+      "excluded_reason": "large-map-assets"
+    },
+    {
+      "path": "RequiredFiles/Maps/icecrypt-lev6.DMap",
+      "bytes": 3264328,
+      "sha256": "ae7374199f0a79dead1f5533f7b7e861d8b0f8490cfb643916a7e10057b7be7a",
+      "tracked": false,
+      "excluded_reason": "large-map-assets"
+    },
+    {
+      "path": "RequiredFiles/Maps/idland-map.DMap",
+      "bytes": 898888,
+      "sha256": "3d5241de46ba7ccbfd49c1ab27cb43a94f1149b00132133c9f71b86de1d942c2",
+      "tracked": false,
+      "excluded_reason": "large-map-assets"
+    },
+    {
+      "path": "RequiredFiles/Maps/island-snail.DMap",
+      "bytes": 9248008,
+      "sha256": "2e09d0ab661fda0b5712d8e13eb74c6bc881c3bd54020dbf61a3fe77d2801c32",
+      "tracked": false,
+      "excluded_reason": "large-map-assets"
+    },
+    {
+      "path": "RequiredFiles/Maps/island.DMap",
+      "bytes": 5242888,
+      "sha256": "e5c57f67230b7f077e1578f41247d55c794268869e66a687695513fd6d34a2a4",
+      "tracked": false,
+      "excluded_reason": "large-map-assets"
+    },
+    {
+      "path": "RequiredFiles/Maps/jokul01.DMap",
+      "bytes": 15688,
+      "sha256": "6ee3a7e34bd655c2a99a3d255eb93893126dc8b5170233bc56755511d782fa69",
+      "tracked": false,
+      "excluded_reason": "large-map-assets"
+    },
+    {
+      "path": "RequiredFiles/Maps/l-arena.DMap",
+      "bytes": 512008,
+      "sha256": "505334a1f7d2e2a60fe503707145b2ca95a929293e48d50952febf080a71fa4b",
+      "tracked": false,
+      "excluded_reason": "large-map-assets"
+    },
+    {
+      "path": "RequiredFiles/Maps/lineup-pass.DMap",
+      "bytes": 20488,
+      "sha256": "689483411f638c8b39f4d626220992740feb6744ece5dcc3f57bcbdd7f209645",
+      "tracked": false,
+      "excluded_reason": "large-map-assets"
+    },
+    {
+      "path": "RequiredFiles/Maps/lineup.DMap",
+      "bytes": 250888,
+      "sha256": "a2ef582453c69417b00c7865be249e062aedbc051af6dba7003a0e8ae2d5376e",
+      "tracked": false,
+      "excluded_reason": "large-map-assets"
+    },
+    {
+      "path": "RequiredFiles/Maps/maidan-A.DMap",
+      "bytes": 1728728,
+      "sha256": "4fbb647bb125d8076a9d911e3763900602f2efd99c78c04f2b5b4a10e351ea2d",
+      "tracked": false,
+      "excluded_reason": "large-map-assets"
+    },
+    {
+      "path": "RequiredFiles/Maps/maidan-E.DMap",
+      "bytes": 2284888,
+      "sha256": "6fd233fb46aac0e7d3d60cc6fd1608a6c17c2dd08049872a1c61ac3e59afb8dd",
+      "tracked": false,
+      "excluded_reason": "large-map-assets"
+    },
+    {
+      "path": "RequiredFiles/Maps/maze01.DMap",
+      "bytes": 3698008,
+      "sha256": "45c0d8462fd7ee9b3ffe2ab67f2c425e74d9e8539b0452e020317b265732c018",
+      "tracked": false,
+      "excluded_reason": "large-map-assets"
+    },
+    {
+      "path": "RequiredFiles/Maps/maze02.DMap",
+      "bytes": 605528,
+      "sha256": "461073a8f549ee93639c10c1fbb86bf19605e239bc03a8c205e50cb175d81441",
+      "tracked": false,
+      "excluded_reason": "large-map-assets"
+    },
+    {
+      "path": "RequiredFiles/Maps/maze03.DMap",
+      "bytes": 605528,
+      "sha256": "a0676b9050218a5d8de8006ea08723f6d4c5d80a8fcaea542e87b32f12e7fb2e",
+      "tracked": false,
+      "excluded_reason": "large-map-assets"
+    },
+    {
+      "path": "RequiredFiles/Maps/maze04.DMap",
+      "bytes": 332828,
+      "sha256": "1f207acb3225756847c2a111dd888ed093a6d94719af0c9876fced2769769eaf",
+      "tracked": false,
+      "excluded_reason": "large-map-assets"
+    },
+    {
+      "path": "RequiredFiles/Maps/maze05.DMap",
+      "bytes": 332828,
+      "sha256": "3bf30c98077402dd22d498556c9e55c10070228fabaef455462596cce7b53d93",
+      "tracked": false,
+      "excluded_reason": "large-map-assets"
+    },
+    {
+      "path": "RequiredFiles/Maps/maze06.DMap",
+      "bytes": 474328,
+      "sha256": "06607d0a2f1a9b4c3cae362d38f252d5fcd603e2a28515d0b84b5f3fab8eacf6",
+      "tracked": false,
+      "excluded_reason": "large-map-assets"
+    },
+    {
+      "path": "RequiredFiles/Maps/maze07.DMap",
+      "bytes": 564488,
+      "sha256": "0eb0fcdffe16d21914e865c23a050a5b1d4c5bd9d6647cdd31d223c6be175f8e",
+      "tracked": false,
+      "excluded_reason": "large-map-assets"
+    },
+    {
+      "path": "RequiredFiles/Maps/maze08.DMap",
+      "bytes": 486728,
+      "sha256": "e64dfcf1243e2cbcf857e8561de84619e742cd72ff6a444e1eb3c7d83dc0d459",
+      "tracked": false,
+      "excluded_reason": "large-map-assets"
+    },
+    {
+      "path": "RequiredFiles/Maps/maze09.DMap",
+      "bytes": 486728,
+      "sha256": "478066e4a6095662beb9b5c14d0dcc4e5d0fccc4edbc60e06afc74d98c6d1e8c",
+      "tracked": false,
+      "excluded_reason": "large-map-assets"
+    },
+    {
+      "path": "RequiredFiles/Maps/mfpk.DMap",
+      "bytes": 224728,
+      "sha256": "8fba714d9b0208ac7fec5f6cee6bebaaeaf461d670f06805d7953c7d0f01fbe0",
+      "tracked": false,
+      "excluded_reason": "large-map-assets"
+    },
+    {
+      "path": "RequiredFiles/Maps/mine-a.DMap",
+      "bytes": 169288,
+      "sha256": "4e32e025115d86e4026ae9d8203466a38dc42363b0cc3dae2a6a899ad192ece8",
+      "tracked": false,
+      "excluded_reason": "large-map-assets"
+    },
+    {
+      "path": "RequiredFiles/Maps/mine-b.DMap",
+      "bytes": 169288,
+      "sha256": "4e32e025115d86e4026ae9d8203466a38dc42363b0cc3dae2a6a899ad192ece8",
+      "tracked": false,
+      "excluded_reason": "large-map-assets"
+    },
+    {
+      "path": "RequiredFiles/Maps/mine-c.DMap",
+      "bytes": 169288,
+      "sha256": "5807733d1d744fe3966000b8634c6a320af8ba0f86c71e98d27681cf893c3e2e",
+      "tracked": false,
+      "excluded_reason": "large-map-assets"
+    },
+    {
+      "path": "RequiredFiles/Maps/mine-d.DMap",
+      "bytes": 169288,
+      "sha256": "607224f31fc4f25373b169d0c8f370ef84779cb1dca90fed9b8dbaaa8c8b2ad2",
+      "tracked": false,
+      "excluded_reason": "large-map-assets"
+    },
+    {
+      "path": "RequiredFiles/Maps/mine-four.DMap",
+      "bytes": 169288,
+      "sha256": "38b19460aa0e03b65a85b933104b5019f723a43208138d847d2f5db68bad25a1",
+      "tracked": false,
+      "excluded_reason": "large-map-assets"
+    },
+    {
+      "path": "RequiredFiles/Maps/mine-four2.DMap",
+      "bytes": 169288,
+      "sha256": "8b7e9e834acc9e7b52be5d048e10b96af11082cf5004508ce013822a137dcb90",
+      "tracked": false,
+      "excluded_reason": "large-map-assets"
+    },
+    {
+      "path": "RequiredFiles/Maps/mine-one.DMap",
+      "bytes": 169288,
+      "sha256": "8f29c558f2da40abdb07c57dbc614b8cd38fe5350f9134b443aa8315ebc0ee1f",
+      "tracked": false,
+      "excluded_reason": "large-map-assets"
+    },
+    {
+      "path": "RequiredFiles/Maps/mine-one2.DMap",
+      "bytes": 169288,
+      "sha256": "52c9942c5003a5d0eb5ff4eee3192d6f700eeb9ff56271ded1f6d842346862c7",
+      "tracked": false,
+      "excluded_reason": "large-map-assets"
+    },
+    {
+      "path": "RequiredFiles/Maps/mine-three.DMap",
+      "bytes": 233288,
+      "sha256": "e5dbeecab96a23a74cf68d5343c7277cea37d8fa67133ccc30a74690f58bb32a",
+      "tracked": false,
+      "excluded_reason": "large-map-assets"
+    },
+    {
+      "path": "RequiredFiles/Maps/mine-three2.DMap",
+      "bytes": 233288,
+      "sha256": "a50c6f1f06a90daa0c50fb31e710d3b0ca96c20237171275990de374d9972fa5",
+      "tracked": false,
+      "excluded_reason": "large-map-assets"
+    },
+    {
+      "path": "RequiredFiles/Maps/mine-two.DMap",
+      "bytes": 233288,
+      "sha256": "eda652507770fde77fcadcd7a97a1ff53818a3d95d67b18ad6dffc91c792b1e3",
+      "tracked": false,
+      "excluded_reason": "large-map-assets"
+    },
+    {
+      "path": "RequiredFiles/Maps/mine-two2.DMap",
+      "bytes": 233288,
+      "sha256": "5450bf42caeec3f4a069637a99ce863380dda8fe3ba3cf22ebafe9fdd204920b",
+      "tracked": false,
+      "excluded_reason": "large-map-assets"
+    },
+    {
+      "path": "RequiredFiles/Maps/mine.DMap",
+      "bytes": 46088,
+      "sha256": "2901b5419612b60f3bf206b698a5a98dd41895f2a2cd92f6e673f0cba4281ba1",
+      "tracked": false,
+      "excluded_reason": "large-map-assets"
+    },
+    {
+      "path": "RequiredFiles/Maps/mine01.DMap",
+      "bytes": 46088,
+      "sha256": "b5804509b07fda32243aeac18faf9ad4b9cb65c367065aa8885ed7f653005cb7",
+      "tracked": false,
+      "excluded_reason": "large-map-assets"
+    },
+    {
+      "path": "RequiredFiles/Maps/mission.DMap",
+      "bytes": 79388,
+      "sha256": "098aaa218e6aaf7423524f118b263cfab49ebd5fb5827a2ccc7fa82da51a5498",
+      "tracked": false,
+      "excluded_reason": "large-map-assets"
+    },
+    {
+      "path": "RequiredFiles/Maps/mys-island.DMap",
+      "bytes": 1752328,
+      "sha256": "de0f90c3ae614919841daecbcdf26cee9874a49ff37130cab73deb2c06040ae2",
+      "tracked": false,
+      "excluded_reason": "large-map-assets"
+    },
+    {
+      "path": "RequiredFiles/Maps/newarena.DMap",
+      "bytes": 46088,
+      "sha256": "744ce971885195a3917da1d6a7ce78ad01b5ef03b2bb0e7d85e8928c1937336c",
+      "tracked": false,
+      "excluded_reason": "large-map-assets"
+    },
+    {
+      "path": "RequiredFiles/Maps/newbie.DMap",
+      "bytes": 87128,
+      "sha256": "70d188bf5d9179192a7a5d094146b82108742a5a73d30ee181de37a08f80b8ee",
+      "tracked": false,
+      "excluded_reason": "large-map-assets"
+    },
+    {
+      "path": "RequiredFiles/Maps/newcanyon.DMap",
+      "bytes": 5000008,
+      "sha256": "528e35e1859f755cd7468dfaa68bd37e8cca4f658bd6a37b4fd449982dc877e3",
+      "tracked": false,
+      "excluded_reason": "large-map-assets"
+    },
+    {
+      "path": "RequiredFiles/Maps/newdesert.DMap",
+      "bytes": 5000008,
+      "sha256": "102e90e5b089c91796fe802c26b71aa4eeb272546e88d5c12fe027039c613717",
+      "tracked": false,
+      "excluded_reason": "large-map-assets"
+    },
+    {
+      "path": "RequiredFiles/Maps/newisland.DMap",
+      "bytes": 1752328,
+      "sha256": "64d1e190549fc6a6efe45926b4ba9d27a86954237e328bc8ae62e6f52978bbe5",
+      "tracked": false,
+      "excluded_reason": "large-map-assets"
+    },
+    {
+      "path": "RequiredFiles/Maps/newplain-fairy.DMap",
+      "bytes": 4608008,
+      "sha256": "bb4d52a177ee6eccdde7f13fcefeae7e921d0735f483955d4b33cc56e697d03e",
+      "tracked": false,
+      "excluded_reason": "large-map-assets"
+    },
+    {
+      "path": "RequiredFiles/Maps/newplain.DMap",
+      "bytes": 4723928,
+      "sha256": "834ff8d4b4d1305d22132d5e09a0e1b9794c1515547ef33b381b699770370cae",
+      "tracked": false,
+      "excluded_reason": "large-map-assets"
+    },
+    {
+      "path": "RequiredFiles/Maps/newwoods.DMap",
+      "bytes": 5000008,
+      "sha256": "4b8f3fb6e808f52a967acdd2ac5acb4d6ff64dd8c51d2d5ddb0f4410a25df1e6",
+      "tracked": false,
+      "excluded_reason": "large-map-assets"
+    },
+    {
+      "path": "RequiredFiles/Maps/newyeartask01.DMap",
+      "bytes": 737288,
+      "sha256": "1c4a20721b1de60b6ea7d0a412cd5e66f3d3246df694ed4cfcedda975fef58cb",
+      "tracked": false,
+      "excluded_reason": "large-map-assets"
+    },
+    {
+      "path": "RequiredFiles/Maps/newyeartask03.DMap",
+      "bytes": 4380488,
+      "sha256": "004adac70b03f9bbcfc6b282182e5f76e32e34b0ee547d20153ce2f73aecb5e8",
+      "tracked": false,
+      "excluded_reason": "large-map-assets"
+    },
+    {
+      "path": "RequiredFiles/Maps/p-arena.DMap",
+      "bytes": 327688,
+      "sha256": "df9d66fb3e24c91b99312326c58aee12eb2bf5e6ffe869851bc000e18ea15efe",
+      "tracked": false,
+      "excluded_reason": "large-map-assets"
+    },
+    {
+      "path": "RequiredFiles/Maps/parena-m.DMap",
+      "bytes": 184328,
+      "sha256": "847aa9bd54464085ae9e7479b67da1002e7b7c14500ff23dcd9420e6495bfed3",
+      "tracked": false,
+      "excluded_reason": "large-map-assets"
+    },
+    {
+      "path": "RequiredFiles/Maps/parena-s.DMap",
+      "bytes": 15688,
+      "sha256": "d04351c03667e80b0b74376f862117014feb596c3fd040f39f2f11628b7df479",
+      "tracked": false,
+      "excluded_reason": "large-map-assets"
+    },
+    {
+      "path": "RequiredFiles/Maps/playground.DMap",
+      "bytes": 1230088,
+      "sha256": "f218f82ad90f0f3653bbbabac84e70b21e8a32c1749c8fb3e6eabf047d528018",
+      "tracked": false,
+      "excluded_reason": "large-map-assets"
+    },
+    {
+      "path": "RequiredFiles/Maps/poker.DMap",
+      "bytes": 176728,
+      "sha256": "c37b59ddb99345799aaa7e8da51b3384288ebcf9aa8c3c91db977dda4ebd8ea8",
+      "tracked": false,
+      "excluded_reason": "large-map-assets"
+    },
+    {
+      "path": "RequiredFiles/Maps/poker02.DMap",
+      "bytes": 176728,
+      "sha256": "16d6d703a0750da981694163c96be67dabb97a58c6f02ffe83c0b9536963909b",
+      "tracked": false,
+      "excluded_reason": "large-map-assets"
+    },
+    {
+      "path": "RequiredFiles/Maps/prison.DMap",
+      "bytes": 169288,
+      "sha256": "553d172e344e293dcceabc04247dddccfb8b17f0bb8a4f7acb9e3cc50af05417",
+      "tracked": false,
+      "excluded_reason": "large-map-assets"
+    },
+    {
+      "path": "RequiredFiles/Maps/qiling-z.DMap",
+      "bytes": 46088,
+      "sha256": "075bdea86d57dc6cdad9703d8679d01ddc3916d674ad2eb858307c2412d2a272",
+      "tracked": false,
+      "excluded_reason": "large-map-assets"
+    },
+    {
+      "path": "RequiredFiles/Maps/qiling.DMap",
+      "bytes": 46088,
+      "sha256": "5120a51044d8df6a152b5045f390dd9dbf0d5d3815576f13d0fc7144f93874d8",
+      "tracked": false,
+      "excluded_reason": "large-map-assets"
+    },
+    {
+      "path": "RequiredFiles/Maps/riskisland.DMap",
+      "bytes": 1039688,
+      "sha256": "346d3f05d0fe12571e8d066dc32dcd1850554ca38c95a91a006986d4acb01535",
+      "tracked": false,
+      "excluded_reason": "large-map-assets"
+    },
+    {
+      "path": "RequiredFiles/Maps/s-task01.DMap",
+      "bytes": 1230088,
+      "sha256": "10f22f1b71ac951c1580759fabad0ed97efa2a1a513064fb539405edc16574a7",
+      "tracked": false,
+      "excluded_reason": "large-map-assets"
+    },
+    {
+      "path": "RequiredFiles/Maps/s-task02.DMap",
+      "bytes": 2366728,
+      "sha256": "0778e68d419d6ab8ff80d3c2b43980b1093d5a75ba404b550cedbdb131357db8",
+      "tracked": false,
+      "excluded_reason": "large-map-assets"
+    },
+    {
+      "path": "RequiredFiles/Maps/s-task03.DMap",
+      "bytes": 3264328,
+      "sha256": "228b7c255216f18c33e0267c73bb762d060bd49967e81999ed54e4d49224d92e",
+      "tracked": false,
+      "excluded_reason": "large-map-assets"
+    },
+    {
+      "path": "RequiredFiles/Maps/s-task04.DMap",
+      "bytes": 4455688,
+      "sha256": "d85adb87e286b413bf5acd5f089dcb1ac72191996f1d1463c3b545640f356e9c",
+      "tracked": false,
+      "excluded_reason": "large-map-assets"
+    },
+    {
+      "path": "RequiredFiles/Maps/sanctuary.DMap",
+      "bytes": 1076488,
+      "sha256": "01e50eff941546dc6062eed17e02499fbe5457ca8b7cd8ce1a7566d6124aed64",
+      "tracked": false,
+      "excluded_reason": "large-map-assets"
+    },
+    {
+      "path": "RequiredFiles/Maps/sf-parade.DMap",
+      "bytes": 564488,
+      "sha256": "0d3843eafa1178028417a96d5016841a84381b3bd6bd1135d639d0abf18b070f",
+      "tracked": false,
+      "excluded_reason": "large-map-assets"
+    },
+    {
+      "path": "RequiredFiles/Maps/sky.DMap",
+      "bytes": 1728728,
+      "sha256": "693098178604440c88ed4a3f56eda36290b14043df823369d24cf3988ed6e469",
+      "tracked": false,
+      "excluded_reason": "large-map-assets"
+    },
+    {
+      "path": "RequiredFiles/Maps/skycut.DMap",
+      "bytes": 1897288,
+      "sha256": "d577ccbd98e363dd53aea7e4ec605963bf2a592615feda4abe7b77ba0aef48b6",
+      "tracked": false,
+      "excluded_reason": "large-map-assets"
+    },
+    {
+      "path": "RequiredFiles/Maps/skymaze.DMap",
+      "bytes": 2312008,
+      "sha256": "b8e4a9df6138d6c20e68bcb52ac72c07e7dc34e9ef5bdb871e3a7efc47325134",
+      "tracked": false,
+      "excluded_reason": "large-map-assets"
+    },
+    {
+      "path": "RequiredFiles/Maps/skymaze1.DMap",
+      "bytes": 2312008,
+      "sha256": "654aa822618d09addc15b0adfe1a7ada9b7011f2f57fdbeb001e3bbee5b9aae8",
+      "tracked": false,
+      "excluded_reason": "large-map-assets"
+    },
+    {
+      "path": "RequiredFiles/Maps/skymaze2.DMap",
+      "bytes": 2312008,
+      "sha256": "5ac6f63838ffea36106cd89854ddeb9244ea92818e2299bb32d7870f3807aaae",
+      "tracked": false,
+      "excluded_reason": "large-map-assets"
+    },
+    {
+      "path": "RequiredFiles/Maps/skymaze3.DMap",
+      "bytes": 2312008,
+      "sha256": "e781ea6e2a309ab928500ec42419d7e3fec7a132a9a3cf7eb5a4582d69995bc7",
+      "tracked": false,
+      "excluded_reason": "large-map-assets"
+    },
+    {
+      "path": "RequiredFiles/Maps/slpk.DMap",
+      "bytes": 512008,
+      "sha256": "768ada73a9bdcf83eddc2d010ed3964bcfa203754497a88a4abc26b0accf1133",
+      "tracked": false,
+      "excluded_reason": "large-map-assets"
+    },
+    {
+      "path": "RequiredFiles/Maps/smith.DMap",
+      "bytes": 8008,
+      "sha256": "9b28fe8b16bb8c2c2e3daad26f21ffce8cc264b1d3b217566f3cdd64982cf5ae",
+      "tracked": false,
+      "excluded_reason": "large-map-assets"
+    },
+    {
+      "path": "RequiredFiles/Maps/star.DMap",
+      "bytes": 1568008,
+      "sha256": "d5f887f5c2f743fdda5251b2155346f963932b3b9d446627aba0731fbc7101c9",
+      "tracked": false,
+      "excluded_reason": "large-map-assets"
+    },
+    {
+      "path": "RequiredFiles/Maps/star01.DMap",
+      "bytes": 250888,
+      "sha256": "ce543c6f07b118a8c6292ca54ff706e846b139fc09655614583630043458d2c2",
+      "tracked": false,
+      "excluded_reason": "large-map-assets"
+    },
+    {
+      "path": "RequiredFiles/Maps/star02.DMap",
+      "bytes": 250888,
+      "sha256": "ce543c6f07b118a8c6292ca54ff706e846b139fc09655614583630043458d2c2",
+      "tracked": false,
+      "excluded_reason": "large-map-assets"
+    },
+    {
+      "path": "RequiredFiles/Maps/star03.DMap",
+      "bytes": 250888,
+      "sha256": "ce543c6f07b118a8c6292ca54ff706e846b139fc09655614583630043458d2c2",
+      "tracked": false,
+      "excluded_reason": "large-map-assets"
+    },
+    {
+      "path": "RequiredFiles/Maps/star04.DMap",
+      "bytes": 250888,
+      "sha256": "ce543c6f07b118a8c6292ca54ff706e846b139fc09655614583630043458d2c2",
+      "tracked": false,
+      "excluded_reason": "large-map-assets"
+    },
+    {
+      "path": "RequiredFiles/Maps/star05.DMap",
+      "bytes": 250888,
+      "sha256": "ce543c6f07b118a8c6292ca54ff706e846b139fc09655614583630043458d2c2",
+      "tracked": false,
+      "excluded_reason": "large-map-assets"
+    },
+    {
+      "path": "RequiredFiles/Maps/star06.DMap",
+      "bytes": 250888,
+      "sha256": "ce543c6f07b118a8c6292ca54ff706e846b139fc09655614583630043458d2c2",
+      "tracked": false,
+      "excluded_reason": "large-map-assets"
+    },
+    {
+      "path": "RequiredFiles/Maps/star07.DMap",
+      "bytes": 250888,
+      "sha256": "ce543c6f07b118a8c6292ca54ff706e846b139fc09655614583630043458d2c2",
+      "tracked": false,
+      "excluded_reason": "large-map-assets"
+    },
+    {
+      "path": "RequiredFiles/Maps/star08.DMap",
+      "bytes": 250888,
+      "sha256": "ce543c6f07b118a8c6292ca54ff706e846b139fc09655614583630043458d2c2",
+      "tracked": false,
+      "excluded_reason": "large-map-assets"
+    },
+    {
+      "path": "RequiredFiles/Maps/star09.DMap",
+      "bytes": 250888,
+      "sha256": "ce543c6f07b118a8c6292ca54ff706e846b139fc09655614583630043458d2c2",
+      "tracked": false,
+      "excluded_reason": "large-map-assets"
+    },
+    {
+      "path": "RequiredFiles/Maps/star10.DMap",
+      "bytes": 250888,
+      "sha256": "ce543c6f07b118a8c6292ca54ff706e846b139fc09655614583630043458d2c2",
+      "tracked": false,
+      "excluded_reason": "large-map-assets"
+    },
+    {
+      "path": "RequiredFiles/Maps/street.DMap",
+      "bytes": 737288,
+      "sha256": "57f28a1ad2e07523dd2caf7428bf001eac72a430c78e4e57aa373c11bdca77d1",
+      "tracked": false,
+      "excluded_reason": "large-map-assets"
+    },
+    {
+      "path": "RequiredFiles/Maps/task01.DMap",
+      "bytes": 1800008,
+      "sha256": "560ab5eec34197ea08757c1825e1dda0890f567713d3dd48783ec207481b2f31",
+      "tracked": false,
+      "excluded_reason": "large-map-assets"
+    },
+    {
+      "path": "RequiredFiles/Maps/task02.DMap",
+      "bytes": 2450008,
+      "sha256": "2bd54f01a65165d1cd1ab6ae31a7b62393dd7285e09b83b7571fdbe5eb0a2331",
+      "tracked": false,
+      "excluded_reason": "large-map-assets"
+    },
+    {
+      "path": "RequiredFiles/Maps/task04.DMap",
+      "bytes": 9248008,
+      "sha256": "a5a844f42ad15054652df5f4a1df96787591facbd30788167a167c40848751a0",
+      "tracked": false,
+      "excluded_reason": "large-map-assets"
+    },
+    {
+      "path": "RequiredFiles/Maps/task05.DMap",
+      "bytes": 9248008,
+      "sha256": "d3b3c50a5d1943840027115ea5f750fefba98ed4b054525220e21720cd7954e1",
+      "tracked": false,
+      "excluded_reason": "large-map-assets"
+    },
+    {
+      "path": "RequiredFiles/Maps/task07.DMap",
+      "bytes": 7442008,
+      "sha256": "1e4ebe74d11aac2e05f33ca4b07fd6d5aaa93e299a43bcdf3058e5941e5d6333",
+      "tracked": false,
+      "excluded_reason": "large-map-assets"
+    },
+    {
+      "path": "RequiredFiles/Maps/task08.DMap",
+      "bytes": 5202008,
+      "sha256": "7fb911bea7bb9c672f7cd29267a3346ee93f772f2025448134592b670232d141",
+      "tracked": false,
+      "excluded_reason": "large-map-assets"
+    },
+    {
+      "path": "RequiredFiles/Maps/task10.DMap",
+      "bytes": 5491528,
+      "sha256": "95ea453a1854636c761529990cdefcb391a009192aadb64b3d3c5cf57c1f9ca5",
+      "tracked": false,
+      "excluded_reason": "large-map-assets"
+    },
+    {
+      "path": "RequiredFiles/Maps/task11.DMap",
+      "bytes": 4608008,
+      "sha256": "042474eb2731fc2aaa080c9f7bc2723b359c874413500a4f97795d581daef44c",
+      "tracked": false,
+      "excluded_reason": "large-map-assets"
+    },
+    {
+      "path": "RequiredFiles/Maps/tiemfiles.DMap",
+      "bytes": 58328,
+      "sha256": "730d0d22067925d8e20b357fa563f7980fb4fa0f01c34e4ab5173d092682accd",
+      "tracked": false,
+      "excluded_reason": "large-map-assets"
+    },
+    {
+      "path": "RequiredFiles/Maps/tiger.DMap",
+      "bytes": 54088,
+      "sha256": "2dfab1fcdb36a3dbda3249c5d7ae923a7eaa0ae5a023ee9e28466dd3bfea5fdd",
+      "tracked": false,
+      "excluded_reason": "large-map-assets"
+    },
+    {
+      "path": "RequiredFiles/Maps/tiger01.DMap",
+      "bytes": 54088,
+      "sha256": "6571d768e0df3aa8e08ba81ec7850dbfb79358d0326b0bdcac071f6b49d479fc",
+      "tracked": false,
+      "excluded_reason": "large-map-assets"
+    },
+    {
+      "path": "RequiredFiles/Maps/valentine.DMap",
+      "bytes": 1658888,
+      "sha256": "660cc3342273c90b385210cb303a0e0783f26f170aa7de26f28c65234f8919bd",
+      "tracked": false,
+      "excluded_reason": "large-map-assets"
+    },
+    {
+      "path": "RequiredFiles/Maps/w-arena.DMap",
+      "bytes": 216328,
+      "sha256": "9c7e4e08908faeb6b34ab2d74951e1d00784f807c438151810a81c5d03330e40",
+      "tracked": false,
+      "excluded_reason": "large-map-assets"
+    },
+    {
+      "path": "RequiredFiles/Maps/woods-fairy.DMap",
+      "bytes": 4455688,
+      "sha256": "f543e949b03d21346a3e44aefb03a50f05eb04c0b8e4b6ebf2ff77133e60610a",
+      "tracked": false,
+      "excluded_reason": "large-map-assets"
+    },
+    {
+      "path": "RequiredFiles/Maps/woods-z.DMap",
+      "bytes": 4455688,
+      "sha256": "4204cd0c786471d7f2845f39ea4282c85f60d461dbc3d29bed1110404ff3f83f",
+      "tracked": false,
+      "excluded_reason": "large-map-assets"
+    },
+    {
+      "path": "RequiredFiles/Maps/woods.DMap",
+      "bytes": 4455688,
+      "sha256": "35d399d96ec7588be9fef90eee98751ae72b1d1f64801962d6d7f71c2af5e4d5",
+      "tracked": false,
+      "excluded_reason": "large-map-assets"
+    },
+    {
+      "path": "RequiredFiles/Maps/ympk.DMap",
+      "bytes": 278488,
+      "sha256": "1a71f664f429eff21c7d82bb1fe6ec8e57729dc51681477e21cd317b70f44dec",
+      "tracked": false,
+      "excluded_reason": "large-map-assets"
+    },
+    {
+      "path": "RequiredFiles/ini/HonorRewards.ini",
+      "bytes": 14520,
+      "sha256": "8856f866148f68ec7acb480ef4d7257792c4601521c9f9f1243f329c346a6bf8",
+      "tracked": true
+    },
+    {
+      "path": "RequiredFiles/ini/HonorShop.ini",
+      "bytes": 1285,
+      "sha256": "624c89cfbd765b7a12e213e52430cbb34f80520c066971521d33be061b950202",
+      "tracked": true
+    },
+    {
+      "path": "RequiredFiles/ini/QuenchDrop.ini",
+      "bytes": 17846,
+      "sha256": "4d29b7e26e32f0e4266cad265ab72d2a55c0fb106bd4b3daa93bfe2a61a0640d",
+      "tracked": true
+    },
+    {
+      "path": "RequiredFiles/ini/QuenchDropRule.ini",
+      "bytes": 1759,
+      "sha256": "357b3914ec48e94df8a1c10a06a78df9db9c5ad4227340e73561479b26485eb0",
+      "tracked": true
+    },
+    {
+      "path": "ServerCore/Common/Calculations.cs",
+      "bytes": 21785,
+      "sha256": "52dc35e4d22e7529d26c110c8471c47e614794cfb5d2751f4f91aadeca6fb7b2",
+      "tracked": true
+    },
+    {
+      "path": "ServerCore/Common/ConcurrentRandom.cs",
+      "bytes": 2405,
+      "sha256": "91956343edd3823c1dcfd3373ed396c63b8afeaf1c479cc00d97e5a7afa4fbc4",
+      "tracked": true
+    },
+    {
+      "path": "ServerCore/Common/Enums/AppearenceType.cs",
+      "bytes": 644,
+      "sha256": "49de9734ac3f5f07a1bd5f013d8fd927d87fcf00b43508d7864f8547bd32b6fe",
+      "tracked": true
+    },
+    {
+      "path": "ServerCore/Common/Enums/CharacterAuthority.cs",
+      "bytes": 676,
+      "sha256": "939b9e1749618d70e5afe7168c03ee5c56c3a0f33cedc6083037a712325c6231",
+      "tracked": true
+    },
+    {
+      "path": "ServerCore/Common/Enums/CharacterInformation.cs",
+      "bytes": 2404,
+      "sha256": "3e0fccc8a1268d46966d1c9df4e5a8fbc2c13a99caff6d88527c27b763bbccb7",
+      "tracked": true
+    },
+    {
+      "path": "ServerCore/Common/Enums/ChatFlags.cs",
+      "bytes": 936,
+      "sha256": "ec8ce385a7ea0b47c7a026fd362bf34f0cca82f5cd028a3520bc27e55688be01",
+      "tracked": true
+    },
+    {
+      "path": "ServerCore/Common/Enums/ChatTone.cs",
+      "bytes": 1651,
+      "sha256": "22b70aaf6cb3b96bea91a322c5ad7312acd88a67b33b324adedcacacd1c6944c",
+      "tracked": true
+    },
+    {
+      "path": "ServerCore/Common/Enums/CloseServerCode.cs",
+      "bytes": 1125,
+      "sha256": "70ea6ead673c886637392fc71fa1fa8960a567653272d131fff1148a30e5897d",
+      "tracked": true
+    },
+    {
+      "path": "ServerCore/Common/Enums/ControlType.cs",
+      "bytes": 691,
+      "sha256": "0b65ec2f77e39338d63e802f76f903a4fe5b901a363db22e79964f5ea6108af4",
+      "tracked": true
+    },
+    {
+      "path": "ServerCore/Common/Enums/DetainMode.cs",
+      "bytes": 591,
+      "sha256": "77d80f6cdd469b108854cd789eb829f5c4c8331e004918d1401bacd1aba1f181",
+      "tracked": true
+    },
+    {
+      "path": "ServerCore/Common/Enums/DialogType.cs",
+      "bytes": 1094,
+      "sha256": "9ba14f2c4b316500034007b4a790eb8e21b673675c7a5e2f05f0a4a4517c4bf1",
+      "tracked": true
+    },
+    {
+      "path": "ServerCore/Common/Enums/DynaRankType.cs",
+      "bytes": 760,
+      "sha256": "a9e864f4ac202fc1c3a4100cc3783017f2d1ba9132dc57e54b5cac4dfd780260",
+      "tracked": true
+    },
+    {
+      "path": "ServerCore/Common/Enums/ElementType.cs",
+      "bytes": 840,
+      "sha256": "9a027f406ad8453fe33344d64a666ee9c4fe6e580284da60411d2f650dec9c50",
+      "tracked": true
+    },
+    {
+      "path": "ServerCore/Common/Enums/ElitePKMatchState.cs",
+      "bytes": 756,
+      "sha256": "82ad1c77d91dded242e1ce7c32c8606db47b0673575ade7643df98c9b9b00896",
+      "tracked": true
+    },
+    {
+      "path": "ServerCore/Common/Enums/ElitePkGuiType.cs",
+      "bytes": 818,
+      "sha256": "8a938fb2f90c930912e9836b31d2a7129756573cb88b831891139dff751dcb59",
+      "tracked": true
+    },
+    {
+      "path": "ServerCore/Common/Enums/ElitePkMatchType.cs",
+      "bytes": 773,
+      "sha256": "6034791801fcfa45231132df794b87437c71e59567d3925a9bb7ab8bf7d98ec9",
+      "tracked": true
+    },
+    {
+      "path": "ServerCore/Common/Enums/ElitePkRoleStatusFlag.cs",
+      "bytes": 838,
+      "sha256": "1d975e6559a4cb27d735bf6ea81885042f6b24e4f22100d65de57019ed1af61a",
+      "tracked": true
+    },
+    {
+      "path": "ServerCore/Common/Enums/EntityAction.cs",
+      "bytes": 1015,
+      "sha256": "2374f8622ee612897c77902c69e5b9a795aee78229f6a53f55d9cae68c83d0ce",
+      "tracked": true
+    },
+    {
+      "path": "ServerCore/Common/Enums/EntityDirection.cs",
+      "bytes": 826,
+      "sha256": "a717522966d56d9603176a7f941296b797d9e9702b337f9350d772dceadb96f2",
+      "tracked": true
+    },
+    {
+      "path": "ServerCore/Common/Enums/EventState.cs",
+      "bytes": 640,
+      "sha256": "78cc8ebab76bbb38d9f28b7837947be3ccd911340924be57933c09a2dbf59a93",
+      "tracked": true
+    },
+    {
+      "path": "ServerCore/Common/Enums/FamilyType.cs",
+      "bytes": 1153,
+      "sha256": "e410850ceab0a5f35811fc117d51701c63a1fece164cee541db55895a5765a20",
+      "tracked": true
+    },
+    {
+      "path": "ServerCore/Common/Enums/FlowerType.cs",
+      "bytes": 612,
+      "sha256": "da60dd5d0224bc8bf3769cb186f03807311357dd2cd5e479e076b2ebedeea442",
+      "tracked": true
+    },
+    {
+      "path": "ServerCore/Common/Enums/GemType.cs",
+      "bytes": 1566,
+      "sha256": "f130693758189872591901f431e2d5f0466fffb71baccc8671ec6174084aece0",
+      "tracked": true
+    },
+    {
+      "path": "ServerCore/Common/Enums/IdentityRange.cs",
+      "bytes": 1896,
+      "sha256": "2f9af976d37d1124509c59bb18eecf4cd27909bbb26f92cadf2918b40c0c9bc0",
+      "tracked": true
+    },
+    {
+      "path": "ServerCore/Common/Enums/InterServerState.cs",
+      "bytes": 652,
+      "sha256": "aa2bc4995d45b8c7b92b918e55c46ad34c1d063504cf505699e50c5ec36b827e",
+      "tracked": true
+    },
+    {
+      "path": "ServerCore/Common/Enums/InteractionEffect.cs",
+      "bytes": 910,
+      "sha256": "5ccc234d8d0ffd09a3eeaff6ebebc9cebcb20da0bf62bf4acab5f4ddfad483cc",
+      "tracked": true
+    },
+    {
+      "path": "ServerCore/Common/Enums/InteractionType.cs",
+      "bytes": 2005,
+      "sha256": "a58cc714398eeb20bcf48961f8d319d0b888ec862d625e550ce296bb14a0063f",
+      "tracked": true
+    },
+    {
+      "path": "ServerCore/Common/Enums/ItemColor.cs",
+      "bytes": 704,
+      "sha256": "2b82090806bd0a07da1050906b3f06686228366dce60987c8ae5bc775f300dbd",
+      "tracked": true
+    },
+    {
+      "path": "ServerCore/Common/Enums/ItemEffect.cs",
+      "bytes": 680,
+      "sha256": "5dda9924ed5b11d50db2edafde870c3a2bc74522754accbb884db324e4041c47",
+      "tracked": true
+    },
+    {
+      "path": "ServerCore/Common/Enums/ItemMode.cs",
+      "bytes": 648,
+      "sha256": "3d1ff00ae9e534933a31c543ab09f661376fdbf98b95fd5b24bc1b04e3c55fe5",
+      "tracked": true
+    },
+    {
+      "path": "ServerCore/Common/Enums/ItemPosition.cs",
+      "bytes": 1374,
+      "sha256": "72448d54700200ccefb19b30db90c3db0e7dc6785b96486cd57b38852dec6a4b",
+      "tracked": true
+    },
+    {
+      "path": "ServerCore/Common/Enums/ItemRemovalType.cs",
+      "bytes": 623,
+      "sha256": "cf1f899340ece5bc9459dc5b0bb4db613c0353d461735167ee454c815caa778d",
+      "tracked": true
+    },
+    {
+      "path": "ServerCore/Common/Enums/LoginPlayerAmount.cs",
+      "bytes": 709,
+      "sha256": "1d85c3d458d916e391e5c9f4ff26c497ec74ecb3c38e85bdf19bf1f1477d2acd",
+      "tracked": true
+    },
+    {
+      "path": "ServerCore/Common/Enums/LoginServerResponse.cs",
+      "bytes": 1421,
+      "sha256": "4a2e290c1b1108705dd9c45d0c84c309e596827e35071175f8cae9e28f1fe363",
+      "tracked": true
+    },
+    {
+      "path": "ServerCore/Common/Enums/MagicSort.cs",
+      "bytes": 5025,
+      "sha256": "2047bbe848243dc611ddb6c0b4dfcc01372d9c7f0b811d65f3bddee497a1bf3b",
+      "tracked": true
+    },
+    {
+      "path": "ServerCore/Common/Enums/MagicState.cs",
+      "bytes": 777,
+      "sha256": "0237f68f7e7d88815019b8d6a84591fbd2995b7f3fb2bd51817f12847b35e51c",
+      "tracked": true
+    },
+    {
+      "path": "ServerCore/Common/Enums/MapFlags.cs",
+      "bytes": 1297,
+      "sha256": "88849df19a29e212487f089bbd6de13151f4f3e6f05f64889d11a4f073c29a10",
+      "tracked": true
+    },
+    {
+      "path": "ServerCore/Common/Enums/MentorContribution.cs",
+      "bytes": 721,
+      "sha256": "6460cffa9c159d957db608021a0e6231914898120f850de7b24aea00a2c1ca6d",
+      "tracked": true
+    },
+    {
+      "path": "ServerCore/Common/Enums/MentorRequest.cs",
+      "bytes": 803,
+      "sha256": "faa11f704a98409a582226399a9b70e93a79586c8fd0b766a73e38ce3afa1806",
+      "tracked": true
+    },
+    {
+      "path": "ServerCore/Common/Enums/MobInteractionType.cs",
+      "bytes": 1708,
+      "sha256": "57882dee2062ecf8adefd50b5bfe2e7601e952e12892e811923dcbfa7a315351",
+      "tracked": true
+    },
+    {
+      "path": "ServerCore/Common/Enums/MonsterAttackUser.cs",
+      "bytes": 1741,
+      "sha256": "355660701c879c15dd3aacb5d89ae873e5876578d022ada20154c40a43d94a19",
+      "tracked": true
+    },
+    {
+      "path": "ServerCore/Common/Enums/Nobility.cs",
+      "bytes": 841,
+      "sha256": "63b81ba339625c8853baf9eeef3da66bffacdd32cee264c1eb049e40e0bf4dfe",
+      "tracked": true
+    },
+    {
+      "path": "ServerCore/Common/Enums/NpcActionType.cs",
+      "bytes": 697,
+      "sha256": "fd11dcf5bef79cfdd3638a297ef8083dc21ee6cadc753a2d2c3a24120cccbc90",
+      "tracked": true
+    },
+    {
+      "path": "ServerCore/Common/Enums/NpcType.cs",
+      "bytes": 2826,
+      "sha256": "29785c63fe38fbb7135626ca47ec1e8ab50b4e5c09993278bf6650e644010a2a",
+      "tracked": true
+    },
+    {
+      "path": "ServerCore/Common/Enums/OpenInterface.cs",
+      "bytes": 2854,
+      "sha256": "987bc9b2d29381a49c4b1247ef84d2b3f93b49bb559dc84d2cc73fc8b4339cfe",
+      "tracked": true
+    },
+    {
+      "path": "ServerCore/Common/Enums/PkBonusType.cs",
+      "bytes": 583,
+      "sha256": "193e1a0d812e6a8f8e7181c49b6d43dc840db6c1933ba74ddcda9ed97f823159",
+      "tracked": true
+    },
+    {
+      "path": "ServerCore/Common/Enums/PkModesType.cs",
+      "bytes": 798,
+      "sha256": "4d66c2a26201bf6c5e43196c7dc4818b8c0e556888a0c281df8af352c4df1452",
+      "tracked": true
+    },
+    {
+      "path": "ServerCore/Common/Enums/PurificationType.cs",
+      "bytes": 695,
+      "sha256": "544bf826e18aedbc4b8f61153c7bf713b7f3eb7c7b4624b9601d030438472f48",
+      "tracked": true
+    },
+    {
+      "path": "ServerCore/Common/Enums/RefineryType.cs",
+      "bytes": 1155,
+      "sha256": "90f9194d206feb6d6f01c0de63edc5b41d808140d5138bce9854783414c015c4",
+      "tracked": true
+    },
+    {
+      "path": "ServerCore/Common/Enums/RegionType.cs",
+      "bytes": 894,
+      "sha256": "628bbf34205240f401387200a76bb1b5f04760e5064ca56ed35dd025f2446fb8",
+      "tracked": true
+    },
+    {
+      "path": "ServerCore/Common/Enums/RejectionType.cs",
+      "bytes": 1410,
+      "sha256": "bc9100c63efc74d882bc0475bd2aa81926abad8b6daeb0edfeca594a01dac8ec",
+      "tracked": true
+    },
+    {
+      "path": "ServerCore/Common/Enums/RelationType.cs",
+      "bytes": 844,
+      "sha256": "96fe1cdaf6fe4248bf9062f5a47ed3ae7ece97465bb4074e2b08e6f4c933f8fa",
+      "tracked": true
+    },
+    {
+      "path": "ServerCore/Common/Enums/SyndicateProfessionRequirement.cs",
+      "bytes": 779,
+      "sha256": "674f78ab0c6885e87333e7f0ec56903ef2c25d7e212e85202753acd87ceb3600",
+      "tracked": true
+    },
+    {
+      "path": "ServerCore/Common/Enums/SyndicateRank.cs",
+      "bytes": 2070,
+      "sha256": "39840680abbdb83e6a7aa5a90922da07ea596a8d9ca4d33c8d852d79709355ab",
+      "tracked": true
+    },
+    {
+      "path": "ServerCore/Common/Enums/SyndicateRequest.cs",
+      "bytes": 1408,
+      "sha256": "2b871042a20c595cea5d98d90422617d909b00b18745f974756605b5c546e6e2",
+      "tracked": true
+    },
+    {
+      "path": "ServerCore/Common/Enums/TaskActionType.cs",
+      "bytes": 11052,
+      "sha256": "1bd2adf7aa16cd64ff8bdb4f3c5a7447cfa1fb8a0031e8501d07c28298d1a9ec",
+      "tracked": true
+    },
+    {
+      "path": "ServerCore/Common/Enums/TeamActionType.cs",
+      "bytes": 999,
+      "sha256": "5e93adac65fa08424075d51950dd589748d61caa514920e5a1e82d0b6780b872",
+      "tracked": true
+    },
+    {
+      "path": "ServerCore/Common/Enums/Title.cs",
+      "bytes": 1353,
+      "sha256": "f56b143664270796915c005e4bfd517ae6dd00c7b149fbb308785123e27fd812",
+      "tracked": true
+    },
+    {
+      "path": "ServerCore/Common/Enums/TopIconFlags.cs",
+      "bytes": 789,
+      "sha256": "fb82ea301bc1809de70f0e05f86f6272d311e39102b0117bda8045ef9ee3bca4",
+      "tracked": true
+    },
+    {
+      "path": "ServerCore/Common/Enums/TotemPoleType.cs",
+      "bytes": 777,
+      "sha256": "ea9baaeb173a6bd0a16585b37d5678f88b4f4698eb7a2064c6bd05198054ed7a",
+      "tracked": true
+    },
+    {
+      "path": "ServerCore/Common/Enums/TotemView.cs",
+      "bytes": 600,
+      "sha256": "64ea33cb23f774009553db65b4273e17d7d68b8d5073b816f8f6e07132551f02",
+      "tracked": true
+    },
+    {
+      "path": "ServerCore/Common/Enums/TradeMode.cs",
+      "bytes": 842,
+      "sha256": "70ca71b3a3cc89dcd37cf19f2f9960f27702737c043dfc319272fccc1739b7bc",
+      "tracked": true
+    },
+    {
+      "path": "ServerCore/Common/Enums/UserFlags.cs",
+      "bytes": 8674,
+      "sha256": "1f1139193a552560f12aa059308fa2432812c15965e2d3d527ff55489c5d035e",
+      "tracked": true
+    },
+    {
+      "path": "ServerCore/Common/Enums/VipTeleport.cs",
+      "bytes": 1524,
+      "sha256": "e847dcdec7e0a48695d53b855920a63949a8d6d91995ac130f94624aa5a7dcd4",
+      "tracked": true
+    },
+    {
+      "path": "ServerCore/Common/IniParser.cs",
+      "bytes": 6948,
+      "sha256": "4fe1428d688d89b71008137fd4bfec1e3cece0679638bdb1036d202db63cb0fb",
+      "tracked": true
+    },
+    {
+      "path": "ServerCore/Common/ItemDefault.cs",
+      "bytes": 4532,
+      "sha256": "b32e1caf34986d720e4fd81092ebddef319671f33aaee5cfcc964de684775809",
+      "tracked": true
+    },
+    {
+      "path": "ServerCore/Common/LogWriter.cs",
+      "bytes": 8140,
+      "sha256": "ecc9022af9557997e2f26b6833e7cf8b26f867496967125ba7719b13eff8ad3f",
+      "tracked": true
+    },
+    {
+      "path": "ServerCore/Common/NativeFunctionCalls.cs",
+      "bytes": 7489,
+      "sha256": "750314d6afb5c62ec32385f1b56e0fc51a3dbab515f50ed0495273180711c692",
+      "tracked": true
+    },
+    {
+      "path": "ServerCore/Common/RandomLong.cs",
+      "bytes": 3556,
+      "sha256": "bdd186596bb0edc1d002f78bb72e634f7eba3096048809c5c0f9fa05a375e77f",
+      "tracked": true
+    },
+    {
+      "path": "ServerCore/Common/RandomObjectDictionary.cs",
+      "bytes": 997,
+      "sha256": "754103e2ba2e78e7064ab37dbb547d065dc870273878b270cd8f1ba56daba4ae",
+      "tracked": true
+    },
+    {
+      "path": "ServerCore/Common/ThreadSafeRandom.cs",
+      "bytes": 1878,
+      "sha256": "6641e1f41ed512588e30a69067fc5acc33a1e8b11197e259a8ee458234ab0961",
+      "tracked": true
+    },
+    {
+      "path": "ServerCore/Common/Time.cs",
+      "bytes": 6095,
+      "sha256": "7f323b406ae6c1b1c7683df8649f58bea067d0a916335ab21f4a0be953a3260b",
+      "tracked": true
+    },
+    {
+      "path": "ServerCore/Common/Timeout.cs",
+      "bytes": 4704,
+      "sha256": "f506a837aa2510e763fc7beb012b88d94e26b7335aae2db8e0c3743fea7ab33f",
+      "tracked": true
+    },
+    {
+      "path": "ServerCore/Common/UnixTimestamp.cs",
+      "bytes": 2662,
+      "sha256": "790c6e4b17d9ac023ef82ba3b3a8fcd4487fc9fc20d6ac9ecf907b947fa95629",
+      "tracked": true
+    },
+    {
+      "path": "ServerCore/DataStructures/RedBlackTree.cs",
+      "bytes": 23676,
+      "sha256": "108ab0371cecb1a2c52ec7e219dc316f66f6f0e1a26dbd9b6e2ba88a0fa70584",
+      "tracked": true
+    },
+    {
+      "path": "ServerCore/DataStructures/TournamentStructure/ByeDecider.cs",
+      "bytes": 1808,
+      "sha256": "c0a264cfff0285274568eab8ec255bdb37aee03d2075bb54a38d467b7473235f",
+      "tracked": true
+    },
+    {
+      "path": "ServerCore/DataStructures/TournamentStructure/ContestandDecider.cs",
+      "bytes": 2032,
+      "sha256": "f82b0dcbc55d46300e81c88088021ff80d63e6595a2cb88d7e94566a0903d6ff",
+      "tracked": true
+    },
+    {
+      "path": "ServerCore/DataStructures/TournamentStructure/Contestant.cs",
+      "bytes": 933,
+      "sha256": "a64879ec5941362ab62db2df96bef21e5f9c0c80a56cccf9c5d26130e7ee4d49",
+      "tracked": true
+    },
+    {
+      "path": "ServerCore/DataStructures/TournamentStructure/ContestantRanking.cs",
+      "bytes": 732,
+      "sha256": "6f075d5a9acbdc9db6e5fa8cd5215837c408a62e554f3791aa1ab7814d89c62f",
+      "tracked": true
+    },
+    {
+      "path": "ServerCore/DataStructures/TournamentStructure/ContinuationDecider.cs",
+      "bytes": 9696,
+      "sha256": "3ea4e9fa95325b9d050ed2ada12e1882ffa9bc4ef93282453b52227fc71c9ac4",
+      "tracked": true
+    },
+    {
+      "path": "ServerCore/DataStructures/TournamentStructure/EliminationDecider.cs",
+      "bytes": 2839,
+      "sha256": "80d3f97c587ea4fc52bdec747fac54a424e96a492a4aec54502fa48533f362d8",
+      "tracked": true
+    },
+    {
+      "path": "ServerCore/DataStructures/TournamentStructure/EliminationNode.cs",
+      "bytes": 3111,
+      "sha256": "85f1e64a2eecec6a385111e26c8ebe00d7321c8ce0d50e331add486425dc0e65",
+      "tracked": true
+    },
+    {
+      "path": "ServerCore/DataStructures/TournamentStructure/EliminationTournament.cs",
+      "bytes": 18945,
+      "sha256": "40303f240f90a6f28295caf1b2a18cd3fce593890c685efe41b00e6f072b9e9a",
+      "tracked": true
+    },
+    {
+      "path": "ServerCore/DataStructures/TournamentStructure/HighestPointsScore.cs",
+      "bytes": 3628,
+      "sha256": "784f0d075a22de4868755da817270cfa04778af3ce8f2d718c1fd997c76e7be1",
+      "tracked": true
+    },
+    {
+      "path": "ServerCore/DataStructures/TournamentStructure/LoserNode.cs",
+      "bytes": 1595,
+      "sha256": "99b76a1c9fd136a141242cff19058d5514d8ae92413d830941f5351a5cc352cd",
+      "tracked": true
+    },
+    {
+      "path": "ServerCore/DataStructures/TournamentStructure/PairingGeneratorState.cs",
+      "bytes": 967,
+      "sha256": "e76f87dc576befb166b221be553fd4dcfe85105a81d1060fa03b5b854db5fc23",
+      "tracked": true
+    },
+    {
+      "path": "ServerCore/DataStructures/TournamentStructure/PassThroughDecider.cs",
+      "bytes": 2588,
+      "sha256": "1cb5140817d9b9ab2c86d48b847b6e5a79f8582f8613049301c47b809f4805e4",
+      "tracked": true
+    },
+    {
+      "path": "ServerCore/DataStructures/TournamentStructure/Score.cs",
+      "bytes": 4152,
+      "sha256": "a69d69c215287b434449a7d429e133b7e67baa9ef1dc5d94873762c64e2371e3",
+      "tracked": true
+    },
+    {
+      "path": "ServerCore/DataStructures/TournamentStructure/StayDecider.cs",
+      "bytes": 8125,
+      "sha256": "51484d97e9de71f0647c2d2c2151ea9d65ba520d4931a940c2d81c79b9a342f7",
+      "tracked": true
+    },
+    {
+      "path": "ServerCore/DataStructures/TournamentStructure/TournamentNameTable.cs",
+      "bytes": 1821,
+      "sha256": "05a7cc58ca51e2c067c0cd9584be111e2f990c2705a4b99300257e7dfa6cd6ae",
+      "tracked": true
+    },
+    {
+      "path": "ServerCore/DataStructures/TournamentStructure/TournamentPairing.cs",
+      "bytes": 1462,
+      "sha256": "35bd37200fdaa8b3e2f0db6e12a55bb958ca0596d204ee21a3d499c392baf418",
+      "tracked": true
+    },
+    {
+      "path": "ServerCore/DataStructures/TournamentStructure/TournamentRanking.cs",
+      "bytes": 2381,
+      "sha256": "542cbc01913be7f655a1e9747ee6856d096dcd7752c9a38473133ba96306c8ce",
+      "tracked": true
+    },
+    {
+      "path": "ServerCore/DataStructures/TournamentStructure/TournamentRound.cs",
+      "bytes": 1416,
+      "sha256": "cc1e494b9abdf8928b786492292867d8b8a86dc7d2a0a1e39b67ae9be8bd09c9",
+      "tracked": true
+    },
+    {
+      "path": "ServerCore/DataStructures/TournamentStructure/TournamentScore.cs",
+      "bytes": 1022,
+      "sha256": "3cd066a543c9bbdaca69c2c2c512e136a2e7de2b58ada76dbcc0bade6cfa0b99",
+      "tracked": true
+    },
+    {
+      "path": "ServerCore/DataStructures/TournamentStructure/WinnerNode.cs",
+      "bytes": 2349,
+      "sha256": "a0816b035ac0a9b86a482ac95bae9407d6850f102e64d941a8ecf8ba80df0761",
+      "tracked": true
+    },
+    {
+      "path": "ServerCore/IniParser/FileIniParser.cs",
+      "bytes": 4689,
+      "sha256": "689c320536b0e2dccf98ca9f81bbd20043c21b44020b34889eeb118f3db3d397",
+      "tracked": true
+    },
+    {
+      "path": "ServerCore/IniParser/Model/Configuration/ConcatenateDuplicatedKeysIniParserConfiguration.cs",
+      "bytes": 899,
+      "sha256": "1c067bcca819aed6d350bf6528d682a1205a0661c4556529561ed8187edd5359",
+      "tracked": true
+    },
+    {
+      "path": "ServerCore/IniParser/Model/Configuration/IniParserConfiguration.cs",
+      "bytes": 14560,
+      "sha256": "1d85dea6173d3b5df7d57a2603598e3f63badebaca34536d3a53ba273f690903",
+      "tracked": true
+    },
+    {
+      "path": "ServerCore/IniParser/Model/Exceptions/ParsingException.cs",
+      "bytes": 1352,
+      "sha256": "e06c84d3ec679b906e27320f4ca33b687b914eedf1f1aade35bf1d02aaa2b171",
+      "tracked": true
+    },
+    {
+      "path": "ServerCore/IniParser/Model/Formatting/DefaultIniDataFormatter.cs",
+      "bytes": 3795,
+      "sha256": "4d5c90f618ea1f39794f2d5f4003a486aaaf7469a8706ed4dc7b0087a49c14dc",
+      "tracked": true
+    },
+    {
+      "path": "ServerCore/IniParser/Model/Formatting/IIniDataFormatter.cs",
+      "bytes": 671,
+      "sha256": "616f6a33c333f7ce366108f35468e90759dce6eca52e8486e60b6e5c11d373cc",
+      "tracked": true
+    },
+    {
+      "path": "ServerCore/IniParser/Model/Helpers/Assert.cs",
+      "bytes": 392,
+      "sha256": "cf761b277a70f3dd8068acce035bbb92334110b93f6e40c450692996e6917438",
+      "tracked": true
+    },
+    {
+      "path": "ServerCore/IniParser/Model/IniData.cs",
+      "bytes": 9531,
+      "sha256": "ee4665df64c28ba15f03b54a401ffd33124be98466392989b81edbbf00ec49d5",
+      "tracked": true
+    },
+    {
+      "path": "ServerCore/IniParser/Model/IniDataCaseInsensitive.cs",
+      "bytes": 1803,
+      "sha256": "0b026a83dc9e3507aeba2df821aa81c39fd6bd77457959b5fc46f0d08640a5f2",
+      "tracked": true
+    },
+    {
+      "path": "ServerCore/IniParser/Model/KeyData.cs",
+      "bytes": 2991,
+      "sha256": "c7c0287870a86f3904df57185513785482f2b126a38b2dd0329131f065f11f65",
+      "tracked": true
+    },
+    {
+      "path": "ServerCore/IniParser/Model/KeyDataCollection.cs",
+      "bytes": 10354,
+      "sha256": "4c069f9752c5fa9897b1df5fc5a278690b04d868218c97590116fba154fac7e9",
+      "tracked": true
+    },
+    {
+      "path": "ServerCore/IniParser/Model/SectionData.cs",
+      "bytes": 5979,
+      "sha256": "9e550ae49636c659308581d89ba2123372aa0960895813eff5c1433f8aba9ae4",
+      "tracked": true
+    },
+    {
+      "path": "ServerCore/IniParser/Model/SectionDataCollection.cs",
+      "bytes": 8589,
+      "sha256": "d89bc57be091f96332cbb3cc74ada537f8e37a07108bcad39933e6e3353b344d",
+      "tracked": true
+    },
+    {
+      "path": "ServerCore/IniParser/Parser/ConcatenateDuplicatedKeysIniDataParser.cs",
+      "bytes": 1144,
+      "sha256": "e218b44302c7e70a35879adae8655fdb0855193c0d849a676b08c97a61cbfea8",
+      "tracked": true
+    },
+    {
+      "path": "ServerCore/IniParser/Parser/IniDataParser.cs",
+      "bytes": 18051,
+      "sha256": "8b5025047eee3d964296fee9f557d550c452a4f544e477e0c9bcd40b12a6abe5",
+      "tracked": true
+    },
+    {
+      "path": "ServerCore/IniParser/StreamIniDataParser.cs",
+      "bytes": 3239,
+      "sha256": "bcbc7ff6b0701a4338b7b27eb4f09e8769940a6b266b1fecbb6a18bac27cb3aa",
+      "tracked": true
+    },
+    {
+      "path": "ServerCore/IniParser/StringIniParser.cs",
+      "bytes": 1935,
+      "sha256": "90f375347d37ac94f0d0215e3bb1d3bc7a93c57caacf9d7cbafa3d3421cb365f",
+      "tracked": true
+    },
+    {
+      "path": "ServerCore/Interfaces/IAsynchronousSocket.cs",
+      "bytes": 1172,
+      "sha256": "557ff7377e34bf02f0aaeea3b1d7f65dcc91ee09eaa4ae6d996942ea2dba547f",
+      "tracked": true
+    },
+    {
+      "path": "ServerCore/Interfaces/ICipher.cs",
+      "bytes": 1065,
+      "sha256": "a46d19dd0f92174159a1fd373aae77fcf8d12e3eb30f420a9f8a47dc669c6e93",
+      "tracked": true
+    },
+    {
+      "path": "ServerCore/Interfaces/IPairingsGenerator.cs",
+      "bytes": 2918,
+      "sha256": "92c83ac01a445cb7f2c45ab628e15ae18a13fb3252724c7f655d85d6e31b6deb",
+      "tracked": true
+    },
+    {
+      "path": "ServerCore/Interfaces/ITournamentVisualizer.cs",
+      "bytes": 1809,
+      "sha256": "aa340721c9cf4a9761029bda46e616c7916e02b9df1b8d187481680f5c3bf864",
+      "tracked": true
+    },
+    {
+      "path": "ServerCore/Interfaces/ITree.cs",
+      "bytes": 3154,
+      "sha256": "e41bfb78b780a6e9aec23bcaab636c1bbad1570262169318943e8657ab521c1b",
+      "tracked": true
+    },
+    {
+      "path": "ServerCore/Networking/Packets/10005-Entitymovement.cs",
+      "bytes": 3302,
+      "sha256": "5590b0c0251f4fb25c21f896510196e64a736cbab31660664f123434ec255f3b",
+      "tracked": true
+    },
+    {
+      "path": "ServerCore/Networking/Packets/1001-CharacterCreation.cs",
+      "bytes": 3058,
+      "sha256": "1301c60c27f741cdb0f15177c4a57169e3e5c6e99725e0e00c23ed86cf520666",
+      "tracked": true
+    },
+    {
+      "path": "ServerCore/Networking/Packets/10010-GeneralAction.cs",
+      "bytes": 7941,
+      "sha256": "bcac0b486f47c7a5e84622419be1540b04df5d5e1be42f9872f6fadee13ccfce",
+      "tracked": true
+    },
+    {
+      "path": "ServerCore/Networking/Packets/10014-PlayerSpawn.cs",
+      "bytes": 12892,
+      "sha256": "8deaf8be5e2a8b38a2a5ce85b33c8bb5cc9a4237f2c095aa2d6a2cd724e301d7",
+      "tracked": true
+    },
+    {
+      "path": "ServerCore/Networking/Packets/10017-UserUpdate.cs",
+      "bytes": 6620,
+      "sha256": "8b509479c14ceb663918942fe71972e0bc3ddf70ace84ba8dfb0f655895c6be7",
+      "tracked": true
+    },
+    {
+      "path": "ServerCore/Networking/Packets/1004-MessagePacket.cs",
+      "bytes": 10020,
+      "sha256": "5d07c346acf8f7b0988f98edfcfe6fabe0f2a4355ff594194f533c2597aa9c99",
+      "tracked": true
+    },
+    {
+      "path": "ServerCore/Networking/Packets/1006-CharacterInformation.cs",
+      "bytes": 9790,
+      "sha256": "46be1fdeb7138be373c50eda1bd518e5b82689a8d8a8c6aa4b68ac853018408f",
+      "tracked": true
+    },
+    {
+      "path": "ServerCore/Networking/Packets/1008-ItemInformation.cs",
+      "bytes": 6655,
+      "sha256": "7f52f9f1e7a49f2110a943befb613b994936f2a6cc058e9603f191c6b28b020a",
+      "tracked": true
+    },
+    {
+      "path": "ServerCore/Networking/Packets/1009-Item.cs",
+      "bytes": 5062,
+      "sha256": "d89f4f89b758279bc637f6181a0aba2445742fdcf804fb36297e0a6e73e0beda",
+      "tracked": true
+    },
+    {
+      "path": "ServerCore/Networking/Packets/1015-StringPacket.cs",
+      "bytes": 3006,
+      "sha256": "c5a61be3c384e48be42fba4389965769f26b0d44754f8c787399b48a238abd41",
+      "tracked": true
+    },
+    {
+      "path": "ServerCore/Networking/Packets/1019-RelationPacket.cs",
+      "bytes": 2490,
+      "sha256": "a344dbd32ae5b5f5e48922afe07c6d555fa4a87bb727ef5e253bd41706ea3173",
+      "tracked": true
+    },
+    {
+      "path": "ServerCore/Networking/Packets/1022-InteractionPacket.cs",
+      "bytes": 2389,
+      "sha256": "93b9fd50e325f8eb1ac2f6b809cb1d92e312999d2e1ed31adfbf83649774b3d1",
+      "tracked": true
+    },
+    {
+      "path": "ServerCore/Networking/Packets/1023-TeamAction.cs",
+      "bytes": 1081,
+      "sha256": "18cfce76a1226fb4eb4cd2d564a4840103445f47214fa608841f22225260c0c3",
+      "tracked": true
+    },
+    {
+      "path": "ServerCore/Networking/Packets/1024-AttributePoints.cs",
+      "bytes": 1331,
+      "sha256": "1d578e2131fb5d34e457fdb3956d63372ced80eb8bfe3ce64a4068fa83a01ff0",
+      "tracked": true
+    },
+    {
+      "path": "ServerCore/Networking/Packets/1025-WeaponSkill.cs",
+      "bytes": 2804,
+      "sha256": "bf860f23ee40de8815779ff7b4cab5722c5708b6b3bbaa5674fdbf85e031ef65",
+      "tracked": true
+    },
+    {
+      "path": "ServerCore/Networking/Packets/1026-TeamMemberPacket.cs",
+      "bytes": 1506,
+      "sha256": "3d0c0804b2a59fb9f8d519508d9a25674928d9989d8de2f140afc95cfeb6a5a8",
+      "tracked": true
+    },
+    {
+      "path": "ServerCore/Networking/Packets/1027-EmbedGem.cs",
+      "bytes": 1435,
+      "sha256": "443b29a8cbbd224f2962d77558152674cd34e9c7c582c5bc36ec0eb959b80525",
+      "tracked": true
+    },
+    {
+      "path": "ServerCore/Networking/Packets/1033-DataPacket.cs",
+      "bytes": 731,
+      "sha256": "896d28fe0e50aa253652a4955bb0473ca166ba69cf73ea91be22e0b86cbab8ee",
+      "tracked": true
+    },
+    {
+      "path": "ServerCore/Networking/Packets/1034-DetainItemInfo.cs",
+      "bytes": 4383,
+      "sha256": "ada865e86ee0f87d204318f839cb03d4a52b1459f564c4ffcdf8d169177baec8",
+      "tracked": true
+    },
+    {
+      "path": "ServerCore/Networking/Packets/1038-Solidify.cs",
+      "bytes": 1672,
+      "sha256": "65f5b1006d9d7619c1a8e5bcc5d73f8feccf9bcd4ce0a9fe939c54fd6a1d46ce",
+      "tracked": true
+    },
+    {
+      "path": "ServerCore/Networking/Packets/1040-PlayerAttributes.cs",
+      "bytes": 5410,
+      "sha256": "31fe7474e2bbc8682e4ad802eededf9e01c861f340925f8dd261ad6b48b0b1f4",
+      "tracked": true
+    },
+    {
+      "path": "ServerCore/Networking/Packets/1052-AuthenticationComplete.cs",
+      "bytes": 2523,
+      "sha256": "22f2631e9b15fb4b410a5014d9cc7bc930faf73af22f865232026d5298914864",
+      "tracked": true
+    },
+    {
+      "path": "ServerCore/Networking/Packets/1055-AuthenticationResponse.cs",
+      "bytes": 3464,
+      "sha256": "ec04d1caf12e5be19c8bb13de6d2ceb9c0e344edf7a0658dc67e78ab3146e7a6",
+      "tracked": true
+    },
+    {
+      "path": "ServerCore/Networking/Packets/1056-Trade.cs",
+      "bytes": 1484,
+      "sha256": "e8544c98f57cb814a01724f663249e79b5ef0ed5be9c396f8006b8727f507b0f",
+      "tracked": true
+    },
+    {
+      "path": "ServerCore/Networking/Packets/1058-SyndicateDonation.cs",
+      "bytes": 2287,
+      "sha256": "9ff0f6d427021cbb9de60c53f9d6f70e10e6b00613889bb7990bb9555c0ac262",
+      "tracked": true
+    },
+    {
+      "path": "ServerCore/Networking/Packets/1059-AuthenticationSeed.cs",
+      "bytes": 1755,
+      "sha256": "3041c86299093c9900d950c3fb8c78339db1da618e0e62c401646d6cfaccc0cb",
+      "tracked": true
+    },
+    {
+      "path": "ServerCore/Networking/Packets/1061-MsgDutyMinContri.cs",
+      "bytes": 1486,
+      "sha256": "106837905e92c9e3ff3e3c67526b9be1f1d7fcf35e99c1fa705cbd5950f4ca46",
+      "tracked": true
+    },
+    {
+      "path": "ServerCore/Networking/Packets/1063-MsgSelfSynMemAwardRank.cs",
+      "bytes": 5161,
+      "sha256": "ee1e809072a8e7ecc57c41273b9f5ac4b67af170e3fcfabd33f7e36700e48bf7",
+      "tracked": true
+    },
+    {
+      "path": "ServerCore/Networking/Packets/1066-MsgMeteSpecial.cs",
+      "bytes": 1078,
+      "sha256": "5eb01af86aedd6548f589b28656a6273921d8a0f060a5f6fef31a694e0df0260",
+      "tracked": true
+    },
+    {
+      "path": "ServerCore/Networking/Packets/1086-AuthenticationRequest.cs",
+      "bytes": 2827,
+      "sha256": "d363fcb749657f34decb703f537e2dece21c0d902d3ffb5c21c4d55eadeb16eb",
+      "tracked": true
+    },
+    {
+      "path": "ServerCore/Networking/Packets/11-LoginMeeting.cs",
+      "bytes": 2529,
+      "sha256": "b97f1fd1c2379b5fc39ad4463cdeae29b6bf694a6e44e111fc03ff9ee170e465",
+      "tracked": true
+    },
+    {
+      "path": "ServerCore/Networking/Packets/1100-MacAddress.cs",
+      "bytes": 891,
+      "sha256": "0944eae037790971eb7a3e7ba6903b2e276f858ca729c86696c74fbe5b721e2c",
+      "tracked": true
+    },
+    {
+      "path": "ServerCore/Networking/Packets/1101-MapItem.cs",
+      "bytes": 2032,
+      "sha256": "7c46693b3d1d7faf872f106ea9a1897c8afc074087ced11543455e33fd812d91",
+      "tracked": true
+    },
+    {
+      "path": "ServerCore/Networking/Packets/1102-WarehousePacket.cs",
+      "bytes": 4304,
+      "sha256": "9c673eb72d3154fd87262520f15948965fb8598809cca535586980d80db382ad",
+      "tracked": true
+    },
+    {
+      "path": "ServerCore/Networking/Packets/1103-SendSkill.cs",
+      "bytes": 1473,
+      "sha256": "fd976640e447a682269a25e750e4bbcf1956b2033799cfb7b2e7c01acfba3e98",
+      "tracked": true
+    },
+    {
+      "path": "ServerCore/Networking/Packets/1104-FlushSkillExp.cs",
+      "bytes": 1226,
+      "sha256": "7f65ec4e00d9bdda19abda74ba8ff610289ddd9692ca37148b7d85b1edc52568",
+      "tracked": true
+    },
+    {
+      "path": "ServerCore/Networking/Packets/1105-UseSpell.cs",
+      "bytes": 1870,
+      "sha256": "0d34501b235e8dc350942b2e2f2da34a786ebd24ec488e0dc3387ea5b093d2d2",
+      "tracked": true
+    },
+    {
+      "path": "ServerCore/Networking/Packets/1106-SyndicateAttribute.cs",
+      "bytes": 2654,
+      "sha256": "12a6acc66ee8c898e3efa99470f41cfbb39fbf31ee35837e38bd0653ad34a296",
+      "tracked": true
+    },
+    {
+      "path": "ServerCore/Networking/Packets/1107-SyndicateRequest.cs",
+      "bytes": 2828,
+      "sha256": "f31adc9bafa6a45f47d4a170762041a23555f239215d9d09acd2ccf7a4a15956",
+      "tracked": true
+    },
+    {
+      "path": "ServerCore/Networking/Packets/1108-ViewEquipment.cs",
+      "bytes": 4584,
+      "sha256": "8cb293aad9d4f1e6ea9677c033915a36398ec5463b4df7426f04ddb8ed655504",
+      "tracked": true
+    },
+    {
+      "path": "ServerCore/Networking/Packets/1109-DynamicNpc.cs",
+      "bytes": 2269,
+      "sha256": "50b0a3391ac01af826552d432400c1416e31bce3bcf71f473b79ab954b7c6363",
+      "tracked": true
+    },
+    {
+      "path": "ServerCore/Networking/Packets/1110-MapInformation.cs",
+      "bytes": 1297,
+      "sha256": "1a508ad2deef64b644c9322cce7d5a35f31693e61794b6f684c184c69ba5b3e2",
+      "tracked": true
+    },
+    {
+      "path": "ServerCore/Networking/Packets/1126-MsgInviteTrans.cs",
+      "bytes": 1252,
+      "sha256": "78ce8b796316a347fe41fbbc8bc795d6097a7424a692f35fbc05d77633ad6086",
+      "tracked": true
+    },
+    {
+      "path": "ServerCore/Networking/Packets/1128-MsgVipUserHandle.cs",
+      "bytes": 1497,
+      "sha256": "01ffaea9882aa3de05c60cae71894b165cafb8bdf3003ff98cfac1d701be9e36",
+      "tracked": true
+    },
+    {
+      "path": "ServerCore/Networking/Packets/1129-VipFunctions.cs",
+      "bytes": 1074,
+      "sha256": "5e6cdce9cc8fc1b380114f7fd3051ac3ea62254a01074326f95ebf52e98b71c9",
+      "tracked": true
+    },
+    {
+      "path": "ServerCore/Networking/Packets/1130-Title.cs",
+      "bytes": 1673,
+      "sha256": "fb4dc4a3d3b0c61f51d0e50c0e9ccaef28b4b449a44760bff60dfd10371c7004",
+      "tracked": true
+    },
+    {
+      "path": "ServerCore/Networking/Packets/1150-Flower.cs",
+      "bytes": 3529,
+      "sha256": "4c70e1b25d75d986a96ce0de8b2985290f0b96777d53a0dae5a285670e3a53d6",
+      "tracked": true
+    },
+    {
+      "path": "ServerCore/Networking/Packets/1151-Rank.cs",
+      "bytes": 2220,
+      "sha256": "87b997dcf9f7074a7774abd6399a128a49dfc83619ecad85db0a126c9c0c4f61",
+      "tracked": true
+    },
+    {
+      "path": "ServerCore/Networking/Packets/12-LoginAuthentication.cs",
+      "bytes": 3501,
+      "sha256": "5f95a97758ffa360cb91cadee5179771b51e582fb981bdd3c42aa27fa3cc7de3",
+      "tracked": true
+    },
+    {
+      "path": "ServerCore/Networking/Packets/13-LoginResponse.cs",
+      "bytes": 1605,
+      "sha256": "00a3ea8f1a39efcc30a05ab7ecfabe3e94b9bd112937f0b5515fc210de48c09b",
+      "tracked": true
+    },
+    {
+      "path": "ServerCore/Networking/Packets/1312-FamilyPacket.cs",
+      "bytes": 3568,
+      "sha256": "35f0f8d28e77c3e21a4e6460329cf21d99c1a8cf227991bb07330cef92a3b996",
+      "tracked": true
+    },
+    {
+      "path": "ServerCore/Networking/Packets/1313-FamilyOccupation.cs",
+      "bytes": 2644,
+      "sha256": "67fb6a7dd855ee8300e52ed926728703f0c2f2a518c9e9b5d59f1e2381a53446",
+      "tracked": true
+    },
+    {
+      "path": "ServerCore/Networking/Packets/20-LoginServerRequestOnlineAmount.cs",
+      "bytes": 1680,
+      "sha256": "4c679421de525c706aad1c23eea08e8ceb8b1447be8a6878caf781060f734b5c",
+      "tracked": true
+    },
+    {
+      "path": "ServerCore/Networking/Packets/2030-NpcInformation.cs",
+      "bytes": 1757,
+      "sha256": "00cb2c6a80a24138b4edbe0ebd21e57981a92284f34d390b799bc69746c32ad8",
+      "tracked": true
+    },
+    {
+      "path": "ServerCore/Networking/Packets/2031-Npc.cs",
+      "bytes": 1603,
+      "sha256": "a5c1e6042c4c8a9f4ceac3c44d0b6a084ff70c5087a1d45052affd21b2afe2cf",
+      "tracked": true
+    },
+    {
+      "path": "ServerCore/Networking/Packets/2032-NpcReply.cs",
+      "bytes": 2674,
+      "sha256": "03e6782909826a882edcc5ef895eda6451ea5b76d5ea1680d6727f157b503104",
+      "tracked": true
+    },
+    {
+      "path": "ServerCore/Networking/Packets/2033-RelationInfo.cs",
+      "bytes": 1992,
+      "sha256": "03f394f951944fae6c150aef6e2aa12596beee78839326c6c5f264dbdc96fc01",
+      "tracked": true
+    },
+    {
+      "path": "ServerCore/Networking/Packets/2036-Composition.cs",
+      "bytes": 888,
+      "sha256": "e68cd3bf9a1579f0b06b1912f277489035fad2c3276c63a3696672fe225944f6",
+      "tracked": true
+    },
+    {
+      "path": "ServerCore/Networking/Packets/2046-TradeBuddy.cs",
+      "bytes": 1657,
+      "sha256": "6ad6c91c1209f8bc4509a0c4c7802a7c38685bd6b34769e856b3bf8d05388b0a",
+      "tracked": true
+    },
+    {
+      "path": "ServerCore/Networking/Packets/2047-MsgTradeBuddyInfo.cs",
+      "bytes": 2049,
+      "sha256": "4ea33988c57789e847c0b510ea973913d961c6da1ebc7547158e5c00d97ae776",
+      "tracked": true
+    },
+    {
+      "path": "ServerCore/Networking/Packets/2048-ItemLock.cs",
+      "bytes": 1467,
+      "sha256": "6ee2b777aa11954f92c9d98e36e27a83074706a88c7a781f003ac04508e5b5bf",
+      "tracked": true
+    },
+    {
+      "path": "ServerCore/Networking/Packets/2050-Pigeon.cs",
+      "bytes": 2274,
+      "sha256": "004aab55bfd6de20d652ecd292bd1b3f9641f14c666ee4ff9c9e43ea8ffe5a92",
+      "tracked": true
+    },
+    {
+      "path": "ServerCore/Networking/Packets/2051-PigeonQuery.cs",
+      "bytes": 2045,
+      "sha256": "abb7bdf80306f6c58f2ea4735043c64c9a3c847efc6d74b8db182a03564250cb",
+      "tracked": true
+    },
+    {
+      "path": "ServerCore/Networking/Packets/2064-Peerage.cs",
+      "bytes": 3680,
+      "sha256": "c20c4091df10f49d7141ceb8422e87e27ab50f9937181f60a151cf2c03a81fe3",
+      "tracked": true
+    },
+    {
+      "path": "ServerCore/Networking/Packets/2065-Guide.cs",
+      "bytes": 1318,
+      "sha256": "7c96fd9331e46cd4b03ff8e77656b72b6af5d7b826549264f2e0e18c8b85725d",
+      "tracked": true
+    },
+    {
+      "path": "ServerCore/Networking/Packets/2066-GuideInformation.cs",
+      "bytes": 5409,
+      "sha256": "01d27b8e833e90e1e0d4be6f83f3d0d7fc1b5ed0582594975f90550addce4b58",
+      "tracked": true
+    },
+    {
+      "path": "ServerCore/Networking/Packets/2067-MentorContribution.cs",
+      "bytes": 1561,
+      "sha256": "a1fddf9bac6057d01ccd2843a6f74a4468a99f80289d4266f2ed6c3f8da19e31",
+      "tracked": true
+    },
+    {
+      "path": "ServerCore/Networking/Packets/2068-QuizShow.cs",
+      "bytes": 6245,
+      "sha256": "dffe10627ae3252e8a263391b966f171a8ac96150f3d40d17ac25dfa0676341d",
+      "tracked": true
+    },
+    {
+      "path": "ServerCore/Networking/Packets/2069-QuizSponsor.cs",
+      "bytes": 859,
+      "sha256": "91d8584b38fb15275c424b73a337ac930a14e2a7c64f6a2c4c1b8021d019a14d",
+      "tracked": true
+    },
+    {
+      "path": "ServerCore/Networking/Packets/2071-MsgRelation.cs",
+      "bytes": 1769,
+      "sha256": "5b07350626236b162c2f8014291e9f0a9c1dd5aa756a1c2a631096a787927f80",
+      "tracked": true
+    },
+    {
+      "path": "ServerCore/Networking/Packets/2076-Purification.cs",
+      "bytes": 1524,
+      "sha256": "ac255c3cf91309ba7c70fc2e2a8048fbf5e1fd865615fa5869936cf8def31058",
+      "tracked": true
+    },
+    {
+      "path": "ServerCore/Networking/Packets/2077-PurificationActivate.cs",
+      "bytes": 4716,
+      "sha256": "a7e551e120ba7bd16483ebfecb13d9b291a99731e157c45dc8bc6c7446aabe6b",
+      "tracked": true
+    },
+    {
+      "path": "ServerCore/Networking/Packets/2078-UserIpInfo.cs",
+      "bytes": 765,
+      "sha256": "d2b0144e866bcbe389f657cc507dbfb42aad8f7765065ff7f7be7892b64a8bc8",
+      "tracked": true
+    },
+    {
+      "path": "ServerCore/Networking/Packets/2079-ServerStatus.cs",
+      "bytes": 1219,
+      "sha256": "6622003cef3f65ab62790e86047038c13a185b672cf9db9239a4008eb931b0cf",
+      "tracked": true
+    },
+    {
+      "path": "ServerCore/Networking/Packets/2080-ChangeName.cs",
+      "bytes": 2269,
+      "sha256": "902755a6698617d48435ed471d224efab18b230d1ba64c4bb9c63aa9af0f7a2f",
+      "tracked": true
+    },
+    {
+      "path": "ServerCore/Networking/Packets/21-OnlinePlayerList.cs",
+      "bytes": 554,
+      "sha256": "02d01ae9fc7dd5f1544e2b3e1c7f57024feee557a8b11b9088a1c99d997913b0",
+      "tracked": true
+    },
+    {
+      "path": "ServerCore/Networking/Packets/2101-SyndicateDonationList.cs",
+      "bytes": 2500,
+      "sha256": "ab84c1b25619f0633ab618f3986f84852efad2b5c3aca7eda760ec109825ba02",
+      "tracked": true
+    },
+    {
+      "path": "ServerCore/Networking/Packets/2102-SyndicateMember.cs",
+      "bytes": 2486,
+      "sha256": "47b3d879f373dee4e812c8583390996417bf8b1db6138dba2209122e1ef479e5",
+      "tracked": true
+    },
+    {
+      "path": "ServerCore/Networking/Packets/2110-MsgSuperFlag.cs",
+      "bytes": 2165,
+      "sha256": "59a539e0aa35bf4cb9bd4ce69f0f0e39e28caa67d1d1fc93e37caae6416f8d09",
+      "tracked": true
+    },
+    {
+      "path": "ServerCore/Networking/Packets/2201-TotemPoleInfo.cs",
+      "bytes": 10777,
+      "sha256": "9dbeff36449b6dbaade337d9297d8eab46e3fb0b5b7565d70e4daa069beb01ad",
+      "tracked": true
+    },
+    {
+      "path": "ServerCore/Networking/Packets/2202-ItemsToteminfo.cs",
+      "bytes": 3047,
+      "sha256": "7cc8090adadd7ce15a3c02f2b50fb984431286319b1ffc8eef8a1b8c5deff66a",
+      "tracked": true
+    },
+    {
+      "path": "ServerCore/Networking/Packets/2203-TotemPoleCheck.cs",
+      "bytes": 2578,
+      "sha256": "95e8b6986bcbd331b4e5256dada0b61e2108d62afd85af310e271dd4eeb305a6",
+      "tracked": true
+    },
+    {
+      "path": "ServerCore/Networking/Packets/2205-ArenaCheck.cs",
+      "bytes": 2407,
+      "sha256": "982a3836ab8745323ce4cf022ce48e962caab2f6c7fafe4cbca9ad396de4c978",
+      "tracked": true
+    },
+    {
+      "path": "ServerCore/Networking/Packets/2206-ArenaFightList.cs",
+      "bytes": 3423,
+      "sha256": "844576d727b28d56e77a945bcf5d1fcb729d8e85f3fa28bfd7c4bd7375d248fd",
+      "tracked": true
+    },
+    {
+      "path": "ServerCore/Networking/Packets/2207-ArenaRanking.cs",
+      "bytes": 2187,
+      "sha256": "d69119b9fb7bdfe271e2b5dc80ab85694a7a3dbe6c9874924b455e179b647770",
+      "tracked": true
+    },
+    {
+      "path": "ServerCore/Networking/Packets/2208-ArenaYesterdayWinners.cs",
+      "bytes": 1878,
+      "sha256": "76accf5cf9bc3127e61615a1474b015039f16a2417a07f47757af9dba437fdc5",
+      "tracked": true
+    },
+    {
+      "path": "ServerCore/Networking/Packets/2209-ArenaStatistic.cs",
+      "bytes": 2343,
+      "sha256": "24845ef45f6ddc63e03669cb1c939b7e6117c8a6d8b238660bb88a373f5278af",
+      "tracked": true
+    },
+    {
+      "path": "ServerCore/Networking/Packets/2210-ArenaMatchPoints.cs",
+      "bytes": 1542,
+      "sha256": "fe09e101144dfa3d6e822de07962f7f916ba4c437298de2914cbd986675014fe",
+      "tracked": true
+    },
+    {
+      "path": "ServerCore/Networking/Packets/2211-WatchArenaQualifier.cs",
+      "bytes": 2652,
+      "sha256": "3d9a545c52546561e5425dba2364a509072c35ec8110d198e6e952542dac3775",
+      "tracked": true
+    },
+    {
+      "path": "ServerCore/Networking/Packets/2219-MsgPKEliteMatchInfo.cs",
+      "bytes": 3848,
+      "sha256": "20482ff0ec35a47000b84bd931604ae7bf15454a58f5f0660b60884e569ad72d",
+      "tracked": true
+    },
+    {
+      "path": "ServerCore/Networking/Packets/2220-MsgPkStatistic.cs",
+      "bytes": 2303,
+      "sha256": "e7136e6cdd4bb3231e10a44cc8996e4de8efecdf8fb96d13c9e78bdf9674fc14",
+      "tracked": true
+    },
+    {
+      "path": "ServerCore/Networking/Packets/2223-MsgElitePKGameRankInfo.cs",
+      "bytes": 1989,
+      "sha256": "3dcb2adf7052ef5807f36be1415a89439a86354409aaabb2745c0ad5658c99e5",
+      "tracked": true
+    },
+    {
+      "path": "ServerCore/Networking/Packets/2224-MsgWarFlag.cs",
+      "bytes": 2147,
+      "sha256": "ccdbdbe0533c12f33e92437badf61139e9aeddaed3376b26b75faffdcd71c992",
+      "tracked": true
+    },
+    {
+      "path": "ServerCore/Networking/Packets/2225-MsgSynRecuitAdvertising.cs",
+      "bytes": 2335,
+      "sha256": "63b5fb354fd94aea80f660afdb47e0bf6b4c894546cb8d2e7783e714d186c8e1",
+      "tracked": true
+    },
+    {
+      "path": "ServerCore/Networking/Packets/2226-MsgSynRecruitAdvertisingList.cs",
+      "bytes": 2549,
+      "sha256": "8b6a05e2b73d9a86c5fe96389a882631e37c2b2dce01f48d2a5bd750b1890bd3",
+      "tracked": true
+    },
+    {
+      "path": "ServerCore/Networking/Packets/2227-MsgSynRecruitAdvertisingOpt.cs",
+      "bytes": 1134,
+      "sha256": "f964bb4cadbd191a8e58303ff8e0469f4b4a410f650b56c573f5958573d9402d",
+      "tracked": true
+    },
+    {
+      "path": "ServerCore/Networking/Packets/2320-SubclassPacket.cs",
+      "bytes": 2491,
+      "sha256": "be90cd99ea164519c218e4fcacffd886b0cf1770ce54a5f3e446c34a9ebddfbd",
+      "tracked": true
+    },
+    {
+      "path": "ServerCore/Networking/Packets/24-ServerInformation.cs",
+      "bytes": 1308,
+      "sha256": "c504cd8abdb5493f7e9a1fb710ce668897034718e62ac8d62dbe6be98df16993",
+      "tracked": true
+    },
+    {
+      "path": "ServerCore/Networking/Packets/2410-Aura.cs",
+      "bytes": 2010,
+      "sha256": "a80d8b3138206e07c02d70ebfea87b95b2eddd2a1fe00e1e39e349e4737f90ff",
+      "tracked": true
+    },
+    {
+      "path": "ServerCore/Networking/Packets/26-UserLoginAuthenticate.cs",
+      "bytes": 2051,
+      "sha256": "b2ebd498975c384a15e8b72b6d05ac3cf4a6b8e5f4e84d6799287db1a3b18974",
+      "tracked": true
+    },
+    {
+      "path": "ServerCore/Networking/Packets/PacketHandlerAttribute.cs",
+      "bytes": 1705,
+      "sha256": "a1a9be40fb1e48b51dda42f92f381601b3fe1cfd5fb169df4ee0b17989516515",
+      "tracked": true
+    },
+    {
+      "path": "ServerCore/Networking/Packets/PacketHeader.cs",
+      "bytes": 5349,
+      "sha256": "1d820c62bfa275e6b3f82b6341ef6338bc8cf313dd4db4152bf56e0286628b79",
+      "tracked": true
+    },
+    {
+      "path": "ServerCore/Networking/Packets/PacketProcessor.cs",
+      "bytes": 4129,
+      "sha256": "40ed6de783199fd9e1ce857a594b40a3fd4d7e61a89bc21fcec49c72534cec70",
+      "tracked": true
+    },
+    {
+      "path": "ServerCore/Networking/Packets/PacketStructure.cs",
+      "bytes": 29265,
+      "sha256": "163a857d7ef96bb2a13261a7ce4ae22e1d56264b5be10339de64c1e96c8b77a4",
+      "tracked": true
+    },
+    {
+      "path": "ServerCore/Networking/Sockets/AsynchronousClientSocket.cs",
+      "bytes": 26009,
+      "sha256": "2a5d72f7a7988608225547a49d0bd1753c330f15486ffb3b5634c38dc2ad0ed6",
+      "tracked": true
+    },
+    {
+      "path": "ServerCore/Networking/Sockets/AsynchronousGameServerSocket.cs",
+      "bytes": 25087,
+      "sha256": "24960805a2cbe46f059821d632cc24a781b2bd644a53541f5208e1cea5fa89de",
+      "tracked": true
+    },
+    {
+      "path": "ServerCore/Networking/Sockets/AsynchronousServerSocket.cs",
+      "bytes": 24489,
+      "sha256": "813d01398aaf8d02459cf0b5ab1a582d20757d7fa1a16bc3fac8dd5c7bd713e1",
+      "tracked": true
+    },
+    {
+      "path": "ServerCore/Networking/Sockets/AsynchronousState.cs",
+      "bytes": 1736,
+      "sha256": "640b4d9074729b385277a5a10e847967295983dbfc504e7f9f23f09207be7c4c",
+      "tracked": true
+    },
+    {
+      "path": "ServerCore/Networking/Sockets/Passport.cs",
+      "bytes": 6907,
+      "sha256": "b05eebc7a367fc7183cd0c0c186a9a17d3ad74917d17e3a1b2833829215d4449",
+      "tracked": true
+    },
+    {
+      "path": "ServerCore/Security/BlowfishCipher.cs",
+      "bytes": 39795,
+      "sha256": "7fdc4c4f7a6527ff16f3ba21e26874ccc888af7a5fc4b5ba4f1dd9a7646699be",
+      "tracked": true
+    },
+    {
+      "path": "ServerCore/Security/CO2_CORE_DLL/Blowfish.cs",
+      "bytes": 26567,
+      "sha256": "ca0725d160a46f9c768ce21f3f5a99da55060c1b9016202f027100548a138e9e",
+      "tracked": true
+    },
+    {
+      "path": "ServerCore/Security/CO2_CORE_DLL/Kernel.cs",
+      "bytes": 13297,
+      "sha256": "2c70190540baf853cbd53db131b28f076b768db2718a667ac6a97973193e3ef0",
+      "tracked": true
+    },
+    {
+      "path": "ServerCore/Security/CO2_CORE_DLL/MyString.cs",
+      "bytes": 2188,
+      "sha256": "92323865bf7997554bff9f926ba88e643115d0f4e57b40ebc54db2244477247a",
+      "tracked": true
+    },
+    {
+      "path": "ServerCore/Security/Diffie-HellmanKeyExchange.cs",
+      "bytes": 4101,
+      "sha256": "7a3ddcda7c45b3279fab442643cdf4a45944797152f0256bcfeca42370582c41",
+      "tracked": true
+    },
+    {
+      "path": "ServerCore/Security/KeyExchangeRequest.cs",
+      "bytes": 2684,
+      "sha256": "2a65b5b1b3576b41d545befee27757d26b3ce3983d48def0e852fbf427ad92f6",
+      "tracked": true
+    },
+    {
+      "path": "ServerCore/Security/NetDragonAuthenticationCipher.cs",
+      "bytes": 10980,
+      "sha256": "8c1fd39930544682253bc0c37d17d2d7adb6a75cb27c12866ec47ebeb4f2690f",
+      "tracked": true
+    },
+    {
+      "path": "ServerCore/Security/NetDragonKeyExchange.cs",
+      "bytes": 4213,
+      "sha256": "4893540b5a4f591362c384e171f2ef8ea91716998fc730be484e4f426c70f277",
+      "tracked": true
+    },
+    {
+      "path": "ServerCore/Security/NetDragonPasswordCipher.cs",
+      "bytes": 9276,
+      "sha256": "19cf32b0b9a590bca217450900b7d5448b521d5fa914efe028049e0c2c5a53ec",
+      "tracked": true
+    },
+    {
+      "path": "ServerCore/Security/PhoenixTransferCipher.cs",
+      "bytes": 6164,
+      "sha256": "4d914ece5e624dd8ed23d1262653507cde568167cb7e3e8a0b9ef84af007eb11",
+      "tracked": true
+    },
+    {
+      "path": "ServerCore/Security/RivestCipher.cs",
+      "bytes": 10007,
+      "sha256": "fce10eec379f8e7a43bc3eaff9a2b0f08a99220158acf508c8b4719ffc09bf04",
+      "tracked": true
+    },
+    {
+      "path": "ServerCore/Security/SeedGenerator.cs",
+      "bytes": 1362,
+      "sha256": "c66f67a9fd1eb99cfbfacd7f3169642f7c804e8b02a578859c34e09a6f257c71",
+      "tracked": true
+    },
+    {
+      "path": "ServerCore/Security/TigerHashAlgorithm.cs",
+      "bytes": 33470,
+      "sha256": "4843e31e8c8f34a0ef4efa06e4526d59e08c66033193b8fef64edc6ef3062f60",
+      "tracked": true
+    },
+    {
+      "path": "ServerCore/Security/TransferCipher.cs",
+      "bytes": 6097,
+      "sha256": "835576f439d8b963dafb4d46b49deaf46277c28ab88cd98626335013cfc6206f",
+      "tracked": true
+    },
+    {
+      "path": "ServerCore/Security/WhirlpoolHashing.cs",
+      "bytes": 1471,
+      "sha256": "ec00f7da0ef60ce8112bf102e6302f7b8e6f234c5b80799f4c997486c6f0fec2",
+      "tracked": true
+    },
+    {
+      "path": "ServerCore/ServerCore.csproj",
+      "bytes": 287,
+      "sha256": "f26ce9a89237f2d4d2fad60cef9afa7ec03f72de4c7e9cddcc7ca430f2d18a28",
+      "tracked": true
+    },
+    {
+      "path": "ServerCore/Utils.cs",
+      "bytes": 1013,
+      "sha256": "7e286bcbcea78c0496df91255c417aa54e5cbcfde098351ea989fb79704409eb",
+      "tracked": true
+    },
+    {
+      "path": "TODO.md",
+      "bytes": 1807,
+      "sha256": "a57544bff924d8cf88cc83378f8177a33fc496385da87e4390cbb2124477dd1e",
+      "tracked": true
+    }
+  ],
+  "schema_version": 1,
+  "import_policy": "Every tracked upstream file is byte-identical. Omitted data/assets are materialized only outside the Git payload; no upstream file is patched."
+}
