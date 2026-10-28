@@ -1,0 +1,11 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <BaselineRoot Condition="'$(BaselineRoot)' == ''">$(MSBuildThisFileDirectory)../../vendor/FoxConquer5517</BaselineRoot>
+  </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="$(BaselineRoot)/MsgServer/MsgServer.csproj" />
+    <ProjectReference Include="$(BaselineRoot)/ServerCore/ServerCore.csproj" />
+  </ItemGroup>
+</Project>

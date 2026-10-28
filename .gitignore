@@ -1,0 +1,8 @@
+# Temporary original archives, extracted runtime assets, and test workspaces.
+.cache/
+artifacts/
+**/bin/
+**/obj/
+.vs/
+__pycache__/
+*.pyc

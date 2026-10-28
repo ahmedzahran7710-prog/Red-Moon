@@ -14,8 +14,8 @@ The project owner requires `ميموري.md` (repository root) to be the shared 
 
 - Use friendly, clear Egyptian Arabic with the owner; avoid tables unless requested later.
 - Give progress updates during substantial work. Explain new ideas and obtain agreement before implementing design changes.
-- The owner has delegated source/client selection. The selected initial download/evaluation pair is FoxConquer5517 at the commit in memory plus client 5517. Do not ask the owner to choose among the same candidates again without new evidence. The current delivery is download links and documentation, not automatic source import, database import, or execution. Public hosting, purchases, and final classes/economy parameters still require agreement.
-- The goal is a **free Classic+ Conquer Online server**: PvE/leveling/farming/trading plus PvP/events, Fan/Tower, Steeds, Arena, Arsenal, and meaningful VIP. Patch 5187 and a Ninja-only class ceiling are **not** fixed requirements anymore. CP-based gaming machines are deferred.
+- The owner has delegated source/client selection. The selected initial download/evaluation pair is FoxConquer5517 at the commit in memory plus client 5517. Do not ask the owner to choose among the same candidates again without new evidence. The latest request explicitly authorizes importing the pinned source and testing it in isolation, with NO source fixes or configuration changes. Keep every imported upstream file byte-identical; keep audit tools, CI, and reports separate. Do not run bundled untrusted binaries, start a public game server, or touch the owner's database. Omit large assets and old account/player records from Git and record their hashes/provenance for temporary test materialization. Public hosting, purchases, and final classes/economy parameters still require agreement.
+- The goal is a **free Classic+ Conquer Online server**: PvE/leveling/farming/trading plus PvP/events, Fan/Tower, Steeds, Arena, meaningful VIP, and provisionally Arsenal. Patch 5187 and a Ninja-only class ceiling are **not** fixed requirements anymore. CP-based gaming machines are deferred.
 
 ## Publication workflow
 

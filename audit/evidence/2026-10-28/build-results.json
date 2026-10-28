@@ -1,0 +1,27 @@
+{
+  "evidence_schema": 1,
+  "run_id": "40607005760",
+  "run_attempt": "1",
+  "head_sha": "e3396dbb285d0584c94bd44bce9c64f0635bddb7",
+  "file": "build-results.json",
+  "file_sha256": "0a4189dddf83e36e3933a5741f272682b79ba14443e3dbb923c822ab167ad66f",
+  "payload": {
+    "sdk_requested": "3.1.426",
+    "builds": [
+      {
+        "configuration": "debug",
+        "succeeded": true,
+        "warnings": 13,
+        "errors": 0,
+        "log_sha256": "197e707f3de34a26b88275b73b77b8fedae7a69e39858b4337f094bb76387c8d"
+      },
+      {
+        "configuration": "release",
+        "succeeded": true,
+        "warnings": 13,
+        "errors": 0,
+        "log_sha256": "a7a3b60d1f72b117e6b133925d60a5880a9205a64cb61352fd4c189c05fc7e73"
+      }
+    ]
+  }
+}

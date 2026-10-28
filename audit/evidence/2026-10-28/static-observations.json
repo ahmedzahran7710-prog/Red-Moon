@@ -1,0 +1,28 @@
+{
+  "source_commit": "70f3560465ba73cef0250109af7cf167b508516f",
+  "evidence_level": "static inspection, NOT game runtime tests",
+  "native_headers": [
+    {
+      "path": "LoginServer/libeay32.dll",
+      "pe_machine": "0x14c",
+      "architecture": "x86",
+      "executed": false,
+      "sha256": "95550b81825ae3fb4298b0de1f7ebd116754d99483a6d73cc7271e002484a928"
+    },
+    {
+      "path": "MsgServer/libeay32.dll",
+      "pe_machine": "0x14c",
+      "architecture": "x86",
+      "executed": false,
+      "sha256": "95550b81825ae3fb4298b0de1f7ebd116754d99483a6d73cc7271e002484a928"
+    }
+  ],
+  "source_openssl_library_name": "libssl",
+  "vip_identical_changemap_call_sites": 26,
+  "vip_repeated_destination": {
+    "x": 430,
+    "y": 378,
+    "map": 1002
+  },
+  "native_crypto_executed": false
+}

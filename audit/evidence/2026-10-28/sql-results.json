@@ -1,0 +1,50 @@
+{
+  "evidence_schema": 1,
+  "run_id": "40607005760",
+  "run_attempt": "1",
+  "head_sha": "e3396dbb285d0584c94bd44bce9c64f0635bddb7",
+  "file": "sql-results.json",
+  "file_sha256": "eb95a085c7c7f9d227b8ad2f40da85b3c614280ec5923c8300a26440bc8fb811",
+  "payload": {
+    "schema_version": 1,
+    "database_version": "10.4.32-MariaDB-1:10.4.32+maria~ubu2004",
+    "fresh_disposable_service": true,
+    "game_server_started": false,
+    "seed_values_logged": false,
+    "imports": [
+      {
+        "file": "accountzf.sql",
+        "status": "PASS",
+        "exit_code": 0
+      },
+      {
+        "file": "zf.sql",
+        "status": "PASS",
+        "exit_code": 0
+      },
+      {
+        "file": "fix_cq_levexp.sql",
+        "status": "PASS",
+        "exit_code": 0
+      },
+      {
+        "file": "cq_action_mod.sql",
+        "status": "PASS",
+        "exit_code": 0
+      }
+    ],
+    "counts_only": {
+      "accountzf.tables": 2,
+      "accountzf.procedures": 0,
+      "accountzf.account": 2,
+      "zf.tables": 76,
+      "zf.procedures": 10,
+      "zf.cq_user": 2,
+      "zf.cq_item": 294,
+      "zf.cq_arena": 2,
+      "zf.cq_log": 0,
+      "zf.cq_levexp": 139
+    },
+    "limits": "SQL syntax/schema import only. Procedures were defined, not invoked; no NHibernate/server login or persistence/concurrency tests."
+  }
+}

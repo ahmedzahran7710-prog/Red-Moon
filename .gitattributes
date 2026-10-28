@@ -1,0 +1,2 @@
+# Preserve the imported upstream snapshot byte-for-byte, including CRLF and BOMs.
+vendor/FoxConquer5517/** -text
