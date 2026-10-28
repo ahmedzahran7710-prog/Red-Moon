@@ -18,6 +18,9 @@ for p in paths:
             if secret:line=line.replace(secret,'[redacted]')
         clean.append(line[:280])
     result[p.name]='\n'.join(clean)[-2000:]
+record=runtime/'.local/processes.json'
+if record.exists():
+    result['owned-process-records']=record.read_text(encoding='utf-8-sig')[:2500]
 if result:
     out=root/'fox-evidence';out.mkdir(exist_ok=True)
     (out/'startup-diagnostics.json').write_text(json.dumps({'source_head':os.environ.get('GITHUB_SHA'),'redacted_ci_only_logs':result},indent=2)+'\n')

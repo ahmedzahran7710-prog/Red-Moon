@@ -167,3 +167,13 @@ $crypto
     Write-Utf8 (Join-Path $server 'Login.cfg') $login
     Write-Utf8 (Join-Path $server 'Shell.ini') $game
 }
+
+function Get-NormalizedProcessPath([string]$Value) {
+    if ([string]::IsNullOrWhiteSpace($Value)) { throw 'An executable path could not be inspected; refusing PID-based action.' }
+    $native = $Value
+    $provider = 'Microsoft.PowerShell.Core\FileSystem::'
+    if ($native.StartsWith($provider, [StringComparison]::OrdinalIgnoreCase)) { $native = $native.Substring($provider.Length) }
+    if ($native.StartsWith('\\?\UNC\', [StringComparison]::OrdinalIgnoreCase)) { $native = '\\' + $native.Substring(8) }
+    elseif ($native.StartsWith('\\?\') -or $native.StartsWith('\??\')) { $native = $native.Substring(4) }
+    return [IO.Path]::GetFullPath($native)
+}

@@ -30,6 +30,9 @@ namespace ServerCore.Networking.Packets
 
             for (int i = 36; i < 64; i++)
                 WriteByte((byte) ThreadSafeRandom.RandGet(1, 255), i);
+            // Padding must not leave an uninitialized length-prefixed MAC field.
+            IpAddress = string.Empty;
+            MacAddress = string.Empty;
         }
 
         public uint RequestTime

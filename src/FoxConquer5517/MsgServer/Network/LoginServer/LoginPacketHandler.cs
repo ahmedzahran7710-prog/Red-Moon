@@ -94,6 +94,7 @@ namespace MsgServer.Network.LoginServer
                     pRequest =
                         new LoginRequest(pMsg.UserIdentity, pMsg.PacketHash, pMsg.RequestTime, pMsg.IpAddress,
                             pMsg.VipLevel, pMsg.Authority, pMsg.MacAddress));
+            Console.WriteLine("REDMOON_AUTH_TOKEN_QUEUED");
         }
         #endregion
     }

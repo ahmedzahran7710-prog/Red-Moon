@@ -113,6 +113,19 @@ internal static partial class Program
         Check("TCP-listener-dispose-server", "True", () => FramingRegression.CloseListener(false), RepairScope);
         Check("TCP-listener-dispose-internal", "True", () => FramingRegression.CloseListener(true), RepairScope);
 
+        Check("INTERSERVER-04-empty-MAC-is-initialized", "72,72,", () =>
+        {
+            byte[] bytes = new ServerCore.Networking.Packets.MsgUsrLogin(1000001, 1234);
+            var decoded = new ServerCore.Networking.Packets.MsgUsrLogin(bytes);
+            return BitConverter.ToUInt16(bytes, 0) + "," + bytes.Length + "," + decoded.MacAddress;
+        }, RepairScope);
+        Check("INTERSERVER-05-login-metadata-roundtrip", "1000001,1234,3,2,192.0.2.10,001122334455", () =>
+        {
+            byte[] bytes = new ServerCore.Networking.Packets.MsgUsrLogin(1000001, 1234) { IpAddress="192.0.2.10", MacAddress="001122334455", VipLevel=3, Authority=2 };
+            var d = new ServerCore.Networking.Packets.MsgUsrLogin(bytes);
+            return d.UserIdentity + "," + d.PacketHash + "," + d.VipLevel + "," + d.Authority + "," + d.IpAddress + "," + d.MacAddress;
+        }, RepairScope);
+
         var fixture = JsonDocument.Parse(File.ReadAllText(Path.Combine(AppContext.BaseDirectory, "cast5-cfb64.json"))).RootElement;
         byte[] key = Convert.FromHexString(fixture.GetProperty("key_hex").GetString());
         byte[] iv = Convert.FromHexString(fixture.GetProperty("iv_hex").GetString());

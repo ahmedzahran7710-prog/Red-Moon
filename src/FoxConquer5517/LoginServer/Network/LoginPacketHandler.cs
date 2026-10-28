@@ -175,7 +175,7 @@ namespace LoginServer.Network
 
                         string szAddress = ServerKernel.AdvertisedGameAddress;
 
-                        pServer.Send(new MsgUsrLogin(pUser.Identity, dwHash) { IpAddress = pClient.IpAddress });
+                        pServer.Send(new MsgUsrLogin(pUser.Identity, dwHash) { IpAddress = pClient.IpAddress, VipLevel = pUser.Vip, Authority = pUser.Type, MacAddress = pUser.MacAddress ?? string.Empty });
 
                         pClient.Send(new MsgConnectEx(pCrypto[0], pCrypto[1], szAddress, ServerKernel.AdvertisedGamePort));
                         ServerKernel.Log.SaveLog(string.Format("User [{0}] has successfully logged into {1}({2}:{3}).",

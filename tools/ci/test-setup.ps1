@@ -41,6 +41,19 @@ $inputJson = @{ Account='ci_player'; Password=$env:REDMOON_CI_GAME_PASSWORD; Por
 $authReport = Invoke-PrivateProcess (Join-Path $RuntimeRoot 'server/RedMoon.Admin.exe') 'probe-login' ($inputJson + "`n")
 $auth = $authReport | ConvertFrom-Json
 if (!$auth.Authorized -or !$auth.RedirectVerified) { throw 'Synthetic login/redirect did not pass.' }
+$stage = 'verify-login-token-handoff'
+$handoffLog = Join-Path $RuntimeRoot '.local/logs/MsgServer.stdout.log'
+$handoff = $false
+$deadline = [DateTime]::UtcNow.AddSeconds(10)
+while ([DateTime]::UtcNow -lt $deadline) {
+    $stream = [IO.File]::Open($handoffLog, [IO.FileMode]::Open, [IO.FileAccess]::Read, [IO.FileShare]::ReadWrite)
+    $reader = New-Object IO.StreamReader($stream, [Text.Encoding]::UTF8, $true)
+    try { $content = $reader.ReadToEnd() } finally { $reader.Dispose() }
+    if ($content.Contains('Packet body rejected:') -or $content.Contains('Disconnected from the account server')) { throw 'Inter-server link rejected login metadata after the redirect.' }
+    if ($content.Contains('REDMOON_AUTH_TOKEN_QUEUED')) { $handoff = $true; break }
+    Start-Sleep -Milliseconds 200
+}
+if (!$handoff) { throw 'Redirect succeeded but the game server did not queue the login token.' }
 $stage = 'verify-clean-state'
 $finalCount = Invoke-Mysql $MysqlExe $p '' 'SELECT COUNT(*) FROM account;' $p.AccountDatabase
 $playerCount = Invoke-Mysql $MysqlExe $p '' 'SELECT COUNT(*) FROM cq_user;' $p.GameDatabase
@@ -54,7 +67,7 @@ $report = @{
     target='Windows 2022 / Windows PowerShell 5.1'; database_version='MariaDB 10.4.32'; database_port=13306
     source_root=$env:GITHUB_SHA; old_accounts_imported=0; old_players_imported=0; normal_account_created=1
     dpapi_roundtrip=$true; setup_repeat_did_not_reimport=$true; both_config_checks_passed=$true
-    synthetic_login_and_redirect=$true; both_servers_ready=$true; inter_server_registered=$true; graceful_shutdown_passed=$true
+    login_token_handoff=$true; synthetic_login_and_redirect=$true; both_servers_ready=$true; inter_server_registered=$true; graceful_shutdown_passed=$true
     loader_json_generated_only=$true; real_client_executed=$false; real_client_login_tested=$false
 }
 $out = Join-Path $env:RUNNER_TEMP 'fox-evidence/integration-results.json'

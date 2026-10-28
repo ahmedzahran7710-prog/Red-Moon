@@ -10,7 +10,9 @@ $owned = @()
 foreach ($entry in $entries) {
     $p = Get-Process -Id $entry.Id -ErrorAction SilentlyContinue
     if (!$p) { continue }
-    if ([IO.Path]::GetFullPath($p.Path) -ne [IO.Path]::GetFullPath($entry.Executable) -or [Math]::Abs(($p.StartTime.ToUniversalTime() - [DateTime]::Parse($entry.StartUtc).ToUniversalTime()).TotalSeconds) -gt 2) {
+    $actualPath = Get-NormalizedProcessPath ([string]$p.MainModule.FileName)
+    $recordedPath = Get-NormalizedProcessPath ([string]$entry.Executable)
+    if ($actualPath -ne $recordedPath -or [Math]::Abs(($p.StartTime.ToUniversalTime() - [DateTime]::Parse($entry.StartUtc).ToUniversalTime()).TotalSeconds) -gt 2) {
         throw 'A recorded PID now belongs to a different process. It will not be touched.'
     }
     $owned += $p

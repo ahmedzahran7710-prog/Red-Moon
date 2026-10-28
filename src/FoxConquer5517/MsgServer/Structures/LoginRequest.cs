@@ -27,6 +27,7 @@ namespace MsgServer.Structures
             IpAddress = szAddress;
             VipLevel = pLevel;
             Authority = pType;
+            MacAddress = szMac;
 
             m_pTimeOut.Update();
         }
