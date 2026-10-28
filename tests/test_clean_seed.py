@@ -2,7 +2,7 @@ import sys
 from pathlib import Path
 import unittest
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / 'tools'))
-from prepare_runtime_data import clean_dump, REFERENCE_TABLES
+from prepare_runtime_data import clean_dump, validate_schema_scope, REFERENCE_TABLES
 
 class CleanSeedTests(unittest.TestCase):
     def test_player_values_removed_but_schema_and_routines_kept(self):
@@ -26,3 +26,8 @@ class CleanSeedTests(unittest.TestCase):
     def test_multiline_seed_stops_redaction(self):
         with self.assertRaises(ValueError):
             clean_dump("INSERT INTO `account` VALUES (\n'1');\n", set())
+
+    def test_no_cross_schema_optional_patch(self):
+        for sql in ("UPDATE zf.cq_action SET param='test';", "USE zf;", "DROP DATABASE zf;"):
+            with self.subTest(sql=sql), self.assertRaises(ValueError): validate_schema_scope(sql)
+        validate_schema_scope("UPDATE `cq_action` SET `param`='test' WHERE id=102;")

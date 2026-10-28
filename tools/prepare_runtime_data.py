@@ -22,6 +22,14 @@ cq_unlawful dyna_rank_type dynamic_rank_type'''.split())
 SEED = re.compile(r'^INSERT INTO `([^`]+)` VALUES ', re.I)
 
 
+def validate_schema_scope(text):
+    if re.search(r'(?im)^\s*(?:USE\s|(?:CREATE|DROP|ALTER)\s+DATABASE\s)', text):
+        raise ValueError('An installation seed must not select/create/drop another schema')
+    if re.search(r'(?im)^\s*(?:UPDATE|INSERT\s+INTO|DELETE\s+FROM|ALTER\s+TABLE|DROP\s+TABLE|TRUNCATE\s+TABLE)\s+`?(?:zf|accountzf)`?\s*\.', text):
+        raise ValueError('Cross-schema statement in a local installation seed')
+
+
+
 def clean_dump(text, keep):
     kept, removed = Counter(), Counter()
     output = []
@@ -64,8 +72,15 @@ def main():
         output = dest / 'database' / output_name
         output.write_text(cleaned, encoding='utf-8', newline='\n')
         report['files'][output_name] = {'kept_seed_statements': kept, 'removed_seed_statements': removed, 'sha256': fox_baseline.digest(output)}
-    for name in ('fix_cq_levexp.sql', 'cq_action_mod.sql'):
-        shutil.copyfile(args.source / 'Database' / name, dest / 'database' / name)
+    shutil.copyfile(args.source / 'Database/fix_cq_levexp.sql', dest / 'database/fix_cq_levexp.sql')
+    # The upstream optional message patch explicitly targets zf.cq_action. Never
+    # execute it against an owner's existing zf when installing fresh Red Moon schemas.
+    messages = ("UPDATE `cq_action` SET `param`='Welcome to Red Moon Classic+! Report issues during local testing.' WHERE `id`=102;\n"
+                "UPDATE `cq_action` SET `param`='Red Moon local test build. Please use the tested matching client.' WHERE `id`=104;\n")
+    (dest / 'database/cq_action_mod.sql').write_text(messages, encoding='utf-8', newline='\n')
+    report['optional_message_patch'] = 'Replaced upstream zf-qualified message UPDATEs with unqualified Red Moon text for the selected NEW schema only'
+    for sql in (dest / 'database').glob('*.sql'):
+        validate_schema_scope(sql.read_text(encoding='utf-8-sig'))
     shutil.copytree(args.source / 'RequiredFiles', dest / 'runtime-data')
     report['runtime_assets'] = 'Original RequiredFiles only; no native DLLs or upstream credential examples'
     (dest / 'data-provenance.json').write_text(json.dumps(report, indent=2) + '\n', encoding='utf-8')

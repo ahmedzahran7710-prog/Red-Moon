@@ -49,7 +49,8 @@ try {
     foreach ($pair in @(@('account.sql',$profile.AccountDatabase),@('game.sql',$profile.GameDatabase),@('fix_cq_levexp.sql',$profile.GameDatabase),@('cq_action_mod.sql',$profile.GameDatabase))) {
         Write-Host "Importing clean installation file: $($pair[0])"
         $sql = Get-Content -LiteralPath (Join-Path $Root "database/$($pair[0])") -Raw -Encoding UTF8
-        Invoke-Mysql $mysql $profile $password $sql $pair[1] | Out-Null
+        try { Invoke-Mysql $mysql $profile $password $sql $pair[1] | Out-Null }
+        catch { throw "Import stage '$($pair[0])' failed. $($_.Exception.Message)" }
     }
     $oldAccounts = Invoke-Mysql $mysql $profile $password 'SELECT COUNT(*) FROM account;' $profile.AccountDatabase
     $oldPlayers = Invoke-Mysql $mysql $profile $password 'SELECT COUNT(*) FROM cq_user;' $profile.GameDatabase
