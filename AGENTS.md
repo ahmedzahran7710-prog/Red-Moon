@@ -17,12 +17,20 @@ The project owner requires `ميموري.md` (repository root) to be the shared 
 - The owner has delegated source/client selection. The selected initial download/evaluation pair is FoxConquer5517 at the commit in memory plus client 5517. Do not ask the owner to choose among the same candidates again without new evidence. The latest request now explicitly authorizes source repairs and Windows/local-connection setup. Keep vendor/FoxConquer5517 and its manifest byte-identical as historical baseline; implement approved fixes in src/FoxConquer5517 and independent setup/tests. Do not erase the original failing audit. Preserve existing owner databases/files; provision new schemas and use local secure prompts for secrets, never committed passwords. Do not run bundled untrusted binaries, start a public game server, or touch the owner's database. Omit large assets and old account/player records from Git and record their hashes/provenance for temporary test materialization. Public hosting, purchases, and final classes/economy parameters still require agreement.
 - The goal is a **free Classic+ Conquer Online server**: PvE/leveling/farming/trading plus PvP/events, Fan/Tower, Steeds, Arena, meaningful VIP, and provisionally Arsenal. Patch 5187 and a Ninja-only class ceiling are **not** fixed requirements anymore. CP-based gaming machines are deferred.
 
+## Current workflow: owner-led phases, no unsolicited tests
+
+- The owner's latest instruction (2026-10-30) is to work from the real running client and proceed in agreed phases. They confirmed actual in-game entry; do not repeat solved setup/loader steps or treat only historical CI as current evidence.
+- **Do not run unit/integration/smoke/load tests, probes, or test/build CI workflows unless the owner explicitly asks.** Both workflows are manual-only. Never dispatch them just because code or documentation was pushed.
+- Read-only source/path/diff review remains part of careful work; do not label that a passed build or runtime test. Do not run a build merely as a substitute for unsolicited testing. If delivering a requested runtime change needs compilation, explain the required build/deployment step before performing it.
+- Give fast, practical progress and the next usable step. Agree the scope of each phase before gameplay changes; retain the original baseline, tests and historical reports rather than deleting them.
+- Keep the installed runtime, DB, local secrets and client untouched during source organization. The new solution is for navigation/editing, not an alternate direct launch path. Runtime updates need a separate safe deployment plan; never rebuild over the installed server or blindly reimport SQL.
+
 ## Publication workflow
 
 - The owner now requests that completed, authorized updates reach `main` after validation, without a separate merge request each time.
 - Keep all local work, commits, and pushes on the session branch assigned by the environment. **Never switch to or directly push `main`, rename the session branch, or create another working branch.**
-- Create or update a GitHub PR from the session branch to `main`; inspect its diff and required checks, then merge by explicit PR number with `gh pr merge <number> --merge` (not auto-merge). Run the merge as the final command in its shell invocation, with no pipe/redirection/operator masking its exit status.
-- Do not delete the session branch. Do not bypass branch protection, force a merge, or label absent/failed checks as passed. Report a blocking conflict or check failure.
+- Create or update a GitHub PR from the session branch to `main`; inspect its diff and any configured required checks without starting unrequested tests, then merge by explicit PR number with `gh pr merge <number> --merge` (not auto-merge). Run the merge as the final command in its shell invocation, with no pipe/redirection/operator masking its exit status.
+- Do not delete the session branch. Do not bypass branch protection, force a merge, or label absent/failed/not-run checks as passed. If protection requires a test the owner has not authorized, report the blocker instead of disabling protection or dispatching CI. Manual-only triggers implement the owner's test policy; they are not permission to override required checks.
 - Verify the actual merged state and the `main` file blobs after merging. Reference the PR in memory; GitHub's merge event and a verification comment can hold the final result without requiring a commit that attempts to record its own merge.
 
 ## Engineering and evidence

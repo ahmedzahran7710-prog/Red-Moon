@@ -1,9 +1,8 @@
 name: Fox 5517 unchanged baseline audit
 
+# Owner policy (2026-10-30): run this workflow only when explicitly requested.
+# Keep historical jobs/evidence; do not run builds or tests automatically on pushes/PRs.
 on:
-  push:
-    branches: ["arena/47cdd4b4-red-moon"]
-    # Run even for report-only follow-ups, so red baseline checks stay visible on the PR head.
   workflow_dispatch:
 
 permissions:

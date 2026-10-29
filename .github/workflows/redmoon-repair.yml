@@ -1,7 +1,7 @@
 name: Red Moon repaired source and Windows package
+# Owner policy (2026-10-30): run this workflow only when explicitly requested.
+# Keep historical jobs/evidence; do not run builds or tests automatically on pushes/PRs.
 on:
-  push:
-    branches: ["arena/**"]
   workflow_dispatch:
 permissions:
   contents: read
