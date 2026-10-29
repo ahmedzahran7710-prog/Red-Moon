@@ -1,15 +1,19 @@
-# Red Moon — الكود الذي نعدله
+# RedMoon — سورس العمل
 
-افتح **[RedMoon.sln](RedMoon.sln)** لعرض المشاريع بأسماء واضحة، أو استخدم `Open-RedMoon-Source.cmd` من جذر السورس.
+افتح [RedMoon.sln](RedMoon.sln)، أو `Open-RedMoon-Source.cmd` من جذر الحزمة.
 
-- **GameServer** في الحل ← `FoxConquer5517/MsgServer/MsgServer.csproj`.
-- **AccountServer** في الحل ← `FoxConquer5517/LoginServer/LoginServer.csproj`.
-- **Database** ← `FoxConquer5517/DB/DB.csproj`.
-- **ServerCore** ← `FoxConquer5517/ServerCore/ServerCore.csproj`.
-- **RedMoon.Admin** ← `RedMoon.Admin/RedMoon.Admin.csproj`، أداة مساعدة وليست سيرفرًا ثالثًا.
+**التقسيم هنا فعلي، وليس أسماء عرض فقط:** اسم كل مجلد يطابق اسم مشروعه والـassembly الناتجة.
 
-نقطتا البداية: `Program.cs` داخل MsgServer وLoginServer. أسماء العرض في الحل لا تغير أسماء الملفات التنفيذية أو namespaces.
+- [RedMoon.AccountServer](RedMoon.AccountServer): تسجيل دخول اللاعبين والتواصل مع خادم اللعبة. البداية `Program.cs`.
+- [RedMoon.GameServer](RedMoon.GameServer): اللعب والعالم؛ البداية `Program.cs` ثم `Gameplay` و`Network` و`Runtime`.
+- [RedMoon.Data](RedMoon.Data): تعريفات السجلات وربطها بالجداول وعمليات الحفظ/التحميل.
+- [RedMoon.Core](RedMoon.Core): الشبكة والتشفير والباكتات والمساعدات المشتركة.
+- [RedMoon.Admin](RedMoon.Admin): أداة الإعداد المساعدة، وليست خادمًا ثالثًا.
 
-[خريطة السورس وطريقة التشغيل والتحديث](../docs/SOURCE-MAP.md)
+التجميع باستخدام SDK المثبتة في `global.json`، وخصائص التسمية المشتركة في `Directory.Build.props`. كل المشاريع تستهدف .NET 10. استخدم Visual Studio حديثًا يدعمها أو محررًا مناسبًا مع SDK؛ فتح الحل وحده لا يثبت توافق IDE أو نجاح البناء.
 
-التشغيل المعتاد من `Start-RedMoon.cmd` في الجذر، والإيقاف من `Stop-RedMoon.cmd`. لا تبنِ فوق نسخة مثبتة/شغالة ولا تعاود استيراد SQL لتحديث كود. الاختبارات لا تُشغّل إلا بطلب المالك.
+- [خريطة تفصيلية وأماكن الأنظمة](../docs/SOURCE-MAP.md).
+- [الانتقال من النسخة القديمة](../docs/MIGRATION.md).
+- [حدود التحقق](../docs/VERIFICATION.md).
+
+لا تعمل على `vendor`؛ الأصل محفوظ للتوثيق فقط. لا تمسح ترويسات حقوق المؤلفين ولا تعِد تسمية جداول SQL أو معرفات الباكتات مع إعادة تسمية الكود. تشغيل اللعبة من `Start-RedMoon.cmd` لتجهيز أسرارها، وليس EXE/F5 مباشرة، ولا إعادة build فوق تثبيت حي.

@@ -82,7 +82,9 @@ def main():
     for sql in (dest / 'database').glob('*.sql'):
         validate_schema_scope(sql.read_text(encoding='utf-8-sig'))
     shutil.copytree(args.source / 'RequiredFiles', dest / 'runtime-data')
-    report['runtime_assets'] = 'Original RequiredFiles only; no native DLLs or upstream credential examples'
+    # Historical IDE placement note names the superseded upstream project.
+    (dest / 'runtime-data/Copy this in Debug or Release Folder of MsgServer Project.txt').unlink()
+    report['runtime_assets'] = 'Original RequiredFiles runtime data, excluding the legacy IDE placement note; no native DLLs or credential examples'
     (dest / 'data-provenance.json').write_text(json.dumps(report, indent=2) + '\n', encoding='utf-8')
     print(json.dumps({'destination': str(dest), 'clean_sql_files': 4, 'accounts_imported': 0,
                       'original_account_seeds_removed': report['files']['account.sql']['removed_seed_statements'].get('account', 0),

@@ -1,0 +1,749 @@
+{
+  "purpose": "Physical source reorganization; upstream originals/attribution retained; no schema/protocol/gameplay changes",
+  "moves": [
+    {
+      "from": "src/FoxConquer5517/LoginServer",
+      "to": "src/RedMoon.AccountServer"
+    },
+    {
+      "from": "src/RedMoon.AccountServer/LoginServer.csproj",
+      "to": "src/RedMoon.AccountServer/RedMoon.AccountServer.csproj"
+    },
+    {
+      "from": "src/FoxConquer5517/MsgServer",
+      "to": "src/RedMoon.GameServer"
+    },
+    {
+      "from": "src/RedMoon.GameServer/MsgServer.csproj",
+      "to": "src/RedMoon.GameServer/RedMoon.GameServer.csproj"
+    },
+    {
+      "from": "src/FoxConquer5517/DB",
+      "to": "src/RedMoon.Data"
+    },
+    {
+      "from": "src/RedMoon.Data/DB.csproj",
+      "to": "src/RedMoon.Data/RedMoon.Data.csproj"
+    },
+    {
+      "from": "src/FoxConquer5517/ServerCore",
+      "to": "src/RedMoon.Core"
+    },
+    {
+      "from": "src/RedMoon.Core/ServerCore.csproj",
+      "to": "src/RedMoon.Core/RedMoon.Core.csproj"
+    },
+    {
+      "from": "src/FoxConquer5517/.editorconfig",
+      "to": "src/.editorconfig"
+    },
+    {
+      "from": "src/FoxConquer5517/LICENSE",
+      "to": "licenses/FoxConquer5517-MIT.txt"
+    },
+    {
+      "from": "src/FoxConquer5517/README.md",
+      "to": "docs/reference/UPSTREAM-README.md"
+    },
+    {
+      "from": "src/FoxConquer5517/TODO.md",
+      "to": "docs/reference/UPSTREAM-TODO.md"
+    },
+    {
+      "from": "src/FoxConquer5517/FoxConquer5517.sln",
+      "reference_retained_in": "vendor/FoxConquer5517/FoxConquer5517.sln"
+    },
+    {
+      "from": "src/FoxConquer5517/Database/cq_action_mod.sql",
+      "reference_retained_in": "vendor/FoxConquer5517/Database/cq_action_mod.sql"
+    },
+    {
+      "from": "src/FoxConquer5517/Database/fix_cq_levexp.sql",
+      "reference_retained_in": "vendor/FoxConquer5517/Database/fix_cq_levexp.sql"
+    },
+    {
+      "from": "src/FoxConquer5517/RequiredFiles/GameMap.dat",
+      "reference_retained_in": "vendor/FoxConquer5517/RequiredFiles/GameMap.dat"
+    },
+    {
+      "from": "src/FoxConquer5517/RequiredFiles/Copy this in Debug or Release Folder of MsgServer Project.txt",
+      "reference_retained_in": "vendor/FoxConquer5517/RequiredFiles/Copy this in Debug or Release Folder of MsgServer Project.txt"
+    },
+    {
+      "from": "src/FoxConquer5517/RequiredFiles/ini/HonorRewards.ini",
+      "reference_retained_in": "vendor/FoxConquer5517/RequiredFiles/ini/HonorRewards.ini"
+    },
+    {
+      "from": "src/FoxConquer5517/RequiredFiles/ini/HonorShop.ini",
+      "reference_retained_in": "vendor/FoxConquer5517/RequiredFiles/ini/HonorShop.ini"
+    },
+    {
+      "from": "src/FoxConquer5517/RequiredFiles/ini/QuenchDrop.ini",
+      "reference_retained_in": "vendor/FoxConquer5517/RequiredFiles/ini/QuenchDrop.ini"
+    },
+    {
+      "from": "src/FoxConquer5517/RequiredFiles/ini/QuenchDropRule.ini",
+      "reference_retained_in": "vendor/FoxConquer5517/RequiredFiles/ini/QuenchDropRule.ini"
+    },
+    {
+      "from": "src/RedMoon.AccountServer/Network/LoginServer",
+      "to": "src/RedMoon.AccountServer/Network/ClientTransport"
+    },
+    {
+      "from": "src/RedMoon.AccountServer/Network/MsgServer",
+      "to": "src/RedMoon.AccountServer/Network/GameLink"
+    },
+    {
+      "from": "src/RedMoon.GameServer/Network/GameServer",
+      "to": "src/RedMoon.GameServer/Network/ClientTransport"
+    },
+    {
+      "from": "src/RedMoon.GameServer/Network/LoginServer",
+      "to": "src/RedMoon.GameServer/Network/AccountLink"
+    },
+    {
+      "from": "src/RedMoon.Core/IniParser",
+      "to": "src/RedMoon.Core/ThirdParty/IniParser"
+    },
+    {
+      "from": "src/RedMoon.Core/Security/CO2_CORE_DLL",
+      "to": "src/RedMoon.Core/Compatibility/CO2Core"
+    },
+    {
+      "from": "tests/fixes",
+      "to": "tests/RedMoon.Regression"
+    },
+    {
+      "from": "tests/RedMoon.Regression/FoxBaseline.Probes.csproj",
+      "to": "tests/RedMoon.Regression/RedMoon.Regression.csproj"
+    },
+    {
+      "from": "src/RedMoon.Core/Networking/Packets/10005-Entitymovement.cs",
+      "to": "src/RedMoon.Core/Networking/Packets/MsgWalk.cs"
+    },
+    {
+      "from": "src/RedMoon.Core/Networking/Packets/1001-CharacterCreation.cs",
+      "to": "src/RedMoon.Core/Networking/Packets/MsgRegister.cs"
+    },
+    {
+      "from": "src/RedMoon.Core/Networking/Packets/10010-GeneralAction.cs",
+      "to": "src/RedMoon.Core/Networking/Packets/MsgAction.cs"
+    },
+    {
+      "from": "src/RedMoon.Core/Networking/Packets/10014-PlayerSpawn.cs",
+      "to": "src/RedMoon.Core/Networking/Packets/MsgPlayer.cs"
+    },
+    {
+      "from": "src/RedMoon.Core/Networking/Packets/10017-UserUpdate.cs",
+      "to": "src/RedMoon.Core/Networking/Packets/MsgUserAttrib.cs"
+    },
+    {
+      "from": "src/RedMoon.Core/Networking/Packets/1004-MessagePacket.cs",
+      "to": "src/RedMoon.Core/Networking/Packets/MsgTalk.cs"
+    },
+    {
+      "from": "src/RedMoon.Core/Networking/Packets/1006-CharacterInformation.cs",
+      "to": "src/RedMoon.Core/Networking/Packets/MsgUserInfo.cs"
+    },
+    {
+      "from": "src/RedMoon.Core/Networking/Packets/1008-ItemInformation.cs",
+      "to": "src/RedMoon.Core/Networking/Packets/MsgItemInformation.cs"
+    },
+    {
+      "from": "src/RedMoon.Core/Networking/Packets/1009-Item.cs",
+      "to": "src/RedMoon.Core/Networking/Packets/MsgItem.cs"
+    },
+    {
+      "from": "src/RedMoon.Core/Networking/Packets/1015-StringPacket.cs",
+      "to": "src/RedMoon.Core/Networking/Packets/MsgName.cs"
+    },
+    {
+      "from": "src/RedMoon.Core/Networking/Packets/1019-RelationPacket.cs",
+      "to": "src/RedMoon.Core/Networking/Packets/RelationAction.cs"
+    },
+    {
+      "from": "src/RedMoon.Core/Networking/Packets/1022-InteractionPacket.cs",
+      "to": "src/RedMoon.Core/Networking/Packets/MsgInteract.cs"
+    },
+    {
+      "from": "src/RedMoon.Core/Networking/Packets/1023-TeamAction.cs",
+      "to": "src/RedMoon.Core/Networking/Packets/MsgTeam.cs"
+    },
+    {
+      "from": "src/RedMoon.Core/Networking/Packets/1024-AttributePoints.cs",
+      "to": "src/RedMoon.Core/Networking/Packets/MsgAllot.cs"
+    },
+    {
+      "from": "src/RedMoon.Core/Networking/Packets/1025-WeaponSkill.cs",
+      "to": "src/RedMoon.Core/Networking/Packets/MsgWeaponSkill.cs"
+    },
+    {
+      "from": "src/RedMoon.Core/Networking/Packets/1026-TeamMemberPacket.cs",
+      "to": "src/RedMoon.Core/Networking/Packets/MsgTeamMember.cs"
+    },
+    {
+      "from": "src/RedMoon.Core/Networking/Packets/1027-EmbedGem.cs",
+      "to": "src/RedMoon.Core/Networking/Packets/EmbedMode.cs"
+    },
+    {
+      "from": "src/RedMoon.Core/Networking/Packets/1033-DataPacket.cs",
+      "to": "src/RedMoon.Core/Networking/Packets/MsgData.cs"
+    },
+    {
+      "from": "src/RedMoon.Core/Networking/Packets/1034-DetainItemInfo.cs",
+      "to": "src/RedMoon.Core/Networking/Packets/MsgDetainItemInfo.cs"
+    },
+    {
+      "from": "src/RedMoon.Core/Networking/Packets/1038-Solidify.cs",
+      "to": "src/RedMoon.Core/Networking/Packets/SolidifyMode.cs"
+    },
+    {
+      "from": "src/RedMoon.Core/Networking/Packets/1040-PlayerAttributes.cs",
+      "to": "src/RedMoon.Core/Networking/Packets/MsgPlayerAttribInfo.cs"
+    },
+    {
+      "from": "src/RedMoon.Core/Networking/Packets/1052-AuthenticationComplete.cs",
+      "to": "src/RedMoon.Core/Networking/Packets/MsgConnect.cs"
+    },
+    {
+      "from": "src/RedMoon.Core/Networking/Packets/1055-AuthenticationResponse.cs",
+      "to": "src/RedMoon.Core/Networking/Packets/MsgConnectEx.cs"
+    },
+    {
+      "from": "src/RedMoon.Core/Networking/Packets/1056-Trade.cs",
+      "to": "src/RedMoon.Core/Networking/Packets/MsgTrade.cs"
+    },
+    {
+      "from": "src/RedMoon.Core/Networking/Packets/1058-SyndicateDonation.cs",
+      "to": "src/RedMoon.Core/Networking/Packets/MsgSynpOffer.cs"
+    },
+    {
+      "from": "src/RedMoon.Core/Networking/Packets/1059-AuthenticationSeed.cs",
+      "to": "src/RedMoon.Core/Networking/Packets/MsgEncryptCode.cs"
+    },
+    {
+      "from": "src/RedMoon.Core/Networking/Packets/1061-MsgDutyMinContri.cs",
+      "to": "src/RedMoon.Core/Networking/Packets/MsgDutyMinContri.cs"
+    },
+    {
+      "from": "src/RedMoon.Core/Networking/Packets/1063-MsgSelfSynMemAwardRank.cs",
+      "to": "src/RedMoon.Core/Networking/Packets/MsgSelfSynMemAwardRank.cs"
+    },
+    {
+      "from": "src/RedMoon.Core/Networking/Packets/1066-MsgMeteSpecial.cs",
+      "to": "src/RedMoon.Core/Networking/Packets/MsgMeteSpecial.cs"
+    },
+    {
+      "from": "src/RedMoon.Core/Networking/Packets/11-LoginMeeting.cs",
+      "to": "src/RedMoon.Core/Networking/Packets/MsgLoginSvAuthRequest.cs"
+    },
+    {
+      "from": "src/RedMoon.Core/Networking/Packets/1100-MacAddress.cs",
+      "to": "src/RedMoon.Core/Networking/Packets/MsgMacAddr.cs"
+    },
+    {
+      "from": "src/RedMoon.Core/Networking/Packets/1101-MapItem.cs",
+      "to": "src/RedMoon.Core/Networking/Packets/MsgMapItem.cs"
+    },
+    {
+      "from": "src/RedMoon.Core/Networking/Packets/1102-WarehousePacket.cs",
+      "to": "src/RedMoon.Core/Networking/Packets/WarehouseMode.cs"
+    },
+    {
+      "from": "src/RedMoon.Core/Networking/Packets/1103-SendSkill.cs",
+      "to": "src/RedMoon.Core/Networking/Packets/MsgMagicInfo.cs"
+    },
+    {
+      "from": "src/RedMoon.Core/Networking/Packets/1104-FlushSkillExp.cs",
+      "to": "src/RedMoon.Core/Networking/Packets/SkillExperiencePacket.cs"
+    },
+    {
+      "from": "src/RedMoon.Core/Networking/Packets/1105-UseSpell.cs",
+      "to": "src/RedMoon.Core/Networking/Packets/MsgMagicEffect.cs"
+    },
+    {
+      "from": "src/RedMoon.Core/Networking/Packets/1106-SyndicateAttribute.cs",
+      "to": "src/RedMoon.Core/Networking/Packets/MsgSyndicateAttributeInfo.cs"
+    },
+    {
+      "from": "src/RedMoon.Core/Networking/Packets/1107-SyndicateRequest.cs",
+      "to": "src/RedMoon.Core/Networking/Packets/MsgSyndicate.cs"
+    },
+    {
+      "from": "src/RedMoon.Core/Networking/Packets/1108-ViewEquipment.cs",
+      "to": "src/RedMoon.Core/Networking/Packets/MsgItemInfoEx.cs"
+    },
+    {
+      "from": "src/RedMoon.Core/Networking/Packets/1109-DynamicNpc.cs",
+      "to": "src/RedMoon.Core/Networking/Packets/MsgNpcInfoEx.cs"
+    },
+    {
+      "from": "src/RedMoon.Core/Networking/Packets/1110-MapInformation.cs",
+      "to": "src/RedMoon.Core/Networking/Packets/MsgMapInfo.cs"
+    },
+    {
+      "from": "src/RedMoon.Core/Networking/Packets/1126-MsgInviteTrans.cs",
+      "to": "src/RedMoon.Core/Networking/Packets/MsgInviteTrans.cs"
+    },
+    {
+      "from": "src/RedMoon.Core/Networking/Packets/1128-MsgVipUserHandle.cs",
+      "to": "src/RedMoon.Core/Networking/Packets/MsgVipUserHandle.cs"
+    },
+    {
+      "from": "src/RedMoon.Core/Networking/Packets/1129-VipFunctions.cs",
+      "to": "src/RedMoon.Core/Networking/Packets/MsgVipFunctionValidNotify.cs"
+    },
+    {
+      "from": "src/RedMoon.Core/Networking/Packets/1130-Title.cs",
+      "to": "src/RedMoon.Core/Networking/Packets/MsgTitle.cs"
+    },
+    {
+      "from": "src/RedMoon.Core/Networking/Packets/1150-Flower.cs",
+      "to": "src/RedMoon.Core/Networking/Packets/MsgFlower.cs"
+    },
+    {
+      "from": "src/RedMoon.Core/Networking/Packets/1151-Rank.cs",
+      "to": "src/RedMoon.Core/Networking/Packets/MsgRank.cs"
+    },
+    {
+      "from": "src/RedMoon.Core/Networking/Packets/12-LoginAuthentication.cs",
+      "to": "src/RedMoon.Core/Networking/Packets/MsgLoginSvAuthentication.cs"
+    },
+    {
+      "from": "src/RedMoon.Core/Networking/Packets/13-LoginResponse.cs",
+      "to": "src/RedMoon.Core/Networking/Packets/LoginSvResponsePacket.cs"
+    },
+    {
+      "from": "src/RedMoon.Core/Networking/Packets/1312-FamilyPacket.cs",
+      "to": "src/RedMoon.Core/Networking/Packets/MsgFamily.cs"
+    },
+    {
+      "from": "src/RedMoon.Core/Networking/Packets/1313-FamilyOccupation.cs",
+      "to": "src/RedMoon.Core/Networking/Packets/FamilyPromptType.cs"
+    },
+    {
+      "from": "src/RedMoon.Core/Networking/Packets/20-LoginServerRequestOnlineAmount.cs",
+      "to": "src/RedMoon.Core/Networking/Packets/MsgLoginSvPlayerAmount.cs"
+    },
+    {
+      "from": "src/RedMoon.Core/Networking/Packets/2030-NpcInformation.cs",
+      "to": "src/RedMoon.Core/Networking/Packets/MsgNpcInfo.cs"
+    },
+    {
+      "from": "src/RedMoon.Core/Networking/Packets/2031-Npc.cs",
+      "to": "src/RedMoon.Core/Networking/Packets/MsgNpc.cs"
+    },
+    {
+      "from": "src/RedMoon.Core/Networking/Packets/2032-NpcReply.cs",
+      "to": "src/RedMoon.Core/Networking/Packets/MsgTaskDialog.cs"
+    },
+    {
+      "from": "src/RedMoon.Core/Networking/Packets/2033-RelationInfo.cs",
+      "to": "src/RedMoon.Core/Networking/Packets/MsgFriendInfo.cs"
+    },
+    {
+      "from": "src/RedMoon.Core/Networking/Packets/2036-Composition.cs",
+      "to": "src/RedMoon.Core/Networking/Packets/CompositionMode.cs"
+    },
+    {
+      "from": "src/RedMoon.Core/Networking/Packets/2046-TradeBuddy.cs",
+      "to": "src/RedMoon.Core/Networking/Packets/TradePartnerType.cs"
+    },
+    {
+      "from": "src/RedMoon.Core/Networking/Packets/2047-MsgTradeBuddyInfo.cs",
+      "to": "src/RedMoon.Core/Networking/Packets/MsgTradeBuddyInfo.cs"
+    },
+    {
+      "from": "src/RedMoon.Core/Networking/Packets/2048-ItemLock.cs",
+      "to": "src/RedMoon.Core/Networking/Packets/LockMode.cs"
+    },
+    {
+      "from": "src/RedMoon.Core/Networking/Packets/2050-Pigeon.cs",
+      "to": "src/RedMoon.Core/Networking/Packets/MsgPigeon.cs"
+    },
+    {
+      "from": "src/RedMoon.Core/Networking/Packets/2051-PigeonQuery.cs",
+      "to": "src/RedMoon.Core/Networking/Packets/MsgPigeonQuery.cs"
+    },
+    {
+      "from": "src/RedMoon.Core/Networking/Packets/2064-Peerage.cs",
+      "to": "src/RedMoon.Core/Networking/Packets/MsgPeerage.cs"
+    },
+    {
+      "from": "src/RedMoon.Core/Networking/Packets/2065-Guide.cs",
+      "to": "src/RedMoon.Core/Networking/Packets/MsgGuide.cs"
+    },
+    {
+      "from": "src/RedMoon.Core/Networking/Packets/2066-GuideInformation.cs",
+      "to": "src/RedMoon.Core/Networking/Packets/MsgGuideInfo.cs"
+    },
+    {
+      "from": "src/RedMoon.Core/Networking/Packets/2067-MentorContribution.cs",
+      "to": "src/RedMoon.Core/Networking/Packets/MsgContribute.cs"
+    },
+    {
+      "from": "src/RedMoon.Core/Networking/Packets/2068-QuizShow.cs",
+      "to": "src/RedMoon.Core/Networking/Packets/MsgQuiz.cs"
+    },
+    {
+      "from": "src/RedMoon.Core/Networking/Packets/2069-QuizSponsor.cs",
+      "to": "src/RedMoon.Core/Networking/Packets/MsgQuizSponsor.cs"
+    },
+    {
+      "from": "src/RedMoon.Core/Networking/Packets/2071-MsgRelation.cs",
+      "to": "src/RedMoon.Core/Networking/Packets/MsgRelation.cs"
+    },
+    {
+      "from": "src/RedMoon.Core/Networking/Packets/2076-Purification.cs",
+      "to": "src/RedMoon.Core/Networking/Packets/MsgQuench.cs"
+    },
+    {
+      "from": "src/RedMoon.Core/Networking/Packets/2077-PurificationActivate.cs",
+      "to": "src/RedMoon.Core/Networking/Packets/PurificationType.cs"
+    },
+    {
+      "from": "src/RedMoon.Core/Networking/Packets/2078-UserIpInfo.cs",
+      "to": "src/RedMoon.Core/Networking/Packets/MsgUserIpInfo.cs"
+    },
+    {
+      "from": "src/RedMoon.Core/Networking/Packets/2079-ServerStatus.cs",
+      "to": "src/RedMoon.Core/Networking/Packets/MsgServerInfo.cs"
+    },
+    {
+      "from": "src/RedMoon.Core/Networking/Packets/2080-ChangeName.cs",
+      "to": "src/RedMoon.Core/Networking/Packets/ChangeNameMode.cs"
+    },
+    {
+      "from": "src/RedMoon.Core/Networking/Packets/21-OnlinePlayerList.cs",
+      "to": "src/RedMoon.Core/Networking/Packets/MsgLoginPlayerInfo.cs"
+    },
+    {
+      "from": "src/RedMoon.Core/Networking/Packets/2101-SyndicateDonationList.cs",
+      "to": "src/RedMoon.Core/Networking/Packets/MsgFactionRankInfo.cs"
+    },
+    {
+      "from": "src/RedMoon.Core/Networking/Packets/2102-SyndicateMember.cs",
+      "to": "src/RedMoon.Core/Networking/Packets/MsgSynMemberList.cs"
+    },
+    {
+      "from": "src/RedMoon.Core/Networking/Packets/2110-MsgSuperFlag.cs",
+      "to": "src/RedMoon.Core/Networking/Packets/MsgSuperFlag.cs"
+    },
+    {
+      "from": "src/RedMoon.Core/Networking/Packets/2201-TotemPoleInfo.cs",
+      "to": "src/RedMoon.Core/Networking/Packets/MsgTotemPoleInfo.cs"
+    },
+    {
+      "from": "src/RedMoon.Core/Networking/Packets/2202-ItemsToteminfo.cs",
+      "to": "src/RedMoon.Core/Networking/Packets/MsgWeaponsInfo.cs"
+    },
+    {
+      "from": "src/RedMoon.Core/Networking/Packets/2203-TotemPoleCheck.cs",
+      "to": "src/RedMoon.Core/Networking/Packets/MsgTotemPole.cs"
+    },
+    {
+      "from": "src/RedMoon.Core/Networking/Packets/2205-ArenaCheck.cs",
+      "to": "src/RedMoon.Core/Networking/Packets/MsgQualifyingInteractive.cs"
+    },
+    {
+      "from": "src/RedMoon.Core/Networking/Packets/2206-ArenaFightList.cs",
+      "to": "src/RedMoon.Core/Networking/Packets/MsgQualifyingFightersList.cs"
+    },
+    {
+      "from": "src/RedMoon.Core/Networking/Packets/2207-ArenaRanking.cs",
+      "to": "src/RedMoon.Core/Networking/Packets/MsgQualifyingRank.cs"
+    },
+    {
+      "from": "src/RedMoon.Core/Networking/Packets/2208-ArenaYesterdayWinners.cs",
+      "to": "src/RedMoon.Core/Networking/Packets/MsgQualifyingSeasonRankList.cs"
+    },
+    {
+      "from": "src/RedMoon.Core/Networking/Packets/2209-ArenaStatistic.cs",
+      "to": "src/RedMoon.Core/Networking/Packets/MsgQualifyingDetailInfo.cs"
+    },
+    {
+      "from": "src/RedMoon.Core/Networking/Packets/2210-ArenaMatchPoints.cs",
+      "to": "src/RedMoon.Core/Networking/Packets/MsgArenicScore.cs"
+    },
+    {
+      "from": "src/RedMoon.Core/Networking/Packets/2211-WatchArenaQualifier.cs",
+      "to": "src/RedMoon.Core/Networking/Packets/MsgArenicWitness.cs"
+    },
+    {
+      "from": "src/RedMoon.Core/Networking/Packets/2219-MsgPKEliteMatchInfo.cs",
+      "to": "src/RedMoon.Core/Networking/Packets/MsgPKEliteMatchInfo.cs"
+    },
+    {
+      "from": "src/RedMoon.Core/Networking/Packets/2220-MsgPkStatistic.cs",
+      "to": "src/RedMoon.Core/Networking/Packets/MsgPkStatistic.cs"
+    },
+    {
+      "from": "src/RedMoon.Core/Networking/Packets/2223-MsgElitePKGameRankInfo.cs",
+      "to": "src/RedMoon.Core/Networking/Packets/MsgElitePKGameRankInfo.cs"
+    },
+    {
+      "from": "src/RedMoon.Core/Networking/Packets/2224-MsgWarFlag.cs",
+      "to": "src/RedMoon.Core/Networking/Packets/MsgWarFlag.cs"
+    },
+    {
+      "from": "src/RedMoon.Core/Networking/Packets/2225-MsgSynRecuitAdvertising.cs",
+      "to": "src/RedMoon.Core/Networking/Packets/MsgSynRecuitAdvertising.cs"
+    },
+    {
+      "from": "src/RedMoon.Core/Networking/Packets/2226-MsgSynRecruitAdvertisingList.cs",
+      "to": "src/RedMoon.Core/Networking/Packets/MsgSynRecruitAdvertisingList.cs"
+    },
+    {
+      "from": "src/RedMoon.Core/Networking/Packets/2227-MsgSynRecruitAdvertisingOpt.cs",
+      "to": "src/RedMoon.Core/Networking/Packets/MsgSynRecruitAdvertisingOpt.cs"
+    },
+    {
+      "from": "src/RedMoon.Core/Networking/Packets/2320-SubclassPacket.cs",
+      "to": "src/RedMoon.Core/Networking/Packets/SubClassActions.cs"
+    },
+    {
+      "from": "src/RedMoon.Core/Networking/Packets/24-ServerInformation.cs",
+      "to": "src/RedMoon.Core/Networking/Packets/MsgServerInformation.cs"
+    },
+    {
+      "from": "src/RedMoon.Core/Networking/Packets/2410-Aura.cs",
+      "to": "src/RedMoon.Core/Networking/Packets/IconAction.cs"
+    },
+    {
+      "from": "src/RedMoon.Core/Networking/Packets/26-UserLoginAuthenticate.cs",
+      "to": "src/RedMoon.Core/Networking/Packets/MsgUsrLogin.cs"
+    },
+    {
+      "from": "src/RedMoon.GameServer/Network/ClientTransport/Handlers/10005-MsgWalk.cs",
+      "to": "src/RedMoon.GameServer/Network/ClientTransport/Handlers/MsgWalkHandler.cs"
+    },
+    {
+      "from": "src/RedMoon.GameServer/Network/ClientTransport/Handlers/1001-MsgRegister.cs",
+      "to": "src/RedMoon.GameServer/Network/ClientTransport/Handlers/MsgRegisterHandler.cs"
+    },
+    {
+      "from": "src/RedMoon.GameServer/Network/ClientTransport/Handlers/10010-MsgAction.cs",
+      "to": "src/RedMoon.GameServer/Network/ClientTransport/Handlers/MsgActionHandler.cs"
+    },
+    {
+      "from": "src/RedMoon.GameServer/Network/ClientTransport/Handlers/1004-MsgTalk.cs",
+      "to": "src/RedMoon.GameServer/Network/ClientTransport/Handlers/MsgTalkHandler.cs"
+    },
+    {
+      "from": "src/RedMoon.GameServer/Network/ClientTransport/Handlers/1009-MsgItem.cs",
+      "to": "src/RedMoon.GameServer/Network/ClientTransport/Handlers/MsgItemHandler.cs"
+    },
+    {
+      "from": "src/RedMoon.GameServer/Network/ClientTransport/Handlers/1015-MsgName.cs",
+      "to": "src/RedMoon.GameServer/Network/ClientTransport/Handlers/MsgNameHandler.cs"
+    },
+    {
+      "from": "src/RedMoon.GameServer/Network/ClientTransport/Handlers/1019-MsgFriend.cs",
+      "to": "src/RedMoon.GameServer/Network/ClientTransport/Handlers/MsgFriendHandler.cs"
+    },
+    {
+      "from": "src/RedMoon.GameServer/Network/ClientTransport/Handlers/1022-MsgInteract.cs",
+      "to": "src/RedMoon.GameServer/Network/ClientTransport/Handlers/MsgInteractHandler.cs"
+    },
+    {
+      "from": "src/RedMoon.GameServer/Network/ClientTransport/Handlers/1023-MsgTeam.cs",
+      "to": "src/RedMoon.GameServer/Network/ClientTransport/Handlers/MsgTeamHandler.cs"
+    },
+    {
+      "from": "src/RedMoon.GameServer/Network/ClientTransport/Handlers/1024-MsgAllot.cs",
+      "to": "src/RedMoon.GameServer/Network/ClientTransport/Handlers/MsgAllotHandler.cs"
+    },
+    {
+      "from": "src/RedMoon.GameServer/Network/ClientTransport/Handlers/1027-MsgGemEmbed.cs",
+      "to": "src/RedMoon.GameServer/Network/ClientTransport/Handlers/MsgGemEmbedHandler.cs"
+    },
+    {
+      "from": "src/RedMoon.GameServer/Network/ClientTransport/Handlers/1038-MsgSolidify.cs",
+      "to": "src/RedMoon.GameServer/Network/ClientTransport/Handlers/MsgSolidifyHandler.cs"
+    },
+    {
+      "from": "src/RedMoon.GameServer/Network/ClientTransport/Handlers/1052-MsgConnect.cs",
+      "to": "src/RedMoon.GameServer/Network/ClientTransport/Handlers/MsgConnectHandler.cs"
+    },
+    {
+      "from": "src/RedMoon.GameServer/Network/ClientTransport/Handlers/1056-MsgTrade.cs",
+      "to": "src/RedMoon.GameServer/Network/ClientTransport/Handlers/MsgTradeHandler.cs"
+    },
+    {
+      "from": "src/RedMoon.GameServer/Network/ClientTransport/Handlers/1063-MsgSelfSynMemAwardRank.cs",
+      "to": "src/RedMoon.GameServer/Network/ClientTransport/Handlers/MsgSelfSynMemAwardRankHandler.cs"
+    },
+    {
+      "from": "src/RedMoon.GameServer/Network/ClientTransport/Handlers/1066-MsgMeteSpecial.cs",
+      "to": "src/RedMoon.GameServer/Network/ClientTransport/Handlers/MsgMeteSpecialHandler.cs"
+    },
+    {
+      "from": "src/RedMoon.GameServer/Network/ClientTransport/Handlers/1101-MsgMapItem.cs",
+      "to": "src/RedMoon.GameServer/Network/ClientTransport/Handlers/MsgMapItemHandler.cs"
+    },
+    {
+      "from": "src/RedMoon.GameServer/Network/ClientTransport/Handlers/1102-MsgAccountSoftKb.cs",
+      "to": "src/RedMoon.GameServer/Network/ClientTransport/Handlers/MsgAccountSoftKbHandler.cs"
+    },
+    {
+      "from": "src/RedMoon.GameServer/Network/ClientTransport/Handlers/1107-MsgSyndicate.cs",
+      "to": "src/RedMoon.GameServer/Network/ClientTransport/Handlers/MsgSyndicateHandler.cs"
+    },
+    {
+      "from": "src/RedMoon.GameServer/Network/ClientTransport/Handlers/1128-MsgVipUserHandle.cs",
+      "to": "src/RedMoon.GameServer/Network/ClientTransport/Handlers/MsgVipUserHandleHandler.cs"
+    },
+    {
+      "from": "src/RedMoon.GameServer/Network/ClientTransport/Handlers/1130-MsgTitle.cs",
+      "to": "src/RedMoon.GameServer/Network/ClientTransport/Handlers/MsgTitleHandler.cs"
+    },
+    {
+      "from": "src/RedMoon.GameServer/Network/ClientTransport/Handlers/1150-MsgFlower.cs",
+      "to": "src/RedMoon.GameServer/Network/ClientTransport/Handlers/MsgFlowerHandler.cs"
+    },
+    {
+      "from": "src/RedMoon.GameServer/Network/ClientTransport/Handlers/1151-MsgRank.cs",
+      "to": "src/RedMoon.GameServer/Network/ClientTransport/Handlers/MsgRankHandler.cs"
+    },
+    {
+      "from": "src/RedMoon.GameServer/Network/ClientTransport/Handlers/1312-MsgFamily.cs",
+      "to": "src/RedMoon.GameServer/Network/ClientTransport/Handlers/MsgFamilyHandler.cs"
+    },
+    {
+      "from": "src/RedMoon.GameServer/Network/ClientTransport/Handlers/1313-MsgFamilyOccupy.cs",
+      "to": "src/RedMoon.GameServer/Network/ClientTransport/Handlers/MsgFamilyOccupyHandler.cs"
+    },
+    {
+      "from": "src/RedMoon.GameServer/Network/ClientTransport/Handlers/2030-MsgNpcInfo.cs",
+      "to": "src/RedMoon.GameServer/Network/ClientTransport/Handlers/MsgNpcInfoHandler.cs"
+    },
+    {
+      "from": "src/RedMoon.GameServer/Network/ClientTransport/Handlers/2032-MsgTaskDialog.cs",
+      "to": "src/RedMoon.GameServer/Network/ClientTransport/Handlers/MsgTaskDialogHandler.cs"
+    },
+    {
+      "from": "src/RedMoon.GameServer/Network/ClientTransport/Handlers/2036-MsgDataArray.cs",
+      "to": "src/RedMoon.GameServer/Network/ClientTransport/Handlers/MsgDataArrayHandler.cs"
+    },
+    {
+      "from": "src/RedMoon.GameServer/Network/ClientTransport/Handlers/2046-MsgTradeBuddy.cs",
+      "to": "src/RedMoon.GameServer/Network/ClientTransport/Handlers/MsgTradeBuddyHandler.cs"
+    },
+    {
+      "from": "src/RedMoon.GameServer/Network/ClientTransport/Handlers/2048-MsgEquipLock.cs",
+      "to": "src/RedMoon.GameServer/Network/ClientTransport/Handlers/MsgEquipLockHandler.cs"
+    },
+    {
+      "from": "src/RedMoon.GameServer/Network/ClientTransport/Handlers/2050-MsgPigeon.cs",
+      "to": "src/RedMoon.GameServer/Network/ClientTransport/Handlers/MsgPigeonHandler.cs"
+    },
+    {
+      "from": "src/RedMoon.GameServer/Network/ClientTransport/Handlers/2064-MsgPeerage.cs",
+      "to": "src/RedMoon.GameServer/Network/ClientTransport/Handlers/MsgPeerageHandler.cs"
+    },
+    {
+      "from": "src/RedMoon.GameServer/Network/ClientTransport/Handlers/2065-MsgGuide.cs",
+      "to": "src/RedMoon.GameServer/Network/ClientTransport/Handlers/MsgGuideHandler.cs"
+    },
+    {
+      "from": "src/RedMoon.GameServer/Network/ClientTransport/Handlers/2066-MsgGuideInfo.cs",
+      "to": "src/RedMoon.GameServer/Network/ClientTransport/Handlers/MsgGuideInfoHandler.cs"
+    },
+    {
+      "from": "src/RedMoon.GameServer/Network/ClientTransport/Handlers/2067-MsgGuideContribute.cs",
+      "to": "src/RedMoon.GameServer/Network/ClientTransport/Handlers/MsgGuideContributeHandler.cs"
+    },
+    {
+      "from": "src/RedMoon.GameServer/Network/ClientTransport/Handlers/2068-MsgQuiz.cs",
+      "to": "src/RedMoon.GameServer/Network/ClientTransport/Handlers/MsgQuizHandler.cs"
+    },
+    {
+      "from": "src/RedMoon.GameServer/Network/ClientTransport/Handlers/2076-MsgQuench.cs",
+      "to": "src/RedMoon.GameServer/Network/ClientTransport/Handlers/MsgQuenchHandler.cs"
+    },
+    {
+      "from": "src/RedMoon.GameServer/Network/ClientTransport/Handlers/2080-MsgChangeName.cs",
+      "to": "src/RedMoon.GameServer/Network/ClientTransport/Handlers/MsgChangeNameHandler.cs"
+    },
+    {
+      "from": "src/RedMoon.GameServer/Network/ClientTransport/Handlers/2101-MsgFactionRankInfo.cs",
+      "to": "src/RedMoon.GameServer/Network/ClientTransport/Handlers/MsgFactionRankInfoHandler.cs"
+    },
+    {
+      "from": "src/RedMoon.GameServer/Network/ClientTransport/Handlers/2102-MsgSynMemberList.cs",
+      "to": "src/RedMoon.GameServer/Network/ClientTransport/Handlers/MsgSynMemberListHandler.cs"
+    },
+    {
+      "from": "src/RedMoon.GameServer/Network/ClientTransport/Handlers/2110-MsgSuperFlag.cs",
+      "to": "src/RedMoon.GameServer/Network/ClientTransport/Handlers/MsgSuperFlagHandler.cs"
+    },
+    {
+      "from": "src/RedMoon.GameServer/Network/ClientTransport/Handlers/2202-MsgWeaponsInfo.cs",
+      "to": "src/RedMoon.GameServer/Network/ClientTransport/Handlers/MsgWeaponsInfoHandler.cs"
+    },
+    {
+      "from": "src/RedMoon.GameServer/Network/ClientTransport/Handlers/2203-MsgTotemPole.cs",
+      "to": "src/RedMoon.GameServer/Network/ClientTransport/Handlers/MsgTotemPoleHandler.cs"
+    },
+    {
+      "from": "src/RedMoon.GameServer/Network/ClientTransport/Handlers/2205-MsgQualifyingInteractive.cs",
+      "to": "src/RedMoon.GameServer/Network/ClientTransport/Handlers/MsgQualifyingInteractiveHandler.cs"
+    },
+    {
+      "from": "src/RedMoon.GameServer/Network/ClientTransport/Handlers/2206-MsgQualifyingFightersList.cs",
+      "to": "src/RedMoon.GameServer/Network/ClientTransport/Handlers/MsgQualifyingFightersListHandler.cs"
+    },
+    {
+      "from": "src/RedMoon.GameServer/Network/ClientTransport/Handlers/2207-MsgQualifyingRank.cs",
+      "to": "src/RedMoon.GameServer/Network/ClientTransport/Handlers/MsgQualifyingRankHandler.cs"
+    },
+    {
+      "from": "src/RedMoon.GameServer/Network/ClientTransport/Handlers/2208-MsgQualifyingSeasonRankList.cs",
+      "to": "src/RedMoon.GameServer/Network/ClientTransport/Handlers/MsgQualifyingSeasonRankListHandler.cs"
+    },
+    {
+      "from": "src/RedMoon.GameServer/Network/ClientTransport/Handlers/2209-MsgQualifyingDetailInfo.cs",
+      "to": "src/RedMoon.GameServer/Network/ClientTransport/Handlers/MsgQualifyingDetailInfoHandler.cs"
+    },
+    {
+      "from": "src/RedMoon.GameServer/Network/ClientTransport/Handlers/2211-MsgArenicWitness.cs",
+      "to": "src/RedMoon.GameServer/Network/ClientTransport/Handlers/MsgArenicWitnessHandler.cs"
+    },
+    {
+      "from": "src/RedMoon.GameServer/Network/ClientTransport/Handlers/2219-MsgPKEliteMatchInfo.cs",
+      "to": "src/RedMoon.GameServer/Network/ClientTransport/Handlers/MsgPKEliteMatchInfoHandler.cs"
+    },
+    {
+      "from": "src/RedMoon.GameServer/Network/ClientTransport/Handlers/2220-MsgPkStatistic.cs",
+      "to": "src/RedMoon.GameServer/Network/ClientTransport/Handlers/MsgPkStatisticHandler.cs"
+    },
+    {
+      "from": "src/RedMoon.GameServer/Network/ClientTransport/Handlers/2223-MsgElitePKGameRankInfo.cs",
+      "to": "src/RedMoon.GameServer/Network/ClientTransport/Handlers/MsgElitePKGameRankInfoHandler.cs"
+    },
+    {
+      "from": "src/RedMoon.GameServer/Network/ClientTransport/Handlers/2224-MsgWarFlag.cs",
+      "to": "src/RedMoon.GameServer/Network/ClientTransport/Handlers/MsgWarFlagHandler.cs"
+    },
+    {
+      "from": "src/RedMoon.GameServer/Network/ClientTransport/Handlers/2225-MsgSynAdvertising.cs",
+      "to": "src/RedMoon.GameServer/Network/ClientTransport/Handlers/MsgSynAdvertisingHandler.cs"
+    },
+    {
+      "from": "src/RedMoon.GameServer/Network/ClientTransport/Handlers/2227-MsgSynAdversitingOpt.cs",
+      "to": "src/RedMoon.GameServer/Network/ClientTransport/Handlers/MsgSynAdversitingOptHandler.cs"
+    },
+    {
+      "from": "src/RedMoon.GameServer/Network/ClientTransport/Handlers/2320-MsgSubPro.cs",
+      "to": "src/RedMoon.GameServer/Network/ClientTransport/Handlers/MsgSubProHandler.cs"
+    },
+    {
+      "from": "src/RedMoon.GameServer/Structures",
+      "to": "src/RedMoon.GameServer/Gameplay"
+    },
+    {
+      "from": "src/RedMoon.GameServer/Threads",
+      "to": "src/RedMoon.GameServer/Runtime"
+    }
+  ]
+}

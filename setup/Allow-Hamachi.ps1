@@ -20,7 +20,7 @@ foreach ($friend in $AllowedFriendAddress) {
 }
 $principal = New-Object Security.Principal.WindowsPrincipal([Security.Principal.WindowsIdentity]::GetCurrent())
 if (!$principal.IsInRole([Security.Principal.WindowsBuiltInRole]::Administrator)) { throw 'This optional firewall operation needs an explicitly elevated PowerShell.' }
-foreach ($row in @(@('LoginServer',[int]$p.LoginPort),@('MsgServer',[int]$p.GamePort))) {
+foreach ($row in @(@('RedMoon.AccountServer',[int]$p.LoginPort),@('RedMoon.GameServer',[int]$p.GamePort))) {
     $name = "RedMoon-$($row[0])-$($row[1])"
     if (Get-NetFirewallRule -Name $name -ErrorAction SilentlyContinue) { throw "Rule $name already exists. Review it manually; it will not be silently replaced." }
     if ($PSCmdlet.ShouldProcess($name, 'Allow only specified peers, Hamachi local address, and game executable')) {

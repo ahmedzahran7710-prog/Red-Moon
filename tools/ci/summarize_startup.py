@@ -6,7 +6,7 @@ secrets=[]
 vault=runtime/'.local/ci-secrets.json'
 if vault.exists():secrets=[str(v) for v in json.loads(vault.read_text(encoding='utf-8-sig')).values()]
 result={}
-paths=[root/'maria.stdout.log',root/'maria.stderr.log',runtime/'.local/logs/LoginServer.stdout.log',runtime/'.local/logs/LoginServer.stderr.log',runtime/'.local/logs/MsgServer.stdout.log',runtime/'.local/logs/MsgServer.stderr.log']
+paths=[root/'maria.stdout.log',root/'maria.stderr.log',runtime/'.local/logs/RedMoon.AccountServer.stdout.log',runtime/'.local/logs/RedMoon.AccountServer.stderr.log',runtime/'.local/logs/RedMoon.GameServer.stdout.log',runtime/'.local/logs/RedMoon.GameServer.stderr.log']
 for p in paths:
     if not p.exists():continue
     lines=p.read_text(encoding='utf-8-sig',errors='replace').splitlines()[-24:]

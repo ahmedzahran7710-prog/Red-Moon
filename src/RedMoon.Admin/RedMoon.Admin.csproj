@@ -6,6 +6,6 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
   <ItemGroup>
-    <ProjectReference Include="../FoxConquer5517/ServerCore/ServerCore.csproj" />
+    <ProjectReference Include="../RedMoon.Core/RedMoon.Core.csproj" />
   </ItemGroup>
 </Project>

@@ -4,8 +4,10 @@ VisualStudioVersion = 16.0.29920.165
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "00 - Start here", "00 - Start here", "{48D00A87-EC02-5866-882E-8748D0488DF2}"
 	ProjectSection(SolutionItems) = preProject
-		..\README.md = ..\README.md
+		..\START-HERE.md = ..\START-HERE.md
 		..\docs\SOURCE-MAP.md = ..\docs\SOURCE-MAP.md
+		..\docs\MIGRATION.md = ..\docs\MIGRATION.md
+		Directory.Build.props = Directory.Build.props
 		README.md = README.md
 		global.json = global.json
 	EndProjectSection
@@ -16,13 +18,13 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "02 - Shared", "02 - Shared"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "03 - Tools", "03 - Tools", "{B3CE0A67-2565-53F0-ACF2-803528CFD795}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AccountServer", "FoxConquer5517\LoginServer\LoginServer.csproj", "{B91BCF6C-E9B0-4B85-83D2-6305A2B4AC60}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RedMoon.AccountServer", "RedMoon.AccountServer\RedMoon.AccountServer.csproj", "{B91BCF6C-E9B0-4B85-83D2-6305A2B4AC60}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GameServer", "FoxConquer5517\MsgServer\MsgServer.csproj", "{83EB10C9-BA92-444A-8DDA-C2387A2C5A3B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RedMoon.GameServer", "RedMoon.GameServer\RedMoon.GameServer.csproj", "{83EB10C9-BA92-444A-8DDA-C2387A2C5A3B}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Database", "FoxConquer5517\DB\DB.csproj", "{7B00A8DC-6C81-4970-9627-4E3C115FF6AC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RedMoon.Data", "RedMoon.Data\RedMoon.Data.csproj", "{7B00A8DC-6C81-4970-9627-4E3C115FF6AC}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ServerCore", "FoxConquer5517\ServerCore\ServerCore.csproj", "{AF2BC681-FEEA-4EF8-8109-2C6BC05B3996}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RedMoon.Core", "RedMoon.Core\RedMoon.Core.csproj", "{AF2BC681-FEEA-4EF8-8109-2C6BC05B3996}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RedMoon.Admin", "RedMoon.Admin\RedMoon.Admin.csproj", "{FA249DB8-3E7A-5BB8-AF21-12150F24D454}"
 EndProject

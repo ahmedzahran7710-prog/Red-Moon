@@ -66,10 +66,16 @@ $captured = @{ Root=$Root; ProfilePath=$ProfilePath; WorkingDirectory=(Get-Locat
 [IO.File]::WriteAllText($env:REDMOON_PATH_TEST_CAPTURE, ($captured | ConvertTo-Json), (New-Object Text.UTF8Encoding($false)))
 exit ([int]$env:REDMOON_PATH_TEST_EXIT)
 '@
-$names = @('Setup-RedMoon','Start-RedMoon','Stop-RedMoon','Install-ClientConfig','Build-RedMoon','Allow-Hamachi')
+$names = @('Setup-RedMoon','Start-RedMoon','Stop-RedMoon','Install-ClientConfig','Build-RedMoon','Migrate-RedMoon','Allow-Hamachi')
 $legacy = $null
 $success = $false
 try {
+    # Parse CI helpers in the same native host too, without running their bodies here.
+    foreach ($helper in @(Get-ChildItem -LiteralPath (Join-Path $repo 'tools/ci') -Filter '*.ps1')) {
+        $tokens=$null; $parseErrors=$null
+        $null=[Management.Automation.Language.Parser]::ParseFile($helper.FullName,[ref]$tokens,[ref]$parseErrors)
+        Check ("CI helper AST parses: " + $helper.Name) ($parseErrors.Count -eq 0)
+    }
     # Minimal old param block: capture whether this native host reproduces the
     # reported failure, never run the old setup body against a database.
     $legacyFile=Join-Path $setup 'Legacy-Default-Probe.ps1'
@@ -139,7 +145,7 @@ param([string]$Root = (Split-Path -Parent $PSScriptRoot), [string]$ProfilePath =
         $capture=Join-Path $base "$name-real.json"
         $cmd=Join-Path $installation "$name.cmd"
         $result=Invoke-Isolated $env:ComSpec "/d /v:off /c `"`"$cmd`"`"" $capture
-        if ($name -eq 'Start-RedMoon') { Check 'Real Start CMD reaches missing-installation guard' ($result.ExitCode -ne 0 -and $result.Stderr.Contains('Run Setup-RedMoon.cmd once')) }
+        if ($name -eq 'Start-RedMoon') { Check 'Real Start CMD reaches missing-installation guard' ($result.ExitCode -ne 0 -and $result.Stderr.Contains('Not configured: use Migrate-RedMoon.cmd')) }
         else { Check 'Real Stop CMD exits safely without a process record' ($result.ExitCode -eq 0 -and $result.Stdout.Contains('No process record')) }
     }
     Check 'Path regressions did not create installation state' (!(Test-Path -LiteralPath (Join-Path $installation '.local')))

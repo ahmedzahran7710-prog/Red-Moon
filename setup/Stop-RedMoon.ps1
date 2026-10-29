@@ -21,7 +21,7 @@ $owned = @()
 $observed = @()
 try {
     foreach ($entry in $entries) {
-        if ([string]$entry.Name -notin @('LoginServer','MsgServer')) { throw 'Unrecognized process entry; nothing is stopped.' }
+        if ([string]$entry.Name -notin @('RedMoon.AccountServer','RedMoon.GameServer')) { throw 'Unrecognized process entry; nothing is stopped.' }
         $p = Get-Process -Id $entry.Id -ErrorAction SilentlyContinue
         if (!$p) { continue }
         $actualPath = Get-NormalizedProcessPath ([string]$p.MainModule.FileName)

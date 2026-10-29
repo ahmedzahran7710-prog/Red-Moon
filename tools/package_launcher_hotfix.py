@@ -28,6 +28,8 @@ INSTRUCTIONS = '''# تصحيح مسار التشغيل — Red Moon
 
 
 def build(output: Path):
+    if (ROOT / "src/RedMoon.GameServer").is_dir():
+        raise RuntimeError("Legacy launcher-only hotfix retired: the renamed runtime requires the full Windows bundle and Migrate-RedMoon.cmd. Do not overwrite an old installation with these launchers.")
     contents = {}
     for relative in FILES:
         contents[relative] = (ROOT / relative).read_bytes()

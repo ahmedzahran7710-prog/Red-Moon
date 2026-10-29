@@ -29,7 +29,7 @@ if (!(Test-Path -LiteralPath (Join-Path $RuntimeRoot '.local/installed.json'))) 
 $stage = 'check-configuration'
 $secrets = Load-LocalSecrets $RuntimeRoot $true
 Export-ServerSecrets $secrets
-foreach ($name in @('LoginServer','MsgServer')) {
+foreach ($name in @('RedMoon.AccountServer','RedMoon.GameServer')) {
     & (Join-Path $RuntimeRoot "server/$name.exe") --check-config
     if ($LASTEXITCODE -ne 0) { throw "$name configuration did not validate." }
 }
@@ -42,7 +42,7 @@ $authReport = Invoke-PrivateProcess (Join-Path $RuntimeRoot 'server/RedMoon.Admi
 $auth = $authReport | ConvertFrom-Json
 if (!$auth.Authorized -or !$auth.RedirectVerified) { throw 'Synthetic login/redirect did not pass.' }
 $stage = 'verify-login-token-handoff'
-$handoffLog = Join-Path $RuntimeRoot '.local/logs/MsgServer.stdout.log'
+$handoffLog = Join-Path $RuntimeRoot '.local/logs/RedMoon.GameServer.stdout.log'
 $handoff = $false
 $deadline = [DateTime]::UtcNow.AddSeconds(10)
 while ([DateTime]::UtcNow -lt $deadline) {
