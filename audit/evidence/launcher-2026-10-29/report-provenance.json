@@ -1,0 +1,70 @@
+{
+  "run_id": 40869693318,
+  "head_sha": "7683722adf87b400394a2042c6dd6eb982438a5f",
+  "retrieval": "tools/collect_ci_evidence.py; reassembled original JSON bytes checked against GitHub check-annotation SHA256",
+  "files": {
+    "launcher-results.json": {
+      "job_id": 123434448564,
+      "job_name": "Native Windows PowerShell 5.1 launcher paths",
+      "original_filename": "launcher-results.json",
+      "sha256": "c18bbe299ab0eed518b494e046128de52e2d9297c5a1f3b3d179548223e13c1d",
+      "annotation_encoding": "gzip+base64 / evidence_schema 3"
+    },
+    "launcher-hotfix-results.json": {
+      "job_id": 123434448564,
+      "job_name": "Native Windows PowerShell 5.1 launcher paths",
+      "original_filename": "launcher-hotfix-results.json",
+      "sha256": "6ec75eca2f3baabde95e10f1f09bbb8dae1676a62e0595347114a854f25f1947",
+      "annotation_encoding": "gzip+base64 / evidence_schema 3"
+    },
+    "linux-build-results.json": {
+      "job_id": 123434660650,
+      "job_name": "Repaired components (ubuntu-24.04)",
+      "original_filename": "build-results.json",
+      "sha256": "32d5634a0570ef481fa8f26bcffc24b1d0f6a4d37668f7dc53ffb64feb4ba408",
+      "annotation_encoding": "gzip+base64 / evidence_schema 3"
+    },
+    "linux-managed-results.json": {
+      "job_id": 123434660650,
+      "job_name": "Repaired components (ubuntu-24.04)",
+      "original_filename": "managed-results.json",
+      "sha256": "d2557a828cca26c49120dc085de325eb2822ae2b17f52800823433399774802e",
+      "annotation_encoding": "gzip+base64 / evidence_schema 3"
+    },
+    "windows-build-results.json": {
+      "job_id": 123434660742,
+      "job_name": "Repaired components (windows-2022)",
+      "original_filename": "build-results.json",
+      "sha256": "2c76a20f5c44062c96820950802c567a380cafc007cadfe0fb0888cd2b8f9083",
+      "annotation_encoding": "gzip+base64 / evidence_schema 3"
+    },
+    "windows-managed-results.json": {
+      "job_id": 123434660742,
+      "job_name": "Repaired components (windows-2022)",
+      "original_filename": "managed-results.json",
+      "sha256": "83540dd64e8d99b549ce2391aa6fc97acc6c84347707fa38f30466ae65d759d2",
+      "annotation_encoding": "gzip+base64 / evidence_schema 3"
+    },
+    "installation-integration-results.json": {
+      "job_id": 123435448170,
+      "job_name": "Windows setup, actual server startup, and self-contained package",
+      "original_filename": "integration-results.json",
+      "sha256": "c87e083595e2f301102867119e1ed11a2cd0b9d9f5d954b2dd5afe685b3c2053",
+      "annotation_encoding": "gzip+base64 / evidence_schema 3"
+    },
+    "installation-auth-probe-results.json": {
+      "job_id": 123435448170,
+      "job_name": "Windows setup, actual server startup, and self-contained package",
+      "original_filename": "auth-probe-results.json",
+      "sha256": "d392608a506332b6ebb3bd61d094e44b6ed50de8f60f51ac08d8f4287ccf7d4e",
+      "annotation_encoding": "gzip+base64 / evidence_schema 3"
+    },
+    "installation-package-results.json": {
+      "job_id": 123435448170,
+      "job_name": "Windows setup, actual server startup, and self-contained package",
+      "original_filename": "package-results.json",
+      "sha256": "c19060e024f6ca5785e5928d64b6302caa2bc8f5e6c307c6c76a745c7c215870",
+      "annotation_encoding": "gzip+base64 / evidence_schema 3"
+    }
+  }
+}

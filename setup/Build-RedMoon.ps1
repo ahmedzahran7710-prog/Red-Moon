@@ -1,6 +1,17 @@
+#requires -Version 5.1
 [CmdletBinding()]
-param([string]$Root = (Split-Path -Parent $PSScriptRoot))
-. (Join-Path $PSScriptRoot 'Common.ps1')
+param([string]$Root = '')
+# Resolve defaults only after parameter binding. Windows PowerShell 5.1 may
+# not populate script automatic variables while evaluating param() defaults.
+$scriptFile = $MyInvocation.MyCommand.Path
+if ([string]::IsNullOrWhiteSpace($scriptFile)) {
+    throw 'Run this saved script file, not its pasted contents; its directory is required.'
+}
+$scriptDirectory = [IO.Path]::GetDirectoryName([IO.Path]::GetFullPath($scriptFile))
+if ([string]::IsNullOrWhiteSpace($Root)) {
+    $Root = [IO.Directory]::GetParent($scriptDirectory).FullName
+}
+. (Join-Path $scriptDirectory 'Common.ps1')
 if (!$script:OnWindows) { throw 'This local build entry point creates a Windows x64 bundle.' }
 if (!(Get-Command dotnet -ErrorAction SilentlyContinue)) { throw 'Install .NET SDK 10.0.403, or use the self-contained Windows bundle instead.' }
 if (!(Get-Command python -ErrorAction SilentlyContinue)) { throw 'Building from source needs Python 3.9+. The ready-to-run bundle needs neither Python nor an installed .NET SDK.' }

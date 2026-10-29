@@ -1,0 +1,56 @@
+{
+  "tested_head": "7683722adf87b400394a2042c6dd6eb982438a5f",
+  "run_id": 40869693318,
+  "pull_request": "https://github.com/ahmedzahran7710-prog/Red-Moon/pull/4",
+  "local_download_matches_windows_ci_sha256": true,
+  "replaced_files": {
+    "Build-RedMoon.cmd": "e127f8f9434147b46850d8f84948dcafa420768eedc49db998eac1a66c5714c1",
+    "Install-ClientConfig.cmd": "49da3b67d30604a76e56b9fceea28788b17ab891f0a523dea0599b0e55ff5efa",
+    "Setup-RedMoon.cmd": "545801f188bde86cb3490300813df357b31c1daa3ad0406182f7b72830842f53",
+    "Start-RedMoon.cmd": "70fbc4f27bb8a133e50b7c06e01fc077e96308be7243cb653e5c73f8d09148a9",
+    "Stop-RedMoon.cmd": "5e440906ab6146a352b8fe120dfa571ac32aec293059e072acac4d9365346c6b",
+    "setup/Allow-Hamachi.ps1": "9c9e74ae31946fc5fdb411529d2c4984826a41b6e0d2988b380f7e6b3467a3ec",
+    "setup/Build-RedMoon.ps1": "bb69ac71c65b3615fbb9f336c20ea6d474aa5f7f1202ee636f1ccc032b967786",
+    "setup/Install-ClientConfig.ps1": "3cb32e4a73dbe6c1689dc05c06edb2599828915f0e2f44dcd929cb6d40a24e99",
+    "setup/Setup-RedMoon.ps1": "0a4370fd479f8a849102b16831c5b5cdeb9843047646e0611926a2ae0d67a40e",
+    "setup/Start-RedMoon.ps1": "cda4d0c2198e599fdb217f4c1fc8ed8c94bc18b29216cdeb458c98870f453866",
+    "setup/Stop-RedMoon.ps1": "220d88cec6cd793a16c835759e2cbc9e9ee619f53bcf4eef6da27fb9dfb86c66"
+  },
+  "artifacts": [
+    {
+      "name": "RedMoon-Launcher-Fix",
+      "id": 12896060676,
+      "url": "https://github.com/ahmedzahran7710-prog/Red-Moon/actions/runs/40869693318/artifacts/12896060676",
+      "expires_at": "2026-11-28T12:02:53Z",
+      "outer_artifact_bytes": 10384,
+      "outer_artifact_digest": "sha256:56ee94ef47d3f3a4c71153cd7e1f330df7d86e7e49bf3d8ddd2784d1d28ee80a",
+      "inner_zip": {
+        "fix_id": "2026-10-29-launcher-paths",
+        "source_head": "7683722adf87b400394a2042c6dd6eb982438a5f",
+        "file": "RedMoon-Launcher-Fix.zip",
+        "bytes": 31723,
+        "sha256": "2bb9d31a07f457d6e8d18b95049d7fcad099aea959cec5c3394f8f7e17443a15",
+        "replaced_files": 11,
+        "contains_credentials": false,
+        "contains_database_or_runtime": false
+      }
+    },
+    {
+      "name": "RedMoon-Windows-x64",
+      "id": 12896420372,
+      "url": "https://github.com/ahmedzahran7710-prog/Red-Moon/actions/runs/40869693318/artifacts/12896420372",
+      "expires_at": "2026-11-28T12:07:48Z",
+      "outer_artifact_bytes": 47308735,
+      "outer_artifact_digest": "sha256:070490b1a10aa31ccbc19449eac735527e43d5b058cbe72245f506a12bbbf493",
+      "inner_zip": {
+        "source_head": "7683722adf87b400394a2042c6dd6eb982438a5f",
+        "file": "RedMoon-Windows-x64.zip",
+        "bytes": 48048406,
+        "sha256": "8aa22137b6cc5553394d0d8ff7855ae68618954f244055534fd484e9ca3d190c",
+        "self_contained": true,
+        "client_included": false,
+        "credentials_included": false
+      }
+    }
+  ]
+}

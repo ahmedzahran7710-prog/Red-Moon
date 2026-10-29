@@ -1,0 +1,9 @@
+{
+  "source_head": "7683722adf87b400394a2042c6dd6eb982438a5f",
+  "file": "RedMoon-Windows-x64.zip",
+  "bytes": 48048406,
+  "sha256": "8aa22137b6cc5553394d0d8ff7855ae68618954f244055534fd484e9ca3d190c",
+  "self_contained": true,
+  "client_included": false,
+  "credentials_included": false
+}

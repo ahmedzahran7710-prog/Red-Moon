@@ -1,7 +1,7 @@
 name: Red Moon repaired source and Windows package
 on:
   push:
-    branches: ["arena/77615412-red-moon"]
+    branches: ["arena/**"]
   workflow_dispatch:
 permissions:
   contents: read
@@ -9,7 +9,36 @@ concurrency:
   group: redmoon-repair-${{ github.ref }}
   cancel-in-progress: false
 jobs:
+  launcher-paths:
+    name: Native Windows PowerShell 5.1 launcher paths
+    runs-on: windows-2022
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09
+        with:
+          persist-credentials: false
+      - name: Actual entrypoints and CMD wrappers from unrelated working directory
+        shell: powershell
+        run: ./tools/ci/test-launcher-paths.ps1
+      - name: Package allowlisted launcher-only hotfix
+        shell: pwsh
+        run: |
+          python tools/package_launcher_hotfix.py --output "$env:RUNNER_TEMP/launcher-hotfix/RedMoon-Launcher-Fix.zip"
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+          Copy-Item "$env:RUNNER_TEMP/launcher-hotfix/RedMoon-Launcher-Fix.json" "$env:RUNNER_TEMP/fox-evidence/launcher-hotfix-results.json"
+      - name: Deliver small hotfix without configuration or databases
+        uses: actions/upload-artifact@330a01c490aca151604b8cf639adc76d48f6c5d4
+        with:
+          name: RedMoon-Launcher-Fix
+          path: ${{ runner.temp }}/launcher-hotfix/
+          retention-days: 30
+          if-no-files-found: error
+      - name: Publish path regression evidence even on failure
+        if: ${{ !cancelled() }}
+        shell: pwsh
+        run: python tools/publish_evidence.py "$env:RUNNER_TEMP/fox-evidence"
   components:
+    needs: launcher-paths
     name: Repaired components (${{ matrix.os }})
     strategy:
       fail-fast: false

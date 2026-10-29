@@ -1,6 +1,17 @@
+#requires -Version 5.1
 [CmdletBinding()]
-param([string]$Root = (Split-Path -Parent $PSScriptRoot), [switch]$CI)
-. (Join-Path $PSScriptRoot 'Common.ps1')
+param([string]$Root = '', [switch]$CI)
+# Resolve defaults only after parameter binding. Windows PowerShell 5.1 may
+# not populate script automatic variables while evaluating param() defaults.
+$scriptFile = $MyInvocation.MyCommand.Path
+if ([string]::IsNullOrWhiteSpace($scriptFile)) {
+    throw 'Run this saved script file, not its pasted contents; its directory is required.'
+}
+$scriptDirectory = [IO.Path]::GetDirectoryName([IO.Path]::GetFullPath($scriptFile))
+if ([string]::IsNullOrWhiteSpace($Root)) {
+    $Root = [IO.Directory]::GetParent($scriptDirectory).FullName
+}
+. (Join-Path $scriptDirectory 'Common.ps1')
 Assert-CiMode ([bool]$CI)
 $Root = (Resolve-Path -LiteralPath $Root).ProviderPath
 $record = Join-Path $Root '.local/processes.json'
