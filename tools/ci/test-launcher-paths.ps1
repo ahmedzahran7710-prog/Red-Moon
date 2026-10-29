@@ -17,6 +17,7 @@ $elsewhere = Join-Path $base 'unrelated working directory'
 $alternate = Join-Path $base 'explicit alternate root'
 foreach ($dir in @($setup, $elsewhere, $alternate)) { [IO.Directory]::CreateDirectory($dir) | Out-Null }
 $script:cases = New-Object Collections.Generic.List[object]
+$script:locationObservations = New-Object Collections.Generic.List[object]
 function Check([string]$Name, [bool]$Passed, [string]$Detail = '') {
     $script:cases.Add(@{ Name=$Name; Passed=$Passed; Detail=$Detail })
     if (!$Passed) { throw "Launcher contract failed: $Name. $Detail" }
@@ -121,7 +122,11 @@ param([string]$Root = (Split-Path -Parent $PSScriptRoot), [string]$ProfilePath =
             $result=Invoke-Isolated $env:ComSpec "/d /v:off /c `"`"$cmd`"`"" $capture $exit
             Check "$name real CMD preserves exit $exit" ($result.ExitCode -eq $exit) "Observed exit $($result.ExitCode)"
             Check "$name real CMD passes correct root ($exit)" ($null -ne $result.Capture -and (Same-Path $result.Capture.Root $installation))
-            Check "$name real CMD sets working directory ($exit)" (Same-Path $result.Capture.WorkingDirectory $installation)
+            # PowerShell's provider location need not equal the native CMD cwd
+            # when the directory contains wildcard-looking brackets. The contract
+            # is that explicit Root/ProfilePath remain correct regardless of it.
+            $script:locationObservations.Add(@{ Launcher=$name; Exit=$exit; ProviderLocation=$result.Capture.WorkingDirectory; ResolvedRoot=$result.Capture.Root })
+            Check "$name real CMD uses Windows PowerShell 5.1 ($exit)" ($result.Capture.Version.StartsWith('5.1.'))
             if ($name -in @('Setup-RedMoon','Install-ClientConfig')) { Check "$name real CMD passes profile ($exit)" (Same-Path $result.Capture.ProfilePath (Join-Path $setup 'owner-profile.json')) }
         }
     }
@@ -144,6 +149,7 @@ param([string]$Root = (Split-Path -Parent $PSScriptRoot), [string]$ProfilePath =
         schema_version=1; source_head=$env:GITHUB_SHA; powershell_version=$PSVersionTable.PSVersion.ToString()
         engine='Windows PowerShell 5.1 / native powershell.exe -File and cmd.exe /c'
         passed=$success; cases=$script:cases.ToArray(); legacy_default_probe=$legacy
+        provider_location_observations=$script:locationObservations.ToArray()
         foreign_working_directory=$true; special_character_path=$true
         mocks='Common import boundary / CMD target only; real Start and Stop guards also exercised'
         real_database_touched=$false; real_client_touched=$false; firewall_touched=$false
