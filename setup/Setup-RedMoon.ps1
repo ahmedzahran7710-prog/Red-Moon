@@ -1,11 +1,25 @@
+#requires -Version 5.1
 [CmdletBinding()]
 param(
-    [string]$Root = (Split-Path -Parent $PSScriptRoot),
-    [string]$ProfilePath = (Join-Path $PSScriptRoot 'owner-profile.json'),
+    [string]$Root = '',
+    [string]$ProfilePath = '',
     [string]$MysqlExe = '',
     [switch]$CI
 )
-. (Join-Path $PSScriptRoot 'Common.ps1')
+# Resolve defaults only after parameter binding. Windows PowerShell 5.1 may
+# not populate script automatic variables while evaluating param() defaults.
+$scriptFile = $MyInvocation.MyCommand.Path
+if ([string]::IsNullOrWhiteSpace($scriptFile)) {
+    throw 'Run this saved script file, not its pasted contents; its directory is required.'
+}
+$scriptDirectory = [IO.Path]::GetDirectoryName([IO.Path]::GetFullPath($scriptFile))
+if ([string]::IsNullOrWhiteSpace($Root)) {
+    $Root = [IO.Directory]::GetParent($scriptDirectory).FullName
+}
+if ([string]::IsNullOrWhiteSpace($ProfilePath)) {
+    $ProfilePath = [IO.Path]::Combine($scriptDirectory, 'owner-profile.json')
+}
+. (Join-Path $scriptDirectory 'Common.ps1')
 Assert-CiMode ([bool]$CI)
 $Root = [IO.Path]::GetFullPath($Root)
 $profile = Read-Profile $ProfilePath
