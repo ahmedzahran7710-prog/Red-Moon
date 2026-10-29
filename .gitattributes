@@ -6,3 +6,6 @@ src/FoxConquer5517/** -text
 # Launcher hotfix files must be identical in Linux packaging and Windows tests.
 /*.cmd -text
 /setup/*.ps1 -text
+
+# Preserve the SHA-verified CI evidence bytes, including native Windows CRLF.
+/audit/evidence/launcher-2026-10-29/** -text whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol

@@ -1,0 +1,10 @@
+{
+  "fix_id": "2026-10-29-launcher-paths",
+  "source_head": "7683722adf87b400394a2042c6dd6eb982438a5f",
+  "file": "RedMoon-Launcher-Fix.zip",
+  "bytes": 31723,
+  "sha256": "2bb9d31a07f457d6e8d18b95049d7fcad099aea959cec5c3394f8f7e17443a15",
+  "replaced_files": 11,
+  "contains_credentials": false,
+  "contains_database_or_runtime": false
+}

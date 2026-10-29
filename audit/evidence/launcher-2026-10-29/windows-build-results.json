@@ -1,0 +1,19 @@
+{
+  "sdk_requested": "10.0.403",
+  "builds": [
+    {
+      "configuration": "debug",
+      "succeeded": true,
+      "warnings": 18,
+      "errors": 0,
+      "log_sha256": "999f3e2446ce6d72b99471f6248cf750bbc1ba1addac6ffcf5121849fd444e14"
+    },
+    {
+      "configuration": "release",
+      "succeeded": true,
+      "warnings": 18,
+      "errors": 0,
+      "log_sha256": "f56264b67644e0569127f5a2ddd93a18510fc8d74d0becaf23adadd76d246ade"
+    }
+  ]
+}
