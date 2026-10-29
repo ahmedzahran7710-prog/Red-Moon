@@ -10,7 +10,7 @@
 // Created: 2016/12/02 23:33
 
 using System.Linq;
-using RedMoon.GameServer.Structures.Entities;
+using RedMoon.GameServer.Gameplay.Entities;
 using RedMoon.Core.Networking.Packets;
 
 namespace RedMoon.GameServer.Network.ClientTransport.Handlers

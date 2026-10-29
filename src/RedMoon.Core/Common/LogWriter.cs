@@ -29,7 +29,7 @@ namespace RedMoon.Core.Common
         public const string STR_SYSLOG_ANALYTIC = "Analytic";
         public const string STR_SYSLOG_DATABASE = "Database";
 
-        private readonly string _szMainDirectory = Path.Combine(Path.GetPathRoot(Environment.CurrentDirectory), "zfserver");
+        private readonly string _szMainDirectory = Path.Combine(Path.GetPathRoot(Environment.CurrentDirectory), "RedMoon");
 
         /// <summary>
         /// Start a new instance and create the necessary folders.

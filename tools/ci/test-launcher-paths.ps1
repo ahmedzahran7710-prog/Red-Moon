@@ -70,6 +70,12 @@ $names = @('Setup-RedMoon','Start-RedMoon','Stop-RedMoon','Install-ClientConfig'
 $legacy = $null
 $success = $false
 try {
+    # Parse CI helpers in the same native host too, without running their bodies here.
+    foreach ($helper in @(Get-ChildItem -LiteralPath (Join-Path $repo 'tools/ci') -Filter '*.ps1')) {
+        $tokens=$null; $parseErrors=$null
+        $null=[Management.Automation.Language.Parser]::ParseFile($helper.FullName,[ref]$tokens,[ref]$parseErrors)
+        Check ("CI helper AST parses: " + $helper.Name) ($parseErrors.Count -eq 0)
+    }
     # Minimal old param block: capture whether this native host reproduces the
     # reported failure, never run the old setup body against a database.
     $legacyFile=Join-Path $setup 'Legacy-Default-Probe.ps1'

@@ -5,7 +5,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Text.Json;
-using RedMoon.GameServer.Structures.Qualifier;
+using RedMoon.GameServer.Gameplay.Qualifier;
 using RedMoon.Core.Common.Enums;
 using RedMoon.Core.Networking.Packets;
 
@@ -46,6 +46,17 @@ internal static partial class Program
 
     private static int Main(string[] args)
     {
+        Check("LAYOUT-01-assembly-identities", "RedMoon.Core,RedMoon.Data,RedMoon.GameServer", () =>
+        {
+            return string.Join(",", typeof(PacketStructure).Assembly.GetName().Name,
+                typeof(RedMoon.Data.SessionFactory).Assembly.GetName().Name,
+                typeof(ArenaEngine).Assembly.GetName().Name);
+        }, "Assembly identity only; no static initialization, database, or game process.");
+        Check("LAYOUT-02-namespace-identities", "RedMoon.Core.Networking.Packets,RedMoon.GameServer.Gameplay.Qualifier", () =>
+        {
+            return typeof(PacketStructure).Namespace + "," + typeof(ArenaEngine).Namespace;
+        }, "Maintained public namespace roots after the physical layout change; protocol bytes are tested separately.");
+
         const string packetScope = "Managed packet bytes only; no socket, native crypto, login server, or client is started.";
         Check("AUTH-01-success-length", "52", () =>
         {

@@ -9,7 +9,7 @@
 // Last Edit: 2016/12/05 07:36
 // Created: 2016/12/05 07:36
 
-using RedMoon.GameServer.Structures.Entities;
+using RedMoon.GameServer.Gameplay.Entities;
 using RedMoon.Core.Networking.Packets;
 
 namespace RedMoon.GameServer.Network.ClientTransport.Handlers

@@ -11,10 +11,10 @@
 
 using RedMoon.Data.Entities;
 using RedMoon.Data.Repositories;
-using RedMoon.GameServer.Structures.Entities;
-using RedMoon.GameServer.Structures.Interfaces;
-using RedMoon.GameServer.Structures.Society;
-using RedMoon.GameServer.Structures.World;
+using RedMoon.GameServer.Gameplay.Entities;
+using RedMoon.GameServer.Gameplay.Interfaces;
+using RedMoon.GameServer.Gameplay.Society;
+using RedMoon.GameServer.Gameplay.World;
 using RedMoon.Core.Common;
 using RedMoon.Core.Common.Enums;
 using RedMoon.Core.Networking.Packets;

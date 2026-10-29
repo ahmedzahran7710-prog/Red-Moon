@@ -10,8 +10,8 @@
 // Created: 2016/12/07 04:51
 
 using System.Collections.Generic;
-using RedMoon.GameServer.Structures.Entities;
-using RedMoon.GameServer.Structures.Items;
+using RedMoon.GameServer.Gameplay.Entities;
+using RedMoon.GameServer.Gameplay.Items;
 using RedMoon.Core.Networking.Packets;
 
 namespace RedMoon.GameServer.Network.ClientTransport.Handlers

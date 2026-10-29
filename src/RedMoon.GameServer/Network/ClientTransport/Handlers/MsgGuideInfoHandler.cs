@@ -9,7 +9,7 @@
 // Last Edit: 2016/12/07 10:23
 // Created: 2016/12/07 10:23
 
-using RedMoon.GameServer.Structures.Entities;
+using RedMoon.GameServer.Gameplay.Entities;
 using RedMoon.Core.Common;
 using RedMoon.Core.Networking.Packets;
 

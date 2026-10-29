@@ -736,6 +736,14 @@
     {
       "from": "src/RedMoon.GameServer/Network/ClientTransport/Handlers/2320-MsgSubPro.cs",
       "to": "src/RedMoon.GameServer/Network/ClientTransport/Handlers/MsgSubProHandler.cs"
+    },
+    {
+      "from": "src/RedMoon.GameServer/Structures",
+      "to": "src/RedMoon.GameServer/Gameplay"
+    },
+    {
+      "from": "src/RedMoon.GameServer/Threads",
+      "to": "src/RedMoon.GameServer/Runtime"
     }
   ]
 }

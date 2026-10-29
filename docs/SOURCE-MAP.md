@@ -1,105 +1,111 @@
-# خريطة سورس Red Moon — ابدأ من هنا
+# خريطة سورس RedMoon
 
-## افتح السورس المنظم
+## المدخل الواحد
 
-من مجلد السورس، افتح **`Open-RedMoon-Source.cmd`**، أو افتح **`src/RedMoon.sln`** من Visual Studio يدعم .NET 10.
-
-الحل الجديد يعرض المشاريع بهذا الشكل:
+افتح **`Open-RedMoon-Source.cmd`** أو **`src/RedMoon.sln`**. تظهر مجموعات Start here / Servers / Shared / Tools، وخلفها هذه المجلدات الفعلية:
 
 ```text
-RedMoon
-├── 00 - Start here
-├── 01 - Servers
-│   ├── AccountServer   ← مشروع LoginServer الموجود
-│   └── GameServer      ← مشروع MsgServer الموجود
-├── 02 - Shared
-│   ├── Database        ← مشروع DB الموجود
-│   └── ServerCore
-└── 03 - Tools
-    └── RedMoon.Admin
+src/
+├── RedMoon.sln
+├── global.json
+├── Directory.Build.props
+├── .editorconfig
+├── RedMoon.AccountServer/
+│   ├── Program.cs
+│   ├── ServerKernel.cs
+│   └── Network/
+│       ├── ClientTransport/      ← استقبال اتصالات تسجيل الدخول
+│       └── GameLink/             ← اتصال خادم اللعبة الداخلي
+├── RedMoon.GameServer/
+│   ├── Program.cs
+│   ├── ServerKernel.cs
+│   ├── Database.cs              ← تحميل/ربط خدمات العالم، لا ملفات DB نفسها
+│   ├── ServerStrings.cs
+│   ├── Network/
+│   │   ├── ClientTransport/
+│   │   │   └── Handlers/        ← معالجة طلبات اللاعب
+│   │   └── AccountLink/         ← ربط GameServer بالأكونت
+│   ├── Gameplay/
+│   │   ├── Entities/            ← الشخصية والوحوش وNPCs
+│   │   ├── Items/               ← المعدات والجرد والمخازن
+│   │   ├── World/               ← الخرائط والأرضيات والمناطق
+│   │   ├── Society/             ← العلاقات والجماعات
+│   │   ├── Qualifier/           ← Arena
+│   │   ├── Events/
+│   │   ├── Tournament/
+│   │   ├── Actions/
+│   │   └── Interfaces/
+│   └── Runtime/
+│       └── Workers/            ← مهام التشغيل والمعالجة الدورية
+├── RedMoon.Data/
+│   ├── Entities/
+│   ├── Mappings/
+│   ├── Repositories/
+│   └── SessionFactory.cs
+├── RedMoon.Core/
+│   ├── Common/                 ← الإعدادات والمساعدات والـenums
+│   ├── Networking/Packets/     ← شكل الباكت وأرقامه وحقوله
+│   ├── Security/               ← التشفير، ومنها البديل المُدار
+│   ├── ThirdParty/IniParser/   ← مكوّن ذو هوية/حقوق محفوظة
+│   └── Compatibility/CO2Core/  ← تعريفات توافق تاريخية، لا DLL مجهولة
+└── RedMoon.Admin/
+    └── Program.cs
 ```
 
-**هذا تنظيم للعرض والتنقل داخل الحل، وليس نقلًا أو إعادة تسمية لملفات C# أو الـassemblies.** بقيت المشاريع والمراجع ومسارات التشغيل كما هي. الحل السابق `src/FoxConquer5517/FoxConquer5517.sln` ما زال موجودًا للتوافق، والحل الجديد داخل `src` حتى يستفيد من `global.json` الموجودة.
+كل مجلد مشروع يحتوي ملفًا بنفس اسمه، مثل `RedMoon.GameServer.csproj`. كل مشاريع العمل موجودة مباشرة تحت `src`؛ لا توجد شجرة عمل ثانية باسم FoxConquer داخله.
 
-فتح الحل لا يشغّل السيرفرين أو الاختبارات. لم يُفتح الحل في IDE أو يُبنَ في جولة التنظيم هذه؛ تمت مراجعة النص والمسارات فقط.
+## عايز تغيّر حاجة؟ ابدأ من هنا
 
-## الجيم سيرفر فين؟
+- **الشخصية:** `RedMoon.GameServer/Gameplay/Entities/Character.cs`.
+- **العناصر والجرد:** `Gameplay/Items/Item.cs` و`Inventory.cs` و`Equipment.cs` و`Warehouse.cs`.
+- **NPC والحوار والأوامر:** `Gameplay/Actions`، ومعالجة رسالة الحوار في `Network/ClientTransport/Handlers/MsgTaskDialogHandler.cs`.
+- **Arena:** `Gameplay/Qualifier`، وملفات معالجة رسائل الـArena في `Network/ClientTransport/Handlers`.
+- **أحداث/حروب:** `Gameplay/Events` و`Gameplay/Tournament`؛ وجود ملف لا يعني أن كل سيناريوهاته مكتملة أو متحققة.
+- **الخرائط:** `Gameplay/World`، وتحميل الداتا في `Database.cs`. أسماء الخرائط وداتا العميل ليست أسماء مشاريع يجوز تبديلها عشوائيًا.
+- **الحفظ:** ابدأ بـ`RedMoon.Data/Entities`، ثم `Mappings` ثم `Repositories`. إعادة تسمية مشروع Data لم تغيّر أسماء جداول MariaDB.
+- **الشبكة:** المعالجة في GameServer/AccountServer، وصيغة الرسائل والتشفير في Core.
 
-**السورس:** `src/FoxConquer5517/MsgServer/`
+ملفات الباكتات باسم النوع، مثل `MsgConnectEx.cs`؛ ملفات المعالجة مثل `MsgTaskDialogHandler.cs`. أرقام ومعرفات البروتوكول بقيت في التعريفات/attributes كما هي. لا تستبدل `Msg` أو `TQServer` أو أسماء الأعمدة جماعيًا لمجرد التسمية.
 
-- المشروع: `MsgServer.csproj`.
-- نقطة البداية: `Program.cs`.
-- الحالة والخدمات المشتركة داخل العملية: `ServerKernel.cs`.
-- `Network/`: الاتصال ومعالجة رسائل الشبكة.
-- `Structures/`: الشخصيات والعناصر والعالم والأحداث والأنظمة.
-- `Threads/`: مهام السيرفر.
-- اسم ملف التشغيل يظل **`MsgServer.exe`**؛ اسم عرضه في الحل الجديد **GameServer** فقط.
+## لو كنت حافظ المسارات القديمة
 
-## الأكونت سيرفر فين؟
+- `src/FoxConquer5517/MsgServer` أصبح `src/RedMoon.GameServer`.
+- `LoginServer` أصبح `RedMoon.AccountServer`، و`DB` أصبح `RedMoon.Data`، و`ServerCore` أصبح `RedMoon.Core`.
+- `GameServer/Structures` أصبح `GameServer/Gameplay`، و`Threads` أصبح `Runtime`.
+- namespaces المشاريع تتبع الأسماء الجديدة. حقل اتصال الأكونت داخل `ServerKernel` اسمه `AccountServerConnection`؛ ليس namespace.
+- [سجل النقل](reference/REDMOON-RENAMES.json) يذكر النقل بالتتابع للمقارنة. الترويسات الأصلية تذكر أسماء تاريخية عمدًا لحفظ النسب؛ ليست إشارة لسورس آخر مطلوب تشغيله.
 
-**السورس:** `src/FoxConquer5517/LoginServer/`
+## ملفات التشغيل ليست ملفات C#
 
-- المشروع: `LoginServer.csproj`.
-- نقطة البداية: `Program.cs`.
-- `ServerKernel.cs` و`Network/`: المصادقة والاتصال بخادم اللعبة.
-- اسم ملف التشغيل يظل **`LoginServer.exe`**؛ اسم عرضه في الحل الجديد **AccountServer** فقط.
-
-## الأجزاء المشتركة
-
-- **`src/FoxConquer5517/DB/`**: طبقة التعامل مع الداتابيز؛ `Entities` و`Mappings` و`Repositories`. هذا كود، وليس ملفات قاعدة MariaDB الموجودة على جهازك.
-- **`src/FoxConquer5517/ServerCore/`**: الشبكة والتشفير والباكتات والمساعدات المشتركة.
-- **`src/RedMoon.Admin/`**: أداة مساعدة للإعداد؛ ليست سيرفرًا ثالثًا مطلوبًا تشغيله يدويًا.
-
-## الفرق بين السورس وملفات التشغيل
-
-في الحزمة الجاهزة الموجودة عندك:
+في **الحزمة الكاملة**:
 
 ```text
-RedMoon-Sorce/
-├── Open-RedMoon-Source.cmd   ← فتح الحل للتحرير
-├── Start-RedMoon.cmd         ← تشغيل السيرفرين الحقيقيين
-├── Stop-RedMoon.cmd          ← الإيقاف المنظم
-├── src/                     ← كود C# والمشاريع
-├── server/
-│   ├── LoginServer.exe      ← ملف الأكونت سيرفر المجمّع
-│   └── MsgServer.exe        ← ملف الجيم سيرفر المجمّع
-├── setup/                   ← أدوات التجهيز والتشغيل
-├── database/                ← ملفات تهيئة الحزمة، لا تعاود استيرادها
-└── .local/                  ← إعدادات محلية وأسرار وسجلات؛ لا ترفعها
+RedMoon-Source/
+├── START-HERE.md
+├── Open-RedMoon-Source.cmd
+├── Migrate-RedMoon.cmd          ← انتقال من تثبيت موجود إلى هذا المجلد الجديد
+├── Start-RedMoon.cmd
+├── Stop-RedMoon.cmd
+├── Build-RedMoon.cmd            ← تطوير فقط، في checkout جديد غير مثبت
+├── src/                        ← كود العمل
+├── setup/                      ← أدوات الإعداد والتشغيل
+├── server/                     ← المخرجات ذاتية الاحتواء والداتا التشغيلية
+│   ├── RedMoon.AccountServer.exe
+│   ├── RedMoon.GameServer.exe
+│   ├── RedMoon.Admin.exe
+│   ├── RedMoon.Data.dll
+│   └── RedMoon.Core.dll
+├── database/                   ← SQL نظيفة لتثبيت جديد فقط؛ لا تعاود استيرادها
+├── docs/
+├── licenses/
+├── tests/                      ← فحوص العمل، بالطلب فقط
+└── .local/                     ← تنشأ محليًا بعد الإعداد/الانتقال؛ ليست ضمن التسليم
 ```
 
-`server` و`database` و`.local` تخص الحزمة/التثبيت المحلي ولا تُخزن كملفات تشغيل وبيانات في Git. لذلك تنزيل سورس Git وحده ليس بديلًا للحزمة الجاهزة عندك.
+بعد الإعداد/الانتقال توجد `server/RedMoon.AccountServer.ini` و`server/RedMoon.GameServer.ini`. الخزنة المشفّرة في `.local`؛ Start يمرّر الأسرار كمتغيرات بيئة إلى العمليتين. logs القياسية في `.local/logs/RedMoon.AccountServer.stdout.log` و`RedMoon.GameServer.stdout.log` ونظيرتي stderr؛ السجلات التفصيلية تحت `server/Logs`.
 
-**`Start-RedMoon.cmd` ليس تشغيلًا تجريبيًا.** يقرأ إعدادات التثبيت، ويفك أسرار DPAPI لحساب Windows الحالي، ويجهز متغيرات البيئة، ثم يشغّل `LoginServer.exe` و`MsgServer.exe` في الخلفية وينتظر جاهزيتهما وربطهما.
+تغيير C# لا يبدّل EXE القديمة. التجميع والنشر يتمان في مجلد جديد، والانتقال منفصل. لا تحاول إصلاح ذلك بتشغيل مشروع منفرد من IDE فوق سيرفر حي.
 
-- استخدم **Start** مرة واحدة للتشغيل؛ MySQL وHamachi يظلان شغالين.
-- لا تفتح الـEXE مباشرة أو تشغّل مشروعًا إضافيًا بـF5 مع السيرفر الحي؛ متغيرات البيئة والإعدادات ليست مجهزة تلقائيًا بهذه الطريقة، وقد تتعارض المنافذ.
-- استخدم **Stop** للإيقاف المنظم قبل غلق MySQL، وليس إنهاء العمليات بالقوة.
-- السجلات المحلية في `.local/logs/`: ملفات `LoginServer.stdout.log` و`LoginServer.stderr.log` و`MsgServer.stdout.log` و`MsgServer.stderr.log`. شارك الخطأ المطلوب فقط بعد إخفاء الأسرار، وليس مجلد `.local` كله.
+## ما الذي بقي خارج حزمة التشغيل؟
 
-## التعديل من غير إفساد النسخة الشغالة
-
-1. نحدد المشكلة أو التعديل المطلوب في المرحلة، ونعدل المشروع المعني داخل `src`.
-2. تعديل C# لا يغيّر الـEXE الذي يعمل بالفعل؛ يحتاج تجميع وتحديث ملفات التشغيل لاحقًا بخطوات واضحة.
-3. لا تبنِ فوق التثبيت الحي. `Build-RedMoon.cmd` الحالي يرفض أصلًا مجلدًا به `.local/installed.json`؛ هذا الحاجز ليس خطأ نحذفه.
-4. عند الحاجة لتجميع نسخة تشغيل، نوضح المتطلبات والخطوات أولًا، ونستخدم نسخة عمل منفصلة. لا تشغيل Build ضمن هذا الترتيب.
-5. قبل تحديث السيرفر الحي نحفظ نسخة احتياطية للداتا والإعدادات محليًا، ونوقفه بالطريقة المنظمة، ونحدد ملفات التحديث المطلوبة فقط. لا إعادة Setup/استيراد SQL ولا استبدال الأسرار من أجل تحديث كود.
-
-تشغيل الحزمة الجاهزة لا يحتاج SDK. تطوير/تجميع الكود يحتاج بيئة تدعم .NET 10؛ الإصدار المثبت في `src/global.json` هو SDK **10.0.403**. وجوده على جهاز المالك لم يُفحص هنا.
-
-## تنظيم باقي المستودع
-
-- `docs/`: أدلة الاستخدام وخريطة السورس.
-- `tools/`: أدوات التجهيز والتغليف والصيانة.
-- `tests/`: الفحوص الموجودة، محفوظة ولا تُشغّل إلا بطلب المالك.
-- `audit/`: تقارير وأدلة تاريخية، لا نخلطها بنتائج جديدة.
-- `vendor/FoxConquer5517/`: الأصل المحفوظ؛ **التعديل في `src` وليس هنا**.
-- `ميموري.md`: القرارات وحالة المراحل، تُقرأ قبل أي تعديل.
-
-## من هنا نبدأ المراحل
-
-**المؤكد الآن:** المالك أكمل Setup، شغّل وربط السيرفرين، وثبّت اللودر ودخل اللعبة فعليًا بحسب رسالته والصور. لا حاجة لإعادة خطوات التثبيت الناجحة.
-
-**المرحلة 1 لم يبدأ تنفيذها بعد:** يحدد المالك أول مشكلة/تعديل وأولويته، نتفق على نطاقه، ننفذه، ثم يراجع أثره داخل لعبته ونوثق النتيجة. ظهور كلاس أو أرقام عملة/عناصر في الصور ليس اعتمادًا لتوازن نهائي.
-
-طبقًا لتوجيه المالك بتاريخ **2026-10-30**: **لا اختبارات آلية أو smoke/load أو تشغيل workflows إلا بطلب صريح.** workflows أصبحت يدوية فقط؛ المراجعة الحالية قراءة للملفات والمسارات وليست نتيجة Build أو اختبار تشغيل. لا وعود بانعدام الأخطاء أو اعتماد للإطلاق العام.
+في GitHub، `vendor` أصل ثابت و`audit` أدلة تاريخية، و`downloads` أرشيف التنقل الصغير القديم. ليست نسخًا أخرى للعمل. الحزمة لا تنسخ الأصل أو ZIPs القديمة، لكنها تضم كل سورس العمل وmanifest المصدر المثبت وحقوقه. بيانات العميل/اللودر والأسرار وقواعد اللاعبين ليست ضمنها.

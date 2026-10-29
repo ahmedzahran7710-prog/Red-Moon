@@ -10,8 +10,8 @@
 // Created: 2016/11/24 10:56
 
 using System;
-using RedMoon.GameServer.Structures.Entities;
-using RedMoon.GameServer.Structures.Items;
+using RedMoon.GameServer.Gameplay.Entities;
+using RedMoon.GameServer.Gameplay.Items;
 using RedMoon.Core.Common;
 using RedMoon.Core.Networking.Packets;
 

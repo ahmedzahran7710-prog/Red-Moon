@@ -10,9 +10,9 @@
 // Created: 2016/12/05 07:35
 
 using System.Linq;
-using RedMoon.GameServer.Structures;
-using RedMoon.GameServer.Structures.Entities;
-using RedMoon.GameServer.Structures.Society;
+using RedMoon.GameServer.Gameplay;
+using RedMoon.GameServer.Gameplay.Entities;
+using RedMoon.GameServer.Gameplay.Society;
 using RedMoon.Core.Common;
 using RedMoon.Core.Common.Enums;
 using RedMoon.Core.Networking.Packets;

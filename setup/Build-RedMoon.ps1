@@ -36,4 +36,4 @@ try {
     Copy-Item -LiteralPath (Join-Path $data 'database') -Destination (Join-Path $Root 'database') -Recurse
     Copy-Item -LiteralPath (Join-Path $data 'data-provenance.json') -Destination (Join-Path $Root 'data-provenance.json')
 } finally { Pop-Location }
-Write-Host 'BUILD_READY. Existing installation: use Migrate-RedMoon.cmd from the stopped old folder. NEW databases only: Setup-RedMoon.cmd. Then Start-RedMoon.cmd.'
+Write-Host 'BUILD_READY. Run Migrate-RedMoon.cmd HERE and select the stopped OLD folder. Setup-RedMoon.cmd is for NEW databases only. Then Start-RedMoon.cmd.'

@@ -4,7 +4,10 @@ VisualStudioVersion = 16.0.29920.165
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "00 - Start here", "00 - Start here", "{48D00A87-EC02-5866-882E-8748D0488DF2}"
 	ProjectSection(SolutionItems) = preProject
+		..\START-HERE.md = ..\START-HERE.md
 		..\docs\SOURCE-MAP.md = ..\docs\SOURCE-MAP.md
+		..\docs\MIGRATION.md = ..\docs\MIGRATION.md
+		Directory.Build.props = Directory.Build.props
 		README.md = README.md
 		global.json = global.json
 	EndProjectSection

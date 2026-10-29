@@ -3,7 +3,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Text.Json;
-using RedMoon.GameServer.Structures.Qualifier;
+using RedMoon.GameServer.Gameplay.Qualifier;
 using RedMoon.Core.Security;
 
 internal static partial class Program
@@ -67,12 +67,12 @@ internal static partial class Program
         {
             return string.Join(",", Enumerable.Range(1, 5).Select(i =>
             {
-                RedMoon.GameServer.Structures.World.VipTeleportRoutes.TryGet((RedMoon.Core.Common.Enums.VIPTeleportLocations)i, out var route);
+                RedMoon.GameServer.Gameplay.World.VipTeleportRoutes.TryGet((RedMoon.Core.Common.Enums.VIPTeleportLocations)i, out var route);
                 return route.Map;
             }));
         }, "City entry points are from cq_map and checked against the archived walkable tiles; real teleport UI remains untested.");
         Check("VIP-02-unverified-subdestination-is-not-misrouted", "False", () =>
-            RedMoon.GameServer.Structures.World.VipTeleportRoutes.TryGet(RedMoon.Core.Common.Enums.VIPTeleportLocations.WP_ALTAR, out _).ToString(), RepairScope);
+            RedMoon.GameServer.Gameplay.World.VipTeleportRoutes.TryGet(RedMoon.Core.Common.Enums.VIPTeleportLocations.WP_ALTAR, out _).ToString(), RepairScope);
 
         foreach (string password in new[] { "localfixture123", "MixedCase123", "AbCdEfGh12345678" })
         {

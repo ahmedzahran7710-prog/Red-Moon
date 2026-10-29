@@ -14,10 +14,10 @@ using RedMoon.Data.Repositories;
 using IniParser;
 using IniParser.Model;
 using RedMoon.GameServer.Network.ClientTransport;
-using RedMoon.GameServer.Structures.Actions;
-using RedMoon.GameServer.Structures.Items;
-using RedMoon.GameServer.Structures.Society;
-using RedMoon.GameServer.Threads;
+using RedMoon.GameServer.Gameplay.Actions;
+using RedMoon.GameServer.Gameplay.Items;
+using RedMoon.GameServer.Gameplay.Society;
+using RedMoon.GameServer.Runtime;
 using RedMoon.Core;
 using RedMoon.Core.Common;
 using RedMoon.Core.Common.Enums;
@@ -69,7 +69,7 @@ namespace RedMoon.GameServer
 
             ServerKernel.Log = new LogWriter(Environment.CurrentDirectory);
 
-            if (!Console.IsOutputRedirected) Console.Title = "Starting server...";
+            if (!Console.IsOutputRedirected) Console.Title = "Starting RedMoon.GameServer...";
 
             // Server header
             Console.ForegroundColor = ConsoleColor.Green;

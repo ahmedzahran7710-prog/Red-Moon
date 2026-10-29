@@ -9,7 +9,7 @@
 // Last Edit: 2017/01/27 19:59
 // Created: 2017/01/27 19:58
 
-using RedMoon.GameServer.Structures.Entities;
+using RedMoon.GameServer.Gameplay.Entities;
 using RedMoon.Core.Common.Enums;
 using RedMoon.Core.Networking.Packets;
 

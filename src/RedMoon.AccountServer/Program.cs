@@ -51,7 +51,7 @@ namespace RedMoon.AccountServer
             if (ServerKernel.Username.Length > 16 || ServerKernel.Password.Length > 16)
                 throw new FormatException("Inter-server credentials must fit the 16-byte protocol fields.");
             if (args.Contains("--check-config")) { Console.WriteLine("REDMOON_LOGIN_CONFIG_OK"); return; }
-            if (!Console.IsOutputRedirected) Console.Title = "Starting login server, please wait...";
+            if (!Console.IsOutputRedirected) Console.Title = "Starting RedMoon.AccountServer...";
             // Configuration is provisioned explicitly by the local setup tool.
 
             try
@@ -75,7 +75,7 @@ namespace RedMoon.AccountServer
 
             // file handling
 
-            if (!Console.IsOutputRedirected) Console.Title = "[Red Moon Classic+] Login Server";
+            if (!Console.IsOutputRedirected) Console.Title = "[RedMoon] Account Server";
             Console.ForegroundColor = ConsoleColor.Green;
             Console.WriteLine("\tRed Moon Classic+: Conquer Online Private Server Emulator. 5517 Client Version.");
             Console.WriteLine("\t\tProject created by Felipe Vieira (FTW! Masters) and maintained by DaRkFoxDeveloper");

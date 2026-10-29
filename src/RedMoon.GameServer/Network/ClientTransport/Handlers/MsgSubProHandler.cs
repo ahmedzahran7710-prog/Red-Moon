@@ -11,8 +11,8 @@
 
 using System.Collections.Generic;
 using RedMoon.Data.Entities;
-using RedMoon.GameServer.Structures.Entities;
-using RedMoon.GameServer.Structures.Interfaces;
+using RedMoon.GameServer.Gameplay.Entities;
+using RedMoon.GameServer.Gameplay.Interfaces;
 using RedMoon.Core.Networking.Packets;
 
 namespace RedMoon.GameServer.Network.ClientTransport.Handlers

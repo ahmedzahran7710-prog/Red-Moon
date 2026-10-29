@@ -10,7 +10,7 @@
 // Created: 2016/11/24 11:10
 
 using System.Linq;
-using RedMoon.GameServer.Structures.Entities;
+using RedMoon.GameServer.Gameplay.Entities;
 using RedMoon.Core.Common;
 using RedMoon.Core.Networking.Packets;
 

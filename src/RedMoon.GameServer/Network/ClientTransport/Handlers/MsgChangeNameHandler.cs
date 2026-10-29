@@ -11,7 +11,7 @@
 
 using RedMoon.Data.Entities;
 using RedMoon.Data.Repositories;
-using RedMoon.GameServer.Structures.Entities;
+using RedMoon.GameServer.Gameplay.Entities;
 using RedMoon.Core.Common;
 using RedMoon.Core.Common.Enums;
 using RedMoon.Core.Networking.Packets;

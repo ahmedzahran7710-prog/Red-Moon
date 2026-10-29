@@ -9,10 +9,10 @@
 // Last Edit: 2016/12/27 15:29
 // Created: 2016/12/07 00:27
 
-using RedMoon.GameServer.Structures;
-using RedMoon.GameServer.Structures.Entities;
-using RedMoon.GameServer.Structures.Interfaces;
-using RedMoon.GameServer.Structures.Items;
+using RedMoon.GameServer.Gameplay;
+using RedMoon.GameServer.Gameplay.Entities;
+using RedMoon.GameServer.Gameplay.Interfaces;
+using RedMoon.GameServer.Gameplay.Items;
 using RedMoon.Core.Common;
 using RedMoon.Core.Networking.Packets;
 using System.Linq;

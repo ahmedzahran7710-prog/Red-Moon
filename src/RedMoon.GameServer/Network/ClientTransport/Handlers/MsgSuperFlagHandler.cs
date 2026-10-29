@@ -11,10 +11,10 @@
 
 using System;
 using RedMoon.Data.Entities;
-using RedMoon.GameServer.Structures;
-using RedMoon.GameServer.Structures.Entities;
-using RedMoon.GameServer.Structures.Items;
-using RedMoon.GameServer.Structures.World;
+using RedMoon.GameServer.Gameplay;
+using RedMoon.GameServer.Gameplay.Entities;
+using RedMoon.GameServer.Gameplay.Items;
+using RedMoon.GameServer.Gameplay.World;
 using RedMoon.Core.Networking.Packets;
 
 namespace RedMoon.GameServer.Network.ClientTransport.Handlers

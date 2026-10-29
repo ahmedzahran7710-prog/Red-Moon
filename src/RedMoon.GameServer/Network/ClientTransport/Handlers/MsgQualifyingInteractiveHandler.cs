@@ -9,8 +9,8 @@
 // Last Edit: 2016/12/22 18:48
 // Created: 2016/12/02 23:32
 
-using RedMoon.GameServer.Structures.Entities;
-using RedMoon.GameServer.Structures.Qualifier;
+using RedMoon.GameServer.Gameplay.Entities;
+using RedMoon.GameServer.Gameplay.Qualifier;
 using RedMoon.Core.Networking.Packets;
 
 namespace RedMoon.GameServer.Network.ClientTransport.Handlers

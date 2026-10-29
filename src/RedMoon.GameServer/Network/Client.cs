@@ -11,8 +11,8 @@
 
 using System.Net.Sockets;
 using Microsoft.VisualBasic.CompilerServices;
-using RedMoon.GameServer.Structures.Entities;
-using RedMoon.GameServer.Structures.World;
+using RedMoon.GameServer.Gameplay.Entities;
+using RedMoon.GameServer.Gameplay.World;
 using RedMoon.Core.Common.Enums;
 using RedMoon.Core.Interfaces;
 using RedMoon.Core.Networking.Packets;

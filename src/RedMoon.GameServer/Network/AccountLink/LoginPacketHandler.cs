@@ -10,7 +10,7 @@
 // Created: 2017/02/04 14:41
 
 using System;
-using RedMoon.GameServer.Structures;
+using RedMoon.GameServer.Gameplay;
 using RedMoon.Core.Common;
 using RedMoon.Core.Common.Enums;
 using RedMoon.Core.Networking.Packets;

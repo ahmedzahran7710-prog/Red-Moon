@@ -1,17 +1,8 @@
-name: Red Moon repaired source and Windows package
+name: Red Moon source, migration and Windows delivery
 # Owner policy (2026-10-30): run this workflow only when explicitly requested.
 # Keep historical jobs/evidence; do not run builds or tests automatically on pushes/PRs.
 on:
   workflow_dispatch:
-    inputs:
-      full_windows:
-        description: 'Run isolated Windows setup/migration and build the full bundle'
-        type: boolean
-        default: true
-      create_delivery:
-        description: 'Create a PRIVATE draft release after all verification (publish after review/merge)'
-        type: boolean
-        default: false
 permissions:
   contents: read
 concurrency:
@@ -103,11 +94,10 @@ jobs:
           retention-days: 14
 
   windows-installation:
-    if: ${{ inputs.full_windows }}
     name: Windows setup, actual server startup, and self-contained package
     needs: components
     runs-on: windows-2022
-    timeout-minutes: 30
+    timeout-minutes: 40
     env:
       DOTNET_CLI_TELEMETRY_OPTOUT: "1"
       DOTNET_NOLOGO: "1"
@@ -126,29 +116,43 @@ jobs:
           if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
           python tools/prepare_runtime_data.py --source "$env:RUNNER_TEMP/fox-original" --dest "$env:RUNNER_TEMP/redmoon-data"
           if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
-      - name: Publish actual Windows executables (no preinstalled runtime needed)
+      - name: Publish new and actual reviewed legacy Windows runtimes
+        shell: pwsh
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          python tools/ci/export-legacy-source.py --destination "$env:RUNNER_TEMP/redmoon-legacy-source" --repository "$env:GITHUB_REPOSITORY"
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+          & "$env:RUNNER_TEMP/redmoon-legacy-source/tools/ci/publish-runtime.ps1" -Destination "$env:RUNNER_TEMP/redmoon-legacy-ci"
+          foreach ($destination in @("$env:RUNNER_TEMP/redmoon-ci", "$env:RUNNER_TEMP/Red Moon [migration] & local!")) {
+            ./tools/ci/publish-runtime.ps1 -Destination $destination
+          }
+          foreach ($destination in @("$env:RUNNER_TEMP/redmoon-ci", "$env:RUNNER_TEMP/Red Moon [migration] & local!", "$env:RUNNER_TEMP/redmoon-legacy-ci")) {
+            Copy-Item "$env:RUNNER_TEMP/redmoon-data/runtime-data/*" (Join-Path $destination 'server') -Recurse
+            Copy-Item -LiteralPath "$env:RUNNER_TEMP/redmoon-data/database" -Destination (Join-Path $destination 'database') -Recurse
+            Copy-Item -LiteralPath "$env:RUNNER_TEMP/redmoon-data/data-provenance.json" -Destination (Join-Path $destination 'data-provenance.json')
+          }
+      - name: Native setup, old-to-new DPAPI migration, exact ZIP startup and safe stop
         shell: pwsh
         run: |
-          ./tools/ci/publish-runtime.ps1 -Destination "$env:RUNNER_TEMP/redmoon-ci"
-          Copy-Item "$env:RUNNER_TEMP/redmoon-data/runtime-data/*" "$env:RUNNER_TEMP/redmoon-ci/server" -Recurse
-          Copy-Item "$env:RUNNER_TEMP/redmoon-data/database" "$env:RUNNER_TEMP/redmoon-ci/database" -Recurse
-          Copy-Item "$env:RUNNER_TEMP/redmoon-data/data-provenance.json" "$env:RUNNER_TEMP/redmoon-ci/data-provenance.json"
-      - name: Setup + DPAPI + real server link + safe stop on Windows PowerShell 5.1
-        shell: pwsh
-        run: |
-          # Keep the service-owning shell alive through the PS5.1 integration child,
-          # rather than relying on survival across CI step process boundaries.
+          # One service-owning shell stays alive through all native PS5.1 children.
+          # Only disposable loopback schemas are used. No owner/client machine is contacted.
           ./tools/ci/start-mariadb.ps1
           & powershell.exe -NoProfile -ExecutionPolicy Bypass -File ./tools/ci/test-setup.ps1 -RuntimeRoot "$env:RUNNER_TEMP/redmoon-ci" -MysqlExe "$env:REDMOON_MYSQL_EXE"
-          exit $LASTEXITCODE
-      - name: Build fresh distribution, not the credential-bearing smoke workspace
-        shell: pwsh
-        run: |
-          if (!(Test-Path "$env:RUNNER_TEMP/fox-evidence/integration-results.json")) { throw "No verified integration report; do not ship a bundle." }
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+          Copy-Item -LiteralPath "$env:RUNNER_TEMP/fox-evidence/integration-results.json" -Destination "$env:RUNNER_TEMP/fox-evidence/new-install-results.json"
+          & powershell.exe -NoProfile -ExecutionPolicy Bypass -File ./tools/ci/test-migration.ps1 -LegacySource "$env:RUNNER_TEMP/redmoon-legacy-source" -LegacyRoot "$env:RUNNER_TEMP/redmoon-legacy-ci" -RuntimeRoot "$env:RUNNER_TEMP/Red Moon [migration] & local!" -MysqlExe "$env:REDMOON_MYSQL_EXE"
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+          # Publish afresh: NEVER zip a credential-bearing integration workspace.
           ./tools/ci/publish-runtime.ps1 -Destination "$env:RUNNER_TEMP/redmoon-distribution"
-          python tools/package_windows.py --staging "$env:RUNNER_TEMP/redmoon-distribution" --data "$env:RUNNER_TEMP/redmoon-data" --output "$env:RUNNER_TEMP/redmoon-delivery/RedMoon-Windows-x64.zip"
+          python tools/package_windows.py --staging "$env:RUNNER_TEMP/redmoon-distribution" --data "$env:RUNNER_TEMP/redmoon-data" --verification "$env:RUNNER_TEMP/fox-evidence" --output "$env:RUNNER_TEMP/redmoon-delivery/RedMoon-Windows-x64.zip"
           if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
           Copy-Item "$env:RUNNER_TEMP/redmoon-delivery/RedMoon-Windows-x64.json" "$env:RUNNER_TEMP/fox-evidence/package-results.json"
+          python tools/verify_windows_bundle.py --archive "$env:RUNNER_TEMP/redmoon-delivery/RedMoon-Windows-x64.zip" --head "$env:GITHUB_SHA" --extract "$env:RUNNER_TEMP/redmoon-extracted" --report "$env:RUNNER_TEMP/fox-evidence/bundle-verification-results.json"
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+          & powershell.exe -NoProfile -ExecutionPolicy Bypass -File ./tools/ci/test-packaged-runtime.ps1 -RuntimeRoot "$env:RUNNER_TEMP/redmoon-extracted" -LegacyRoot "$env:RUNNER_TEMP/redmoon-legacy-ci"
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+          Copy-Item "$env:RUNNER_TEMP/fox-evidence/package-runtime-results.json" "$env:RUNNER_TEMP/redmoon-delivery/RedMoon-Windows-x64-verification.json"
       - name: Deliver source + runtime + clean data (no client or secrets)
         uses: actions/upload-artifact@330a01c490aca151604b8cf639adc76d48f6c5d4
         with:
@@ -168,15 +172,60 @@ jobs:
         if: ${{ always() }}
         shell: pwsh
         run: |
-          $record = "$env:RUNNER_TEMP/redmoon-ci/.local/processes.json"
-          if (Test-Path $record) {
-            $entries = Get-Content $record -Raw | ConvertFrom-Json
-            foreach ($entry in $entries) {
+          . ./setup/Common.ps1
+          foreach ($root in @("$env:RUNNER_TEMP/redmoon-ci", "$env:RUNNER_TEMP/redmoon-legacy-ci", "$env:RUNNER_TEMP/Red Moon [migration] & local!", "$env:RUNNER_TEMP/redmoon-extracted")) {
+            $record = Join-Path $root '.local/processes.json'
+            if (!(Test-Path -LiteralPath $record)) { continue }
+            foreach ($entry in @(Read-OwnedProcessRecords $record -AllowLegacy)) {
               $p = Get-Process -Id $entry.Id -ErrorAction SilentlyContinue
-              if ($p -and $p.Path -eq $entry.Executable) { $p | Stop-Process -Force }
+              $expected = [IO.Path]::GetFullPath((Join-Path $root ("server/" + $entry.Name + '.exe')))
+              if ($p -and $p.Path -eq $entry.Executable -and $p.Path -eq $expected -and [Math]::Abs(($p.StartTime.ToUniversalTime() - [DateTimeOffset]::Parse($entry.StartUtc).UtcDateTime).TotalSeconds) -le 2) { $p | Stop-Process -Force }
             }
           }
           if ($env:REDMOON_MARIADB_PID) {
             $p = Get-Process -Id $env:REDMOON_MARIADB_PID -ErrorAction SilentlyContinue
             if ($p -and $p.Path.StartsWith([IO.Path]::GetFullPath("$env:RUNNER_TEMP/mariadb-official"), [StringComparison]::OrdinalIgnoreCase)) { $p | Stop-Process -Force }
           }
+
+  delivery:
+    name: Private draft delivery (publish only after review and merge)
+    needs: windows-installation
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    permissions:
+      contents: write
+      actions: read
+    env:
+      GH_TOKEN: ${{ github.token }}
+    steps:
+      - name: Download verified artifact and create/update this run's private draft
+        shell: bash
+        run: |
+          set -euo pipefail
+          test "$(gh repo view "$GITHUB_REPOSITORY" --json isPrivate --jq .isPrivate)" = true
+          folder="$RUNNER_TEMP/redmoon-delivery"
+          gh run download "$GITHUB_RUN_ID" --repo "$GITHUB_REPOSITORY" --name RedMoon-Windows-x64 --dir "$folder"
+          export DELIVERY_FOLDER="$folder"
+          python3 - <<'PY'
+          import hashlib, json, os
+          from pathlib import Path
+          p = Path(os.environ['DELIVERY_FOLDER'])
+          meta = json.loads((p/'RedMoon-Windows-x64.json').read_text())
+          native = json.loads((p/'RedMoon-Windows-x64-verification.json').read_text(encoding='utf-8-sig'))
+          assert meta['source_head'] == native['source_head'] == os.environ['GITHUB_SHA']
+          assert native['passed'] is True and native['real_client_executed'] is False
+          assert hashlib.sha256((p/'RedMoon-Windows-x64.zip').read_bytes()).hexdigest() == meta['sha256']
+          PY
+          tag="redmoon-layout-$GITHUB_RUN_ID"
+          notes="$RUNNER_TEMP/redmoon-delivery-notes.md"
+          printf 'Complete maintained RedMoon source + self-contained Windows x64 runtime.\n\nBuilt and verified at `%s`.\n\nExisting installation: back up databases, stop the OLD folder, extract separately, then use `Migrate-RedMoon.cmd`. Keep old files/.local until local client acceptance. Do not reimport SQL.\n\nNative regression/setup/DPAPI migration and the exact extracted ZIP were checked in isolated CI. No real client or owner database was tested. Third-party names/licenses and upstream attribution remain.\n\nDraft pending review and main merge. Download `RedMoon-Windows-x64.zip`, not the auto-generated source-code archives.\n' "$GITHUB_SHA" > "$notes"
+          if gh release view "$tag" --repo "$GITHUB_REPOSITORY" --json isDraft,targetCommitish > "$RUNNER_TEMP/existing-draft.json" 2>/dev/null; then
+            python3 - "$RUNNER_TEMP/existing-draft.json" <<'PY'
+          import json, os, sys
+          r = json.load(open(sys.argv[1]))
+          assert r['isDraft'] is True and r['targetCommitish'] == os.environ['GITHUB_SHA']
+          PY
+            gh release upload "$tag" "$folder/RedMoon-Windows-x64.zip" "$folder/RedMoon-Windows-x64.json" "$folder/RedMoon-Windows-x64-verification.json" --repo "$GITHUB_REPOSITORY" --clobber
+          else
+            gh release create "$tag" "$folder/RedMoon-Windows-x64.zip" "$folder/RedMoon-Windows-x64.json" "$folder/RedMoon-Windows-x64-verification.json" --repo "$GITHUB_REPOSITORY" --target "$GITHUB_SHA" --draft --title 'RedMoon — Organized Windows x64' --notes-file "$notes"
+          fi

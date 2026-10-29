@@ -12,9 +12,9 @@
 using System;
 using RedMoon.Data.Entities;
 using RedMoon.Data.Repositories;
-using RedMoon.GameServer.Structures;
-using RedMoon.GameServer.Structures.Entities;
-using RedMoon.GameServer.Structures.World;
+using RedMoon.GameServer.Gameplay;
+using RedMoon.GameServer.Gameplay.Entities;
+using RedMoon.GameServer.Gameplay.World;
 using RedMoon.Core.Common;
 using RedMoon.Core.Common.Enums;
 using RedMoon.Core.Networking.Packets;

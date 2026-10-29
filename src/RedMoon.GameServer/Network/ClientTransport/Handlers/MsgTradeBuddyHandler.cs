@@ -10,8 +10,8 @@
 // Created: 2016/12/07 10:17
 
 using RedMoon.Data.Repositories;
-using RedMoon.GameServer.Structures;
-using RedMoon.GameServer.Structures.Entities;
+using RedMoon.GameServer.Gameplay;
+using RedMoon.GameServer.Gameplay.Entities;
 using RedMoon.Core.Common;
 using RedMoon.Core.Networking.Packets;
 
