@@ -40,13 +40,14 @@ def build(output: Path):
     contents['HOTFIX-LAUNCHERS.md'] = INSTRUCTIONS.encode('utf-8')
     contents['launcher-hotfix-manifest.json'] = (json.dumps(manifest, indent=2) + '\n').encode('utf-8')
     output.parent.mkdir(parents=True, exist_ok=True)
-    with zipfile.ZipFile(output, 'w', compression=zipfile.ZIP_DEFLATED, compresslevel=9) as archive:
+    # STORE is intentional: cross-platform zlib versions must not alter this tiny ZIP.
+    with zipfile.ZipFile(output, 'w', compression=zipfile.ZIP_STORED) as archive:
         for name, raw in sorted(contents.items()):
             info = zipfile.ZipInfo(name, (2026, 10, 29, 0, 0, 0))
-            info.compress_type = zipfile.ZIP_DEFLATED
+            info.compress_type = zipfile.ZIP_STORED
             info.create_system = 3
             info.external_attr = 0o100644 << 16
-            archive.writestr(info, raw, compresslevel=9)
+            archive.writestr(info, raw)
     report = {'fix_id': FIX_ID, 'source_head': head, 'file': output.name,
               'bytes': output.stat().st_size, 'sha256': hashlib.sha256(output.read_bytes()).hexdigest(),
               'replaced_files': len(FILES), 'contains_credentials': False, 'contains_database_or_runtime': False}
