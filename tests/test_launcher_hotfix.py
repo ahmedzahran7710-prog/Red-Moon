@@ -38,24 +38,18 @@ class LauncherHotfixTests(unittest.TestCase):
             if name in ('Setup-RedMoon', 'Install-ClientConfig'):
                 self.assertIn('-ProfilePath "%~dp0setup\\owner-profile.json"', text)
 
-    def test_zip_has_only_allowed_replacements_and_exact_bytes(self):
+    def test_legacy_hotfix_refuses_renamed_runtime(self):
         with tempfile.TemporaryDirectory() as directory:
             output = Path(directory) / 'fix.zip'
-            report = hotfix.build(output)
-            self.assertLess(report['bytes'], 100_000)
-            self.assertEqual(report['replaced_files'], 11)
-            with zipfile.ZipFile(output) as archive:
-                self.assertEqual(set(archive.namelist()), set(hotfix.FILES) | {'HOTFIX-LAUNCHERS.md', 'launcher-hotfix-manifest.json'})
-                manifest = json.loads(archive.read('launcher-hotfix-manifest.json'))
-                for name in hotfix.FILES:
-                    raw = archive.read(name)
-                    self.assertEqual(raw, (hotfix.ROOT / name).read_bytes())
-                    self.assertEqual(hashlib.sha256(raw).hexdigest(), manifest['files'][name])
-                for name in archive.namelist():
-                    self.assertNotRegex(name, r'(^|/)(\.local|owner-profile\.json|Common\.ps1|server|database)(/|$)')
+            with self.assertRaisesRegex(RuntimeError, 'full Windows bundle'):
+                hotfix.build(output)
+            self.assertFalse(output.exists())
 
-    def test_zip_is_reproducible_for_same_source_head(self):
-        with tempfile.TemporaryDirectory() as directory:
-            a = Path(directory) / 'first.zip'; b = Path(directory) / 'second.zip'
-            hotfix.build(a); hotfix.build(b)
-            self.assertEqual(a.read_bytes(), b.read_bytes())
+    def test_migration_uses_the_same_safe_entrypoint_conventions(self):
+        text = (hotfix.ROOT / 'setup/Migrate-RedMoon.ps1').read_text(encoding='utf-8-sig')
+        self.assertIn("[string]$Root = ''", text)
+        self.assertNotIn('$PSScriptRoot', text)
+        self.assertIn('$MyInvocation.MyCommand.Path', text)
+        raw = (hotfix.ROOT / 'Migrate-RedMoon.cmd').read_bytes()
+        self.assertIn(b'-Root "%~dp0."', raw)
+        self.assertNotIn(b'\n', raw.replace(b'\r\n', b''))

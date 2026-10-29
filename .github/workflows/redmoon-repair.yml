@@ -3,6 +3,15 @@ name: Red Moon repaired source and Windows package
 # Keep historical jobs/evidence; do not run builds or tests automatically on pushes/PRs.
 on:
   workflow_dispatch:
+    inputs:
+      full_windows:
+        description: 'Run isolated Windows setup/migration and build the full bundle'
+        type: boolean
+        default: true
+      create_delivery:
+        description: 'Create a PRIVATE draft release after all verification (publish after review/merge)'
+        type: boolean
+        default: false
 permissions:
   contents: read
 concurrency:
@@ -20,19 +29,6 @@ jobs:
       - name: Actual entrypoints and CMD wrappers from unrelated working directory
         shell: powershell
         run: ./tools/ci/test-launcher-paths.ps1
-      - name: Package allowlisted launcher-only hotfix
-        shell: pwsh
-        run: |
-          python tools/package_launcher_hotfix.py --output "$env:RUNNER_TEMP/launcher-hotfix/RedMoon-Launcher-Fix.zip"
-          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
-          Copy-Item "$env:RUNNER_TEMP/launcher-hotfix/RedMoon-Launcher-Fix.json" "$env:RUNNER_TEMP/fox-evidence/launcher-hotfix-results.json"
-      - name: Deliver small hotfix without configuration or databases
-        uses: actions/upload-artifact@330a01c490aca151604b8cf639adc76d48f6c5d4
-        with:
-          name: RedMoon-Launcher-Fix
-          path: ${{ runner.temp }}/launcher-hotfix/
-          retention-days: 30
-          if-no-files-found: error
       - name: Publish path regression evidence even on failure
         if: ${{ !cancelled() }}
         shell: pwsh
@@ -74,21 +70,21 @@ jobs:
         working-directory: src
         run: |
           New-Item -ItemType Directory -Force "$env:RUNNER_TEMP/fox-evidence" | Out-Null
-          dotnet build FoxConquer5517/FoxConquer5517.sln -c Debug --verbosity minimal 2>&1 | Tee-Object "$env:RUNNER_TEMP/fox-evidence/build-debug.log"
+          dotnet build RedMoon.sln -c Debug --verbosity minimal 2>&1 | Tee-Object "$env:RUNNER_TEMP/fox-evidence/build-debug.log"
           exit $LASTEXITCODE
       - name: Build Release working solution
         shell: pwsh
         working-directory: src
         run: |
-          dotnet build FoxConquer5517/FoxConquer5517.sln -c Release --verbosity minimal 2>&1 | Tee-Object "$env:RUNNER_TEMP/fox-evidence/build-release.log"
+          dotnet build RedMoon.sln -c Release --verbosity minimal 2>&1 | Tee-Object "$env:RUNNER_TEMP/fox-evidence/build-release.log"
           exit $LASTEXITCODE
       - name: Regressions and independent crypto reference vectors
         shell: pwsh
         working-directory: src
         run: |
-          dotnet build ../tests/fixes/FoxBaseline.Probes.csproj -c Release --verbosity minimal
+          dotnet build ../tests/RedMoon.Regression/RedMoon.Regression.csproj -c Release --verbosity minimal
           if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
-          dotnet ../tests/fixes/bin/Release/net10.0/FoxBaseline.Probes.dll --report "$env:RUNNER_TEMP/fox-evidence/managed-results.json"
+          dotnet ../tests/RedMoon.Regression/bin/Release/net10.0/RedMoon.Regression.dll --report "$env:RUNNER_TEMP/fox-evidence/managed-results.json"
           exit $LASTEXITCODE
       - name: Verify baseline not altered by repairs
         if: ${{ !cancelled() }}
@@ -107,6 +103,7 @@ jobs:
           retention-days: 14
 
   windows-installation:
+    if: ${{ inputs.full_windows }}
     name: Windows setup, actual server startup, and self-contained package
     needs: components
     runs-on: windows-2022

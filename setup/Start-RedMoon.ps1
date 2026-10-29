@@ -14,7 +14,7 @@ if ([string]::IsNullOrWhiteSpace($Root)) {
 . (Join-Path $scriptDirectory 'Common.ps1')
 Assert-CiMode ([bool]$CI)
 $Root = [IO.Path]::GetFullPath($Root)
-if (!(Test-Path -LiteralPath (Join-Path $Root '.local/installed.json'))) { throw 'Run Setup-RedMoon.cmd once before starting.' }
+if (!(Test-Path -LiteralPath (Join-Path $Root '.local/installed.json'))) { throw 'Not configured: use Migrate-RedMoon.cmd for an existing installation, or Setup-RedMoon.cmd for NEW databases only.' }
 $profile = Read-Profile (Join-Path $Root '.local/active-profile.json')
 $addresses = @([Net.NetworkInformation.NetworkInterface]::GetAllNetworkInterfaces() | ForEach-Object { $_.GetIPProperties().UnicastAddresses } | ForEach-Object { $_.Address.ToString() })
 if ($addresses -notcontains $profile.GameAddress) { throw 'The configured Hamachi address is not active on this PC. Start Hamachi first or review the local profile.' }
@@ -59,13 +59,13 @@ function Wait-Ready($Process, [string]$File, [string]$Marker) {
     throw "Timed out waiting for $Marker. Inspect local logs before retrying."
 }
 try {
-    Write-Host 'Starting LoginServer...'
-    $login = Start-OwnedServer 'LoginServer'
-    Wait-Ready $login (Join-Path $logs 'LoginServer.stdout.log') 'REDMOON_LOGIN_READY'
-    Write-Host 'Starting MsgServer and loading maps...'
-    $game = Start-OwnedServer 'MsgServer'
-    Wait-Ready $game (Join-Path $logs 'MsgServer.stdout.log') 'REDMOON_GAME_READY'
-    Wait-Ready $login (Join-Path $logs 'LoginServer.stdout.log') 'REDMOON_GAME_REGISTERED'
+    Write-Host 'Starting RedMoon.AccountServer...'
+    $login = Start-OwnedServer 'RedMoon.AccountServer'
+    Wait-Ready $login (Join-Path $logs 'RedMoon.AccountServer.stdout.log') 'REDMOON_LOGIN_READY'
+    Write-Host 'Starting RedMoon.GameServer and loading maps...'
+    $game = Start-OwnedServer 'RedMoon.GameServer'
+    Wait-Ready $game (Join-Path $logs 'RedMoon.GameServer.stdout.log') 'REDMOON_GAME_READY'
+    Wait-Ready $login (Join-Path $logs 'RedMoon.AccountServer.stdout.log') 'REDMOON_GAME_REGISTERED'
     Write-Host "SERVERS_READY: $($profile.GameAddress), login $($profile.LoginPort), game $($profile.GamePort)."
     Write-Host 'This confirms server startup/link only, not a successful real client login. Use Stop-RedMoon.cmd to save and stop.'
 } catch {

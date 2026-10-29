@@ -16,3 +16,9 @@ server/
 database/
 client-config/
 data-provenance.json
+
+# Interrupted migration staging can contain encrypted local state.
+.local-migration-*/
+bundle-manifest.json
+third-party-packages.json
+third-party-licenses/

@@ -1,7 +1,7 @@
 using System.Net.Sockets;
 using System.Text;
 using System.Text.Json;
-using ServerCore.Security;
+using RedMoon.Core.Security;
 
 if (args.Length != 1) return 2;
 if (args[0] == "hash-password")

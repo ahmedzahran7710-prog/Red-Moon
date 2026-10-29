@@ -1,11 +1,11 @@
 # Preserve the imported upstream snapshot byte-for-byte, including CRLF and BOMs.
 vendor/FoxConquer5517/** -text
 # Initial working copy is also byte-preserving; modified files have explicit diffs.
-src/FoxConquer5517/** -text
+src/RedMoon.*/** -text
 
 # Launcher hotfix files must be identical in Linux packaging and Windows tests.
-/*.cmd -text
-/setup/*.ps1 -text
+/*.cmd -text whitespace=cr-at-eol
+/setup/*.ps1 -text whitespace=cr-at-eol
 
 # Preserve the SHA-verified CI evidence bytes, including native Windows CRLF.
 /audit/evidence/launcher-2026-10-29/** -text whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol

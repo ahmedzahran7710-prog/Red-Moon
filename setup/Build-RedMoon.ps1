@@ -20,7 +20,7 @@ Push-Location (Join-Path $Root 'src')
 try {
     $sdk = & dotnet --version
     if ($LASTEXITCODE -ne 0 -or $sdk -notlike '10.0.*') { throw 'The pinned .NET 10 SDK was not selected.' }
-    foreach ($project in @('FoxConquer5517/LoginServer/LoginServer.csproj','FoxConquer5517/MsgServer/MsgServer.csproj','RedMoon.Admin/RedMoon.Admin.csproj')) {
+    foreach ($project in @('RedMoon.AccountServer/RedMoon.AccountServer.csproj','RedMoon.GameServer/RedMoon.GameServer.csproj','RedMoon.Admin/RedMoon.Admin.csproj')) {
         & dotnet publish $project -c Release -r win-x64 --self-contained true -o (Join-Path $Root 'server')
         if ($LASTEXITCODE -ne 0) { throw 'Publish failed; do not use partial outputs.' }
     }
@@ -36,4 +36,4 @@ try {
     Copy-Item -LiteralPath (Join-Path $data 'database') -Destination (Join-Path $Root 'database') -Recurse
     Copy-Item -LiteralPath (Join-Path $data 'data-provenance.json') -Destination (Join-Path $Root 'data-provenance.json')
 } finally { Pop-Location }
-Write-Host 'BUILD_READY. Run Setup-RedMoon.cmd once; then Start-RedMoon.cmd.'
+Write-Host 'BUILD_READY. Existing installation: use Migrate-RedMoon.cmd from the stopped old folder. NEW databases only: Setup-RedMoon.cmd. Then Start-RedMoon.cmd.'

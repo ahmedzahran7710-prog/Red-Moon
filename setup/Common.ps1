@@ -164,8 +164,8 @@ GameBindAddress=$($Profile.GameAddress)
 GamePort=$($Profile.GamePort)
 $crypto
 "@
-    Write-Utf8 (Join-Path $server 'Login.cfg') $login
-    Write-Utf8 (Join-Path $server 'Shell.ini') $game
+    Write-Utf8 (Join-Path $server 'RedMoon.AccountServer.ini') $login
+    Write-Utf8 (Join-Path $server 'RedMoon.GameServer.ini') $game
 }
 
 function Get-NormalizedProcessPath([string]$Value) {
@@ -184,13 +184,15 @@ function Get-NormalizedProcessPath([string]$Value) {
     return $native
 }
 
-function Read-OwnedProcessRecords([string]$Path) {
+function Read-OwnedProcessRecords([string]$Path, [switch]$AllowLegacy) {
+    $allowedNames = @('RedMoon.AccountServer','RedMoon.GameServer')
+    if ($AllowLegacy) { $allowedNames += @('LoginServer','MsgServer') }
     # Windows PowerShell 5.1 writes a root JSON array as ONE pipeline object.
     # Enumerate the assigned result explicitly; wrapping ConvertFrom-Json's pipeline
     # in @() can create a nested array and join two PID paths into one invalid string.
     $parsed = Get-Content -LiteralPath $Path -Raw -Encoding UTF8 | ConvertFrom-Json
     foreach ($entry in $parsed) {
-        if ($entry -is [Array] -or [string]$entry.Name -notin @('LoginServer','MsgServer') -or [int]$entry.Id -le 0) {
+        if ($entry -is [Array] -or [string]$entry.Name -notin $allowedNames -or [int]$entry.Id -le 0) {
             throw 'Invalid owned-process record; no PID action is allowed.'
         }
         Write-Output $entry
