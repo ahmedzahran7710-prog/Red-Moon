@@ -1,4 +1,0 @@
-﻿[*.cs]
-
-# IDE0035: Se detectó código inaccesible
-dotnet_diagnostic.IDE0035.severity = suggestion

@@ -1,22 +1,19 @@
-# Preserve the imported upstream snapshot byte-for-byte, including CRLF and BOMs.
-vendor/FoxConquer5517/** -text
-# Preserve the standalone imported CanyonV6192 snapshot byte-for-byte as well.
-canyon/** -text -whitespace
-# Ensure our Markdown/JSON audit metadata in canyon/ stays UTF-8 text.
-canyon/CANYON-AUDIT.md text eol=lf
-canyon/canyon-manifest.json text eol=lf
-# Initial working copy is also byte-preserving; modified files have explicit diffs.
-src/RedMoon.*/** -text
+# Preserve imported and patched CanyonV6192 files byte-for-byte (UTF-8 BOMs and exact line endings).
+src/** -text -whitespace
+RequiredAssetsForRun/** -text -whitespace
+.vscode/** -text -whitespace
+/.editorconfig -text -whitespace
+/.gitlab-ci.yml -text -whitespace
+/Canyon.sln -text -whitespace
+/LICENSE -text -whitespace
+/dockerfile -text -whitespace
+/wait-for-it.sh -text -whitespace
 
-# Windows entrypoint bytes must be identical in packaging and native tests.
-/*.cmd -text whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol
-/setup/*.ps1 -text whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol
-
-# Preserve the SHA-verified CI evidence bytes, including native Windows CRLF.
-/audit/evidence/launcher-2026-10-29/** -text whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol
-
-# Relocated upstream legal/reference documents stay byte-identical on Windows too.
-/licenses/FoxConquer5517-MIT.txt -text
-/docs/reference/UPSTREAM-README.md -text
-/docs/reference/UPSTREAM-TODO.md -text
-/audit/evidence/layout-2026-10-30/** -text
+# Keep project governance, documentation, and manifest as clean UTF-8 LF text.
+/.gitattributes text eol=lf
+/.gitignore text eol=lf
+/AGENTS.md text eol=lf
+/README.md text eol=lf
+/CANYON-AUDIT.md text eol=lf
+/canyon-manifest.json text eol=lf
+/ميموري.md text eol=lf
