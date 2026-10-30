@@ -1,9 +1,0 @@
-<Project>
-  <PropertyGroup>
-    <AssemblyName>$(MSBuildProjectName)</AssemblyName>
-    <RootNamespace>$(MSBuildProjectName)</RootNamespace>
-    <Product>Red Moon Classic+</Product>
-    <Company>Red Moon</Company>
-    <!-- Original authorship remains in source headers and licenses/. -->
-  </PropertyGroup>
-</Project>

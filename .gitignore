@@ -1,24 +1,39 @@
-# Temporary original archives, extracted runtime assets, and test workspaces.
+# Build outputs, IDE state, and temporary caches.
+.vs/
+**/[Bb]in/
+**/[Oo]bj/
+src/Bin/
+TestResults/
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+node_modules/
 .cache/
 artifacts/
-**/bin/
-**/obj/
-.vs/
 __pycache__/
 *.pyc
 
-# Machine-local generated secrets, runtime state, and distributable binaries.
-runtime/
+# Machine-local Canyon configuration files and secrets (never commit to Git).
+*.Config.json
+*.Config.local.json
+**/Properties/launchSettings.json
+compose.debug*.yml
+.env
+.env.*
 .local/
-packages/
-*.user
-server/
-database/
-client-config/
-data-provenance.json
+runtime/
 
-# Interrupted migration staging can contain encrypted local state.
-.local-migration-*/
-bundle-manifest.json
-third-party-packages.json
-third-party-licenses/
+# Database dumps, archives, runtime logs, and external Conquer 6192 client assets.
+sql/
+*.sql
+*.bak
+*.7z
+*.rar
+**/ini/
+!**/lua.ini
+**/map/
+**/maps/
+**/DMaps/
+**/Logs/
+gmtools/
