@@ -16,13 +16,13 @@ namespace Canyon.Game.Sockets.Game.Packets
 
         public override void Decode(byte[] bytes)
         {
-            PacketReader reader = new(bytes);
+            using PacketReader reader = new(bytes);
             Length = reader.ReadUInt16();
             Type = (PacketType)reader.ReadUInt16();
             Action = (DataArrayMode)reader.ReadByte();
             Count = reader.ReadByte();
             reader.ReadUInt16();
-            for (var i = 0; i < Count; i++)
+            for (var i = 0; i < Count && reader.BaseStream.Position + sizeof(uint) <= reader.BaseStream.Length; i++)
             {
                 Items.Add(reader.ReadUInt32());
             }
@@ -56,6 +56,11 @@ namespace Canyon.Game.Sockets.Game.Packets
         public override async Task ProcessAsync(Client client)
         {
             Character user = client.Character;
+            if (user == null || Items.Count == 0)
+            {
+                return;
+            }
+
             Item target = user.UserPackage.FindByIdentity(Items[0]);
             if (target == null)
             {
@@ -104,8 +109,14 @@ namespace Canyon.Game.Sockets.Game.Packets
                             return;
                         }
 
+                        HashSet<uint> processed = new() { target.Identity };
                         for (var i = 1; i < Items.Count; i++)
                         {
+                            if (!processed.Add(Items[i]))
+                            {
+                                continue;
+                            }
+
                             Item source = user.UserPackage[Items[i]];
                             if (source == null)
                             {
@@ -184,8 +195,14 @@ namespace Canyon.Game.Sockets.Game.Packets
                             return;
                         }
 
+                        HashSet<uint> processed = new() { target.Identity };
                         for (var i = 1; i < Items.Count; i++)
                         {
+                            if (!processed.Add(Items[i]))
+                            {
+                                continue;
+                            }
+
                             Item source = user.UserPackage[Items[i]];
                             if (source == null)
                             {
@@ -267,7 +284,7 @@ namespace Canyon.Game.Sockets.Game.Packets
                                 }
 
                                 Item minor = user.UserPackage.FindByIdentity(Items[i]);
-                                if (minor == null || minor.Position != Item.ItemPosition.Inventory)
+                                if (minor == null || minor.Position != Item.ItemPosition.Inventory || minor.Identity == target.Identity || usable.Any(x => x.Identity == minor.Identity))
                                 {
                                     continue;
                                 }
@@ -281,9 +298,16 @@ namespace Canyon.Game.Sockets.Game.Packets
                                     case Item.TYPE_METEOR_SCROLL:
                                         totalGems += 10;
                                         break;
+                                    default:
+                                        continue;
                                 }
 
                                 usable.Add(minor);
+                            }
+
+                            if (totalGems <= 0)
+                            {
+                                return;
                             }
 
                             int reqGems = Math.Max(2, target.GetUpgradeGemAmount());
@@ -366,7 +390,8 @@ namespace Canyon.Game.Sockets.Game.Packets
                         }
                         else // Dragon Balls
                         {
-                            if (Items.Count <= 1)
+                            uint minorId = Items.Skip(1).FirstOrDefault(x => x != 0);
+                            if (minorId == 0)
                             {
                                 await user.SendAsync(new MsgItem
                                 {
@@ -376,8 +401,11 @@ namespace Canyon.Game.Sockets.Game.Packets
                                 return;
                             }
 
-                            Item minor = user.UserPackage.FindByIdentity(Items[2]);
-                            if (minor == null)
+                            Item minor = user.UserPackage.FindByIdentity(minorId);
+                            if (minor == null
+                                || minor.Identity == target.Identity
+                                || minor.Position != Item.ItemPosition.Inventory
+                                || (minor.Type != Item.TYPE_DRAGONBALL && minor.Type != Item.TYPE_DRAGONBALL_SCROLL))
                             {
                                 await user.SendAsync(new MsgItem
                                 {
@@ -472,7 +500,7 @@ namespace Canyon.Game.Sockets.Game.Packets
                             }
 
                             Item minor = user.UserPackage.FindByIdentity(Items[i]);
-                            if (minor == null || minor.Position != Item.ItemPosition.Inventory)
+                            if (minor == null || minor.Position != Item.ItemPosition.Inventory || minor.Identity == target.Identity || usable.Any(x => x.Identity == minor.Identity))
                             {
                                 continue;
                             }
@@ -485,9 +513,16 @@ namespace Canyon.Game.Sockets.Game.Packets
                                 case Item.TYPE_DRAGONBALL_SCROLL:
                                     totalGems += 10;
                                     break;
+                                default:
+                                    continue;
                             }
 
                             usable.Add(minor);
+                        }
+
+                        if (totalGems <= 0)
+                        {
+                            return;
                         }
 
                         bool success = false;

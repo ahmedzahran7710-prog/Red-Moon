@@ -60,10 +60,12 @@ namespace Canyon.Game.Sockets.Game.Packets
             }
 #endif
 
-            var auth = Kernel.Logins.Get(Token.ToString()) as TransferAuthArgs;
+            string tokenKey = Token.ToString();
+            var auth = Kernel.Logins.Remove(tokenKey) as TransferAuthArgs;
             if (auth == null)
             {
-                auth = Kernel.Logins.Get(((uint)Token).ToString()) as TransferAuthArgs;
+                tokenKey = ((uint)Token).ToString();
+                auth = Kernel.Logins.Remove(tokenKey) as TransferAuthArgs;
                 if (auth == null)
                 {
                     await client.DisconnectWithMessageAsync(LoginInvalid);
@@ -72,7 +74,12 @@ namespace Canyon.Game.Sockets.Game.Packets
                 }
             }
 
-            Kernel.Logins.Remove(Token.ToString());
+            if (auth.AccountID == 0)
+            {
+                await client.DisconnectWithMessageAsync(LoginInvalid);
+                logger.LogWarning("Invalid AccountID 0 for Login Token: {Token} from {IpAddress}", Token, client.IpAddress);
+                return;
+            }
 
             // Generate new keys and check for an existing character
             DbCharacter character = await CharacterRepository.FindAsync(auth.AccountID);

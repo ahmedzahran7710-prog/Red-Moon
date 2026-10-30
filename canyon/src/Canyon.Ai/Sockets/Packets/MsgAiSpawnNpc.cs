@@ -42,8 +42,14 @@ namespace Canyon.Ai.Sockets.Packets
                                 continue;
                             }
 
-                            var monster = new Monster(monstertype, (uint)IdentityManager.Monster.GetNextIdentity,
-                                                      generator);
+                            uint idMonster = (uint)IdentityManager.Monster.GetNextIdentity;
+                            if (idMonster == 0)
+                            {
+                                logger.LogWarning($"Could not allocate monster identity for type {target.MonsterType}");
+                                continue;
+                            }
+
+                            var monster = new Monster(monstertype, idMonster, generator);
                             if (!await monster.InitializeAsync(target.MapId, target.X, target.Y))
                             {
                                 logger.LogWarning($"ExecuteActionEventCreatepet could not initialize monster: {JsonConvert.SerializeObject(target)}");
@@ -51,8 +57,13 @@ namespace Canyon.Ai.Sockets.Packets
                                 continue;
                             }
 
+                            if (!generator.Add(monster))
+                            {
+                                IdentityManager.Monster.ReturnIdentity(monster.Identity);
+                                continue;
+                            }
+
                             RoleManager.AddRole(monster);
-                            generator.Add(monster);
                             await monster.EnterMapAsync();
                         }
 

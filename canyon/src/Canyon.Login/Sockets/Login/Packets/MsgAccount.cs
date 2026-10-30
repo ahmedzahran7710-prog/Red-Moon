@@ -39,12 +39,15 @@ namespace Canyon.Login.Sockets.Login.Packets
 #else
             response = new()
             {
-                Success = true
+                Success = false
             };
-            GameAccount gameAccount;
+            GameAccount gameAccount = null;
             try
             {
-                gameAccount = AccountRepository.GetByUsername(Username);
+                if (!string.IsNullOrWhiteSpace(Username))
+                {
+                    gameAccount = AccountRepository.GetByUsername(Username);
+                }
             }
             catch (Exception ex)
             {
@@ -52,30 +55,28 @@ namespace Canyon.Login.Sockets.Login.Packets
                 logger.LogCritical(ex, "{}", ex.Message);
                 return;
             }
-            if (gameAccount != null)
+            if (gameAccount != null && gameAccount.Id > 0)
             {
                 string password = DecryptPassword(Password, client.Seed);
-                if (!GameAccount.HashPassword(password, gameAccount.Salt).Equals(gameAccount.Password))
+                if (GameAccount.CheckPassword(password, gameAccount.Password, gameAccount.Salt))
                 {
-                    response.Success = false;
-                }
+                    response.Success = true;
+                    response.AccountId = gameAccount.Id;
+                    response.AccountAuthority = gameAccount.AuthorityId;
+                    response.IsLocked = gameAccount.Flag == (int)GameAccount.AccountFlag.Locked;
+                    response.IsBanned = gameAccount.Flag == (int)GameAccount.AccountFlag.Banned;
+                    response.IsPermanentlyBanned = gameAccount.Flag == (int)GameAccount.AccountFlag.PermanentlyBanned;
 
-                response.AccountAuthority = gameAccount.AuthorityId;
-                // add ban logic here
-                response.IsBanned = false;
-                response.IsPermanentlyBanned = false;
-                response.IsLocked = false;
-
-                GameAccountVip gameAccountVip = VipRepository.GetAccountVip((uint)gameAccount.Id);
-                if (gameAccountVip != null)
-                {
-                    response.VIPLevel = gameAccountVip.VipLevel;
+                    GameAccountVip gameAccountVip = VipRepository.GetAccountVip((uint)gameAccount.Id);
+                    if (gameAccountVip != null)
+                    {
+                        response.VIPLevel = gameAccountVip.VipLevel;
+                    }
                 }
-                response.AccountId = gameAccount.Id;
             }
 #endif
 
-            if (!response.Success)
+            if (response == null || !response.Success || response.AccountId <= 0)
             {
                 logger.LogInformation("User [{}] attempt failed: invalid password", Username);
                 await client.DisconnectWithRejectionCodeAsync(MsgConnectEx<Client>.RejectionCode.InvalidPassword);
@@ -105,7 +106,7 @@ namespace Canyon.Login.Sockets.Login.Packets
 
 #if DEBUG
             // only testing
-            if (response.AccountAuthority == 1)
+            if (response.AccountAuthority < 2)
             {
                 logger.LogInformation("User [{}] attempt failed: non cooperator account", Username);
                 await client.DisconnectWithRejectionCodeAsync(MsgConnectEx<Client>.RejectionCode.NonCooperatorAccount);

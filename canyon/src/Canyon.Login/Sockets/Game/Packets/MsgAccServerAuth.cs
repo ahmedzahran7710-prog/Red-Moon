@@ -4,6 +4,8 @@ using Canyon.Login.States;
 using Canyon.Network.Packets.Login;
 using Canyon.Shared;
 using Microsoft.Extensions.Logging;
+using System.Net;
+using System.Net.Sockets;
 
 namespace Canyon.Login.Sockets.Game.Packets
 {
@@ -29,10 +31,9 @@ namespace Canyon.Login.Sockets.Game.Packets
             }
 
 #if DEBUG
-            if (!realmData.GameIPAddress.StartsWith("192.168.")
-                && !realmData.GameIPAddress.StartsWith("127."))
+            if (!IsAllowedDebugAddress(realmData.GameIPAddress))
             {
-                logger.LogDebug("DEBUG mode, do not connect to external addressess.");
+                logger.LogWarning("DEBUG mode blocked external realm IPAddress [{}].", realmData.GameIPAddress);
                 await DenyWithMessageAsync(client, MsgAccServerAuthEx.DEBUG_MODE);
                 return;
             }
@@ -81,6 +82,48 @@ namespace Canyon.Login.Sockets.Game.Packets
                 actor.Disconnect();
                 return Task.CompletedTask;
             });
+        }
+
+        private static bool IsAllowedDebugAddress(string ipAddress)
+        {
+            if (string.IsNullOrWhiteSpace(ipAddress))
+            {
+                return false;
+            }
+
+            if (ipAddress.Equals("localhost", StringComparison.OrdinalIgnoreCase))
+            {
+                return true;
+            }
+
+            if (!IPAddress.TryParse(ipAddress.Trim(), out IPAddress parsed))
+            {
+                return false;
+            }
+
+            if (IPAddress.IsLoopback(parsed))
+            {
+                return true;
+            }
+
+            if (parsed.IsIPv4MappedToIPv6)
+            {
+                parsed = parsed.MapToIPv4();
+            }
+
+            if (parsed.AddressFamily != AddressFamily.InterNetwork)
+            {
+                return false;
+            }
+
+            byte[] octets = parsed.GetAddressBytes();
+            return octets[0] == 10
+                || octets[0] == 127
+                || (octets[0] == 172 && octets[1] >= 16 && octets[1] <= 31)
+                || (octets[0] == 192 && octets[1] == 168)
+                || octets[0] == 25   // Hamachi VPN
+                || octets[0] == 26   // Radmin VPN
+                || (octets[0] == 100 && octets[1] >= 64 && octets[1] <= 127); // Tailscale / CGNAT
         }
     }
 }

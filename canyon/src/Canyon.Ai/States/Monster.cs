@@ -164,8 +164,14 @@ namespace Canyon.Ai.States
 
         public override async Task LeaveMapAsync(bool sync = true)
         {
-            generator.Remove(Identity);
-            IdentityManager.Monster.ReturnIdentity(Identity);
+            if (generator != null)
+            {
+                generator.Remove(Identity);
+            }
+            else
+            {
+                IdentityManager.Monster.ReturnIdentity(Identity);
+            }
 
             if (sync)
             {

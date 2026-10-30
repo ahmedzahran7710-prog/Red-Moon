@@ -42,11 +42,8 @@ namespace Canyon.Game.Sockets.Game.Packets
             const int vipTeleportCountdown = 30;
 
             Character user = client.Character;
-
-            DbVipTransPoint vipTransPoint = await VipTransPointRepository.GetAsync((uint)Location);
-            if (vipTransPoint == null)
+            if (user == null || !user.IsAlive || user.Map == null)
             {
-                logger.LogWarning("Invalid Transpoint {Mode} {Location}.\n{Json}", Mode, Location, JsonConvert.SerializeObject(this));
                 return;
             }
 
@@ -55,8 +52,16 @@ namespace Canyon.Game.Sockets.Game.Packets
                 return;
             }
 
+            DbVipTransPoint vipTransPoint;
             if (Mode == 0) // Self
             {
+                vipTransPoint = await VipTransPointRepository.GetAsync((uint)Location);
+                if (vipTransPoint == null)
+                {
+                    logger.LogWarning("Invalid Transpoint {Mode} {Location}.\n{Json}", Mode, Location, JsonConvert.SerializeObject(this));
+                    return;
+                }
+
                 if (vipTransPoint.Type == 1)
                 {
                     // city
@@ -78,6 +83,13 @@ namespace Canyon.Game.Sockets.Game.Packets
             }
             else if (Mode == 1) // Team
             {
+                vipTransPoint = await VipTransPointRepository.GetAsync((uint)Location);
+                if (vipTransPoint == null)
+                {
+                    logger.LogWarning("Invalid Transpoint {Mode} {Location}.\n{Json}", Mode, Location, JsonConvert.SerializeObject(this));
+                    return;
+                }
+
                 if (user.Team == null || !user.Team.AllowTeamVipTeleport)
                 {
                     return;
@@ -95,7 +107,7 @@ namespace Canyon.Game.Sockets.Game.Packets
                 else
                 {
                     // location
-                    if (!user.CanUseVipTeamPortal()) 
+                    if (!user.CanUseVipTeamPortal())
                     {
                         return;
                     }
@@ -124,6 +136,10 @@ namespace Canyon.Game.Sockets.Game.Packets
                 {
                     return;
                 }
+            }
+            else
+            {
+                return;
             }
 
             await user.SavePositionAsync(vipTransPoint.MapId, vipTransPoint.MapX, vipTransPoint.MapY);
