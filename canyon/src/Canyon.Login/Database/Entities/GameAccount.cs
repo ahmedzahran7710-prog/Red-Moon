@@ -26,6 +26,15 @@ namespace Canyon.Login.Database.Entities
         public virtual GameAccountAuthority Authority { get; set; }
         public virtual IList<GameAccountVip> Vip { get; set; }
 
+        public enum AccountFlag
+        {
+            None = 0,
+            Normal = 1,
+            Locked = 2,
+            Banned = 3,
+            PermanentlyBanned = 4
+        }
+
         /// <summary>
         ///     Validates the user's inputted password, which has been decrypted from the client
         ///     request decode method, and is ready to be hashed and compared with the SHA-1
@@ -37,7 +46,12 @@ namespace Canyon.Login.Database.Entities
         /// <returns>Returns true if the password is correct.</returns>
         public static bool CheckPassword(string input, string hash, string salt)
         {
-            return HashPassword(input, salt).Equals(hash);
+            if (string.IsNullOrEmpty(input) || string.IsNullOrEmpty(hash))
+            {
+                return false;
+            }
+
+            return HashPassword(input, salt ?? string.Empty).Equals(hash, StringComparison.OrdinalIgnoreCase);
         }
 
         public static string HashPassword(string password, string salt)

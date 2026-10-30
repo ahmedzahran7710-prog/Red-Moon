@@ -262,39 +262,48 @@ namespace Canyon.Ai.States.World
 
         public async Task<Monster> GenerateMonsterAsync()
         {
-            uint identity = (uint)IdentityManager.Monster.GetNextIdentity;
-            Monster monster = null;
-            if (!HasCluster)
+            DbMonstertype selectedType = monstertype;
+            if (HasCluster)
             {
-                monster = new Monster(monstertype, identity, this);
-            }
-            else
-            {
-                int rate = await NextAsync(monsterRatios.Max(x => x.Ratio));
+                if (monsterRatios.Count == 0)
+                {
+                    return null;
+                }
+
+                int maxRatio = monsterRatios.Max(x => x.Ratio);
+                int rate = maxRatio > 0 ? await NextAsync(maxRatio) : 0;
+                selectedType = null;
                 foreach (var ratio in monsterRatios)
                 {
                     if (ratio.Ratio < rate)
                     {
-                        monster = new Monster(ratio.MonsterType, identity, this);
+                        selectedType = ratio.MonsterType;
                         break;
                     }
                 }
 
-                if (monster == null)
-                {
-                    var monsterType = monsterRatios.FirstOrDefault(x => x.MonsterType != null)?.MonsterType;
-                    if (monsterType == null)
-                    {
-                        return null;
-                    }
+                selectedType ??= monsterRatios.FirstOrDefault(x => x.MonsterType != null)?.MonsterType;
+            }
 
-                    monster = new Monster(monsterType, identity, this);
-                }
+            if (selectedType == null)
+            {
+                return null;
             }
 
             Point pos = await gameMap.QueryRandomPositionAsync(generator.BoundX, generator.BoundY, generator.BoundCx, generator.BoundCy);
+            if (pos == default)
+            {
+                return null;
+            }
 
-            if (pos == default || !await monster.InitializeAsync(MapIdentity, (ushort)pos.X, (ushort)pos.Y))
+            uint identity = (uint)IdentityManager.Monster.GetNextIdentity;
+            if (identity == 0)
+            {
+                return null;
+            }
+
+            var monster = new Monster(selectedType, identity, this);
+            if (!await monster.InitializeAsync(MapIdentity, (ushort)pos.X, (ushort)pos.Y))
             {
                 IdentityManager.Monster.ReturnIdentity(monster.Identity);
                 return null;
@@ -305,20 +314,20 @@ namespace Canyon.Ai.States.World
 
         public async Task<int> GenerateAsync()
         {
-            if (MapIdentity == 1002)
+            foreach (var monster in awaitingReborn.Where(x => x.Value.IsTimeOut()))
             {
-
+                if (awaitingReborn.TryRemove(monster.Key, out _))
+                {
+                    if (monsters.TryRemove(monster.Key, out _))
+                    {
+                        IdentityManager.Monster.ReturnIdentity(monster.Key);
+                    }
+                }
             }
 
             if (!IsActive)
             {
                 return 0;
-            }
-
-            foreach (var monster in awaitingReborn.Where(x => x.Value.IsTimeOut()))
-            {
-                monsters.TryRemove(monster.Key, out _);
-                awaitingReborn.TryRemove(monster.Key, out _);
             }
 
             if (timeBetweenGens.ToNextTime())
@@ -329,8 +338,17 @@ namespace Canyon.Ai.States.World
                     while (generate-- > 0)
                     {
                         Monster monster = await GenerateMonsterAsync();
-                        if (monster == null || !monsters.TryAdd(monster.Identity, monster))
+                        if (monster == null)
+                        {
                             continue;
+                        }
+
+                        if (!monsters.TryAdd(monster.Identity, monster))
+                        {
+                            IdentityManager.Monster.ReturnIdentity(monster.Identity);
+                            continue;
+                        }
+
                         await monster.EnterMapAsync();
                     }
                 }
@@ -347,7 +365,7 @@ namespace Canyon.Ai.States.World
             }
 
             int count = 0;
-            foreach (var monster in monsters.Values.Where(x => x.IsAlive))
+            foreach (var monster in monsters.Values.Where(x => x.IsAlive && x.Map != null))
             {
                 await monster.OnTimerAsync();
                 count++;
@@ -360,7 +378,7 @@ namespace Canyon.Ai.States.World
             var result = 0;
             MsgAiSpawnNpc msg = new();
             msg.Mode = AiSpawnNpcMode.Spawn;
-            foreach (Monster npc in monsters.Values.Where(x => x.IsAlive))
+            foreach (Monster npc in monsters.Values.Where(x => x.IsAlive && x.Map != null))
             {
                 if (msg.List.Count >= 25)
                 {
@@ -432,15 +450,26 @@ namespace Canyon.Ai.States.World
         {
             if (generator.MaxPerGen == 0)
             {
-                monsters.TryRemove(role, out _);
+                if (monsters.TryRemove(role, out _))
+                {
+                    awaitingReborn.TryRemove(role, out _);
+                    IdentityManager.Monster.ReturnIdentity(role);
+                }
                 return;
             }
 
-            if (monsters.TryGetValue(role, out Monster mob))
+            if (monsters.ContainsKey(role))
             {
-                var tm = new TimeOut();
-                tm.Startup(RestSeconds);
-                awaitingReborn.TryAdd(role, tm);
+                if (!awaitingReborn.ContainsKey(role))
+                {
+                    var tm = new TimeOut();
+                    tm.Startup(RestSeconds);
+                    awaitingReborn.TryAdd(role, tm);
+                }
+            }
+            else
+            {
+                IdentityManager.Monster.ReturnIdentity(role);
             }
         }
 
