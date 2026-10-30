@@ -1,0 +1,56 @@
+{
+  "Servers": [
+    {
+      "ServerName": "RedMoon",
+      "ServerVersion": 6192,
+      "LoginHost": "25.21.212.130",
+      "GameHost": "25.21.212.130",
+      "LoginPort": 9958,
+      "GamePort": 5816,
+      "ExecutableName": "Conquer.exe",
+      "EnableHostName": false,
+      "UseDirectX9": false,
+      "Hostname": "",
+      "ServerNameMemoryAddress": "0x00A56348",
+      "ServerIcon": "Group2/1.swf",
+      "Group": {
+        "GroupName": "Group2",
+        "GroupIcon": "Group2.swf",
+        "Servers": []
+      }
+    }
+  ],
+  "DefaultServer": {
+    "ServerName": "RedMoon",
+    "ServerVersion": 6192,
+    "LoginHost": "25.21.212.130",
+    "GameHost": "25.21.212.130",
+    "LoginPort": 9958,
+    "GamePort": 5816,
+    "ExecutableName": "Conquer.exe",
+    "EnableHostName": false,
+    "UseDirectX9": false,
+    "Hostname": "",
+    "ServerNameMemoryAddress": "0x00A56348",
+    "ServerIcon": "Group2/1.swf",
+    "Group": {
+      "GroupName": "Group2",
+      "GroupIcon": "Group2.swf",
+      "Servers": []
+    }
+  },
+  "DebugMode": false,
+  "CloseOnFinish": true,
+  "HighResolution": true,
+  "FHDResolution": false,
+  "FullScreen": false,
+  "ServernameChange": true,
+  "DisableAutoFixFlash": true,
+  "Title": "Red Moon - Conquer 6192",
+  "Description": "Red Moon Classic+ Server",
+  "Lang": "en",
+  "LicenseKey": "",
+  "DisableScreenChanges": false,
+  "UseCustomDLLs": false,
+  "FPSUnlock": false
+}
