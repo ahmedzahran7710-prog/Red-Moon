@@ -1,5 +1,10 @@
 # Preserve the imported upstream snapshot byte-for-byte, including CRLF and BOMs.
 vendor/FoxConquer5517/** -text
+# Preserve the standalone imported CanyonV6192 snapshot byte-for-byte as well.
+canyon/** -text -whitespace
+# Ensure our Markdown/JSON audit metadata in canyon/ stays UTF-8 text.
+canyon/CANYON-AUDIT.md text eol=lf
+canyon/canyon-manifest.json text eol=lf
 # Initial working copy is also byte-preserving; modified files have explicit diffs.
 src/RedMoon.*/** -text
 

@@ -1,0 +1,5210 @@
+{
+  "upstream_repository": "https://github.com/darkfoxdeveloper/CanyonV6192",
+  "commit": "d08d13187599c2275972b83b81ff8e66296da2b2",
+  "archive_url": "https://codeload.github.com/darkfoxdeveloper/CanyonV6192/zip/d08d13187599c2275972b83b81ff8e66296da2b2",
+  "archive_sha256": "2d44a9cf25574c11d815541fbf260e33260e797e7bea1aff1ddb8f56985d8158",
+  "license": "MIT",
+  "total_upstream_files": 863,
+  "tracked_files": 845,
+  "omitted_files": 18,
+  "total_upstream_bytes": 53090052,
+  "tracked_bytes": 6258290,
+  "files": [
+    {
+      "path": ".editorconfig",
+      "bytes": 137,
+      "sha256": "320b57fc3a22756ecf74c68adddd0d2d38e23317a47a87c28ee3c0d8e98019c6",
+      "tracked": true
+    },
+    {
+      "path": ".gitignore",
+      "bytes": 6967,
+      "sha256": "edabc45373b2ecc66706146bcfff4829474e7135e93f7368cbceffeb7e37816e",
+      "tracked": false,
+      "excluded_reason": "upstream-git-policy"
+    },
+    {
+      "path": ".gitlab-ci.yml",
+      "bytes": 2308,
+      "sha256": "5c398dfdfd689f9471c6955fec70ee95858e19afc25af7eebd3a9b7fad1a5234",
+      "tracked": true
+    },
+    {
+      "path": ".vscode/launch.json",
+      "bytes": 1866,
+      "sha256": "44aa250daafbb7fafb5615b502c6b654e3c3e034fe2e9b778d7898dbe344f959",
+      "tracked": true
+    },
+    {
+      "path": ".vscode/tasks.json",
+      "bytes": 315,
+      "sha256": "e8cab747b25f293147468145062e2f76f72ae698c1760ad9da33cb8d9b7a9d8d",
+      "tracked": true
+    },
+    {
+      "path": "Canyon.sln",
+      "bytes": 7222,
+      "sha256": "b37b6b9551a2dd94ca29dd55edc7b438035fececfcf19435fa34dc63e3f87b8a",
+      "tracked": true
+    },
+    {
+      "path": "LICENSE",
+      "bytes": 1078,
+      "sha256": "7d1feb0e6c9401ee84ff30b9adaa39a10525f7941327641ace6aaf79b4972bf8",
+      "tracked": true
+    },
+    {
+      "path": "Lua_7117.rar",
+      "bytes": 20321662,
+      "sha256": "da4a7cf9ea75b5c2c091f4d798d8772230ed9460bd44ab78b2122ddf899b5bae",
+      "tracked": false,
+      "excluded_reason": "large-archive-asset"
+    },
+    {
+      "path": "README.md",
+      "bytes": 5055,
+      "sha256": "f42f9ff69954163d2eeb3d6e4b649e967be34f83f81a0c6b83e68994ec498e62",
+      "tracked": false,
+      "excluded_reason": "upstream-sonarqube-token-in-badge"
+    },
+    {
+      "path": "RequiredAssetsForRun/lua/BasicData/[Conquer][BasicData]ProgramInterfaceConstant.lua",
+      "bytes": 13817,
+      "sha256": "5a27757e17b0ba7eb990d7f690c6cc06d8077e608916f4853851c32506ec47ae",
+      "tracked": true
+    },
+    {
+      "path": "RequiredAssetsForRun/lua/BasicData/[Conquer][BasicData]RandomSeed.lua",
+      "bytes": 298,
+      "sha256": "a24edb3bd06f40c89f3bc1c2951c8c7af36541ee6d83ed615065f05f85cf8c15",
+      "tracked": true
+    },
+    {
+      "path": "RequiredAssetsForRun/lua/BasicData/[Conquer][BasicData]TableDialogIndex.lua",
+      "bytes": 911832,
+      "sha256": "a2fa8ffbdb388dc7aba117dc01e49788ffc0eaf49d2ce831a449d13c7b127490",
+      "tracked": true
+    },
+    {
+      "path": "RequiredAssetsForRun/lua/BasicData/[Conquer][BasicData]TableItemTaskCont.lua",
+      "bytes": 587,
+      "sha256": "4689c171bdda02a8d85bb69aee45cafbd9c5857223c9462c4ea4516028d65c5e",
+      "tracked": true
+    },
+    {
+      "path": "RequiredAssetsForRun/lua/BasicData/[Conquer][BasicData]TableMonsterTaskCont.lua",
+      "bytes": 583,
+      "sha256": "4676e61c94f70c4793ab0456449feb936804f637412a8451d779dbd951e4dc88",
+      "tracked": true
+    },
+    {
+      "path": "RequiredAssetsForRun/lua/BasicData/[Conquer][BasicData]TableNpcFace.lua",
+      "bytes": 394,
+      "sha256": "58d630fd329378d0e5955e8b1b7e67e3d5015eafbd35a62021128615dbd03105",
+      "tracked": true
+    },
+    {
+      "path": "RequiredAssetsForRun/lua/BasicData/[Conquer][BasicData]TableNpcGossip.lua",
+      "bytes": 3472,
+      "sha256": "7c0e0309a5c8849264a6aabe82433cc78bf12f0c2fc9bcecbdd1522913dfbc62",
+      "tracked": true
+    },
+    {
+      "path": "RequiredAssetsForRun/lua/BasicData/[Conquer][BasicData]TablePlayLogin.lua",
+      "bytes": 1194,
+      "sha256": "78084ea6a3b248d448fc72b743291f34bee264158a509785fb1d53865e0b4868",
+      "tracked": true
+    },
+    {
+      "path": "RequiredAssetsForRun/lua/BasicData/[Conquer][BasicData]TablePlayerDeathTaskCont.lua",
+      "bytes": 2217,
+      "sha256": "81a40426c3719073007c77df6d8522fb7fe18768969b3f2cf145bce18eddfee3",
+      "tracked": true
+    },
+    {
+      "path": "RequiredAssetsForRun/lua/BasicData/[Conquer][BasicData]TablePrompetFunc.lua",
+      "bytes": 1700,
+      "sha256": "d5cb5ab7e9933a6c5c446cdce7cae32dbe40852e0fefe625dc32ec21716f89d2",
+      "tracked": true
+    },
+    {
+      "path": "RequiredAssetsForRun/lua/BasicData/[Conquer][BasicData]TableTrapTaskCont.lua",
+      "bytes": 501,
+      "sha256": "59e2af5597cb3d8d640c98c002633a6d4829114b89c7e49b71d27a59ea99ed85",
+      "tracked": true
+    },
+    {
+      "path": "RequiredAssetsForRun/lua/EditionScript/[Conquer][EditionScript]BackpackLetter.lua",
+      "bytes": 9280,
+      "sha256": "27115c4f148e9e54700e25448bc5ec62443a2e99ff52f69287dfa2a03a2f53f2",
+      "tracked": true
+    },
+    {
+      "path": "RequiredAssetsForRun/lua/EditionScript/[Conquer][EditionScript]InnerStrengthSystemData.lua",
+      "bytes": 10113,
+      "sha256": "0c4f61142ae742d4d8503dfd56ba2dab3e5130bfef05a436589b9b63d0e7cfd2",
+      "tracked": true
+    },
+    {
+      "path": "RequiredAssetsForRun/lua/EditionScript/[Conquer][EditionScript]MoveNPC.lua",
+      "bytes": 19023,
+      "sha256": "09294ccfa33c6d2625312ef0673a1f940140a2ca54022da57d41c570a2f36467",
+      "tracked": true
+    },
+    {
+      "path": "RequiredAssetsForRun/lua/EditionScript/[Conquer][EditionScript]MoveTrap.lua",
+      "bytes": 16898,
+      "sha256": "28dde5cf59d7c6df0768048d6c984078c6a3c0023ac2373778c0724e833e2de8",
+      "tracked": true
+    },
+    {
+      "path": "RequiredAssetsForRun/lua/Model.lua",
+      "bytes": 212,
+      "sha256": "12e8f9e2413c9f285a5181e182b31b77b830fa56e5095f0aa5e2c16a5a496e75",
+      "tracked": true
+    },
+    {
+      "path": "RequiredAssetsForRun/lua/PublicFunc/[Conquer][PublicFunc]FuncGetValue.lua",
+      "bytes": 99308,
+      "sha256": "8c13f25d2305e59e4f0cf7de38a42c7977bcff37ebd7e27fec3a4e41fb8ed1a4",
+      "tracked": true
+    },
+    {
+      "path": "RequiredAssetsForRun/lua/PublicFunc/[Conquer][PublicFunc]FuncItem.lua",
+      "bytes": 21612,
+      "sha256": "9a2f1063c1c52ba69726887b8c317f328c793d56e06e0f9c010c8f9bf8263543",
+      "tracked": true
+    },
+    {
+      "path": "RequiredAssetsForRun/lua/PublicFunc/[Conquer][PublicFunc]FuncMap.lua",
+      "bytes": 12031,
+      "sha256": "8c65c5dba7fd4f14a93c92c51215f75783f55caa8ddd94ff0b2f268c3e45f37c",
+      "tracked": true
+    },
+    {
+      "path": "RequiredAssetsForRun/lua/PublicFunc/[Conquer][PublicFunc]FuncMonster.lua",
+      "bytes": 5449,
+      "sha256": "52e1e59bb39d00add054912ab9290ddeff63cf2e4837be1653479151bb60dbdd",
+      "tracked": true
+    },
+    {
+      "path": "RequiredAssetsForRun/lua/PublicFunc/[Conquer][PublicFunc]FuncNpc.lua",
+      "bytes": 27442,
+      "sha256": "7ba41b73b45ec5bbbc02546cb83332c9b5fa21de42e9f1f4a1ce80dc5e76a8f4",
+      "tracked": true
+    },
+    {
+      "path": "RequiredAssetsForRun/lua/PublicFunc/[Conquer][PublicFunc]FuncPlayer.lua",
+      "bytes": 103239,
+      "sha256": "1a46ce4549d722cf2a90fc9564e390ba02108ef98206e0bc0287ea0827f81571",
+      "tracked": true
+    },
+    {
+      "path": "RequiredAssetsForRun/lua/PublicFunc/[Conquer][PublicFunc]FuncProbabil.lua",
+      "bytes": 13121,
+      "sha256": "bde10ddd50f360f2e1d26d2c65ff5473d43ebd52dc0b8f370ac974b90ce92302",
+      "tracked": true
+    },
+    {
+      "path": "RequiredAssetsForRun/lua/PublicFunc/[Conquer][PublicFunc]FuncSkill.lua",
+      "bytes": 5567,
+      "sha256": "0303cb4d421cbd490dbd1fb2185581beaea88f447e2eab673ad3513bd123e52d",
+      "tracked": true
+    },
+    {
+      "path": "RequiredAssetsForRun/lua/PublicFunc/[Conquer][PublicFunc]FuncSystem.lua",
+      "bytes": 46429,
+      "sha256": "2aefbaa829169c3f69ab974b9b3b06ca85a9d630f4fe1b292a039947e11c3784",
+      "tracked": true
+    },
+    {
+      "path": "RequiredAssetsForRun/lua/PublicFunc/[Conquer][PublicFunc]FuncTask.lua",
+      "bytes": 29917,
+      "sha256": "0415ae16218fe3d0d808504b46140b55a67c73a41da4071453793275d4e7c2c7",
+      "tracked": true
+    },
+    {
+      "path": "RequiredAssetsForRun/lua/PublicFunc/[Conquer][PublicFunc]FuncTrap.lua",
+      "bytes": 7115,
+      "sha256": "31828a6a91aaefd4813515828a4dc893fd081e0719f5b1471ae803085fe42ece",
+      "tracked": true
+    },
+    {
+      "path": "RequiredAssetsForRun/lua/PublicFunc/[Conquer][PublicFunc]TriggerProgram.lua",
+      "bytes": 3619,
+      "sha256": "bb3f4a965b3d20214d2803ec45dc0418d2a4a1785b89fcc3b9a026e19a61ad56",
+      "tracked": true
+    },
+    {
+      "path": "RequiredAssetsForRun/lua/TempLogic/[Conquer][TempLogic]BasicTempItem.lua",
+      "bytes": 9487,
+      "sha256": "af85b62356cfdf8aab25f16ead17bbdd9be86e00c0aa6ded4df833bfd21ae498",
+      "tracked": true
+    },
+    {
+      "path": "RequiredAssetsForRun/lua/TempLogic/[Conquer][TempLogic]BasicTempMonster.lua",
+      "bytes": 1349,
+      "sha256": "3c3cc94ffd0c221a4e9285e9c4cb54a0d4ac7a7dcda7d45e0d7c600bb0a23fda",
+      "tracked": true
+    },
+    {
+      "path": "RequiredAssetsForRun/lua/TempLogic/[Conquer][TempLogic]BasicTempNpc.lua",
+      "bytes": 9954,
+      "sha256": "adc90eb7fa35e4fd77b7f2ea51730dcb106b904b8f94380de7239c442a3995ed",
+      "tracked": true
+    },
+    {
+      "path": "RequiredAssetsForRun/lua/TempLogic/[Conquer][TempLogic]BasicTempTrap.lua",
+      "bytes": 892,
+      "sha256": "41ca0b91051aea303407cb93eac3102e8871168ac407c2522c0094da0b42e7e3",
+      "tracked": true
+    },
+    {
+      "path": "RequiredAssetsForRun/lua/lua.ini",
+      "bytes": 2245,
+      "sha256": "9aacc125aaeddd3be5e3aafb0583be3659a210e230557dd25e27e65cb3b90782",
+      "tracked": true
+    },
+    {
+      "path": "compose.debug-db-only.yml",
+      "bytes": 343,
+      "sha256": "e13a4fcbbdcfe6f22b96345a545d3af7924c7c99a37d0663c134e63bb838b75e",
+      "tracked": false,
+      "excluded_reason": "upstream-credential-examples"
+    },
+    {
+      "path": "compose.debug.yml",
+      "bytes": 3707,
+      "sha256": "49830b82d447e024c2fc95d582539bab32986de70b70b3fd6293f6c345c45209",
+      "tracked": false,
+      "excluded_reason": "upstream-credential-examples"
+    },
+    {
+      "path": "dockerfile",
+      "bytes": 1394,
+      "sha256": "45d47a5c82a9a4bd4a5b841cdc3ca9afb3436dcc0cd4f20f5cb7b03217479a73",
+      "tracked": true
+    },
+    {
+      "path": "sql - backup.rar",
+      "bytes": 8017471,
+      "sha256": "e7ffc5e85a915aa4a51e136f9ae83f60e9a4c84da73f226e886a22e23e68694c",
+      "tracked": false,
+      "excluded_reason": "upstream-account-and-player-records"
+    },
+    {
+      "path": "sql/dump-account_conquer-202402181059.sql",
+      "bytes": 6912,
+      "sha256": "d4cbf99e176d9cdc4b16ce8331243fc56a031a3396fdddd7fbee9d80af2ce43c",
+      "tracked": false,
+      "excluded_reason": "upstream-account-and-player-records"
+    },
+    {
+      "path": "sql/dump-cq-202402181058.sql",
+      "bytes": 18456332,
+      "sha256": "4434ff97e205d75ea092fe54cc48e2e5dcef5cce3fc9b41e76981f11a5e539a0",
+      "tracked": false,
+      "excluded_reason": "upstream-account-and-player-records"
+    },
+    {
+      "path": "sql/dump-local_account_conquer-202402181058.sql",
+      "bytes": 6918,
+      "sha256": "ae72e9ac594a8cfb9270b1bf1c0409f7ceac6d21478a5d0333b078ef8cc17e48",
+      "tracked": false,
+      "excluded_reason": "upstream-account-and-player-records"
+    },
+    {
+      "path": "src/Canyon.Ai/Canyon.Ai.Config.json",
+      "bytes": 358,
+      "sha256": "992de9687fea6211e407150d3f208c82d203adc21782a8bbf79f081ccf4a93e6",
+      "tracked": false,
+      "excluded_reason": "upstream-credential-examples"
+    },
+    {
+      "path": "src/Canyon.Ai/Canyon.Ai.Config.local.json",
+      "bytes": 352,
+      "sha256": "b8ec58d747e592ef96dfc808f5654a0f30053a5419fa4e24ce179064046b4e01",
+      "tracked": false,
+      "excluded_reason": "upstream-credential-examples"
+    },
+    {
+      "path": "src/Canyon.Ai/Canyon.Ai.csproj",
+      "bytes": 2130,
+      "sha256": "d7c1ddbbf0850830bcc518b057075490ae8e49684b11a2f2ee139a09ee905a4d",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Ai/Database/Repositories/GeneratorRepository.cs",
+      "bytes": 329,
+      "sha256": "1edd720f484caabff552520ddd6e090b0123cf21eb84707694f1bad58b8b099d",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Ai/Database/Repositories/MapsRepository.cs",
+      "bytes": 936,
+      "sha256": "adfe08a966e3900cc5cd130feb7624dd4da735bbc6564f33e851f2495f8de65c",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Ai/Database/Repositories/MonsterClusterRepository.cs",
+      "bytes": 355,
+      "sha256": "f9e625d5e2235b702831ca9748c57af69315ec321d9778160f4ebc515b88e23b",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Ai/Database/Repositories/MonsterTypeMagicRepository.cs",
+      "bytes": 656,
+      "sha256": "abddef2149a623ba3071c3d772673e34feec48a9ebcdce5d361acf19db4d0d4a",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Ai/Database/Repositories/MonsterypeRepository.cs",
+      "bytes": 334,
+      "sha256": "cb567e7ddecc5998771bcb7be04f0be0416262d19b469b17d1cfce36f5cc1009",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Ai/Database/Repositories/RegionRepository.cs",
+      "bytes": 406,
+      "sha256": "c5e2b27aaf414f335bbb54d91df1e9c8f2aad05241c7819b6dbd768382450b94",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Ai/Database/ServerDbContext.cs",
+      "bytes": 8634,
+      "sha256": "e8265a8770b77b55a62d8e14c23fbb0b9a422e709b8ed812b46048d0897494ac",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Ai/GlobalUsings.cs",
+      "bytes": 181,
+      "sha256": "62d50d46617664fc83bd244bb190d7445e390e4d8bbe5d0eece4a0aefc81d743",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Ai/Kernel.cs",
+      "bytes": 4781,
+      "sha256": "a02f6100f4ee3c9208c1807f2b711d47270265d1b39e2e85575e47585dbe603a",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Ai/Managers/GeneratorManager.cs",
+      "bytes": 4536,
+      "sha256": "2245633261a2bcfb1687664e59db08c9e1869cffb58227ed4a4c49651bfc8fcc",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Ai/Managers/MapManager.cs",
+      "bytes": 2787,
+      "sha256": "a3d55d0a80d7ab364174205ca8692a43ed982617cd06364c4128bbea94ff99fd",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Ai/Managers/RoleManager.cs",
+      "bytes": 4809,
+      "sha256": "cd2d6630f5b60dd07f93c483f134a919cc7a6389c93f93a88610ba0a952ed4bb",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Ai/Processors/GeneratorProcessor.cs",
+      "bytes": 3654,
+      "sha256": "312a81493f649fcdff882ee0e2812da7bc6c4962a206f4408dbe7d3fa68b4674",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Ai/Processors/ServerProcessor.cs",
+      "bytes": 4338,
+      "sha256": "c4dcbaa80a1be7fc0a2c76398085bbf4fe2cf63c0d5c503b1d4b5e04276cdfa7",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Ai/Program.cs",
+      "bytes": 8323,
+      "sha256": "0b100e6d87606181da4eaf43d7d95418ebe8df5463c6aa27adc5ed79b3a0c45a",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Ai/ServerConfiguration.cs",
+      "bytes": 1241,
+      "sha256": "77074093d74b3e386521a91eb712bc6355b3f8d481d9ea3336fd8f686bb209b3",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Ai/Sockets/GameServer.cs",
+      "bytes": 2078,
+      "sha256": "7bc1dcf791d4e8d1aa1aad7831697f38d714384e6063407f9677da5a61d7c94e",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Ai/Sockets/GameServerHandler.cs",
+      "bytes": 4788,
+      "sha256": "f9220d96767a6f5f70ea6e1605c457a4d4452c672e45bca2d500b8448633737d",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Ai/Sockets/Packets/MsgAiAction.cs",
+      "bytes": 4450,
+      "sha256": "b2eb70d0cea31c7ecb9d98ace139a3053c063ab12c83af4639b14e9326faee29",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Ai/Sockets/Packets/MsgAiDynaMap.cs",
+      "bytes": 2909,
+      "sha256": "41ba316ddbf99e52284e4ab9cd7c0968413e9aecd7174b2c1dace90783a933a1",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Ai/Sockets/Packets/MsgAiGeneratorManage.cs",
+      "bytes": 1181,
+      "sha256": "cb74f07ff4fa0c79657ea48b47478c360cf086523ed4b68e34bd45dd78b7c4ef",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Ai/Sockets/Packets/MsgAiHandshake.cs",
+      "bytes": 1285,
+      "sha256": "bd85c4236e1bf2974af957cc027947d1798263637429cbfced8f593e949586d1",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Ai/Sockets/Packets/MsgAiInteract.cs",
+      "bytes": 155,
+      "sha256": "d2b33465a310e70e4026d084ed2a01b9a17d37f2400486322059f450802c4bef",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Ai/Sockets/Packets/MsgAiLoginExchange.cs",
+      "bytes": 165,
+      "sha256": "dcb8594fd6433fb7da02ae6db8a9953338a8b843ec867b018b1c63953e2fc68d",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Ai/Sockets/Packets/MsgAiLoginExchangeEx.cs",
+      "bytes": 1771,
+      "sha256": "6ecdf32057b8dc1db6654718583ab6f6969fc00b8d548c215ec6fbb19b47481e",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Ai/Sockets/Packets/MsgAiPing.cs",
+      "bytes": 750,
+      "sha256": "04c32fd52705b7ae222a188768d805d239718b804e6e6bd703a7a22ff19da7c7",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Ai/Sockets/Packets/MsgAiPlayerLogin.cs",
+      "bytes": 982,
+      "sha256": "672e004b94ae18241eb7f1a800b6004d7c9d8d5277b5a4be76801e43d1a0cdba",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Ai/Sockets/Packets/MsgAiPlayerLogout.cs",
+      "bytes": 622,
+      "sha256": "75077cf3d4fe4bb4402d057db1ffb5f10d078e5d4a3e5808b24bbd6d81a036b0",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Ai/Sockets/Packets/MsgAiRoleLogin.cs",
+      "bytes": 1807,
+      "sha256": "0dfe9344dc478a3009b30ece9eb4123da7b323ee0456ad425b2ac11d19493bb7",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Ai/Sockets/Packets/MsgAiRoleStatusFlag.cs",
+      "bytes": 656,
+      "sha256": "383e10097e3c304fec7fc9ddbd76d0594b905981296899d001d1cde24b0196e1",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Ai/Sockets/Packets/MsgAiSpawnNpc.cs",
+      "bytes": 3674,
+      "sha256": "82f805ef003a91c21bc040f82af984e0180e5f2cd53c5e76b805988689181e0c",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Ai/States/Character.cs",
+      "bytes": 2371,
+      "sha256": "29a818dc016891f258d25c5dac17507930f8f319445e4f166de4885a15d5f868",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Ai/States/Monster.cs",
+      "bytes": 33679,
+      "sha256": "22403bb71c3ad643f703890d8e6cdc8aa2bac85d45e955a17027fb0aa39b7805",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Ai/States/MonsterMagic.cs",
+      "bytes": 1526,
+      "sha256": "336d1c2aba1dedbd3f70c09341a07ed07dd980cf9c7558fb72843895e530dd73",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Ai/States/MonsterRatio.cs",
+      "bytes": 386,
+      "sha256": "0a07602a7123cfc047a82fdb8ec0fd18dc666a7b821c3c021917fc92ef89ec51",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Ai/States/Role.cs",
+      "bytes": 24949,
+      "sha256": "22bbb58db3279e2dfd845af1660cd20a97665e35e08b77353f9411472b184792",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Ai/States/StatusSet.cs",
+      "bytes": 18690,
+      "sha256": "53663508e89d5f0c55db912e6b3fd29f97d7b71ea0f9260ef03abf5f544694bc",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Ai/States/World/GameMap.cs",
+      "bytes": 11756,
+      "sha256": "94af96b767d30a884245deb5f0345a0b2d8c6ab4825f68ebb5c538088f42f686",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Ai/States/World/Generator.cs",
+      "bytes": 15388,
+      "sha256": "c1f06a363b5697bec3ccb42c1672c21de321b33130654509394fd3eb03c84d33",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Ai/Threading/BasicThread.cs",
+      "bytes": 3155,
+      "sha256": "51f5d05ab9d7b1e5dd2bcb9deb545a713364c9d42897ddd11a057cca2af3f31a",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Database/Canyon.Database.csproj",
+      "bytes": 1017,
+      "sha256": "63845d4234bbb47eb8ee17a29be298d7c3ef9e610d3704961ca6703ea1b1bf3f",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Database/Configuration.cs",
+      "bytes": 406,
+      "sha256": "1fce71d930714ad64a1b08e2d0d65e04a2aa145aa710ec951eea96d7812bfbb1",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Database/Entities/DbAccount.cs",
+      "bytes": 1084,
+      "sha256": "fca28c211bb4d3b411dee2442b40a0a0e92342412595a67d7e5c1b4648432bd0",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Database/Entities/DbAchievement.cs",
+      "bytes": 1347,
+      "sha256": "cf1789d22bb1f751cb81e0b2c79c858c73bc1584c58cd4fffb21dd8a97ed3ff6",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Database/Entities/DbAchievementType.cs",
+      "bytes": 449,
+      "sha256": "5e00aa8d6cb80f2a52b83760566583d5dde92bfcb969fd2056b4e858a22bbc18",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Database/Entities/DbAction.cs",
+      "bytes": 511,
+      "sha256": "7bf42cbc3488690167e342b7f577f0b950cd3da2eb1f568735538d73e71cfe9c",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Database/Entities/DbActivityRewardType.cs",
+      "bytes": 1127,
+      "sha256": "23171947bf45fa8d74510e530a8deeccb04e3467346c8be38630736327d58cbb",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Database/Entities/DbActivityTaskType.cs",
+      "bytes": 550,
+      "sha256": "0efc61e5b0038a57293022052d90de058fd3df19e6af57e61a2120ab4d0f173a",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Database/Entities/DbActivityUserTask.cs",
+      "bytes": 500,
+      "sha256": "d35a7debef42d67d23880f6318e3c5fe7aeb88c3d5fe3394838c9a602167ef3e",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Database/Entities/DbArenic.cs",
+      "bytes": 741,
+      "sha256": "ee0115bc988067a1779b51b2a6930f7640849b52fd2aecdb3070711ddbf230ce",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Database/Entities/DbArenicHonor.cs",
+      "bytes": 397,
+      "sha256": "161b49b076d810912f9acceab74c19754e755aa7fb72feaa991d77919f78b984",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Database/Entities/DbAstProfInaugurationCondition.cs",
+      "bytes": 851,
+      "sha256": "56900e518c2e16dcf4215fb0c2f4ed6bc2ea72afe4b7c0bfc7acb72d2acbdd05",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Database/Entities/DbAstProfLevel.cs",
+      "bytes": 443,
+      "sha256": "bff6ea93948e68e2b479fef8da24bf03a297ac88b1ee2e8c8993bd5113fa4e0a",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Database/Entities/DbAstProfPromoteCondition.cs",
+      "bytes": 671,
+      "sha256": "d14c23f38385ecab6325990b52c7b69956a7130e431d50bb14ba3841eb4e3e37",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Database/Entities/DbAuction.cs",
+      "bytes": 749,
+      "sha256": "a84bee10bacf1625e4daceca3e5e090992fa1bd18a12e770c2c725cab19afc44",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Database/Entities/DbAuctionAskBuy.cs",
+      "bytes": 538,
+      "sha256": "31e39d17538a3c17d202edc143945b1b8e59cebf694d5301a05ae72232f9c716",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Database/Entities/DbAwardConfig.cs",
+      "bytes": 713,
+      "sha256": "a187158e0b4e440c4686e387871e527385cb3f0467f00e1d3e519960e6a70b2e",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Database/Entities/DbBonus.cs",
+      "bytes": 532,
+      "sha256": "bd5e1652eba9ce4bc4292234d476fe499621fb3d9813bac52b5bf54cf4cfdc5e",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Database/Entities/DbBusiness.cs",
+      "bytes": 498,
+      "sha256": "318af643782ec0ef2f2860b13ce6bb7d4e27cc91a94d2745ea727ccca1ccebcc",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Database/Entities/DbCard.cs",
+      "bytes": 759,
+      "sha256": "0c35768edfb195d284a8ab75279d7729cf3bb3d13c7d9422adcc328012591f0e",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Database/Entities/DbChangeNameBackup.cs",
+      "bytes": 528,
+      "sha256": "f25d35c6eb096874f0c48102d5a7c8f0e5c8e0a15368f274b1e71e35ec1a1b5e",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Database/Entities/DbCharacter.cs",
+      "bytes": 7826,
+      "sha256": "a2443b8d2df0d65578cc8cf13d418430c03db19d62d78df6523bbecabe3ec723",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Database/Entities/DbConfig.cs",
+      "bytes": 634,
+      "sha256": "09a94ebd5c838a4106543e07f4edf42793916032587cc6150816bce9f567ccaf",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Database/Entities/DbDailyReset.cs",
+      "bytes": 327,
+      "sha256": "1090fababb30880ea7bcab0db48cc40ad070f29b66638eef6b9c8b83091d2804",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Database/Entities/DbDetainedItem.cs",
+      "bytes": 720,
+      "sha256": "be4876ecb78fc7f45c293c2e03a0f61abdf4e98bef8b500664151485ba84c523",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Database/Entities/DbDisdain.cs",
+      "bytes": 1621,
+      "sha256": "6c00a46748204dc6903dd28317efbe9e12f65f07fe6ca7ab2831bda0a1e50120",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Database/Entities/DbDynaGlobalData.cs",
+      "bytes": 1585,
+      "sha256": "9a64fc5f8b4dd8ff3289ae622b504c3aae8519e712ce6c90e9dfe3a42243a055",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Database/Entities/DbDynaMap.cs",
+      "bytes": 1750,
+      "sha256": "88eb45a75d4555b15c5ddefd56057bfeb216a2afadf84f863e68521987e11269",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Database/Entities/DbDynaNpc.cs",
+      "bytes": 2449,
+      "sha256": "c9f8e77daefc52c4389395083e55df6699a6971323c6cc94dbc9290e9398d58c",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Database/Entities/DbDynaRankRec.cs",
+      "bytes": 431,
+      "sha256": "4f3ff730315f25dd58c7c333a2ccda592520c683c479489663fb5ebabeafdebc",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Database/Entities/DbEnemy.cs",
+      "bytes": 389,
+      "sha256": "6975e5b80af4c47f08ecd64958ea08d5d1de37ea047ed2b1708a86d4c2127374",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Database/Entities/DbFamily.cs",
+      "bytes": 1904,
+      "sha256": "b1aa516bdb6ac661c3675e34ec1da25be1118b98c4e6e9664efd7192a70e675f",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Database/Entities/DbFamilyAttr.cs",
+      "bytes": 567,
+      "sha256": "de0c777be2baccc4fa338545bf543e6c538103fe875ede962c4e3d2230b145c4",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Database/Entities/DbFamilyBattleEffectShareLimit.cs",
+      "bytes": 283,
+      "sha256": "38a9ee9882e28e3787fb4ef60aa1f647e18d13800cee6665ebfba41acd463f20",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Database/Entities/DbFatePlayer.cs",
+      "bytes": 1778,
+      "sha256": "a98fd0302384687722b4c0ab7581905aef0ac5931ece43e5f52f4027106fb978",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Database/Entities/DbFateProtect.cs",
+      "bytes": 687,
+      "sha256": "2faa5fd16e27440660747f14fbd45874cefc370897e3a03621f868eca9268242",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Database/Entities/DbFateRand.cs",
+      "bytes": 325,
+      "sha256": "be3d1c6d0237ffea2b25a6464d49f9a1b3e1ebf77d9b88bf02772c9583e7ecb2",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Database/Entities/DbFateRank.cs",
+      "bytes": 593,
+      "sha256": "e58a5db9297ae385e8a57bf2eef2be05e25b742a8072de6c219c7c78c7f2f0cd",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Database/Entities/DbFateRule.cs",
+      "bytes": 569,
+      "sha256": "d26b0a6e1b0179050a811f5828a2cdcde239944f73f388a987cb16a01150a67b",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Database/Entities/DbFlower.cs",
+      "bytes": 505,
+      "sha256": "5c2d0ab99614f38378e97970404c0a2cddd519c86fc2069219e9a4169a799c54",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Database/Entities/DbFriend.cs",
+      "bytes": 327,
+      "sha256": "4ad1d1cd18044b47e192d6e3579fb2d501384920027a23e05e0048c4875ff663",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Database/Entities/DbGameLoginRecord.cs",
+      "bytes": 826,
+      "sha256": "148e84b8ac628bd62976050c32f100fe274af13a62d70299786a83bc638ce846",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Database/Entities/DbGenerator.cs",
+      "bytes": 1237,
+      "sha256": "2e865a3dca705776b4130116f80736a325b1110adf1285253e9f8558b8031a8c",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Database/Entities/DbGoldenLeagueData.cs",
+      "bytes": 428,
+      "sha256": "e4afed013a57741cc8f4580fcdfd55162a4153b597127303cc6dba3fee52f943",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Database/Entities/DbGoods.cs",
+      "bytes": 725,
+      "sha256": "2a3dd93fad92c3050ce5e6606acfe0b941e949d808c7f0d94c421b15162441b2",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Database/Entities/DbInitFateAttrib.cs",
+      "bytes": 1701,
+      "sha256": "10a9e2f232acf8abb6ddf8d5200061095dc80082a518c1175a2667bd11a42d97",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Database/Entities/DbInnerStrenghtPlayer.cs",
+      "bytes": 2105,
+      "sha256": "188676584df9982518a47091782e9fead5673ed4b01a23d60de1385fba825db8",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Database/Entities/DbInnerStrenghtSecret.cs",
+      "bytes": 369,
+      "sha256": "d62805678dc363bf44c6591871122b7ff79251a64a8f03acf4cff47dadae64eb",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Database/Entities/DbInnerStrenghtSecretType.cs",
+      "bytes": 1515,
+      "sha256": "eae4892e42277ec371620a8195de82cd615712dd9baaa84cf585ae5409157ec3",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Database/Entities/DbInnerStrenghtTypeInfo.cs",
+      "bytes": 2014,
+      "sha256": "e0243c0b736a0bac4e31099f5edbc8ee02ebc0c5c2fd5bf99ae6bf08b2a5051e",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Database/Entities/DbInnerStrenghtTypeLevInfo.cs",
+      "bytes": 1573,
+      "sha256": "d6168cd970f0bd1d8e660a00da9522daf52a7e3bbd019904d34feb0f8e4ef397",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Database/Entities/DbInnerStrengthRand.cs",
+      "bytes": 358,
+      "sha256": "54ea8d782fb6bc1ed710bf7903eceb2a82af408f85890a2f86df47e3e82f8e83",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Database/Entities/DbInstanceEnterCondition.cs",
+      "bytes": 1429,
+      "sha256": "c7047f5ec079e6ce6a5a6661c08fab9540a9d16488225bc4e197ef592f9f8f19",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Database/Entities/DbInstanceType.cs",
+      "bytes": 2501,
+      "sha256": "60fd412db1e853cf84d7cfddced0ace3f6f89fc1424318d34974b4d6b8e5f967",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Database/Entities/DbItem.cs",
+      "bytes": 4446,
+      "sha256": "a9a5e5a74a593cc61ec4cf00a50e608285e488f507333981dde7b4538ac9de31",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Database/Entities/DbItemAddition.cs",
+      "bytes": 917,
+      "sha256": "b1ddb5feecabca0de5105bd3101f2dcbf0763b1e407596ce260b30fae193cca2",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Database/Entities/DbItemDrop.cs",
+      "bytes": 1069,
+      "sha256": "c11777a78f3b31e8754dc334cc21e9cf361a35877f42e6936a6f4a976d11e754",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Database/Entities/DbItemOwnerHistory.cs",
+      "bytes": 589,
+      "sha256": "3edc36e8a713305b2cb294bc0d7fea3374df4a438474d08ac974e1e8319f254e",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Database/Entities/DbItemPickUp.cs",
+      "bytes": 545,
+      "sha256": "de127d9e28df9a9000c5b4343f3db6577a583f52e75c673d0f4c9439cee16df3",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Database/Entities/DbItemStatus.cs",
+      "bytes": 881,
+      "sha256": "8039248b4ade088a3a8b9e9bd199a43ca07bc60809f866152983dacddb052a37",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Database/Entities/DbItemType.cs",
+      "bytes": 4525,
+      "sha256": "14491688460040df689a1134321779b0e36a765a8bfbb6fde1386fee41122403",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Database/Entities/DbJiangHuAttribRand.cs",
+      "bytes": 460,
+      "sha256": "2b3f68496f1f4ce33fb37135c70a9b08e4559bc8ed712250f7786815c83ab017",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Database/Entities/DbJiangHuCaltivateCondition.cs",
+      "bytes": 733,
+      "sha256": "9a36a56204a97d90a280219471f3b73fd0bb8bf01eb625bdb3b8d576dfde3638",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Database/Entities/DbJiangHuCaltivateTimes.cs",
+      "bytes": 442,
+      "sha256": "202b8591ce183716d13f00d0b500e64290040c19e9561f7facc97d31f7d5dd2a",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Database/Entities/DbJiangHuPlayer.cs",
+      "bytes": 855,
+      "sha256": "d97ea9cb21624dc7a587e91cf07d2a0a5f96c31ba24ed0f7853a9650c5805a77",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Database/Entities/DbJiangHuPlayerPower.cs",
+      "bytes": 1586,
+      "sha256": "4452ca0782f5f8c1162f790f7fca248972c532e219808fa57c5e279fb3c941c9",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Database/Entities/DbJiangHuPowerEffect.cs",
+      "bytes": 428,
+      "sha256": "2cf7f32319e6feeeb13c00bc666178ce7a8c750445882f04f153d432e561b25e",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Database/Entities/DbJiangHuQualityRand.cs",
+      "bytes": 601,
+      "sha256": "17956c422cb4692d5546e4b2cafedd31305651737475cd5a700689c3f27a447a",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Database/Entities/DbLevelExperience.cs",
+      "bytes": 541,
+      "sha256": "3a2485ae47762b0ffa733e545e00bdf58929542a8ef916f16a26fdb8ec95db32",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Database/Entities/DbLottery.cs",
+      "bytes": 739,
+      "sha256": "d2ed3162209f93fc3a573320ed1936b8d48650d3f5ca6217368983b72ff9c0d4",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Database/Entities/DbMagic.cs",
+      "bytes": 966,
+      "sha256": "eb595ca0151ba2afd3e08e0702b3b0716a584739a31465b0e0c2d266f84bc631",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Database/Entities/DbMagictype.cs",
+      "bytes": 3426,
+      "sha256": "1b36effb784b2856b8b0fac4496a00db1d23aecf47b72d3433d22056083933b1",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Database/Entities/DbMagictypeOp.cs",
+      "bytes": 4869,
+      "sha256": "f45d3b32a32e62befe387eb0b8c0a7220105cb0345e1a65114e8275f44f8c683",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Database/Entities/DbMail.cs",
+      "bytes": 1066,
+      "sha256": "0a55f4004bc1832496d0975c09dcee5b243bd305d7497d56215f64b6a8b4f6c0",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Database/Entities/DbMap.cs",
+      "bytes": 1741,
+      "sha256": "ef773d5533a00a7dab968571153bbdb70b62d7f1cdcb2f0283070d3d5e6e46a7",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Database/Entities/DbMeedRecord.cs",
+      "bytes": 588,
+      "sha256": "95ca6c13e7552d94bfe7478cba692d883d4cbd5fd14f61b8507314285f1c34fe",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Database/Entities/DbMessageLog.cs",
+      "bytes": 712,
+      "sha256": "7e3919917a54e8c4021810e96a133b342d521b6447a6e315a38bb00c647c0dea",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Database/Entities/DbMineCtrl.cs",
+      "bytes": 535,
+      "sha256": "0b35546c5f772fdd35e4cc04989a58b4c76df1982d5551a262aa208ff6a96541",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Database/Entities/DbMonsterCluster.cs",
+      "bytes": 1596,
+      "sha256": "e573b3cf0ec328dea38edd53445354d3505ad84561d3e27cc9494b663407ff52",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Database/Entities/DbMonsterKill.cs",
+      "bytes": 516,
+      "sha256": "294fea49ee914a01fdf642c8ccef7686b69849da6c6e9134611e26bf1f522fd9",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Database/Entities/DbMonsterTypeMagic.cs",
+      "bytes": 4787,
+      "sha256": "274abf44b9df75523c49c55906bc198aaf3bb172590813b685b65fa6e9365a38",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Database/Entities/DbMonstertype.cs",
+      "bytes": 4292,
+      "sha256": "1e257e29f6c92faadb03c85b6e9b79b7ca0fcd156ffec394f3f13031ed133705",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Database/Entities/DbNewbieInfo.cs",
+      "bytes": 2102,
+      "sha256": "9b559456029a7ce10ac31d3b73ec234b131f01a991a838b1490e3cc649c9448e",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Database/Entities/DbNpc.cs",
+      "bytes": 2049,
+      "sha256": "f1f467c7a85df63c7828abfbd7246879d75427acdbcec6849179180cb27bf1a9",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Database/Entities/DbPassway.cs",
+      "bytes": 487,
+      "sha256": "81aaf2a78df9fe7b6ec901a4f0b27e2e8b188797e51c3a6ff8d2abdfe06d441d",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Database/Entities/DbPeerage.cs",
+      "bytes": 487,
+      "sha256": "bf5def74b067616ed3535ae5da6531d937920f5d5be6e034ef34762edf8a80c3",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Database/Entities/DbPetPoint.cs",
+      "bytes": 392,
+      "sha256": "1627bea454e1c2195c9e8153ef6d49eb44daa94cb27c3f84733668b920d06675",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Database/Entities/DbPigeon.cs",
+      "bytes": 534,
+      "sha256": "e5c5a64dd49b7c8109bdc5a78e66593ae42a9dcd325b40bb87dd57745b33f7ac",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Database/Entities/DbPigeonQueue.cs",
+      "bytes": 547,
+      "sha256": "85657c5b53e91cd18b579160b98ff5e60e99c1f0c9c0a76e1063e0d75206cb8c",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Database/Entities/DbPkInfo.cs",
+      "bytes": 1622,
+      "sha256": "26adb35a7ca48527371cd03a7e8e63a5fd290595424665ebb53e303768aa27db",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Database/Entities/DbPkStatistic.cs",
+      "bytes": 643,
+      "sha256": "751f5d53ce160c237e323377334bce62b9cfdc2e9f711cf6dd13fcfd2853b052",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Database/Entities/DbPointAllot.cs",
+      "bytes": 607,
+      "sha256": "701b0dd8e419926c2f047709e3edd31074ed1ab34bfe7b1f24f6253f28f95e75",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Database/Entities/DbPortal.cs",
+      "bytes": 464,
+      "sha256": "95e79e449a650f25ed6cee4c95e77ac5f1e5476bf4256b063ae7ffd6d23abad5",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Database/Entities/DbProcessGoal.cs",
+      "bytes": 1225,
+      "sha256": "b78f93c1137cd66dda9bd9fc6afc132bad49a2091d14f19bd9be349f161b4ca7",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Database/Entities/DbProcessTask.cs",
+      "bytes": 1356,
+      "sha256": "fb13168342d9f3ccba37896638b9aa6646ae63f2051a72cb1f20b4acc34830d1",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Database/Entities/DbQuiz.cs",
+      "bytes": 716,
+      "sha256": "59a64cbf5e7353da0bb89dbe5692eab82c89221faec6621b37f6d1ec0cc6f0c3",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Database/Entities/DbRealm.cs",
+      "bytes": 1595,
+      "sha256": "0477ca95ac92e576c5ae2f2cf79d94248634410911cfad922c94bb018a5dd4d3",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Database/Entities/DbRealmStatus.cs",
+      "bytes": 836,
+      "sha256": "c881bedbb63f10ec24cf25325c9085713fea455f26316bd5e1ffadca4a4af3ea",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Database/Entities/DbRebirth.cs",
+      "bytes": 568,
+      "sha256": "b94cf9ec8949f496522acdf5d235c017aa4b80ec376c84fd17afa1345efe3eff",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Database/Entities/DbRecordUser.cs",
+      "bytes": 1424,
+      "sha256": "ed5fe3549ee40ac76a614e3a687fe5c2f256f701d506be63ae8dacc0e69a4169",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Database/Entities/DbRegion.cs",
+      "bytes": 931,
+      "sha256": "e92da6958dbdc61e0138fea4fabffc2280fb2df84121bd12cf854796ab62e01c",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Database/Entities/DbSetMeed.cs",
+      "bytes": 446,
+      "sha256": "d2c639a87b7f44c4c415e0291a91d3dace73b567205d22db6535d2cf28353cdf",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Database/Entities/DbStatistic.cs",
+      "bytes": 546,
+      "sha256": "3936163e206c91131699868304ddfdc94cb3c0de8cf6ebf22045bf713ff74064",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Database/Entities/DbStatisticDaily.cs",
+      "bytes": 477,
+      "sha256": "9843a41a769a1ecdb8914f1a63e2fceb53775e2f96a397f236300362b5f94eaa",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Database/Entities/DbStatus.cs",
+      "bytes": 817,
+      "sha256": "c4a8586d69b63cd79bd64532151e1c8e20518dc0f94f128a95779d953e249d16",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Database/Entities/DbSuperFlag.cs",
+      "bytes": 590,
+      "sha256": "c35a3842aa01045452f6708a0030458331bc035d397f820cce36de09c2393998",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Database/Entities/DbSuperman.cs",
+      "bytes": 244,
+      "sha256": "130caf89f26030b4f7a2c94066b25dbff25fec0d4bfd80a1199e453992cf908c",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Database/Entities/DbSynAdvertisingInfo.cs",
+      "bytes": 1076,
+      "sha256": "8a5c8a8bf220455b816d56ff1a75ddb61ac634cf23594133e5d9950a57def958",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Database/Entities/DbSynCompeteRank.cs",
+      "bytes": 465,
+      "sha256": "9c9da1d3baf97d448ef52e7e1e4c08d7fe7d34742f95a118a89ce964770cf184",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Database/Entities/DbSyndicate.cs",
+      "bytes": 4345,
+      "sha256": "2c357d925dc68fa9474f3c5425a626553c9ac1c8e7b10bd3335a9d37e557c523",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Database/Entities/DbSyndicateAttr.cs",
+      "bytes": 1759,
+      "sha256": "db1e8e5fd788a2d87bfe73934b7ddadac146a172f6a8b004195738ffab7fdb8e",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Database/Entities/DbSyndicateMemberHistory.cs",
+      "bytes": 847,
+      "sha256": "4722b004ead9f1f7cbfb01df0f12ff2091ee5e43c033df69a9a599441c846816",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Database/Entities/DbTask.cs",
+      "bytes": 1171,
+      "sha256": "9330a25546dfdbd89dfc6275104679bc9f3b5eba602afb2a4a417995633b1a50",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Database/Entities/DbTaskDetail.cs",
+      "bytes": 1185,
+      "sha256": "809477dc77e785771c4193c18380e44fc288054b69f7cb925fbcf38cc25cf138",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Database/Entities/DbTotemAdd.cs",
+      "bytes": 448,
+      "sha256": "9da8837c956a442d9fe3ecca105b3af62c0ca31bb1ce1c2ff20588b1f197b148",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Database/Entities/DbTrade.cs",
+      "bytes": 1575,
+      "sha256": "91669f998cc42a7b989ff6fb00b37035888698ba6249f386b26d4a0b002e8f49",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Database/Entities/DbTradeItem.cs",
+      "bytes": 626,
+      "sha256": "64c52bfc6dbf31238598799e66c8c87b7c4f4e9a18a60a6a89f7a83607f3b086",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Database/Entities/DbTrap.cs",
+      "bytes": 685,
+      "sha256": "de6b3b15d0614669e01af9f09ca6cc3ab90fcd4404ff94e652ab060e30ee442c",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Database/Entities/DbTrapType.cs",
+      "bytes": 1108,
+      "sha256": "d8362478d80b160f07a15edcadf507ce7aff06fc307f0960ecd97ada2fe5ac49",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Database/Entities/DbTutor.cs",
+      "bytes": 464,
+      "sha256": "03519c14d919cc894dde64d9ada1e38af03281243ad93c755febc49730187210",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Database/Entities/DbTutorAccess.cs",
+      "bytes": 485,
+      "sha256": "2d5ef5ecb03f226634cf66aa0b94ad124a9d18e7be7cb4a36cbe7e789581e7ce",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Database/Entities/DbTutorBattleLimitType.cs",
+      "bytes": 518,
+      "sha256": "2ee6f9b25a4a33eaa87dbf1b1e208f9c7a9de1638bbf4fb381e2b37c1cc7733d",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Database/Entities/DbTutorContribution.cs",
+      "bytes": 573,
+      "sha256": "c2e2a45551473a344bdf7eca49ad5a3545e035f00e39bf5a321ff5e3a1a8b895",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Database/Entities/DbTutorType.cs",
+      "bytes": 1009,
+      "sha256": "5321aba5582e2a9057787c55aa54e99d5069ba6ae791f71e7c3f677571b3ebb2",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Database/Entities/DbUserTitle.cs",
+      "bytes": 486,
+      "sha256": "91c1de72385575286b274fccf00e09dc08d35ed3bd224316c7f91d921b7a602c",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Database/Entities/DbVipMineTime.cs",
+      "bytes": 279,
+      "sha256": "d666ee81be91596a5261ddfc8c16a3d308b93e744e9e91413325663efd04621b",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Database/Entities/DbVipTransPoint.cs",
+      "bytes": 530,
+      "sha256": "c2b0277486aeaaa309b5a10d91cf1b1f42e89b587ae968b7badfdc5f738530ba",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Database/Entities/DbWeaponSkill.cs",
+      "bytes": 1513,
+      "sha256": "da744a2f0d13c6bcbebb0f1d1f91df1d26ad19d24274b5c80dfa55489592d2ed",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Database/GlobalUsing.cs",
+      "bytes": 113,
+      "sha256": "f6636e871824408b89e0cfd3611e075386c7b44ee0f58ef120f521a2df97fdf9",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Database/ServerDbContext.cs",
+      "bytes": 1376,
+      "sha256": "7f0fec95548751f55ac40c0233fe74eb053f614926beda616c1b7eefe4449c87",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.GM.Server/Canyon.GM.Config.json",
+      "bytes": 779,
+      "sha256": "c5f6b6c2769c72435131de4ed28dabe30f3803f9e79108d98190cc77583f1e6c",
+      "tracked": false,
+      "excluded_reason": "upstream-credential-examples"
+    },
+    {
+      "path": "src/Canyon.GM.Server/Canyon.GM.Config.local.json",
+      "bytes": 788,
+      "sha256": "48eea251b56edd0a5e205a708ebf2bb3dcc76bed7d8a9527a21b3c2c5e60256f",
+      "tracked": false,
+      "excluded_reason": "upstream-credential-examples"
+    },
+    {
+      "path": "src/Canyon.GM.Server/Canyon.GM.Server.csproj",
+      "bytes": 1969,
+      "sha256": "e5427b5d94071b3ee46ba8fbc78a9d79672e1123d9f730d7ddc90aca3b84d20a",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.GM.Server/Managers/UserManager.cs",
+      "bytes": 1146,
+      "sha256": "d825f1f3a176c655d4cb5c3f9181040d95311754667dc8cb19c8f3395c199456",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.GM.Server/Program.cs",
+      "bytes": 3278,
+      "sha256": "13db3c0ec7edf6130f00395c5d082002c98ee6a22e9d5650371e02e001e3c619",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.GM.Server/Properties/launchSettings.json",
+      "bytes": 272,
+      "sha256": "57757fe48ac2e802357716e779e15906e19d1ceb03f7512d802ebaf23f38c39c",
+      "tracked": false,
+      "excluded_reason": "upstream-credential-examples"
+    },
+    {
+      "path": "src/Canyon.GM.Server/ServerConfiguration.cs",
+      "bytes": 2484,
+      "sha256": "cd92162791cb5f4d4030512fbf55804e7583c6690601918ab790c61dad69c038",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.GM.Server/Services/BackupService.cs",
+      "bytes": 5759,
+      "sha256": "39f0c4a5de79c674354f03b94ab1e9e110d39615afa3ccbb5e539ffe64a0583e",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.GM.Server/Services/RealmService.cs",
+      "bytes": 4896,
+      "sha256": "e7d6f7eb814de9ba34e401af8cfdd46d3f98fc9108edc820dd61927ca7a08e28",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.GM.Server/Services/ServiceProviderHelper.cs",
+      "bytes": 163,
+      "sha256": "8c8b260cca41cf1f5cda69b26b1cccf2fa6e1bb517d864c177ebd43ec7fd754e",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.GM.Server/Sockets/Game/GameActor.cs",
+      "bytes": 1115,
+      "sha256": "7730c75ea06aa0ecb840474029b54892bd7e617e60c3a84c2e47bd3d6584c538",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.GM.Server/Sockets/Game/GameServer.cs",
+      "bytes": 5909,
+      "sha256": "71095967422b943710038648e4c7befd92e3c480958702d9436fefca4d43b917",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.GM.Server/Sockets/Game/Packets/MsgPigletHandshake.cs",
+      "bytes": 480,
+      "sha256": "3a1d57bf8648e80682932b0bf47d334550ed235dfce92067f55340bedf909982",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.GM.Server/Sockets/Game/Packets/MsgPigletLogin.cs",
+      "bytes": 1281,
+      "sha256": "3080149421664f0bf8999eb298cf155ddb2332abc8dac81038d0f63d653d4fee",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.GM.Server/Sockets/Game/Packets/MsgPigletLoginEx.cs",
+      "bytes": 177,
+      "sha256": "7fd1f494dddb1bc6d4f77560b1e26b1222f0112c024d0c7a23b739e6ef09acf4",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.GM.Server/Sockets/Game/Packets/MsgPigletPing.cs",
+      "bytes": 462,
+      "sha256": "2ed28c2fece645f0f21a53cdd83562d2266f0ca3187e75145094ad3767b0ff21",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.GM.Server/Sockets/Game/Packets/MsgPigletRealmStatus.cs",
+      "bytes": 519,
+      "sha256": "b948c29c1df93bfc133d732bc9c84093ecbffb550958c349f36126e1f3318c16",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.GM.Server/Sockets/Game/Packets/MsgPigletUserCreditInfo.cs",
+      "bytes": 190,
+      "sha256": "1a5a291a5f31bbff377bb954cdf5044793adc94892aa0ee37a99c4bc9a7ebeff",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.GM.Server/Sockets/Game/Packets/MsgPigletUserLogin.cs",
+      "bytes": 1220,
+      "sha256": "252e8416c2dff5e3d4d9ed59e8db0b0eae32946ef0d31fe4f2de4169ebe8590b",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.GM.Server/Sockets/Panel/Packets/MsgPigletHandshake.cs",
+      "bytes": 2049,
+      "sha256": "e52025e07918f3a1576f3b2f2b9006ae68ed26e75f9c68e3dbec9f3823c02f1e",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.GM.Server/Sockets/Panel/Packets/MsgPigletLogOutputRedirect.cs",
+      "bytes": 199,
+      "sha256": "1111076884bb56ecda72e07764e578bd1870ec9ed07f9de090d57cdfd795e595",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.GM.Server/Sockets/Panel/Packets/MsgPigletLogin.cs",
+      "bytes": 327,
+      "sha256": "c41859e949d7ec0092db6ab2e7e583f92ddfaf329b750c22c445ec8caed37417",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.GM.Server/Sockets/Panel/Packets/MsgPigletLoginEx.cs",
+      "bytes": 816,
+      "sha256": "afae5bb5f452ee3adb169aa0043b7bc294fd9842179ba79dde8800930ae4acd5",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.GM.Server/Sockets/Panel/Packets/MsgPigletPing.cs",
+      "bytes": 476,
+      "sha256": "4a51c0fe9f1f172fc5ae9957671fa241ffa38e8ac1f3dd394057149c63bf16a1",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.GM.Server/Sockets/Panel/Packets/MsgPigletRealmAction.cs",
+      "bytes": 978,
+      "sha256": "931ec4839bf6cb217a43b1c7c27ed28f19b262119a5f62d8c3c72b08799d598e",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.GM.Server/Sockets/Panel/Packets/MsgPigletRealmAnnounceMaintenance.cs",
+      "bytes": 786,
+      "sha256": "d094d8bb4d7f3d1cfe6bdab590ef0544c71a1b5ee2a0a863e73844634aa0ac95",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.GM.Server/Sockets/Panel/Packets/MsgPigletRealmStatus.cs",
+      "bytes": 195,
+      "sha256": "2fdc59daeb3c1a57f5f8ff4947c78ee0393faf14dc01e8dc95116db9ba941f82",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.GM.Server/Sockets/Panel/Packets/MsgPigletShutdown.cs",
+      "bytes": 713,
+      "sha256": "18e3cbff9766d0864c2d950b4e4d4edb76d33b606696f1218a470a578eb81bbe",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.GM.Server/Sockets/Panel/Packets/MsgPigletUserCount.cs",
+      "bytes": 182,
+      "sha256": "c3432a0a5d4e360cbd1056e97624ba571e26b782937a2a4ed44206607bb18912",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.GM.Server/Sockets/Panel/Packets/MsgPigletUserCreditInfoEx.cs",
+      "bytes": 196,
+      "sha256": "5cd74145a34adc9956eec6700657f03918bfc4a70034139c18124a47e527bbc1",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.GM.Server/Sockets/Panel/PanelActor.cs",
+      "bytes": 1238,
+      "sha256": "f56d1b892d0e23cb33dab8b6197e9bfe56fa3acb8e08c1aed174451ccf8e82ff",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.GM.Server/Sockets/Panel/PanelClient.cs",
+      "bytes": 5819,
+      "sha256": "29feb6a0729daa15c4d2a18f3bd7c251d38f8393397054a17e16c889c3daf16e",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.GM.Server/Threads/BasicThread.cs",
+      "bytes": 2058,
+      "sha256": "4b89e62524e35782f8b44a8b19086e844f19732849984757e1ce7ff47d87e96c",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.GM.Server/Threads/MySQLDumpThread.cs",
+      "bytes": 796,
+      "sha256": "26127ff482582f6d4fbde9433f18fd3da6590defd94c146dcea2aa6c631f1e1d",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Game/Canyon.Game.Config.json",
+      "bytes": 1086,
+      "sha256": "033792167a5489f7be8144ddce9b9007390551e192b9d8df658dbf4799d45c6b",
+      "tracked": false,
+      "excluded_reason": "upstream-credential-examples"
+    },
+    {
+      "path": "src/Canyon.Game/Canyon.Game.Config.local.json",
+      "bytes": 1077,
+      "sha256": "c80665499b20d51daf9f6e4f644cc63881104af1873137ac99fe0318dbf6c737",
+      "tracked": false,
+      "excluded_reason": "upstream-credential-examples"
+    },
+    {
+      "path": "src/Canyon.Game/Canyon.Game.csproj",
+      "bytes": 2851,
+      "sha256": "ea2c2da7dfee178eaf04293d19ff6bd659eecbb7d5a3bd5edb5bacc34a123758",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Game/Database/Repositories/AchievementRepository.cs",
+      "bytes": 598,
+      "sha256": "89a9cb861303c7aa04e0cad5b703112c0371ce0257b9508bf741e2bf6eb0fd4a",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Game/Database/Repositories/ActionRepository.cs",
+      "bytes": 441,
+      "sha256": "0e07f97c4ec68297acbb10ee7c28023b2afa9957d81517c836de5567a1614e13",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Game/Database/Repositories/ActivityRepository.cs",
+      "bytes": 922,
+      "sha256": "53d4d3dba5eeeaa6f8ea22ffd73858f4dcb005a02cf07feb384156ab8544abf7",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Game/Database/Repositories/ArenicHonorRepository.cs",
+      "bytes": 414,
+      "sha256": "66f63f03532243e0b4b45973a693fbc4afb927e166c1c52fec26adba1724de83",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Game/Database/Repositories/ArenicRepository.cs",
+      "bytes": 527,
+      "sha256": "bb3643fc69e1f535df0f50924114534c09455e7f59d877a4984203e81db050b6",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Game/Database/Repositories/AstProfInaugurationConditionRepository.cs",
+      "bytes": 429,
+      "sha256": "c43ac70c6b90b720c497bf07f54c6429d0d11be9b6ceff9b214bd8d04509ace0",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Game/Database/Repositories/AstProfLevelRepository.cs",
+      "bytes": 429,
+      "sha256": "e44f6c3dcc655412e73bc0e9ee690980c43ecf362994863b9e1f0bd2a70f024b",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Game/Database/Repositories/AstProfPromoteConditionRepository.cs",
+      "bytes": 414,
+      "sha256": "22ca49c9c188dcefa5cbe67f593583b91c73c171f5bd932fc32d5a8019d841b3",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Game/Database/Repositories/AuctionRepository.cs",
+      "bytes": 635,
+      "sha256": "fae4a980e63c9d1a0853355e5ae441c1728742dc55afe00e45343df721dd3e7b",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Game/Database/Repositories/AwardConfigRepository.cs",
+      "bytes": 452,
+      "sha256": "1bc002790bbe8ab377176a2ba12be43c5083f96aa77e37dc6173bde453d3cab6",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Game/Database/Repositories/BusinessRepository.cs",
+      "bytes": 569,
+      "sha256": "c736cd758115461882b1aae9d500473ec334bbb06c139318046c3cc1d4c6e873",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Game/Database/Repositories/CharacterRepository.cs",
+      "bytes": 3916,
+      "sha256": "f32eab0e0bce8804e8b51f4015a615380fb7a5fe00281bdd72bca7d473392fb1",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Game/Database/Repositories/CompeteRankRepository.cs",
+      "bytes": 439,
+      "sha256": "fd935ce874ee7d572b8257ead7ce4d4bc3c141305000c869235af8e511038587",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Game/Database/Repositories/ConfigRepository.cs",
+      "bytes": 625,
+      "sha256": "34416edd5811c222c8823aa9aedc8922728402ad1541f8ef1adae49537e562d7",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Game/Database/Repositories/DailyResetRepository.cs",
+      "bytes": 412,
+      "sha256": "005fbcd3608fb8effb2b3bf66dd11202565123bb186958838d444f9c4e21d5af",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Game/Database/Repositories/DetainedItemRepository.cs",
+      "bytes": 1199,
+      "sha256": "ab249af9a11a0bae7f60767eb940c79e97f432deedfc635eea76a925b23b018e",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Game/Database/Repositories/DisdainRepository.cs",
+      "bytes": 366,
+      "sha256": "fd3e14504a8412215c622b0e56fae961bd3b25ac9568daa1dfaa61e9807ea833",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Game/Database/Repositories/DynaRankRecRepository.cs",
+      "bytes": 426,
+      "sha256": "8b98dd9ba058147a59e2b0b6c57efa31b4e70fd4b7fcbc549e07885c0ff396ad",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Game/Database/Repositories/DynamicGlobalDataRepository.cs",
+      "bytes": 678,
+      "sha256": "6f7f45f8c09e1af2f585a6ddb7f49b3b23f3bdfe2c5e4662d74709019452f59c",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Game/Database/Repositories/DynamicNpcRespository.cs",
+      "bytes": 333,
+      "sha256": "fa305ca75dada9e531d084b8c5d05d1c0bd12299fd4b342c8b0ffd0b1c5a4ed2",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Game/Database/Repositories/EnemyRepository.cs",
+      "bytes": 593,
+      "sha256": "951e786d6e056b32c8b2ab7043e58dc85e657d4d771600db1d9e443fc4a7b58b",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Game/Database/Repositories/FamilyAttrRepository.cs",
+      "bytes": 429,
+      "sha256": "cd4cda86fcc35a7ab5c3ca6b148f32080c33be057983b83dcdf03eaaec90c3b2",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Game/Database/Repositories/FamilyBattleEffectShareLimitRepository.cs",
+      "bytes": 429,
+      "sha256": "a41eb4907fca6200237b8c29351eeb618c31ee17801ee328c476dfd7d990c0a1",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Game/Database/Repositories/FamilyRepository.cs",
+      "bytes": 364,
+      "sha256": "2551fbbb512ce950ccd3eb220358bb0ad0035eea2b3b2c8aa6401704647c06ea",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Game/Database/Repositories/FateInitAttribRepository.cs",
+      "bytes": 388,
+      "sha256": "05150162d3c42ea0c29878916be402ac37973cdc9fe4e76cde4dc46ae5d14b38",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Game/Database/Repositories/FatePlayerRepository.cs",
+      "bytes": 612,
+      "sha256": "2fe82b13f29467bae94eeceee00c085102b509beed84255117c43ef43162794b",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Game/Database/Repositories/FateProtectRepository.cs",
+      "bytes": 423,
+      "sha256": "28873c2ce6a8623c8c2285a6bfd09988dab5c297eb165e792ffe15fa5a592c70",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Game/Database/Repositories/FateRandRepository.cs",
+      "bytes": 370,
+      "sha256": "ecfa6ac2fc9d72edbc44e55e5984283d7a30079f44504c9234148c9f5a904350",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Game/Database/Repositories/FateRankRepository.cs",
+      "bytes": 370,
+      "sha256": "2c9e1f81d77ff6fc38ae364effe42331ed10a69a9db061949f2afc3695370c39",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Game/Database/Repositories/FateRuleRepository.cs",
+      "bytes": 370,
+      "sha256": "d2a7c9c46eef9ed412e685f0d52a566b9a507a642b31cff9dbcc24b2ec15d858",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Game/Database/Repositories/FlowerRepository.cs",
+      "bytes": 363,
+      "sha256": "6bc1a4dfb01e680b4a73d8003ef426fdb8571cfa2a1cbfce52b22f4535093883",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Game/Database/Repositories/FriendRepository.cs",
+      "bytes": 619,
+      "sha256": "6a99b953af8ae65dcaf72ff87ccb68340a1eccedc5a3253f329232e5284fb97f",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Game/Database/Repositories/GoldenLeagueRepository.cs",
+      "bytes": 425,
+      "sha256": "0d2cb18721f2eed7a38598d4ddd42d95dc3bcdfb30dbb50ba9c033c01ee76830",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Game/Database/Repositories/GoodsRepository.cs",
+      "bytes": 362,
+      "sha256": "504a5b49080879f7d17108ccf2020790a5d5960635503de434c0c491b56a0e1a",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Game/Database/Repositories/InnerStrengthRepository.cs",
+      "bytes": 1640,
+      "sha256": "d3a52ecdcd34d50f4bf7b8df4c336b74f3d18c79b56cc1f85253faae4372f31f",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Game/Database/Repositories/InstanceTypeRepository.cs",
+      "bytes": 458,
+      "sha256": "0f8f31d0364bdd5f240c3465bc06810150f23fc6039d298e4b18c98a89e8b751",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Game/Database/Repositories/ItemAdditionRepository.cs",
+      "bytes": 379,
+      "sha256": "c95911f65f9f5c52d862d883e6046d37397fec2e0957419ae7dcd7c0149ed74d",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Game/Database/Repositories/ItemRepository.cs",
+      "bytes": 824,
+      "sha256": "d061fd7ad398bb5cdb73244652b3d5e8d62e49addafa29f230281545300227cc",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Game/Database/Repositories/ItemStatusRepository.cs",
+      "bytes": 436,
+      "sha256": "54eae2f1bdc05c00b9c033e93191d5ac507c55af34b59e16b8d3826a5cfca365",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Game/Database/Repositories/ItemtypeRepository.cs",
+      "bytes": 367,
+      "sha256": "b183795ed0cc29ed17c0208e3988370d80fa673c225c019d751a1c4bd1af14ac",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Game/Database/Repositories/JiangHuAttribRandRepository.cs",
+      "bytes": 420,
+      "sha256": "b10e0d6e6e4b43cbf68c88bfd791f47b59a6e3ed95168765829e6138e1a5d390",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Game/Database/Repositories/JiangHuCaltivateConditionRepository.cs",
+      "bytes": 444,
+      "sha256": "8921b7cc51de0689457a96feea195255833070391aec218810bbe1c0df894fe5",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Game/Database/Repositories/JiangHuCaltivateTimesRepository.cs",
+      "bytes": 469,
+      "sha256": "da45d76e1ead44251a22d43536de2ae01e369ed0d93bf5417bbf3a492c177e9a",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Game/Database/Repositories/JiangHuPlayerPowerRepository.cs",
+      "bytes": 497,
+      "sha256": "e5fd7c3680a259fa411770cc112b795f06c30d226dd7da14f8ad4a46d1c2272d",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Game/Database/Repositories/JiangHuPlayerRepository.cs",
+      "bytes": 1514,
+      "sha256": "7396f38d84f184bc838f367fbfed87d8dfaf0bde802443f3426dfc7f1f7872df",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Game/Database/Repositories/JiangHuPowerEffectRepository.cs",
+      "bytes": 423,
+      "sha256": "b855bf78b1980561cbcd4b04597ad36134982b0f3bf3d0c5ea9a45a521b89cb6",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Game/Database/Repositories/JiangHuQualityRandRepository.cs",
+      "bytes": 423,
+      "sha256": "bfacbfaa3ed9deed5b89cecae866bcd5400b455eeaec5d5a44c57c6cb526db97",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Game/Database/Repositories/LevelExperienceRepository.cs",
+      "bytes": 388,
+      "sha256": "5b1cd02ba77b266db2227a732b250a1bfa6d6edc38e847c657bc39236fe0585f",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Game/Database/Repositories/LotteryRepository.cs",
+      "bytes": 361,
+      "sha256": "98e7456c11e6b8900e9c223e8917fc49867221cb5ae2e1d96fa31f426192aecc",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Game/Database/Repositories/MagicRepository.cs",
+      "bytes": 352,
+      "sha256": "f0abab4be205b5831b1a2267a96d44eb39f6e410a5ff9dc04a68962713c037da",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Game/Database/Repositories/MagicTypeRepository.cs",
+      "bytes": 369,
+      "sha256": "3d9c95ae3448f2a0dd97fd692fbdde966d001da5445dcc6b055989e95b35429c",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Game/Database/Repositories/MagictypeOperationRepository.cs",
+      "bytes": 390,
+      "sha256": "b27d421f0048646cb649b256d245836500436082a0d73ef71afed60f8c86baab",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Game/Database/Repositories/MailRepository.cs",
+      "bytes": 427,
+      "sha256": "d9e4648b6e0f0741cb7dbcd488655f7521bc6fd17d09b609a31f32217f8fd4d8",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Game/Database/Repositories/MapsRepository.cs",
+      "bytes": 1165,
+      "sha256": "d054c3fffbf4a1dd2e94ad1871d966a30e36480127b5e896e902f96a663fbc05",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Game/Database/Repositories/MeedRepository.cs",
+      "bytes": 694,
+      "sha256": "bc882da9ee5098da129897656575f728d057615cba240a469490c049577f2e4e",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Game/Database/Repositories/MineCtrlRepository.cs",
+      "bytes": 368,
+      "sha256": "0dca92666b366c8ed83611740595aaa57a6674b97b06480dc877b211c8a301c0",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Game/Database/Repositories/MonsterKillRepository.cs",
+      "bytes": 426,
+      "sha256": "84e9be7658132cd8df0b6e4f3ec0d36129d0f5a17c29a8f12e6d5313534c9e37",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Game/Database/Repositories/MonsterTypeMagicRepository.cs",
+      "bytes": 658,
+      "sha256": "3413865f1bd8d3b935f0c349c737d6c76225f42087e907aff06767b2ed183eb0",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Game/Database/Repositories/MonsterypeRepository.cs",
+      "bytes": 336,
+      "sha256": "66a43b3f09ad70d78614ca4c5d32e4559c88d8bda123306160caf6d10251cfa8",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Game/Database/Repositories/NewbieInfoRepository.cs",
+      "bytes": 410,
+      "sha256": "15b3fc3fdfbaae73f4066bd3790c52836add6e706d5418f112697b2af607703a",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Game/Database/Repositories/NpcRepository.cs",
+      "bytes": 314,
+      "sha256": "d6162264713d03bb6b835a5966b1f0ae65099b004c91f4c578a5a62dd5cd8994",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Game/Database/Repositories/PasswayRepository.cs",
+      "bytes": 413,
+      "sha256": "657ffa85cbecdaef7c19db034fdc557d55ae666d5ef65db90aad1a562e2553c7",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Game/Database/Repositories/PeerageRepository.cs",
+      "bytes": 370,
+      "sha256": "31950cb25a2e88b3a4638ab0947a257ad82b365487b22c818972959516c91b53",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Game/Database/Repositories/PigeonQueueRepository.cs",
+      "bytes": 378,
+      "sha256": "bffbba2cbf9f42253e5276b28125f0721a8301c24ab66875f532d4168414cc70",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Game/Database/Repositories/PkInfoRepository.cs",
+      "bytes": 582,
+      "sha256": "1e3a0548d6b6e581c4dc3292d923c2ceab7beebed3a51a948766b243591d8bda",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Game/Database/Repositories/PkStatisticRepository.cs",
+      "bytes": 456,
+      "sha256": "37f2b7d0dc388f0538b36fc8f430902b78c4a4f323140fd9598bea787a4af3b1",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Game/Database/Repositories/PointAllotRepository.cs",
+      "bytes": 373,
+      "sha256": "8641071e1d6259ced313627ad5a0b72e9e14f1a38075d02a49ca33bcc4bfc364",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Game/Database/Repositories/PortalRepository.cs",
+      "bytes": 438,
+      "sha256": "633bde48da1e2eba0e72a349e35407c40230e95b2df49cf338134126070577cf",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Game/Database/Repositories/QuizRepository.cs",
+      "bytes": 356,
+      "sha256": "64b098b2e86361960433c4e613a4edea5ccd65453fa7568b63ed3a044adbfb32",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Game/Database/Repositories/RebirthRepository.cs",
+      "bytes": 364,
+      "sha256": "318fe9acef3445fefa881e3a69a6d0112d5e7cc2066db34d4e24ada2191fe047",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Game/Database/Repositories/RegionRepository.cs",
+      "bytes": 408,
+      "sha256": "390575b5450eda3477b7033969924d3b532f7d39527d7c129eac8dcf0f3deec0",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Game/Database/Repositories/RidepetPointRepository.cs",
+      "bytes": 489,
+      "sha256": "cd37d465f75cdd4d08a980b6f6fb9f9c88be519291ed4ea4b33fa61267e42334",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Game/Database/Repositories/StageGoalRepository.cs",
+      "bytes": 481,
+      "sha256": "ac336a78367286482670dd1670fc4dc0e72e54697f0d7dd22f534fec4951d3eb",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Game/Database/Repositories/StatisticRepository.cs",
+      "bytes": 614,
+      "sha256": "0b8865c9ef4c784c01dda1f5e1bceae518e0aa9e318314a8024c235e9b1978ad",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Game/Database/Repositories/StatusRepository.cs",
+      "bytes": 403,
+      "sha256": "52ef7ae38ed07eb2b4d8d1f43557fd2aca1109ba2032df52bacb44dc57e3f249",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Game/Database/Repositories/SuperFlagRepository.cs",
+      "bytes": 395,
+      "sha256": "7f15946522c388298f09d2ecb22b59545dd05c2bf4db12a3257948aeced202d8",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Game/Database/Repositories/SupermanRepository.cs",
+      "bytes": 388,
+      "sha256": "9b7d323fbba415c24ae88403d322e3ff1f113b910df26ff145949e96f2c11c22",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Game/Database/Repositories/SyndicateAttrRepository.cs",
+      "bytes": 373,
+      "sha256": "2e14942fdf2ac6f7f0888a2046ac98c3108292097a42dff73c6b2267b5b6c22b",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Game/Database/Repositories/SyndicateRepository.cs",
+      "bytes": 574,
+      "sha256": "bf656b5c1c41e8e75de28a84730d55ab7f4c4903e7514877c7096668adfdca7d",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Game/Database/Repositories/TaskDetailRepository.cs",
+      "bytes": 373,
+      "sha256": "e9be4c3a69aca5d545bbe340dc08ed6dffa0f690446b30e4cec0cef08676e40c",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Game/Database/Repositories/TaskRepository.cs",
+      "bytes": 307,
+      "sha256": "7fcc958219c8d4b27f26deb46bdbd31e3116d7d56179824bca65bb7a9f41764e",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Game/Database/Repositories/TotemRepository.cs",
+      "bytes": 425,
+      "sha256": "74a3a27c5b2af38089bf09bfeb544a9203bbc8dea79bad0052b16846b29beb62",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Game/Database/Repositories/TrapRepository.cs",
+      "bytes": 424,
+      "sha256": "096c931b63553b61214566b4845e1eb01df1a1b421af32806da9f023caa3473f",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Game/Database/Repositories/TrapTypeRepository.cs",
+      "bytes": 345,
+      "sha256": "195304a8907a54cc085cf326f1fde9c7461735892394710e603eda0ecd215ecd",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Game/Database/Repositories/TutorAccessRepository.cs",
+      "bytes": 422,
+      "sha256": "f0664ef176de289c475bc7b14754eadaed4e219caa0a1e746d71cf9e231ed449",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Game/Database/Repositories/TutorBattleLimitTypeRepository.cs",
+      "bytes": 405,
+      "sha256": "d14ec58baf8ee8cde21c4ab9eeb35dbee4559732fdcba670fd0413a9e88f46d7",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Game/Database/Repositories/TutorContributionRepository.cs",
+      "bytes": 810,
+      "sha256": "1c217faca16b5a892dfa4475126feb4b1a8fac59d0394018bd97f1587163551e",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Game/Database/Repositories/TutorRepository.cs",
+      "bytes": 731,
+      "sha256": "b266123c1f65d3f8255c779c25c84c7eb8e0b8f6744ce7f9050ce6300b3aaafd",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Game/Database/Repositories/TutorTypeRepository.cs",
+      "bytes": 372,
+      "sha256": "da2c817bbe1b36d1bf61deab045cd922c3bf4e8ec7a216f9015a38e67d3c403f",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Game/Database/Repositories/UserTitleRepository.cs",
+      "bytes": 506,
+      "sha256": "bdd3f9257f7dccc5e0ec14a8162f964e2408145905619bd21ea567d18b6faa0b",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Game/Database/Repositories/VipMineTimeRepository.cs",
+      "bytes": 349,
+      "sha256": "96a3e20dad4a16fe2083eec7b822ef5e300f01b82c98a73c34d5b3bd4caf8cb0",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Game/Database/Repositories/VipTransPointRepository.cs",
+      "bytes": 408,
+      "sha256": "5f824068f760621bd83e41fd3ec228f5ede8f049093b56c319cc73a04ebdc512",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Game/Database/Repositories/WeaponSkillRepository.cs",
+      "bytes": 377,
+      "sha256": "6a7627d8a39e9bcaefa145c6ccd04151e5b2c0d9f030a26ac57027e8a8f0dad2",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Game/Database/ServerDbContext.cs",
+      "bytes": 16597,
+      "sha256": "35bf2c5b355744ec681ab2c6b052d4bdc72930c77e3e9d60c56ce70098d5f462",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Game/GlobalUsing.cs",
+      "bytes": 284,
+      "sha256": "807122a3af85b1f2a28af88fc30c866f36418065bc51b372c9b27d024a8de26d",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Game/Kernel.cs",
+      "bytes": 11338,
+      "sha256": "8c699572e970ed2b83a910f55cfd1f0fe9952ad0bbe2191537cb17ac7b9775a2",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Game/Language.Designer.cs",
+      "bytes": 142973,
+      "sha256": "283c58c5654fa547ff94d59a62484217d49ddc41beab37e0de1f48e8351c12e5",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Game/Language.resx",
+      "bytes": 57928,
+      "sha256": "2de23a3533add1f8d629c5db57f1f4375816d8b12b01c54e933796521f000abd",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Game/Program.cs",
+      "bytes": 13236,
+      "sha256": "cf39dea6cdbe4604f2a4f2c5fe9e033eacbbe5bb1ab4713d293c471d88db99dc",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Game/Scripting/Attributes/LuaFunction.cs",
+      "bytes": 181,
+      "sha256": "fbf88a2c849bad2e099a13bebfc881e863a0a0e66711316c7f69ee81ebe9679c",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Game/Scripting/LuaScriptConst.cs",
+      "bytes": 22413,
+      "sha256": "80a84937bdb44c38d8ca2f5f57c5e3b2c237e570bcb5775de76df6bdb19ec8c0",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Game/Scripting/LuaScriptsSettings.cs",
+      "bytes": 689,
+      "sha256": "90f32aa14588f7eec0b8c377f7fa5d35da6eabacec007906455e6e308e531637",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Game/ServerConfiguration.cs",
+      "bytes": 2815,
+      "sha256": "3a2da73849e3b942c2b7bb3de71a7e3aafd9c124b0815ddae67a74451db26a45",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Game/Services/Managers/AchievementManager.cs",
+      "bytes": 71883,
+      "sha256": "aec052f6e56190ce9e889f73475b0508df239b8b9c9381244b7563a1a4faa019",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Game/Services/Managers/ActivityManager.cs",
+      "bytes": 7034,
+      "sha256": "02616ed66a36acfb17eedb55b38d5f107fca6258651760033e748099a94cb24e",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Game/Services/Managers/AstProfManager.cs",
+      "bytes": 6384,
+      "sha256": "fa9a89b63d6eb96d3670ac4bbc3f1b1d6c31f6dccb627263f8815e5529c036f1",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Game/Services/Managers/AuctionManager.cs",
+      "bytes": 14148,
+      "sha256": "16d32365379f51d1898b77196b914df406882b03a875dddd1cf8f75514530f5a",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Game/Services/Managers/BattleSystemManager.cs",
+      "bytes": 739,
+      "sha256": "fb3944f28bedd9cac492ab1a5b6d23aea9278c8a966431fdf396d4d5143dcddc",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Game/Services/Managers/DynamicGlobalDataManager.cs",
+      "bytes": 4378,
+      "sha256": "17cdc244dac123ec8456fc5c678880605211c37d95c6f6c39edeb22d2a6664c6",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Game/Services/Managers/EventManager.cs",
+      "bytes": 15934,
+      "sha256": "cb96f6004b92e9d6514b3c5bba985091d49bf543fd411ee31973fc808c55ee1d",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Game/Services/Managers/ExperienceManager.cs",
+      "bytes": 6090,
+      "sha256": "a027e74e30a391a705116be6c4a870327db51d10bb19df44572daee4451b81a6",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Game/Services/Managers/FamilyManager.cs",
+      "bytes": 2646,
+      "sha256": "87af6cb6e847065b16c39f0f35acd05759d671bf88c56a5fec1a8cd359a70bb4",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Game/Services/Managers/FateManager.cs",
+      "bytes": 29381,
+      "sha256": "ef0b0c17f654aee5e98b73984e79c01dae8e47165d2add9fe6566e20e7d7ff4c",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Game/Services/Managers/FlowerManager.cs",
+      "bytes": 11594,
+      "sha256": "81ee937a3094e1e31cf905afb8d2b81b3505e464f317f3f11e11ea4009f04723",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Game/Services/Managers/InnerStrengthManager.cs",
+      "bytes": 8204,
+      "sha256": "0093b8395402f2c7a1ece9117225ca44f280d96634f4e1f642e12d076a4c9dcf",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Game/Services/Managers/ItemManager.cs",
+      "bytes": 18912,
+      "sha256": "c2b0bc94ceeac88f68303011010027ecd4527ebec16288f0e5fb8588f4844f41",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Game/Services/Managers/JiangHuManager.cs",
+      "bytes": 5604,
+      "sha256": "33a975e1dfdcee73c2eb919bda385cb65a8a32ab32e5fec6fb60f33a58e875ea",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Game/Services/Managers/LotteryManager.cs",
+      "bytes": 6347,
+      "sha256": "a150595543f59d97d842a6004220a9447072905a0324aca8b4eea9ddcff4c8f7",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Game/Services/Managers/LuaScriptManager.cs",
+      "bytes": 4014,
+      "sha256": "f606640cbe2f3d8dc7a1aa1420804446167868f797ca2ce43e268fc345f1ec53",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Game/Services/Managers/MagicManager.cs",
+      "bytes": 1131,
+      "sha256": "420b2baf501a4efff2ec986c80b2ed1ba47ad12dec31e5b246cb6e67ebaed747",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Game/Services/Managers/MaintenanceManager.cs",
+      "bytes": 4533,
+      "sha256": "ac99a9da5195587500bd8066a915f8bd31d64e52720e4a2ace2d6bed7ddec452",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Game/Services/Managers/MapManager.cs",
+      "bytes": 5065,
+      "sha256": "3b2281f8f71347c3dbdeef05e556eee0d3d26e1a63a27cec81646c4adf47f413",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Game/Services/Managers/MineManager.cs",
+      "bytes": 1859,
+      "sha256": "fe427808f69e49e1c2a40f932d9b02dfdafb8766f00c265fb98b15da75f5da2f",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Game/Services/Managers/PeerageManager.cs",
+      "bytes": 12771,
+      "sha256": "1303c6e4274a8a69fed83c04397245b723812ddb20eb0fe4cc7faa44f56eecf4",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Game/Services/Managers/PigeonManager.cs",
+      "bytes": 9098,
+      "sha256": "98de8437b7a7adc77a1c927da27fb6932591ac6b184ae0bb35fa14cb6b758ac0",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Game/Services/Managers/ProcessGoalManager.cs",
+      "bytes": 30224,
+      "sha256": "b88be92999044c8c61816e0da04503cf940330df37a23a2e7b2ea557f071192c",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Game/Services/Managers/RoleManager.cs",
+      "bytes": 17133,
+      "sha256": "6a3722ff0974829f08497550b707547f8c60e2e0c12f2151b9531bc0792d7917",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Game/Services/Managers/ServerStatisticManager.cs",
+      "bytes": 11529,
+      "sha256": "e0c059c05e034c8490c7cfc6d55d5bf08f546b659d4284e8121b6bb7dcc1d103",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Game/Services/Managers/SyndicateManager.cs",
+      "bytes": 12837,
+      "sha256": "218d1c365db99c5f05bd39ae55f616955c9b8ea35f1d315991a07124179859b2",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Game/Services/Managers/TeamManager.cs",
+      "bytes": 1310,
+      "sha256": "f3e5a69b3e4782c93ed5be31f9cf19a43170fd1af6ed275168274148ba335dac",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Game/Services/Managers/TutorManager.cs",
+      "bytes": 1150,
+      "sha256": "8d82fe5a0846d8fa4e07c089169b3e28c6efc32f4cc23a70c03e0116c5ff6272",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Game/Services/Processors/Scripting/FuncItem.cs",
+      "bytes": 9584,
+      "sha256": "3e759245549d4a3ef0a013a8f290bde42d2f9898aeaecd8b88f2ab579d939c3c",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Game/Services/Processors/Scripting/FuncMap.cs",
+      "bytes": 12964,
+      "sha256": "d61b079a9e55ae0c6aa34f6e51ea03b63e7c9675377b62f93e1fb936495c7d7c",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Game/Services/Processors/Scripting/FuncMonster.cs",
+      "bytes": 7837,
+      "sha256": "2d3cf06f9efd6f03b7c62b288164e3eeb76ca552da5b3a70e5d31e15e0572592",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Game/Services/Processors/Scripting/FuncNpc.cs",
+      "bytes": 4000,
+      "sha256": "49ba5ca10b2d529a3091a401631096b97144ba7f629d7a9a6046e086b4520396",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Game/Services/Processors/Scripting/FuncPlayer.cs",
+      "bytes": 23706,
+      "sha256": "272293c495a736e7c76089485a3509f9d9e3525df1ffc1f9544f3e9a537f4bb3",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Game/Services/Processors/Scripting/FuncSkill.cs",
+      "bytes": 2550,
+      "sha256": "c97c64e1fcde25b6c04ed3c0b6d69f1dc07c0ae5fe60ea27f90041a5b0adc8ab",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Game/Services/Processors/Scripting/FuncSystem.cs",
+      "bytes": 24926,
+      "sha256": "ccbcdb2ad67c82ac3093b12af20e19705044751ee494d2304dc7345656cf745d",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Game/Services/Processors/Scripting/FuncTask.cs",
+      "bytes": 8099,
+      "sha256": "919405388fc91fab8a17883e0d012179b343451dbaec319f1fcb7d7f4b2a4c57",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Game/Services/Processors/Scripting/LuaProcessor.cs",
+      "bytes": 13440,
+      "sha256": "b827b9cc00bd8dc367c3f37f7a140a7d8a652c97b612cb5892dad07d1769143d",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Game/Services/Processors/ServerProcessor.cs",
+      "bytes": 4759,
+      "sha256": "63a99657c25a297e81f6707da3ecaeb6093290249292c1a368b0a6427bdcc934",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Game/Sockets/Ai/AiClient.cs",
+      "bytes": 1214,
+      "sha256": "8f014b16e559bcd9be7ecfac5b89be17ac72af98cb5b1b9d9c7739732a980e55",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Game/Sockets/Ai/NpcServer.cs",
+      "bytes": 5863,
+      "sha256": "060809edf2dbbd6c642477f8fc9187e456a753f298ce67ef7a0ca64b2e3a8576",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Game/Sockets/Ai/Packets/MsgAiAction.cs",
+      "bytes": 1619,
+      "sha256": "759665206952d725938456ff8464440bd405c74dcdacb6a3506b6ff5952d1180",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Game/Sockets/Ai/Packets/MsgAiDynaMap.cs",
+      "bytes": 1404,
+      "sha256": "8384b0f3ae2ff4c4d7d4d7bb08e5664b6a0782355a657a9e0a3f68ca1aaca7b4",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Game/Sockets/Ai/Packets/MsgAiGeneratorManage.cs",
+      "bytes": 728,
+      "sha256": "875dc28133f202005d13681e6b4f021d1d069392a174f89e89d7fe55b869a394",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Game/Sockets/Ai/Packets/MsgAiHandshake.cs",
+      "bytes": 1125,
+      "sha256": "9adad73bef226e73b0b1276baf300551377bd0d1b4eb2bd0646844d98c3a722b",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Game/Sockets/Ai/Packets/MsgAiInteract.cs",
+      "bytes": 2226,
+      "sha256": "85777e97eea1122c2d6ae8d9f478a4a15e5e041834b27b24822721e96d106c76",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Game/Sockets/Ai/Packets/MsgAiLoginExchange.cs",
+      "bytes": 2600,
+      "sha256": "9be91b5521a2d27ea8dbab606e39edfba3eea6af271ea3a4ba757f28e9d3ad81",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Game/Sockets/Ai/Packets/MsgAiLoginExchangeEx.cs",
+      "bytes": 172,
+      "sha256": "fd0472222103e5c7a3c821eef181c2fa0ce29ea27b8641034e7cad163d5165ec",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Game/Sockets/Ai/Packets/MsgAiPing.cs",
+      "bytes": 378,
+      "sha256": "cadb508df4131a719836057ba0ea9647cc545cafb6c7a834dd01f12d167e4b46",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Game/Sockets/Ai/Packets/MsgAiPlayerLogin.cs",
+      "bytes": 1085,
+      "sha256": "f09214072b716e0323d3f2f05a5d90be5a592f2111eceeae1262f194274f8536",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Game/Sockets/Ai/Packets/MsgAiPlayerLogout.cs",
+      "bytes": 166,
+      "sha256": "34bdbd468121e0bc4e3e34e3426c66a5e12321b74c64c1a2138146ad007d5c3c",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Game/Sockets/Ai/Packets/MsgAiRoleLogin.cs",
+      "bytes": 698,
+      "sha256": "ac5946c77c80af023465bf9b376bc517085ce7399f283b59616512b14c06bb49",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Game/Sockets/Ai/Packets/MsgAiRoleStatusFlag.cs",
+      "bytes": 171,
+      "sha256": "e9289edec79694f482582f8668e9c8ea5010619a7574962d8863589dd4a38dad",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Game/Sockets/Ai/Packets/MsgAiSpawnNpc.cs",
+      "bytes": 2634,
+      "sha256": "1c6b14866e9a8da6ae2832123b5d6a5b3dc677a123cbd358417e237efb7d85ad",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Game/Sockets/Game/GameServer.cs",
+      "bytes": 24275,
+      "sha256": "ba15e4d6801344c6ade4d57ff125624dfcbdaa24617300d337e42af572efa2a0",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Game/Sockets/Game/Packets/Msg2ndPsw.cs",
+      "bytes": 3349,
+      "sha256": "084a730bdb8325eed4ecd03756a90479cc91e226fa1005b6980967394173db8f",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Game/Sockets/Game/Packets/MsgAchievement.cs",
+      "bytes": 2300,
+      "sha256": "14119d32e76948430bafebdd9f679dc7d130e0e8b35c41b8136cf662f7485cc1",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Game/Sockets/Game/Packets/MsgAction.cs",
+      "bytes": 45688,
+      "sha256": "5a6ed36e30d33200b00f8fc9f3987440cf8bfb4807c488d1ab797f13ce5e83df",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Game/Sockets/Game/Packets/MsgActivityTask.cs",
+      "bytes": 2042,
+      "sha256": "02dc93b9b5a78c8fb3db5d23ff4b3ddce03ace4b71ea870b9d97a8c5e4936d4a",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Game/Sockets/Game/Packets/MsgActivityTaskReward.cs",
+      "bytes": 1068,
+      "sha256": "fe069362308ace88e8517a766f1d2750463326df5a70ddf5e056909c0b07dc06",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Game/Sockets/Game/Packets/MsgAllot.cs",
+      "bytes": 3205,
+      "sha256": "91c38d89662da2a28306ea0bb3a3e151656073b2bc45a2088e55d450e49688b2",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Game/Sockets/Game/Packets/MsgArenicScore.cs",
+      "bytes": 864,
+      "sha256": "1bc65677eed58f9bc08480d3d517d46f9d4f3c4709c2ef98134fc24773adc47a",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Game/Sockets/Game/Packets/MsgArenicWitness.cs",
+      "bytes": 3798,
+      "sha256": "227bc8f5f3765b3e2c037ee70671ea28894fbd7d8045cba8d193d7d6953896e1",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Game/Sockets/Game/Packets/MsgAthleteShop.cs",
+      "bytes": 1085,
+      "sha256": "44f4e1ae4ef69ae0e9c45b27caf48625008a843c1c2126a5a9b5dfc606ab9212",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Game/Sockets/Game/Packets/MsgAuction.cs",
+      "bytes": 3818,
+      "sha256": "1744429a879e2b5a8c456c1cc0889834fd0420800823daca8f31e207042e933b",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Game/Sockets/Game/Packets/MsgAuctionItem.cs",
+      "bytes": 6294,
+      "sha256": "216cff15c31273dcfa8748d12ff30e3420648d31298e0f113144f571300be40a",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Game/Sockets/Game/Packets/MsgAuctionQuery.cs",
+      "bytes": 7349,
+      "sha256": "9bb54a040e4c39124b6a36c67699f391866005e17a768240cd24a7690982bf0d",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Game/Sockets/Game/Packets/MsgAura.cs",
+      "bytes": 1308,
+      "sha256": "b7e2be6265a65ab27d2557e0e5fb81143c13f13d5e1901e0fb4faad2470d260c",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Game/Sockets/Game/Packets/MsgAuraGroup.cs",
+      "bytes": 1379,
+      "sha256": "0046759d72311a7215db24b6561d8119f97af1940413b183f38f8824e633f1ff",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Game/Sockets/Game/Packets/MsgChangeName.cs",
+      "bytes": 4892,
+      "sha256": "ce1540b98f85301c499637b36f278c9ba79e960b75ee95449434263ad503deea",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Game/Sockets/Game/Packets/MsgCheatingProgram.cs",
+      "bytes": 716,
+      "sha256": "fb500415cabec3cc05cbed3a7fe03ef15402bc3d45648302311f3fea8deb995f",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Game/Sockets/Game/Packets/MsgCompeteRank.cs",
+      "bytes": 1232,
+      "sha256": "b0cf5285ac27a200c8af1c65e6cbc4e4735f70d9ff80b544dba22b0ec219c516",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Game/Sockets/Game/Packets/MsgConnect.cs",
+      "bytes": 6144,
+      "sha256": "b5f4caceae3a5c9fa0f73296d7f05e4abc960524d27e3dca94e21515ddf0c677",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Game/Sockets/Game/Packets/MsgConnectEx.cs",
+      "bytes": 755,
+      "sha256": "25442beb236214febb8addf2c7452311a477f793c158b03fdeeaa7db637a65e9",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Game/Sockets/Game/Packets/MsgData.cs",
+      "bytes": 1621,
+      "sha256": "e7817c63885f74041e67473b02f6972831be50fa1ca38144f747dec578dfdd5c",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Game/Sockets/Game/Packets/MsgDataArray.cs",
+      "bytes": 30652,
+      "sha256": "2c79ee40258c47e43cd31cf98ac9702deea62760f367cafa4b00d81f0dbe9a75",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Game/Sockets/Game/Packets/MsgDeadMark.cs",
+      "bytes": 654,
+      "sha256": "f8a14b70cba23eca9be532df9bafca0ffb897ec6097e66fb328eb411198aad96",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Game/Sockets/Game/Packets/MsgDetainItemInfo.cs",
+      "bytes": 5389,
+      "sha256": "cd237e7ec2e342c239b5f3622ae6a2e0c454ba31e2b7a62cf3deab0d3da32de4",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Game/Sockets/Game/Packets/MsgDutyMinContri.cs",
+      "bytes": 930,
+      "sha256": "a11f34dfcebeb7042e135d25c3f5467223dfefaf8686c0b2447e55215db48882",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Game/Sockets/Game/Packets/MsgElitePKArenic.cs",
+      "bytes": 2041,
+      "sha256": "52f562a4dcf0248b68ac2466593c04c6fa643b51198683566c483acf0737b6ae",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Game/Sockets/Game/Packets/MsgElitePKGameRankInfo.cs",
+      "bytes": 3199,
+      "sha256": "e22fe3737565bc02ee145d82d57fdbbe4d598fd67da303c0aaa758dee6071ebc",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Game/Sockets/Game/Packets/MsgEquipLock.cs",
+      "bytes": 3377,
+      "sha256": "14937d83fe0876ea191bf61796a43f1348906f04abef2b2a7c50426d5559f010",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Game/Sockets/Game/Packets/MsgExchangeShop.cs",
+      "bytes": 1177,
+      "sha256": "5c44498eed42d24bc529677eea04fe807427526e4966a42f5738f45dfc3d59af",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Game/Sockets/Game/Packets/MsgExchangeShopBuy.cs",
+      "bytes": 1221,
+      "sha256": "4bfc227e60213e25c21440721d4873e7c884c562a75aa11a86d3629dc6798438",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Game/Sockets/Game/Packets/MsgFactionRankInfo.cs",
+      "bytes": 4594,
+      "sha256": "b9e855e5e0fcae20d8e8f20759667f5f74196f45976ae66784fdad51776582fc",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Game/Sockets/Game/Packets/MsgFamily.cs",
+      "bytes": 23030,
+      "sha256": "51b6c845d6c5f6f330af6d627b236e6b4f7e15ee10633a77122faaccb5a9a0c1",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Game/Sockets/Game/Packets/MsgFamilyOccupy.cs",
+      "bytes": 17162,
+      "sha256": "920370d21122cbe7576aa7278a04a8dfb4f75fa44e5c9934538a43da080219c4",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Game/Sockets/Game/Packets/MsgFlower.cs",
+      "bytes": 13226,
+      "sha256": "672bd52dfee85ced845f7c05f7c29bd89f9437a966651517ad31c5b7c8c1c1d2",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Game/Sockets/Game/Packets/MsgFlushExp.cs",
+      "bytes": 1123,
+      "sha256": "7bafc4234e05d120a2640237b480dbba6fcf2427f1f1d34be342daf1970bcab6",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Game/Sockets/Game/Packets/MsgFriend.cs",
+      "bytes": 6347,
+      "sha256": "fa83e8711d7c64d16727dc4e676a9a83aca74a3e0ece4b050512ca656a5551db",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Game/Sockets/Game/Packets/MsgFriendInfo.cs",
+      "bytes": 1613,
+      "sha256": "7b7d0f31ce851e04b218535009ddee7274aaf3a1a6f30d4cbc003923a2f4bec1",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Game/Sockets/Game/Packets/MsgGLHeroDetail.cs",
+      "bytes": 1368,
+      "sha256": "20c886375c48471927e1ce12966f90daf7645b04f51ffb99aca694646b1fd84d",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Game/Sockets/Game/Packets/MsgGLRankingList.cs",
+      "bytes": 1013,
+      "sha256": "a2f0bed505f57fae7781063ab4d300cdaf32fb3c727f8219eb0cea37088e8214",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Game/Sockets/Game/Packets/MsgGemEmbed.cs",
+      "bytes": 10242,
+      "sha256": "2e2d15ac5f9b60fbdcecea93d5a3ad512801b8df1a3e1181957257106cf3f6b1",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Game/Sockets/Game/Packets/MsgGodExp.cs",
+      "bytes": 4423,
+      "sha256": "6eef68e122d0e74b944302b0b5aa2805702c18ddd8acb77f46ffcc60ce69d8ec",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Game/Sockets/Game/Packets/MsgGuide.cs",
+      "bytes": 11742,
+      "sha256": "0e5cb61a5734e200c54d9a9b687063935b57426c90ae2d47912a43572bea2c5c",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Game/Sockets/Game/Packets/MsgGuideContribute.cs",
+      "bytes": 5132,
+      "sha256": "2ac54570828b43a3319026fde195e3c5f0bd58ba6e92b370cbbe6dd8df8c72ce",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Game/Sockets/Game/Packets/MsgGuideInfo.cs",
+      "bytes": 4194,
+      "sha256": "34bdaef51816b3664e4ba10e2e51f63a77f3d840fe2ee89d4add7a0d4bf1a6ce",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Game/Sockets/Game/Packets/MsgHandshake.cs",
+      "bytes": 4920,
+      "sha256": "965d4fad60742e6bff6253ed4d88ba7f0f577907619054e4bbb185d7008b7e45",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Game/Sockets/Game/Packets/MsgHangUp.cs",
+      "bytes": 2799,
+      "sha256": "a60315bbf274e772a1332caa1314f3fb7240a7035f8b627a21cb28e133f97384",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Game/Sockets/Game/Packets/MsgInnerStrengthInfo.cs",
+      "bytes": 1996,
+      "sha256": "c5271ae553648d4c513ca56df946c98d2f17289fda4ad6470b408a4a21384203",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Game/Sockets/Game/Packets/MsgInnerStrengthOpt.cs",
+      "bytes": 4318,
+      "sha256": "79afae3777a48728856f6de31c93178ca1ad691d8219591a7690a48ce28fd94c",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Game/Sockets/Game/Packets/MsgInnerStrengthTotalInfo.cs",
+      "bytes": 874,
+      "sha256": "cee4983f8717fa5dce4a743b743ebcad3646c7f6325e7d1513abe2769d092017",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Game/Sockets/Game/Packets/MsgInteract.cs",
+      "bytes": 23422,
+      "sha256": "c0d09fa327b3f641fe09f294d4de5806b771a17484c9b0e9d231d191762101d5",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Game/Sockets/Game/Packets/MsgInviteTrans.cs",
+      "bytes": 2217,
+      "sha256": "85e50490c194a8d403636779ca63c69cd1363a314286fbe58f732a4a8ce5af10",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Game/Sockets/Game/Packets/MsgItem.cs",
+      "bytes": 61987,
+      "sha256": "b9236f0522a0fa4bc940fc0305b1a4b42b91bd0d1c2ae5529e64f19164533a40",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Game/Sockets/Game/Packets/MsgItemInfo.cs",
+      "bytes": 4645,
+      "sha256": "84d9545ec584e9e9bdb787d4d31e94e9aaf80a384762d15fd1e0b07907ea1995",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Game/Sockets/Game/Packets/MsgItemInfoEx.cs",
+      "bytes": 5658,
+      "sha256": "7aff8aed357d823da16e148a49dbd21325b4e6f416589aa0fb5e8c7dd02bb90e",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Game/Sockets/Game/Packets/MsgItemStatus.cs",
+      "bytes": 2421,
+      "sha256": "9c7dcd430a16f2ebe305d55794969262c7c5f01818bc8cd3cf16c79feab338d3",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Game/Sockets/Game/Packets/MsgLottery.cs",
+      "bytes": 3851,
+      "sha256": "7c99b0a6db6012af9c2fcd58a841b969715865883a632078a8d93a99d52828a9",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Game/Sockets/Game/Packets/MsgMagicEffect.cs",
+      "bytes": 3731,
+      "sha256": "c716f9d566d81f17eca3f33b1c33db87806273124fe08267150e585e0c71bd19",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Game/Sockets/Game/Packets/MsgMagicInfo.cs",
+      "bytes": 4099,
+      "sha256": "f3b715dc5b868e9cd2f69633993916f6cf329bfa18ba40040725d2f6bd7d0fc3",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Game/Sockets/Game/Packets/MsgMailContent.cs",
+      "bytes": 542,
+      "sha256": "533edb4f1b8e797150a9a29321525e28d3074e5975ee8e316b6412c6f243af0b",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Game/Sockets/Game/Packets/MsgMailList.cs",
+      "bytes": 2223,
+      "sha256": "d2bf6e2610c8a87cf782827c412c13e5406bba3abc056548ea293a228b9666b6",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Game/Sockets/Game/Packets/MsgMailNotify.cs",
+      "bytes": 633,
+      "sha256": "471a56ef43a09dbc92f1ddc4adb9ce489b6cf2993c9c9295159c929590ef8439",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Game/Sockets/Game/Packets/MsgMailOperation.cs",
+      "bytes": 2676,
+      "sha256": "26e15ad9ad871e6af56c7da677789c23e9334aed20ff613316937504eb80c340",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Game/Sockets/Game/Packets/MsgMapInfo.cs",
+      "bytes": 1191,
+      "sha256": "43997b996a27bb5e6e556fde03b52f4d71c1445b4e1c095766bca48c60e77cc5",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Game/Sockets/Game/Packets/MsgMapItem.cs",
+      "bytes": 4509,
+      "sha256": "d9e7f4b36bd5eac6578b4ea9c372614738fb41c3e1a682bc3670ba537a0e0624",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Game/Sockets/Game/Packets/MsgMentorPlayer.cs",
+      "bytes": 2627,
+      "sha256": "03961ac33ec109e621ef4a8cb86574b044ad63bd08fce5060b97638c10a2ac58",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Game/Sockets/Game/Packets/MsgMessageBoard.cs",
+      "bytes": 3394,
+      "sha256": "2a7a1a7fe0fd3831cafbc048a2174beec22ebdff385e3bbd5ac032e3b2747bd3",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Game/Sockets/Game/Packets/MsgMeteSpecial.cs",
+      "bytes": 2553,
+      "sha256": "6f9e886c854e0c7b19d238cec3c0cfac4fecf1fd9ea2aff352a051c897ad6dcb",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Game/Sockets/Game/Packets/MsgName.cs",
+      "bytes": 5395,
+      "sha256": "2d68742524a159f1c5eb21a7c50ece73a2e0deb2e36e874f8c74651df489133e",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Game/Sockets/Game/Packets/MsgNationality.cs",
+      "bytes": 1293,
+      "sha256": "884c921c4060df4932b02390044544c519f24dcb94e48adb548ee7025a2ee747",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Game/Sockets/Game/Packets/MsgNpc.cs",
+      "bytes": 3620,
+      "sha256": "5717d61713867488f1cb182ea5bbf12c06e2916dfd96d4cf0e27c15421ca1242",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Game/Sockets/Game/Packets/MsgNpcInfo.cs",
+      "bytes": 2945,
+      "sha256": "cc456f9fe23ceae472c2468611471b8f2e51ab99c1c6982e493b33bc825320e6",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Game/Sockets/Game/Packets/MsgNpcInfoEx.cs",
+      "bytes": 2703,
+      "sha256": "f4c592155f8774ffbc7aed0e493aab7bd00ca3ac65c3b715538e6a9a56d92641",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Game/Sockets/Game/Packets/MsgOwnKongRank.cs",
+      "bytes": 2764,
+      "sha256": "beea948d74c0f4d0488c95a570dd87d61359cf0fc26174ec644505c83c531aa4",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Game/Sockets/Game/Packets/MsgOwnKongfuBase.cs",
+      "bytes": 5114,
+      "sha256": "74f3a282d2805530d8b366c8f8e188c01c1b8b563ecde15a6d93d597ed64c40c",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Game/Sockets/Game/Packets/MsgOwnKongfuImproveFeedback.cs",
+      "bytes": 2879,
+      "sha256": "0ed738e4b05e4b29d881f0f0c6336e613906a0fff6d088547f2d4020a4ef28b8",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Game/Sockets/Game/Packets/MsgOwnKongfuImproveSummaryInfo.cs",
+      "bytes": 1446,
+      "sha256": "f83d42e0c591b7039baed99aabe32555bba64a63b10ff9ef2e3063bdc9eaed37",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Game/Sockets/Game/Packets/MsgOwnKongfuPKSetting.cs",
+      "bytes": 938,
+      "sha256": "1a91dd7b2b5bb63bf9157a9b8c4f55555dce67c9be7c2590e5110f3cc53eb11a",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Game/Sockets/Game/Packets/MsgPKEliteMatchInfo.cs",
+      "bytes": 6291,
+      "sha256": "a90fc3209ee2a0f393f8a24dc85f079d8bc113020b26201f54074b4886a59c2e",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Game/Sockets/Game/Packets/MsgPackage.cs",
+      "bytes": 12295,
+      "sha256": "006d43c3ee120c68878bebdd4235f075b30c14f7cc92055df98a5a09114e40ad",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Game/Sockets/Game/Packets/MsgPeerage.cs",
+      "bytes": 8619,
+      "sha256": "70ad7d7b5d2721928de116f131ee8d5c6f0deed739b0474f495dbd9fa486da88",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Game/Sockets/Game/Packets/MsgPetInfo.cs",
+      "bytes": 844,
+      "sha256": "83eb4095304528210e6f50feb2ab28cfd720243fbcf41490df6222c7417f4d06",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Game/Sockets/Game/Packets/MsgPigeon.cs",
+      "bytes": 2624,
+      "sha256": "2061c93edb0b4f83395d64139a7c62f41a18f84a3a61622d2c272b6aa787a91c",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Game/Sockets/Game/Packets/MsgPigeonQuery.cs",
+      "bytes": 2270,
+      "sha256": "80affc9545306fe296e1ee3deaa547d7012a89d2472e2f53c3a392858a42feb6",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Game/Sockets/Game/Packets/MsgPkStatistic.cs",
+      "bytes": 2534,
+      "sha256": "3b8a56bdb910389ab7ad89dc05fc66bac1579b15d39e7945fd2aab086ce1bbdb",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Game/Sockets/Game/Packets/MsgPlayer.cs",
+      "bytes": 13624,
+      "sha256": "4d3db3c59e22316f2fc63979da5c758decbedd89d7b4d6aa425a8837e6ee135f",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Game/Sockets/Game/Packets/MsgPlayerAttribInfo.cs",
+      "bytes": 6153,
+      "sha256": "bfa8747e042453a7f8b9dbe1444abfff9eaa0758cf9630d8802bc8dcfaad20b8",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Game/Sockets/Game/Packets/MsgProcessGoalInfo.cs",
+      "bytes": 1006,
+      "sha256": "e6e48862242a7b3da7a10d1309716e55083e646076b3a620f352da31c2726954",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Game/Sockets/Game/Packets/MsgProcessGoalTask.cs",
+      "bytes": 1078,
+      "sha256": "33b46e857c558b3cb0543a74649e6efbf7ac713474141050725276b99256ec18",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Game/Sockets/Game/Packets/MsgProcessGoalTaskOpt.cs",
+      "bytes": 1751,
+      "sha256": "4dd4dfa8c94c7930b68b9fcd165a3f6fb8d2dd368d9b2d1e0522597a54868ff6",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Game/Sockets/Game/Packets/MsgQualifyingDetailInfo.cs",
+      "bytes": 3075,
+      "sha256": "eda934f1150716e69f95cd3896aa2526ab7cb33a0eaa22df80d34fb9f43c0199",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Game/Sockets/Game/Packets/MsgQualifyingFightersList.cs",
+      "bytes": 6466,
+      "sha256": "b325cbee3b08d8b5f1125649b5143e030bb4856c0fb87c1efb538b6e5ca90659",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Game/Sockets/Game/Packets/MsgQualifyingInteractive.cs",
+      "bytes": 7742,
+      "sha256": "4b843abbf04f0ba366caddd8624d0a566faa49e35c6daa5d48770232d7b652be",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Game/Sockets/Game/Packets/MsgQualifyingRank.cs",
+      "bytes": 4632,
+      "sha256": "2df209d2ce8769f35b20704720b723f75c3b4c0a4cefaa56b2c3586451028dbe",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Game/Sockets/Game/Packets/MsgQualifyingSeasonRankList.cs",
+      "bytes": 3017,
+      "sha256": "98343ce267561dd387cdd4e36aaae689049e707379e9b66a5dcfdf502a21258e",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Game/Sockets/Game/Packets/MsgQuench.cs",
+      "bytes": 8312,
+      "sha256": "c0dfda0eaba96279507e59f14e6c39fcd2cc8de2d3ab254251041e74ca4cdcc8",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Game/Sockets/Game/Packets/MsgQuiz.cs",
+      "bytes": 5002,
+      "sha256": "025561a37daa91ae6fe2ffd8d89533aaa6bd5747d12de28629388ee2ccf68ead",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Game/Sockets/Game/Packets/MsgRaceTrackProp.cs",
+      "bytes": 1577,
+      "sha256": "97a9d3b5e9dcb28f6a48768eb85f6f770c1f617158ef071e710e70793ea90386",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Game/Sockets/Game/Packets/MsgRaceTrackPropEffect.cs",
+      "bytes": 189,
+      "sha256": "d56c71bfed30bce35526f4a1542f3e6683f76593111fb4784d568c6616a33c26",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Game/Sockets/Game/Packets/MsgRaceTrackStatus.cs",
+      "bytes": 1264,
+      "sha256": "96badd9ca32bfd06a2b44de9eda21cdb5eee8f167e9415a39878070b39401382",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Game/Sockets/Game/Packets/MsgRank.cs",
+      "bytes": 18796,
+      "sha256": "9e0add6d69b2a60847efd6c71c8b9c545b87aab1ed2b2917e48712f557cebe4e",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Game/Sockets/Game/Packets/MsgRegister.cs",
+      "bytes": 169723,
+      "sha256": "110d40793ad3ffa688acee771f271ef35a4af253c4a36dd26f75db1a491fe9b1",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Game/Sockets/Game/Packets/MsgRelation.cs",
+      "bytes": 994,
+      "sha256": "acefcd72c79cd427121ce4e71bd4a1b6b3cb081980d81e7397d974fda9e69de9",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Game/Sockets/Game/Packets/MsgSelfSynMemAwardRank.cs",
+      "bytes": 8791,
+      "sha256": "624be85bd04098618d18a96c442fe2a13f4e49b3b664256e2ed9f02deabfae5e",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Game/Sockets/Game/Packets/MsgServerInfo.cs",
+      "bytes": 553,
+      "sha256": "d36ded7e5eb3eebba9891f2882a5562d9d709e5f7c9c4e3805a4db8bc500769a",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Game/Sockets/Game/Packets/MsgSolidify.cs",
+      "bytes": 4649,
+      "sha256": "a1f1a46a8c1d87d8c21a3481a989f35c3d34cf1f199fb8bb8f420a31ed20896f",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Game/Sockets/Game/Packets/MsgSponsor.cs",
+      "bytes": 2326,
+      "sha256": "0089686befffc0d2697c5d9d65a159bed3fa5a8e7436f1bc3572cda63a632ff6",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Game/Sockets/Game/Packets/MsgStatisticDaily.cs",
+      "bytes": 872,
+      "sha256": "eb6a0f3d96498da99931839ef3c4537ae8f6b67e7942c6bfa5f9d70f4bfe1890",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Game/Sockets/Game/Packets/MsgSubPro.cs",
+      "bytes": 4159,
+      "sha256": "3a18e05a0ee9d5ea3d7c2d5d03ea63441e1dd67006a8be6e8c4c6041a6a46941",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Game/Sockets/Game/Packets/MsgSuitStatus.cs",
+      "bytes": 4144,
+      "sha256": "f96658e9d518192ef42abf5aadba54d1d496223b61b81f23879f46b49abcf168",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Game/Sockets/Game/Packets/MsgSuperFlag.cs",
+      "bytes": 7166,
+      "sha256": "84c777425f612045dc2253b825bb971eae415c31a32ee1a1f8d42ba21631edb5",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Game/Sockets/Game/Packets/MsgSynMemberList.cs",
+      "bytes": 2598,
+      "sha256": "d79eb112cb96ab5c6f0059b13cb5cc093a986eb383aee113e2488d08ad6b424c",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Game/Sockets/Game/Packets/MsgSynRecruitAdvertisingList.cs",
+      "bytes": 2833,
+      "sha256": "8c9aaa1dc704600546f20dab3920aa6580c7d4956829c2a326ae0bf43faa2ee6",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Game/Sockets/Game/Packets/MsgSynRecruitAdvertisingOpt.cs",
+      "bytes": 2746,
+      "sha256": "5d385411f78211a301c38faa07574b1b8b71eea50fd0d96e21ee9595b3b5a9fa",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Game/Sockets/Game/Packets/MsgSynRecuitAdvertising.cs",
+      "bytes": 2522,
+      "sha256": "0bcdc798ae503cd5ce419f480111d984180e5aa0a3781647f78533f2cd451b2f",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Game/Sockets/Game/Packets/MsgSyncAction.cs",
+      "bytes": 994,
+      "sha256": "0b275907d1b9750dd904a5b638cfb458f39ce936dc944fbedf4240b1622b1cba",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Game/Sockets/Game/Packets/MsgSyndicate.cs",
+      "bytes": 18308,
+      "sha256": "548e7f01461ff1e5adb9ca49df0ba6f7446f29f2082a55d623defe942caeacfc",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Game/Sockets/Game/Packets/MsgSyndicateAttributeInfo.cs",
+      "bytes": 2210,
+      "sha256": "40f06ce8d67e9005d3d6e3a6e44843b90a753bfdd9f2ba0d592786cf6040165d",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Game/Sockets/Game/Packets/MsgSynpOffer.cs",
+      "bytes": 3726,
+      "sha256": "d20c8b1c4a6483c0847b94a9abe66f3b82cc035b76f6b4727b2b7f3c4bcaef93",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Game/Sockets/Game/Packets/MsgTalk.cs",
+      "bytes": 85054,
+      "sha256": "6779d20b294c4b9c7742085f1d9f853d5ee41b8792c8d4a47329722e6bed8356",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Game/Sockets/Game/Packets/MsgTaskDetailInfo.cs",
+      "bytes": 2262,
+      "sha256": "24c8e40becfc0e3e80333ea5396bfed1d749f85c03af9e7484c561a8a48528cf",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Game/Sockets/Game/Packets/MsgTaskDialog.cs",
+      "bytes": 8889,
+      "sha256": "8d1659807a2da9939d01df7ce6fc631dd14c6aad96347433c8634ea1603fe2b4",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Game/Sockets/Game/Packets/MsgTaskStatus.cs",
+      "bytes": 3730,
+      "sha256": "7b387b4006bbee64dc824cc5483ea0524cd91cd1c08c871b528d301b12a49ec4",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Game/Sockets/Game/Packets/MsgTeam.cs",
+      "bytes": 16195,
+      "sha256": "f951dd6cdb5c8ac7eba94f3f7c6b831bdb3d45ea66b5f9295c013d7d0794c220",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Game/Sockets/Game/Packets/MsgTeamArenaFightingMemberInfo.cs",
+      "bytes": 1541,
+      "sha256": "2dd35629195f1c5cd8b8c5bbb55ca0161eb0084683e690eaeda565b80c947b67",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Game/Sockets/Game/Packets/MsgTeamArenaFightingTeamList.cs",
+      "bytes": 3766,
+      "sha256": "9b8e5b154e7ce35fd2666672e057aec5be064c951d107f982a81aa16b19b4c6d",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Game/Sockets/Game/Packets/MsgTeamArenaHeroData.cs",
+      "bytes": 2721,
+      "sha256": "fd6d4f4fbcb7a0b1c2fa7cc31cc356013ef4532b66ec4d87b18c6c6d612c9f3b",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Game/Sockets/Game/Packets/MsgTeamArenaInteractive.cs",
+      "bytes": 8341,
+      "sha256": "30c275f0aaabd1eb236e64a383bd314ec5270cb6553cb1f425b24eaab253e1e3",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Game/Sockets/Game/Packets/MsgTeamArenaRank.cs",
+      "bytes": 3194,
+      "sha256": "7a758c741a769d0f350a64a32106acd88f91e0995de8259e3f6f2a3fa63996b8",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Game/Sockets/Game/Packets/MsgTeamArenaScore.cs",
+      "bytes": 1046,
+      "sha256": "0883573b27de31374668ce49e26501be7d0748845bef4241c102fb4ffe6d9b19",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Game/Sockets/Game/Packets/MsgTeamArenaYTop10List.cs",
+      "bytes": 2736,
+      "sha256": "21a250ee7a80a60cf07a8ca778d5b94617ed867d9b4a35543562e8ce1ced2209",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Game/Sockets/Game/Packets/MsgTeamMember.cs",
+      "bytes": 1843,
+      "sha256": "211e07df434ed83b9329e3c394a73266ab6c4aee8fc00ea4a250d0780625a684",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Game/Sockets/Game/Packets/MsgTitle.cs",
+      "bytes": 2179,
+      "sha256": "e4e3763eeb319a4758eaafb88c877c2cd1fe9cd37be6c16af94b72cb6848084a",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Game/Sockets/Game/Packets/MsgTotemPole.cs",
+      "bytes": 5392,
+      "sha256": "d60c6ec675d4131fd57b5ed47d38b1bece90090342d3c07e356a6cfed18543ca",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Game/Sockets/Game/Packets/MsgTotemPoleInfo.cs",
+      "bytes": 1482,
+      "sha256": "36d540215f217b6e06bb33571b32422fc55865f755325fc09204f254fa44fc48",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Game/Sockets/Game/Packets/MsgTotemsRegister.cs",
+      "bytes": 1966,
+      "sha256": "9750a3591da063df59d6d7bb2db1debc23698f770d19a1d9b3a1ecf3e6c49bc4",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Game/Sockets/Game/Packets/MsgTrade.cs",
+      "bytes": 5067,
+      "sha256": "828d838e8371f3b0a17dab0efbea744c7abe9b5495ea417c9cd0862011933410",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Game/Sockets/Game/Packets/MsgTradeBuddy.cs",
+      "bytes": 3546,
+      "sha256": "962374b5b46ac8de9c3270a0c45331cd6113b4e71e64b22220aaf949c62cbccb",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Game/Sockets/Game/Packets/MsgTradeBuddyInfo.cs",
+      "bytes": 1125,
+      "sha256": "a0f984481710c06e2ecfafe27610129dd2e2240e5c8d390d316f64916f809f2c",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Game/Sockets/Game/Packets/MsgTraining.cs",
+      "bytes": 3989,
+      "sha256": "7fc43992b7437a9f665da68cc14274e16e89a8b215c63bc082e2a8408cdbf482",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Game/Sockets/Game/Packets/MsgTrainingInfo.cs",
+      "bytes": 719,
+      "sha256": "0cbf8cb32d7c0a3dd6ad2bba00c1c8b4e27d1b88ef47d373d7b735ed169371cf",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Game/Sockets/Game/Packets/MsgTrainingVitality.cs",
+      "bytes": 4806,
+      "sha256": "1db81f65473f42afe273090063df60486a528300087f02f40792ea063e89b39f",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Game/Sockets/Game/Packets/MsgTrainingVitalityExpiryNotify.cs",
+      "bytes": 707,
+      "sha256": "c43cab6cfaf0df872ee71e498172bb25bb55b2f442559cf5b4e83bae6ef212a9",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Game/Sockets/Game/Packets/MsgTrainingVitalityInfo.cs",
+      "bytes": 1506,
+      "sha256": "6b9a0b878cacae9882748756ea10394531ef22ad172a32d2c2c2343682a35f27",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Game/Sockets/Game/Packets/MsgTrainingVitalityProtect.cs",
+      "bytes": 6014,
+      "sha256": "ebbdaabf7fbc9bab40afc5dbc5d3ffb4d032fe9b0f645758dbccc8210085a3f4",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Game/Sockets/Game/Packets/MsgTrainingVitalityProtectInfo.cs",
+      "bytes": 1326,
+      "sha256": "75f4c24c051184bd71421aaffa08e3b6ab9284ca0545795967e344e60a9cc84c",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Game/Sockets/Game/Packets/MsgTrainingVitalityScore.cs",
+      "bytes": 629,
+      "sha256": "71bbcfaecb35dd12fbca9a53fdd2b94baf2245675587366d295812fbba84e37d",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Game/Sockets/Game/Packets/MsgTransportor.cs",
+      "bytes": 2935,
+      "sha256": "f87d0b60c0c48760c6b0dca8e6faa2568d8b65ce54f8b585a67e362774603c89",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Game/Sockets/Game/Packets/MsgUserAttrib.cs",
+      "bytes": 7183,
+      "sha256": "35c32b708252de2ded1bdb943ce84b1e684e0de43ef6b4794ae712f4e1d7b84c",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Game/Sockets/Game/Packets/MsgUserInfo.cs",
+      "bytes": 6727,
+      "sha256": "746546d2ff85f213d186a6216fabbd948e0d82b745c1686fdccc397f0a2e1b85",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Game/Sockets/Game/Packets/MsgUserIpInfo.cs",
+      "bytes": 881,
+      "sha256": "d515e8fd6d1693a2575fab569634a023d557a91554ba0fccb5bfde7ff9e634b3",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Game/Sockets/Game/Packets/MsgVipFunctionValidNotify.cs",
+      "bytes": 475,
+      "sha256": "5f8b9fecb51ffd6b7853637539942a3a514798383de5a9738fdd5a95c19727e4",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Game/Sockets/Game/Packets/MsgVipUserHandle.cs",
+      "bytes": 4218,
+      "sha256": "fbcafae1d19811397b6836030d798c1a354a0d35bb4e3a9870765105bcb87593",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Game/Sockets/Game/Packets/MsgWalk.cs",
+      "bytes": 5855,
+      "sha256": "4b12b566c634ff8d7583ba50892ac4cbb2c8ba2895bba756813949fc0215b0c9",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Game/Sockets/Game/Packets/MsgWarFlag.cs",
+      "bytes": 4181,
+      "sha256": "121f791669497a769c61b6d5fcd203e4d6cbcf0f7b9094ddd0bbcbafbca6190e",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Game/Sockets/Game/Packets/MsgWeaponSkill.cs",
+      "bytes": 1504,
+      "sha256": "f12c959fcf411592aab7b001e5e31fed08ec26402d0344fcd6bb5f58a3bd22a6",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Game/Sockets/Game/Packets/MsgWeaponsInfo.cs",
+      "bytes": 3881,
+      "sha256": "3dc5960099842644dc4bd8a4a093625ee3348bfb8257cc0bf9f23d11a93068c3",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Game/Sockets/Game/Packets/MsgWeather.cs",
+      "bytes": 711,
+      "sha256": "e5cbd9eac9549c5958e74abda6cd2e9b77c61f68af940e7e5ec42d08583b0458",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Game/Sockets/Login/LoginActor.cs",
+      "bytes": 1121,
+      "sha256": "cefff22629bb36fc2cd9bfd5dcc6cf39d7266c690b8570161a4c35bf80101dfd",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Game/Sockets/Login/LoginClient.cs",
+      "bytes": 4471,
+      "sha256": "72c757086690add6a72bd546b73e19e3c686eb39ecb6f95131c8ab46caf85cdc",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Game/Sockets/Login/Packets/MsgAccServerAuth.cs",
+      "bytes": 172,
+      "sha256": "dbf4a49bf66c789d4c0dceddac1cf7fec7dd849b3984d9a8310338c7bb57a168",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Game/Sockets/Login/Packets/MsgAccServerAuthEx.cs",
+      "bytes": 2070,
+      "sha256": "1f5d4fa45697fcf9d84943e93c9bd1a0eb778418973f0a687bf3f233949f248b",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Game/Sockets/Login/Packets/MsgAccServerHandshake.cs",
+      "bytes": 1717,
+      "sha256": "c9339ca46bace6133a6d4c36ff3858634608e8793d1109cba9a72229be92529a",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Game/Sockets/Login/Packets/MsgAccServerLoginExchange.cs",
+      "bytes": 2468,
+      "sha256": "f5b7429ce30d9bec49e4df21604cd4d136e3feb2720646437e7c321f11d104d3",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Game/Sockets/Login/Packets/MsgAccServerLoginExchangeEx.cs",
+      "bytes": 194,
+      "sha256": "f512ab7fe506adf2d1af6d55adf1c2352291df808e76f82ea618cfb12f3f8534",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Game/Sockets/Login/Packets/MsgAccServerPing.cs",
+      "bytes": 360,
+      "sha256": "310187858216ff431358ae22201c107b1f908dddeb5d161b93ef94bbc1b991e7",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Game/Sockets/Piglet/Packets/MsgPigletClaimFirstCredit.cs",
+      "bytes": 381,
+      "sha256": "f959c238877d1fa1a2959f06e7c78e6597d7deaf8c1eb576f1fa3f9f2e310312",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Game/Sockets/Piglet/Packets/MsgPigletHandshake.cs",
+      "bytes": 1473,
+      "sha256": "1a6708a610763fb2999cbd0929aff2594d5568a9b30010bc87a3248aa4285e82",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Game/Sockets/Piglet/Packets/MsgPigletItemSuspicious.cs",
+      "bytes": 224,
+      "sha256": "82220304699cd57841f322e4e6b7d97cb0b49868535932a3e328d41288600a0f",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Game/Sockets/Piglet/Packets/MsgPigletLogin.cs",
+      "bytes": 335,
+      "sha256": "db2d9a2cbdb7c63e3390c357408fc212e280fcb96cf36c472a92274021b28b6e",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Game/Sockets/Piglet/Packets/MsgPigletLoginEx.cs",
+      "bytes": 1869,
+      "sha256": "64122e596cd1e3bd3922e90aa70b8e9ffa2d03ee3ab1c6ce0bf805e7e1ae11cd",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Game/Sockets/Piglet/Packets/MsgPigletPing.cs",
+      "bytes": 290,
+      "sha256": "8ec0fd92bd092f8ce10514a5cd26470e4c596d9a83b4e2efeefc1a33d5988c47",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Game/Sockets/Piglet/Packets/MsgPigletRealmAnnounceMaintenance.cs",
+      "bytes": 413,
+      "sha256": "0266c953ecd8f1d436d5bc520257ad778464fbaf36359120f86d85d3578423fe",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Game/Sockets/Piglet/Packets/MsgPigletRealmStatus.cs",
+      "bytes": 275,
+      "sha256": "9d178a9bd55ee83328439e456a0affd29f796d3d389c846492767fe3d29d08ac",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Game/Sockets/Piglet/Packets/MsgPigletShutdown.cs",
+      "bytes": 466,
+      "sha256": "cd32648aed3673e21bb3d05d626c1b793d7dd5f3d9162c2cdb863347df012ee4",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Game/Sockets/Piglet/Packets/MsgPigletUserBan.cs",
+      "bytes": 880,
+      "sha256": "c381de7d0e6a469e9f162d1699412dacf218975d3feb94ee24910533274cfb99",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Game/Sockets/Piglet/Packets/MsgPigletUserCreditInfo.cs",
+      "bytes": 368,
+      "sha256": "1a339b26e27357f87280c917b631e3997a9a0f96bf36578c382f0994632ab112",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Game/Sockets/Piglet/Packets/MsgPigletUserCreditInfoEx.cs",
+      "bytes": 713,
+      "sha256": "efa9795f2201f8d3facbbae3d8b55430d54f0d8694e5e80a017db256ac4cb61f",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Game/Sockets/Piglet/Packets/MsgPigletUserLogin.cs",
+      "bytes": 178,
+      "sha256": "77fa28b86b393f8ffa97710bc483d392f82f66e57f4ac344928f189c6e88de66",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Game/Sockets/Piglet/Packets/MsgPigletUserMail.cs",
+      "bytes": 554,
+      "sha256": "37df39734d54ce457fee14cd629bae323f0301e8e726bec790a0dd55ffc8e04b",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Game/Sockets/Piglet/Packets/MsgPigletUserMassMail.cs",
+      "bytes": 874,
+      "sha256": "7728f26351198dca284a94d7ae91060590f6abf70701d6821fc96d2c176a69c9",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Game/Sockets/Piglet/PigletActor.cs",
+      "bytes": 1166,
+      "sha256": "38bd88a332dde96f6d971f5d453d98e5b0a701fb55fd0dcf58896783eea1213a",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Game/Sockets/Piglet/PigletClient.cs",
+      "bytes": 5426,
+      "sha256": "053ea1ae96f88c5d0f9f98894defc4435fa4d547c4512000e683b27894c9850d",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Game/States/Achievements.cs",
+      "bytes": 7640,
+      "sha256": "363d7b7e99822d1524a3c5f3460c89184d1e6e24ba4488f99302e1b60aabfdf7",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Game/States/ActivityTask.cs",
+      "bytes": 1056,
+      "sha256": "0d7c67f3ae8e23631a4830665e6da34a263158d596d3452598146587f5998236",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Game/States/Auction/AuctionBid.cs",
+      "bytes": 787,
+      "sha256": "a7dbe8eed362c39bcfed1220f677d6d20c521769555eaa6f9333044e1890db66",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Game/States/Auction/AuctionItem.cs",
+      "bytes": 14475,
+      "sha256": "4683b684e637fb5ffed0e632630c1344ce430ab040b9845f9bf932543f4c4835",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Game/States/BattleSystem.cs",
+      "bytes": 42189,
+      "sha256": "bf6fd174fff9e50d92acc5318a56350ff3d8c75191ce7b39930d9e2a31b9b8e5",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Game/States/Creation.cs",
+      "bytes": 488,
+      "sha256": "471325e824dd2f4a899daf7c0a7f90552af0b15e20fd13015b6a18e3c989b141",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Game/States/Events/CaptureTheFlag.cs",
+      "bytes": 44010,
+      "sha256": "73004f90c9543bb19dbef4083b25d0bd598e36e9608827f504d16154c9f79e30",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Game/States/Events/Elite/ElitePkGroupTournament.cs",
+      "bytes": 53049,
+      "sha256": "f32141d42d6ab434b2fba0c510a7433b6cdc0179d499980bc48867bd974d6547",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Game/States/Events/Elite/ElitePkParticipant.cs",
+      "bytes": 997,
+      "sha256": "7a21c173fab9b45e0d4622dacdca8ddbfe13bc5f2279b9915c94136e2c1533d3",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Game/States/Events/Elite/ElitePkTournament.cs",
+      "bytes": 10440,
+      "sha256": "7dd2e48488311598080f7e33454e9f48376b96fb3a300c84c0fdac017e3a551b",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Game/States/Events/FamilyWar.cs",
+      "bytes": 18891,
+      "sha256": "549675e08fd417d5c86780c6152803d7ff90f2bf7d99a0de9449e3b2569bec91",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Game/States/Events/GameEvent.cs",
+      "bytes": 5965,
+      "sha256": "59b5b35c6fae2fdb09976c41577a26020f25d72d429d31ae3f1e90d5e908aa58",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Game/States/Events/GuildContest.cs",
+      "bytes": 1133,
+      "sha256": "464a954e2c960ba1d4bc5520e6d35e6e755de8d06ef7929411c21cc2364e4ac5",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Game/States/Events/Interfaces/ITeamEvent.cs",
+      "bytes": 321,
+      "sha256": "d6208f25ac1df1afceb8102a237f60de0af843b1ea9194be2b03d36492aaf152",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Game/States/Events/Interfaces/ITournamentEvent.cs",
+      "bytes": 643,
+      "sha256": "5018c9392c658800ea64556c0dd9bac3728c8ff8b1b5e6551938e12b6311c1ce",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Game/States/Events/Interfaces/ITournamentEventParticipant.cs",
+      "bytes": 243,
+      "sha256": "09cb8abe18782f5d1974455f5c5fbf9f1a34fc8a56fc19b9919abb60618c2009",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Game/States/Events/Interfaces/IWitnessEvent.cs",
+      "bytes": 334,
+      "sha256": "4bf54a1743b4cfd1a2cc00f7f0520851af11f6bcde100bcda0092669c30a68b4",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Game/States/Events/LineSkillPK.cs",
+      "bytes": 12329,
+      "sha256": "7cc42be7344f0aac4c5a98655622c6a5d0ff9d6aa4c48335727c54785c30ee46",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Game/States/Events/Mount/HorseRacing.cs",
+      "bytes": 16630,
+      "sha256": "3eef5f05ceef22503bdcaad730a6124aa6fb5eebcc0053983461ee0bc31cd3db",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Game/States/Events/Qualifier/ArenicInformation.cs",
+      "bytes": 2531,
+      "sha256": "28fabe5fe86313ddfc09846852e5cd912bccf43d394c2909d23e8c7c56ebc454",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Game/States/Events/Qualifier/TeamQualifier/TeamArenaQualifier.cs",
+      "bytes": 24445,
+      "sha256": "a559a61fb9f86e51479a1d8a1a7aabc256b728855b15afb6f32ffeb9a162b33e",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Game/States/Events/Qualifier/TeamQualifier/TeamArenaQualifierCompany.cs",
+      "bytes": 1600,
+      "sha256": "fe7265f6f1292571de141421c2e720131bc0d6306b2337c4e7d3ddced73c52dd",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Game/States/Events/Qualifier/TeamQualifier/TeamArenaQualifierMatch.cs",
+      "bytes": 22772,
+      "sha256": "f4c73dfddc2f36a292bda177cb93fe24ed576e16b108a9a5651c662cf5aa9d51",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Game/States/Events/Qualifier/UserQualifier/ArenaQualifier.cs",
+      "bytes": 23783,
+      "sha256": "a8d825fcdedcf20d4774b4bccc55df0eccbb0bb59490a272ccea3d0254e4422f",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Game/States/Events/Qualifier/UserQualifier/ArenaQualifierUser.cs",
+      "bytes": 1269,
+      "sha256": "38964a9b2a3201cfd23be209fc70566f809487e3dbbf8de9e910fa338f9046e7",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Game/States/Events/Qualifier/UserQualifier/ArenaQualifierUserMatch.cs",
+      "bytes": 21572,
+      "sha256": "cba05d6868d85e44cc4e334f8d6ec6ff3ce82a3868cfe0b90d3bb24b1ea8a2a0",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Game/States/Events/QuizShow.cs",
+      "bytes": 14813,
+      "sha256": "8a2cad0c9ae0eb2db5bf8eacde8f3dac1731e7986bdc694483dbb495542579b8",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Game/States/Events/SyndicateGameEvent.cs",
+      "bytes": 692,
+      "sha256": "e432183fa0968cc849679b3d21a119cbceb3038e0b36f86aaa68a7d81e012cc7",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Game/States/Events/Tournament/BaseTournamentMatch.cs",
+      "bytes": 1835,
+      "sha256": "aa5c8067599b65d01fe8e55d59baaf030c428e9f5beff09e87bbe26b45c3763f",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Game/States/Events/Tournament/DoubleTournamentMatch.cs",
+      "bytes": 6747,
+      "sha256": "e2b142f69cf79b23f61e66b3eabeb55e474405866b7b326c2ce9754e00accfa0",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Game/States/Events/Tournament/GameTournamentEvent.cs",
+      "bytes": 20920,
+      "sha256": "c161242e17300ac2b9b6f2b60b3ac3c76ef2674438a65bd9bec0658ee667a43a",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Game/States/Events/Tournament/SingleTournamentMatch.cs",
+      "bytes": 3040,
+      "sha256": "ed8980a4830b30d4188128cfd3d2049ff4546a521127acf9731dfd41d18f6450",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Game/States/Events/Tournament/TournamentBet.cs",
+      "bytes": 651,
+      "sha256": "b1d1211eed4aab809f6529db174dc392589a2c08d91dcbd75d7507dab4f10977",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Game/States/Events/Tournament/TournamentParticipantRank.cs",
+      "bytes": 181,
+      "sha256": "319ce8c44c5adcf96fac9445ff30ea9050f1516d5ccee0c821409e293c509276",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Game/States/Events/Tournament/TournamentParticipantReward.cs",
+      "bytes": 542,
+      "sha256": "127e816a9002e97a8c7a74e0d8659f35a0d3a9d1415c6d03a12466f985c1d667",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Game/States/Events/Tournament/TournamentRules.cs",
+      "bytes": 422,
+      "sha256": "27a98084c3cbb453cbf70063114d29ee4819c0b44853109801ab0457c211a780",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Game/States/Events/Tournament/TournamentStage.cs",
+      "bytes": 263,
+      "sha256": "bc59628a57473f3d4dae84cfc352167c63867f50c001277fad726e3948a112a1",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Game/States/Families/Family.cs",
+      "bytes": 21359,
+      "sha256": "1df3a77fab248f65b677617cd6f1c55dab96a968a22c38029685f51c4e230c80",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Game/States/Families/FamilyMember.cs",
+      "bytes": 4200,
+      "sha256": "321328bc911e5d67daa36507f211eb50710a94bcb4f93dee8b39d8efd49febfd",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Game/States/Fate.cs",
+      "bytes": 22928,
+      "sha256": "cc77e9901415848efbc10005e918d0df486fdd55b1afdac574bebebce419527c",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Game/States/FateData.cs",
+      "bytes": 1005,
+      "sha256": "9d5235bfb0356e788259352a354be94f41e18f7c6200cd8bad4873f09c695dfc",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Game/States/GameAction.cs",
+      "bytes": 415962,
+      "sha256": "75ca22e1a96ef21ac7b7098f8f6c9726f728dda7064ebac01323ff5b8acb1013",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Game/States/GameActionQueued.cs",
+      "bytes": 682,
+      "sha256": "e54d8e1558c6f90c07eff6e2708b3a8a74d7e8f2d3ab8e06e019da862197cc39",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Game/States/Items/BoothItem.cs",
+      "bytes": 484,
+      "sha256": "aa7c6390e69ec6755999e769c29ad9288dbad800c29da5a02cb9a7f91ae36ea6",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Game/States/Items/Item.cs",
+      "bytes": 105862,
+      "sha256": "4a4b84cf26edc047d7e6a29e309debd2bb5194c02092a7d9edee5590bfac8cd3",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Game/States/Items/ItemQuench.cs",
+      "bytes": 12931,
+      "sha256": "986cf143a95b17de7bb1fe2f87a66f0631213f77430f3c7af4767998313daa9e",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Game/States/Items/MapItem.cs",
+      "bytes": 15548,
+      "sha256": "78c010be19d26a5af9d4545f92f788f694b0ce95ee86950025a7e15fcd9708a6",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Game/States/Items/UserPackage.cs",
+      "bytes": 69182,
+      "sha256": "493640094ce442ffd5c84931e4ae33f02a7a4ff62d39e62b353e3d0c141c5008",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Game/States/JiangHu.cs",
+      "bytes": 42731,
+      "sha256": "e1d006714479075634eefb8df68b2f9bad1b27b066098aee97171b78247cd0f0",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Game/States/JiangHuStar.cs",
+      "bytes": 720,
+      "sha256": "0d06cfdff9a396eba1653d3dba1a393cedeff32ceb704afeec7c9cb4fd26048f",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Game/States/Magics/Magic.cs",
+      "bytes": 8413,
+      "sha256": "2c985ccc0105630861ae5cf6f565604751f35c7899db2c9a71138774aea49eff",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Game/States/Magics/MagicData.cs",
+      "bytes": 14490,
+      "sha256": "04f34b936a8c450978b4541b7cb5dd09b6957d16c8551069cb26803f80971b9a",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Game/States/Magics/MagicDataProcessing.cs",
+      "bytes": 174706,
+      "sha256": "3a0fc97a58204492e0009e3cf5ec4ef07c4c042c527c18cc65cb46360bea89c3",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Game/States/Magics/MagicTypeOperation.cs",
+      "bytes": 7578,
+      "sha256": "205c03fa7c1bcbea27171aed1bfe60758e8e2140f539ea710ebbde1c395043df",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Game/States/Mails/MailBox.cs",
+      "bytes": 7138,
+      "sha256": "a5600987e7f70cbc6411e50e32434dbd21e1d2fc9f69dd574323e690dd18f9c0",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Game/States/Mails/MailMessage.cs",
+      "bytes": 1998,
+      "sha256": "fde319934a6cb149311c7c649e708d20e4fefa2224b39145c4769f590c27423c",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Game/States/MapTrap.cs",
+      "bytes": 20898,
+      "sha256": "6da18c86b18ce0b00a78c5c0aecd9a2be4a12eb07a8d803d7be086b6075139ef",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Game/States/MessageBoard.cs",
+      "bytes": 5031,
+      "sha256": "92a230ef87252da0c376d9fc20ff44e4688d132a1c6f7233e2bfd4936e47292a",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Game/States/MessageBoxes/CaptchaBox.cs",
+      "bytes": 1820,
+      "sha256": "670b84fee5638bbd6e99aa54c508bbec02d1e9bd73c63d245f9dbded30c60b00",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Game/States/MessageBoxes/CleanInventoryMessageBox.cs",
+      "bytes": 667,
+      "sha256": "c09698be189db05c814a01582166be6c53fb47e1c917d54d70f683727b3d8225",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Game/States/MessageBoxes/MessageBox.cs",
+      "bytes": 1180,
+      "sha256": "8b12960e6ad33a124a1f2dbcb37bbbafc86ef7ec821b5cf7094dd4b220fc19ed",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Game/States/MessageBoxes/TimedMessageBox.cs",
+      "bytes": 1914,
+      "sha256": "e29c14a22d13a128f007c5c60db3aace0578acdf700ab7bb4302b7ebd63bbe1a",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Game/States/Mining/MineControl.cs",
+      "bytes": 858,
+      "sha256": "db18b0b2370d82a39f8dde15b80d71c4cbbaba7ce9602003c92309ee8105f76b",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Game/States/Monster.cs",
+      "bytes": 30570,
+      "sha256": "a4b27bae0f9d89a212c5408fd6cddf5c578c986e4ec89f48ba47653b4436b9bf",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Game/States/NPCs/BaseNpc.cs",
+      "bytes": 11110,
+      "sha256": "f0afe2afe67918dd6f95e2a23458090f6f8bb9e4c283f81a6b098f3aaf24fb85",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Game/States/NPCs/BoothNpc.cs",
+      "bytes": 4033,
+      "sha256": "578f7f8a99dec709f859e4540fa52c13506d82236aa8306f607eb7c5e3fb774f",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Game/States/NPCs/DynamicNpc.cs",
+      "bytes": 15733,
+      "sha256": "65e68801e6a56328113af3bdf36ade5bb0b6aa34eba3c501ee2a225fa825ff35",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Game/States/NPCs/Npc.cs",
+      "bytes": 3165,
+      "sha256": "0e532b914c89f0a97e198052ebedb2477311f8f656448f0e2674eb99d971bfa3",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Game/States/NeiGong/InnerStrength.cs",
+      "bytes": 23590,
+      "sha256": "2448456f53c4ba4de9bdaefb7b163342fe18fbe2f807cbe32b4765fbdeaeea8a",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Game/States/NeiGong/InnerStrengthPower.cs",
+      "bytes": 4481,
+      "sha256": "11f45d9515f83e2ef12822272d9165ffce9bb5368eaf7995aed4d51e1a7ed1d8",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Game/States/NeiGong/InnerStrengthSecret.cs",
+      "bytes": 7700,
+      "sha256": "56d20c87937b2b66a862d526f0aaa72a0e2ec15c2fd1360b4ed8ea4a89b88a1f",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Game/States/NeiGong/NeiGongInfo.cs",
+      "bytes": 4115,
+      "sha256": "f412871109a17a4f744ec1de573ea713928d4ab9c464b16ef002d5778756a426",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Game/States/PkStatistic.cs",
+      "bytes": 2681,
+      "sha256": "629adf0648aab89a1d382c26b2f7ab377d781c0f3fa940e85aa0b494de260c40",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Game/States/PkStatisticInfo.cs",
+      "bytes": 1786,
+      "sha256": "19cc6c881b2f64d7e1323ceb1b331db27a3c651d7ec19e1055a95723c5268d30",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Game/States/Relationship/Enemy.cs",
+      "bytes": 2480,
+      "sha256": "f05b6ef1eeebd2a083a95d768dc64054ecc6fe49c8995933f10e0e3e3621806e",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Game/States/Relationship/Friend.cs",
+      "bytes": 2630,
+      "sha256": "69eda6b476a53e94b686b7cd918754f2902eee23e1bc6d1d8c7804279352e7c0",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Game/States/Role.cs",
+      "bytes": 44795,
+      "sha256": "50e2e4d56ffde895178e7391246b74913ce9502c70fdb2162cb4ee71d82df2e1",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Game/States/StatusSet.cs",
+      "bytes": 40979,
+      "sha256": "698a538200507004e8a3e40b0d6a53b75cb6feddb39c67036ed27f9094829b62",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Game/States/SubClass.cs",
+      "bytes": 7518,
+      "sha256": "94438e22176f472eebb0268435c473fe8502e147f7f73557261de542916ee2e9",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Game/States/Syndicates/Syndicate.cs",
+      "bytes": 157158,
+      "sha256": "abe3cf5f1fa6dc5db617ec768c721966c075b45af93301d08f1177db9ceafdb5",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Game/States/Syndicates/SyndicateMember.cs",
+      "bytes": 14474,
+      "sha256": "da32f4640b7ac12eb629e9b61683209c61902477d60d8710954994d39f7d5030",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Game/States/Syndicates/SyndicateRelationBox.cs",
+      "bytes": 1853,
+      "sha256": "6287a585e0339ebf0612226abf5867e53eb18029c5bdfde41171c36b9d783b43",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Game/States/Syndicates/Totem.cs",
+      "bytes": 3584,
+      "sha256": "508e366faf10577164c251ffe4cbe563ac48318f905f303579de47c0ddde179b",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Game/States/Syndicates/TotemPole.cs",
+      "bytes": 2433,
+      "sha256": "0224f371ac06e7824f5740645681109babe05b8fc554b097fc70eaf9f6dc4874",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Game/States/TaskDetail.cs",
+      "bytes": 9179,
+      "sha256": "32c201104de9e2e2a8c1f9dd0c680c83209799701e6aeec3467953fc626c682c",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Game/States/Team.cs",
+      "bytes": 13331,
+      "sha256": "1fabe48459011017c6636e074ce13ee39331e109a5fc2060cd622e63a2b02c26",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Game/States/Trade.cs",
+      "bytes": 12392,
+      "sha256": "13db8250c13796a3b8f87c6f08f1e383077ee85e4f8bc803a0d3b31574e7e808",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Game/States/TradePartner.cs",
+      "bytes": 3403,
+      "sha256": "061b85e6abd571df53502eebf02b378289a7927695cb9587616380197dea6079",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Game/States/Transfer/TransferAuthArgs.cs",
+      "bytes": 673,
+      "sha256": "e1de539a23c1a540bdd0cea49912a32b0b6c9a047bef0c191182664d19439836",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Game/States/Tutor.cs",
+      "bytes": 10514,
+      "sha256": "491ddc85cd718c548619b42bdf6bdeee3f8200a4fc7edcf7a10e32d7732eb307",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Game/States/User/Character.cs",
+      "bytes": 149241,
+      "sha256": "996ad9482e4ca9dadb626abae99ed76800ecc176dc733cf8bc070f457dbe79de",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Game/States/User/CharacterBattle.cs",
+      "bytes": 78381,
+      "sha256": "03c57878ee3b1380ef22a85f99753feacc6763f73fa6f33550ec2bdd0e5cf7e4",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Game/States/User/CharacterCheat.cs",
+      "bytes": 2228,
+      "sha256": "ca2ebd5f4de457252c8708182ec9ee2aa90f80910106cc31e3661d996054b842",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Game/States/User/CharacterEvent.cs",
+      "bytes": 28074,
+      "sha256": "57a7ad975ee7977aae38367b2fa8ad7da17fb41f72adc26104cc2bd723ae77b3",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Game/States/User/CharacterFamily.cs",
+      "bytes": 8109,
+      "sha256": "a18493b10513f6eeb85c86c29a099d889060bd5acc8f8bc3f6f580f61cc5a9fd",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Game/States/User/CharacterItem.cs",
+      "bytes": 30208,
+      "sha256": "3324ea29012275138c4e860f5c7f8c439172cb664ff82f15d6b022ff3c854c5c",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Game/States/User/CharacterRelation.cs",
+      "bytes": 28980,
+      "sha256": "6947a5a347d36737522ff5501177fd29085c7d4b75e674552cb9eea40b4d74af",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Game/States/User/CharacterSyndicate.cs",
+      "bytes": 5257,
+      "sha256": "9993d55c0695402acd769c6d59a091d2050924fb2e3024f0247c7b55e4de2c08",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Game/States/User/CharacterTrade.cs",
+      "bytes": 5563,
+      "sha256": "2002caba5f62da787382faddca4480d9bbdfa7ef9078f96ed0e6255772ac91b5",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Game/States/User/Client.cs",
+      "bytes": 3252,
+      "sha256": "18a732a351f4fa79679094152e3eda4f0f39e5e066ea7907ffe905cd84dc4a92",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Game/States/User/Transformation.cs",
+      "bytes": 2267,
+      "sha256": "8fcec0dc59830aa46f0ed3b1900662c6f2b0352c98c4d03fd8d6459d66c9112b",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Game/States/UserStatistic.cs",
+      "bytes": 5536,
+      "sha256": "a3f54c69940ea83231fec6c85c6567acf13b5774de5c9f4a20494a90640a1974",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Game/States/WeaponSkill.cs",
+      "bytes": 3878,
+      "sha256": "c4b044128b924ba41d6ae4d70d515f4e6ddbd44151ea412ce7965a4ecf574810",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Game/States/World/GameMap.cs",
+      "bytes": 23196,
+      "sha256": "415295e9cd43ac6c9b20f889890820fd7808b42735519100324dab55be7148e7",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Game/States/World/InstanceMap.cs",
+      "bytes": 2278,
+      "sha256": "9b419172287ceeb780b31803e4c698c8fd59b5799d653599699196f81a586593",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Game/States/World/Screen.cs",
+      "bytes": 7180,
+      "sha256": "6d1506f8758ed4bf97583c042466ddb4503f62f5f97d218d9db16752da99ff60",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Game/States/World/Weather.cs",
+      "bytes": 13510,
+      "sha256": "22e1484fedfdba97e77fd4f67456cba579142ab25605278b18decc6710e5d8c4",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Game/Threading/AutomaticActionThread.cs",
+      "bytes": 1540,
+      "sha256": "6d6cdecf42bcd5c157379374f5b83ddb6cc2cbf3eeceb9f7d70183467f146bbe",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Game/Threading/BasicThread.cs",
+      "bytes": 4174,
+      "sha256": "6a05c1472181e89c1e439333c6bf542d73f37a32c08d8f8a26743db64f3e0e6e",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Game/Threading/EventThread.cs",
+      "bytes": 378,
+      "sha256": "a81ec9219fd7758bb7a658046d67794360eb09c22f0cb4b6327a0af8400f7d37",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Game/Threading/RoleThread.cs",
+      "bytes": 372,
+      "sha256": "9e57464fa48119512cf9ee804a375efffafe5aadc1a73870aa3dcc5fb8341b86",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Game/Threading/UserThread.cs",
+      "bytes": 1201,
+      "sha256": "c3a146e494c82aa0fd89e20061a16c36d2b96f754a6da857a244f340dbd829b3",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Game/lua/lua.ini",
+      "bytes": 23,
+      "sha256": "15374ee2a8100276bf742f125a5ce318089b62588ad5cacb9cf23badd0b5da4d",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Game/lua/todo.lua",
+      "bytes": 943,
+      "sha256": "8e9d4882fe28064042050fd5a9cefd54ce57c4dca027e6cb1f1317dab2f9ea19",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Login/Canyon.Login.Config.json",
+      "bytes": 842,
+      "sha256": "bc2aa15e0ab88e7b3ae392572acaf175383a743852593cef82a92822f390c052",
+      "tracked": false,
+      "excluded_reason": "upstream-credential-examples"
+    },
+    {
+      "path": "src/Canyon.Login/Canyon.Login.Config.local.json",
+      "bytes": 841,
+      "sha256": "175e6f6be9a555da883b431b3b589644d64f25de21bac37f11bd8c2ee5eb5618",
+      "tracked": false,
+      "excluded_reason": "upstream-credential-examples"
+    },
+    {
+      "path": "src/Canyon.Login/Canyon.Login.csproj",
+      "bytes": 1800,
+      "sha256": "21052018864c4d28aeca7c7cb7cc8832bc723fe261a576e599978032dd9d1179",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Login/Configuration.cs",
+      "bytes": 3194,
+      "sha256": "21d2ba98b93fc30af9342deaabb1e1977b6d658ad4028c3e1e3ceddd1c794b88",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Login/Database/Entities/GameAccount.cs",
+      "bytes": 2663,
+      "sha256": "f7931df38e754938b100a555f7bb0d2764898c64c92b7723e1d1aa75848cc91d",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Login/Database/Entities/GameAccountAuthority.cs",
+      "bytes": 379,
+      "sha256": "d8cafecc3800984ccecac510c03b95c36eb2c72133ee9e196996ea4e3650a1db",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Login/Database/Entities/GameAccountVip.cs",
+      "bytes": 684,
+      "sha256": "6fc9a37189a22c495b1c0d78699e627c3e4d8e26019da798cba98af2991ca036",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Login/Database/Entities/RealmData.cs",
+      "bytes": 1140,
+      "sha256": "075423ead0077b0196006b0fc63640da1d1294860748bfd27b4f7267a4b74f2c",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Login/Database/ServerDbContext.cs",
+      "bytes": 498,
+      "sha256": "1e85fda01732753903c00552ec7db7769ce2f635ba5355abf823ded0382e7c6e",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Login/Kernel.cs",
+      "bytes": 2569,
+      "sha256": "0bc58a816b4bb45f1f33c675ecd4f4593ae273310626d83124e592c0a4b7d86a",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Login/Managers/ClientManager.cs",
+      "bytes": 1082,
+      "sha256": "6dd35255ff2b2eb9196f2b4821e10f2b03bdd566256069a99377f0d8411dd564",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Login/Managers/RealmManager.cs",
+      "bytes": 1033,
+      "sha256": "b7664aa7ad11c8d8a911fca4cdde86eda077dd53fea8c09567661ec1f88ca730",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Login/Program.cs",
+      "bytes": 4024,
+      "sha256": "e5e6d428598aed303928f910b35cbf848063c7a4bdb28bb0adb954faac665fec",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Login/Repositories/AccountRepository.cs",
+      "bytes": 750,
+      "sha256": "0e1d9d6084bc8b500645632d66e0e890b831b6c2d4d4eefd84d3f0bf78b1af20",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Login/Repositories/RealmRepository.cs",
+      "bytes": 4969,
+      "sha256": "988566fd46a02baa0c3f40eccd4a6f575e78069bf52d6dc14241ffc61fb0136b",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Login/Repositories/VipRepository.cs",
+      "bytes": 472,
+      "sha256": "b8963f04d2bbbf54da017b6066ace2b3cc1e1b876f540dda3e9399f4ce812b02",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Login/Sockets/Game/GameServer.cs",
+      "bytes": 4643,
+      "sha256": "0feaf02e1021612f6ce2a463903fb795f17a683c4ec03b45aa709ebd805bd2ff",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Login/Sockets/Game/Packets/MsgAccServerAuth.cs",
+      "bytes": 3263,
+      "sha256": "bb776e11f3a757a371bac5903ba3aaf096f0af368e95998697d97a685ba6ffba",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Login/Sockets/Game/Packets/MsgAccServerAuthEx.cs",
+      "bytes": 198,
+      "sha256": "aa6e01b0ece0dba56b1163a99f8c69dbbae55059d7260321e0203413eb7deb4a",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Login/Sockets/Game/Packets/MsgAccServerHandshake.cs",
+      "bytes": 509,
+      "sha256": "a3c3a69142a4992ac97c1c5e146e9d2f5beb71fef06e9514ca08aac620a604ba",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Login/Sockets/Game/Packets/MsgAccServerLoginExchange.cs",
+      "bytes": 213,
+      "sha256": "c6323d34bedf7c4dc6f029876642095959fe2bd9fb2b9d68379c8466aff14ed7",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Login/Sockets/Game/Packets/MsgAccServerLoginExchangeEx.cs",
+      "bytes": 1317,
+      "sha256": "4353d130bc211717381b56bdaa72ce73e9414bae6b18e264cd740829e85becf4",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Login/Sockets/Game/Packets/MsgAccServerPing.cs",
+      "bytes": 331,
+      "sha256": "02c01719227cdaa5bddf73f186607b6d349309f8077b827d18d25667d058fb38",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Login/Sockets/Login/LoginServer.cs",
+      "bytes": 3105,
+      "sha256": "3e215e8c1dd5a20eda9b2727878166e6bc3e818e31b3be4f6ec244d4a0e53a11",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Login/Sockets/Login/Packets/MsgAccount.cs",
+      "bytes": 5758,
+      "sha256": "219eb4905df1e7fd750a3e0605201e3b1b782a9bd6d6279da7cf7e3c6c43f2d1",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Login/Sockets/Login/Packets/MsgConnect.cs",
+      "bytes": 300,
+      "sha256": "0246eadccac918dde6df5498701648a01a2b719a64d23436399e091627420ab1",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Login/Sockets/Login/Packets/MsgConnectEx.cs",
+      "bytes": 409,
+      "sha256": "545aed9bd0669fa5b3d558b4db5297d1d28f062beecb1d715257fca04d32f074",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Login/Sockets/Login/Packets/MsgEncryptCode.cs",
+      "bytes": 278,
+      "sha256": "64b2ebfdb34022cf3ce505d7f961c86d0acae3452fa12a4825d210ab04fe6bd6",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Login/Sockets/Login/Packets/MsgPCNum.cs",
+      "bytes": 329,
+      "sha256": "e9f74d9fa8c37ca05cebe29d06a8ed7e487865320c97427bd85b622a8a3644db",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Login/States/Client.cs",
+      "bytes": 1488,
+      "sha256": "231258eb6fe100ac8ebf9aa66065d82a4ca353dcb64247d594bfb169c4368f4b",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Login/States/Player.cs",
+      "bytes": 291,
+      "sha256": "89775451b94a7937c63710c408cceb17d9eb6b2e3fd634471504a14b209de033",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Login/States/Realm.cs",
+      "bytes": 1307,
+      "sha256": "53c0e50dc4fcd10df523f561b54f1f59bab2f545be18631ad3d39fd4cec93a3d",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Login/States/Requests/GameAccountLoginRequest.cs",
+      "bytes": 236,
+      "sha256": "9fafa47de69866dff9b14d22987ea2e530e2741429197c4f50ba9a2e4cb86eb1",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Login/States/Requests/RealmSyncRequest.cs",
+      "bytes": 285,
+      "sha256": "137487155a6c093516e3f52638bc9f97521e3c04027f56870ded2a85f6a34efd",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Login/States/Requests/RealmValidationRequest.cs",
+      "bytes": 487,
+      "sha256": "60e6982c27166aeaf98eb2cc70f4214a48054948914464e1269e34100cdbf4bb",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Login/States/Responses/GameAccountLoginResponse.cs",
+      "bytes": 420,
+      "sha256": "c65eae88cdf1cb352c1d80384edb3d164ee85ebff28bec44a9fbeabaef873723",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Login/States/Responses/GameAccountResponse.cs",
+      "bytes": 351,
+      "sha256": "d048b41936498281f5f36509d497b6039437d1ddfc6305305d02e8269f956621",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Login/States/Responses/RealmDataResponse.cs",
+      "bytes": 708,
+      "sha256": "128531c68a0a0f443d8a7b43be7879f081bf703ddf9802b07ba400059c60a262",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Login/Threading/BasicThread.cs",
+      "bytes": 570,
+      "sha256": "8b0c3528e11aa546277c09a4511e1b2202811d78f4379162fb4f43399bdf0fb5",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Network.Tests/BaseImpl/TcpActor.cs",
+      "bytes": 665,
+      "sha256": "b7620546d100135248a9476f2b5ea2aa0b82507c6847895cb0964da28841bf5b",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Network.Tests/Canyon.Network.Tests.csproj",
+      "bytes": 757,
+      "sha256": "ee4101e74a00cd19c84728262c8a1bb8b73420f8be9273275e12b99c65ecd090",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Network.Tests/Packets/Piglet/MsgPigletHandshakeTests.cs",
+      "bytes": 1763,
+      "sha256": "3486e74f3cdfd09c127e1822fa09e2ec52b0e0630f0d1e3abdc0a1228b1d3e37",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Network.Tests/Packets/Piglet/MsgPigletLoginTests.cs",
+      "bytes": 870,
+      "sha256": "1378015411de69bf2d959a7a2ee3ecb8666e44f6f26de4993db5c950e4f018b5",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Network/Canyon.Network.csproj",
+      "bytes": 689,
+      "sha256": "dabecf97c38772bef828ff90f6de4eb390575730354ea494e4f3602c967c26fb",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Network/NetworkDefinition.cs",
+      "bytes": 311,
+      "sha256": "fca929849686a9149cee816c98f77a4a8169ad03bd27d4834a16829bd44bb8ce",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Network/NetworkMonitor.cs",
+      "bytes": 2715,
+      "sha256": "23751b8b38e09b86597b4ca86e7416a8bd865a5b454718f076f8db5d883fc12b",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Network/Packets/Ai/MsgAiAction.cs",
+      "bytes": 2018,
+      "sha256": "985e878d93551afa000ca3f0a813238857ae5d17e7ba6358ebea4891e5edd723",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Network/Packets/Ai/MsgAiDynaMap.cs",
+      "bytes": 3774,
+      "sha256": "d99c07f662c7abafdca1833027f244b29a413329804d12912cc7f22e095860e8",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Network/Packets/Ai/MsgAiGeneratorManage.cs",
+      "bytes": 2159,
+      "sha256": "d26bb1dcec5370d21e091e46f6c1327e43ec0be5887f6277c206bfe49eb04ee7",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Network/Packets/Ai/MsgAiHandshake.cs",
+      "bytes": 3285,
+      "sha256": "d1a5e4ae5727602a03a272f6051e679748a5a8629525acb402a9c8ab092803ca",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Network/Packets/Ai/MsgAiInteract.cs",
+      "bytes": 1797,
+      "sha256": "afc76e2582e4b6fb75e686e430d3f4d40f4e9f7dc122b584170ac5ea234586a8",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Network/Packets/Ai/MsgAiLoginExchange.cs",
+      "bytes": 1016,
+      "sha256": "334f70d42bd6642abf6f9466537d272a3473b3514d2bb8e245c927c7c3df46aa",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Network/Packets/Ai/MsgAiLoginExchangeEx.cs",
+      "bytes": 1041,
+      "sha256": "551122b211e5030274e6ce9801cba111404597718dea3a25059c70596246d201",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Network/Packets/Ai/MsgAiPing.cs",
+      "bytes": 1123,
+      "sha256": "1d1469786935312703dbf9e4ea06b598644be9ffeb826c8d26e45b48baf043d6",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Network/Packets/Ai/MsgAiPlayerLogin.cs",
+      "bytes": 3133,
+      "sha256": "3fc64013dd1fcdd80f7b817a8f6269991e7aae6ef453cdf33b20ffa1a85b73a2",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Network/Packets/Ai/MsgAiPlayerLogout.cs",
+      "bytes": 834,
+      "sha256": "06675ff552fdac90b8a135e31bd3e62ecdb58d61e09c03ce9c98a98e6cd5d433",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Network/Packets/Ai/MsgAiRoleLogin.cs",
+      "bytes": 2041,
+      "sha256": "3f0acc8aa69dcc1450ec63900c519a95ccd0912112fc8707cb8db6ea61ef3bae",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Network/Packets/Ai/MsgAiRoleStatusFlag.cs",
+      "bytes": 1300,
+      "sha256": "b04f69beb92714b32c394fe874fca2fe379dae2b83ad61d28a9939a7c36f8b44",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Network/Packets/Ai/MsgAiSpawnNpc.cs",
+      "bytes": 4198,
+      "sha256": "f524d181d9fcce18e73bda9d412e6fe5e86d48e3bb9fbf5561ca3975010356a4",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Network/Packets/IPacket.cs",
+      "bytes": 501,
+      "sha256": "2d2cbec096154ff04dcfa49f1b31da0cba30921e50dd95f0048486136801337f",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Network/Packets/Login/MsgAccServerAuth.cs",
+      "bytes": 723,
+      "sha256": "ca54ef4b383d31f5e46cd0182eb697aa91cbe7055ab628823f729fd6e72c0348",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Network/Packets/Login/MsgAccServerAuthEx.cs",
+      "bytes": 870,
+      "sha256": "bd004adbc2bd5dcaf0faad3a66d8d85720ca85fe619e65ed611694f9fba95338",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Network/Packets/Login/MsgAccServerHandshake.cs",
+      "bytes": 2087,
+      "sha256": "5f410b896206325545975b1c0dde44c0c98073b6db37181abb0c33c1248423ef",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Network/Packets/Login/MsgAccServerLoginExchange.cs",
+      "bytes": 922,
+      "sha256": "e60f5f0cc6b5349e9845afd28747872b395e78b81f0fffc52c79d5b729f94440",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Network/Packets/Login/MsgAccServerLoginExchangeEx.cs",
+      "bytes": 916,
+      "sha256": "913de59d8535718eecf817af865ddbf2454ec7577bbc17a783c9499939fdff4a",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Network/Packets/Login/MsgAccServerPing.cs",
+      "bytes": 668,
+      "sha256": "eb718cbdf63d11ea3c54bab2d090ecaab793ca1ca2f76197b237b51f1fb5b263",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Network/Packets/Login/MsgAccount.cs",
+      "bytes": 2556,
+      "sha256": "5d34423b71b0ec2133afbacae803a2e06bfe68b3932eb5a9e0caa07d12124535",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Network/Packets/Login/MsgConnect.cs",
+      "bytes": 1609,
+      "sha256": "b3b3f92895ce0237c31214350e6c4c7205e40919203e1816ce441095de688d72",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Network/Packets/Login/MsgConnectEx.cs",
+      "bytes": 3993,
+      "sha256": "a9d2ef71c26d75eb76f7386726ed0b1ac5a98e5804254271155eb2aff125b14a",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Network/Packets/Login/MsgEncryptCode.cs",
+      "bytes": 1179,
+      "sha256": "572af41e37dcf56237871918832d9a7144036a16200fa4b3878e6596e4778f90",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Network/Packets/Login/MsgPCNum.cs",
+      "bytes": 837,
+      "sha256": "993ebb715cfa0eb6d929518dcd52a043558a716816e6b9cf5d426a557e63c2e8",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Network/Packets/MsgBase.cs",
+      "bytes": 2762,
+      "sha256": "33d2c1e571056655d9fc273460ff8cce6a4fe64c96fdadf7998d0e18e620fc29",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Network/Packets/MsgProtoBufBase.cs",
+      "bytes": 1381,
+      "sha256": "da761ff66d000e2a4a0c6227469be38b9a69cdc54cf5541c0725adc272f774ae",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Network/Packets/PacketDump.cs",
+      "bytes": 1605,
+      "sha256": "8a941b0e3578b11067a735d74d658c3f0caac4414067a1c112a5d3bd517924ad",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Network/Packets/PacketProcessor.cs",
+      "bytes": 8527,
+      "sha256": "d546555ec8aecafee439560fc4351ef4c78a9484507b0d1071ef33e1fa9d8e89",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Network/Packets/PacketReader.cs",
+      "bytes": 4073,
+      "sha256": "672add63c526ab13fdecdc42aff47de48f6d246cdef19ae017d8b99a9a61c138",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Network/Packets/PacketType.cs",
+      "bytes": 9302,
+      "sha256": "a9bdb33abd4baeb4d389789311f16c97bada0afd3a17bfe7001e0328db6cdf21",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Network/Packets/PacketWriter.cs",
+      "bytes": 4261,
+      "sha256": "a07e9c2869e68631b91be3cd40741b1f2764905f444e0b1a574a9280761006c2",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Network/Packets/Piglet/MsgPigletClaimFirstCredit.cs",
+      "bytes": 612,
+      "sha256": "da434b598391349bfc2472669d149c6329bae4ef9dd8b4b1d56332c6084cb3ae",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Network/Packets/Piglet/MsgPigletHandshake.cs",
+      "bytes": 2068,
+      "sha256": "97ffe15bd7283230e029bc69dab596979d5057fa6287cb5411628e946ae67de7",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Network/Packets/Piglet/MsgPigletItemSuspicious.cs",
+      "bytes": 750,
+      "sha256": "ab50562e6f2420fa156e96c2652da23ebd0a2e29f43cf062b6550a903b85d8ad",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Network/Packets/Piglet/MsgPigletLogOutputRedirect.cs",
+      "bytes": 757,
+      "sha256": "116c290aaec88d66cc22c29348d198ef5924e7c76358c13f0f475f4372ba3f54",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Network/Packets/Piglet/MsgPigletLogin.cs",
+      "bytes": 1130,
+      "sha256": "1a27160435a40630a13623e232f58ee046f317b125f218e32e79e111acd4493a",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Network/Packets/Piglet/MsgPigletLoginEx.cs",
+      "bytes": 555,
+      "sha256": "aed80653e63bf64af0463814f2f03f41b0865a3b6a555a276057bcce07c81117",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Network/Packets/Piglet/MsgPigletPing.cs",
+      "bytes": 558,
+      "sha256": "611670037e2edce15f032d3203f75371d2576e45ba895b8f255685488096dbb0",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Network/Packets/Piglet/MsgPigletRealmAction.cs",
+      "bytes": 1026,
+      "sha256": "8d9d8a707876e340c5655b748402d09e167a4e3af5e48405df1323fa8a4c7308",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Network/Packets/Piglet/MsgPigletRealmAnnounceMaintenance.cs",
+      "bytes": 633,
+      "sha256": "e13864d6e667fd1c16ca58359988492f1663002bc1e3a4391b5633ee3df96d4b",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Network/Packets/Piglet/MsgPigletRealmStatus.cs",
+      "bytes": 806,
+      "sha256": "4c9313dcf04fd41afa3943e1340bb53b7fbbb0854f87c8f0c3db5b80a68ced4e",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Network/Packets/Piglet/MsgPigletShutdown.cs",
+      "bytes": 572,
+      "sha256": "13f758d23f6e89561ce3e47edbbbdb2b82eea706e73ec4cb8689163b1542fb70",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Network/Packets/Piglet/MsgPigletUserBan.cs",
+      "bytes": 711,
+      "sha256": "7d6f217795622d0029c5973f95adf7574de8f8b461daeb5cac008a836133e684",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Network/Packets/Piglet/MsgPigletUserCount.cs",
+      "bytes": 639,
+      "sha256": "ea8fc5d4c32f155634a5f823e7b1f0e6e0c63d0c9934a9ad02f59dd195c07e1a",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Network/Packets/Piglet/MsgPigletUserCreditInfo.cs",
+      "bytes": 589,
+      "sha256": "9d35bd6899dc8ce5c93db4af26a8a8c1d9145a0dbf440e04191b40faa4330824",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Network/Packets/Piglet/MsgPigletUserCreditInfoEx.cs",
+      "bytes": 945,
+      "sha256": "828c675906a22a628826682ba0eb5081499dfb85e8c14b6b311493b08b358fb0",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Network/Packets/Piglet/MsgPigletUserLogin.cs",
+      "bytes": 1039,
+      "sha256": "6958a7453905a779457991d14f63a94781cda2fef27d48dd9344d4d72838a61f",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Network/Packets/Piglet/MsgPigletUserMail.cs",
+      "bytes": 1339,
+      "sha256": "f3fb3f31951ffec89c35d0fe25c7ad72352cbaeda67bed67f3e829cb9565023c",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Network/Packets/Piglet/MsgPigletUserMassMail.cs",
+      "bytes": 1529,
+      "sha256": "062fcf05928c802c5b7381ffa991632cde4c630f180f7f7baf216edd4521f90a",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Network/Security/AesCipher.cs",
+      "bytes": 3583,
+      "sha256": "36807950faeba50d11a6564bc3a121ff59e6dce1252f54751f0babc58f6153a3",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Network/Security/AesCipherHelper.cs",
+      "bytes": 1522,
+      "sha256": "a556c3581c3c565d045ccfd18fb1e93a4584f74b62fe070caed8dbc81c92808a",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Network/Security/BlowfishCipher.cs",
+      "bytes": 24780,
+      "sha256": "1d7535601f132a497af827a2a95ba61341c0920e481ed89e3c1f68d61dbc7d77",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Network/Security/BouncyCastle/Cast5Engine.cs",
+      "bytes": 47708,
+      "sha256": "0c626945aa396057e151f71cfce8b52bc19144a6f4ef3f0435e1636b86bc5536",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Network/Security/Cast5Cipher.cs",
+      "bytes": 2531,
+      "sha256": "fb5bc59e49e86b1e270a54f37d52ba783df109938e33829969dcfb9c7b92d9db",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Network/Security/DiffieHellman.cs",
+      "bytes": 3478,
+      "sha256": "c73ea61579cff262d71c941aea69c2331c403951bff978be1c9c25669ee2be6c",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Network/Security/ICipher.cs",
+      "bytes": 1215,
+      "sha256": "7847909a19f0cde44febf0001e2f289b8466af7c4b5799fee5b6db189331e733",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Network/Security/NDDiffieHellman.cs",
+      "bytes": 3855,
+      "sha256": "493a0df7f4209eb179371c3f2b730b091cbf6caa21ce2ef3d1042b36d678fb33",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Network/Security/RC5.cs",
+      "bytes": 6632,
+      "sha256": "9100b0f998726e6613bcf846789445e028c59b14f84ca7a07ac92e0cb3b5e1dc",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Network/Security/ScanCodeCipher.cs",
+      "bytes": 5610,
+      "sha256": "d19fde01a6fdb20fc74aa8ad6ae84b751619347aec0b5991cf4d0aaed76b3561",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Network/Security/TQCipher.cs",
+      "bytes": 7032,
+      "sha256": "ff0afe1c697b951f6dcfa827def8da6d6f4b33260fd8dd0b3ee9727397510011",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Network/Security/Utilities/Check.cs",
+      "bytes": 765,
+      "sha256": "ba16c956431e790080a5fad4c36043a7f254ddb015a33cfbaccb0705efdae81d",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Network/Security/Utilities/Pack.cs",
+      "bytes": 12129,
+      "sha256": "c56908d86a929cb0a35be3e7f2dd5ab76e686182d31f6621d2a6300885e2db6b",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Network/Services/PrimeGeneratorService.cs",
+      "bytes": 2054,
+      "sha256": "d7d7311482453a03482b20e4bf9990daa2c054579fa4ed9e6a58a8c3380b5f22",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Network/Services/RandomnessService.cs",
+      "bytes": 5701,
+      "sha256": "912f23ca67e4c7c0ec3b1cbb7cddf53b09c4d8f01221ceb97ab89b8ed4a046f0",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Network/Sockets/TcpClientEvents.cs",
+      "bytes": 3674,
+      "sha256": "3628e4532c21c02d8cb48aba24deb4275d1c9d9ab75bdb7b4001ad808704f2ca",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Network/Sockets/TcpClientWrapper.cs",
+      "bytes": 14143,
+      "sha256": "584907212bb3ddaf2cc161148e67bacffba2a5c91ca287e9fa36107410b7c4ec",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Network/Sockets/TcpServerActor.cs",
+      "bytes": 5331,
+      "sha256": "231901d8aef36f7181fae3afaff6a33addda05f3a42d99fae1bea27b46c15b0b",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Network/Sockets/TcpServerEvents.cs",
+      "bytes": 3912,
+      "sha256": "4e41cd50a9a759725c2608831642bf064365f62d9d203877c8a939d27a8e395c",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Network/Sockets/TcpServerListener.cs",
+      "bytes": 19461,
+      "sha256": "bee69110118c9a546cc7f5e2b719e7f826762ef1b79a22a77822f4baf7f77f22",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Network/Sockets/TcpServerRegistry.cs",
+      "bytes": 7650,
+      "sha256": "d51ea18f5c69d6d79a7e728b38bad99af7aa1fc97155f08bbc7d207a14e031bb",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Shared/Canyon.Shared.csproj",
+      "bytes": 789,
+      "sha256": "a9008edce222a07d764a0584c53ca36cda6f081a4868913956d8ea8f8640dc79",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Shared/Helpers/ByteArrayHelper.cs",
+      "bytes": 601,
+      "sha256": "db791f063c3be1a8a992b1a050908965bec51990d6e3dad3070cc90f2f516f98",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Shared/LogFactory.cs",
+      "bytes": 4868,
+      "sha256": "054cca0d6db4cbaeed51d93fc2952267230a021e3421b11f063de11e930119a4",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Shared/Loggers/CanyonFileLogger.cs",
+      "bytes": 1442,
+      "sha256": "e3c65e2fa96e78bd0b62bab1302d857b699bdee3a3c49d3c2398b80cbd33babc",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Shared/Loggers/CanyonGmFileLogger.cs",
+      "bytes": 1139,
+      "sha256": "6f0c365aaf72f329d996c9192e40e049f03245b3acb7b461073c7b91bf113327",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Shared/Loggers/LogProcessor.cs",
+      "bytes": 1929,
+      "sha256": "d37372f058c8ce890a66e53a973769cc0afb40caced2486d45b6badc8eaade17",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Shared/Loggers/LogQueueMessage.cs",
+      "bytes": 214,
+      "sha256": "1adb603793b410ecc81b6f6b72e40f1f9c3352608726211a39a83d639cc7e57e",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Shared/Managers/IdentityManager.cs",
+      "bytes": 3225,
+      "sha256": "621505de45a309c4da0396dd6ba549ab7d1d3aa9783e66a436dd1cee6646dbd9",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Shared/Mathematics/Bresenham.cs",
+      "bytes": 6372,
+      "sha256": "106e5e5020ae6ba66f997ea59c7fc376cd839e4b7c192098792be0c63417c63f",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Shared/Mathematics/Calculations.cs",
+      "bytes": 16448,
+      "sha256": "997b9561f4b04c40bd236033a3c347d994ae16be562a5b98aac287ec34dbf997",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Shared/Mathematics/Rotations.cs",
+      "bytes": 1280,
+      "sha256": "a26d07f14d449a1ed330439fd5e55717a0dbb5b0768fdc5ded233a370f1b00f9",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Shared/Mathematics/Swaps.cs",
+      "bytes": 572,
+      "sha256": "85752b82fa6d944964eab9d410336efe6caf7d396ebb90572358ce5635f5dbbc",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Shared/Rest/HttpClientLogHandler.cs",
+      "bytes": 3150,
+      "sha256": "bcfff06cf9935ec4576ef961429537fae016e6cd794067183e45014aaf15d9ba",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Shared/Rest/Models/HttpClientLog.cs",
+      "bytes": 295,
+      "sha256": "c2d552f2e3bc6bf1b7874af97f7b993d97c4f6f9134fbb907f402d3cb7cb0b0d",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Shared/Rest/Models/HttpClientRequestLog.cs",
+      "bytes": 248,
+      "sha256": "fdb6ff4d713b89205eea875d11699720430d1ea64a319365df9037610a030027",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Shared/Rest/Models/HttpClientResponseLog.cs",
+      "bytes": 252,
+      "sha256": "d0cf4b0765efb1d21f1094f26b127cb8388899085a8c4a65701592ce71cffa93",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Shared/Rest/RestClient.cs",
+      "bytes": 5399,
+      "sha256": "3c27d9e02afd961e6d090227484e46bb34d97b8f603c6a24cd80f5e98ca6e38d",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Shared/Threads/SchedulerFactory.cs",
+      "bytes": 4076,
+      "sha256": "1de2f8e9bfe8572712291f7966cb084fda03e895dd124a2f919f867cbb6683c3",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Shared/Threads/ThreadBase.cs",
+      "bytes": 2709,
+      "sha256": "8eb45e65c74f95cdd44cda3935bae2460f782481f9a79a2db3040561e441e5b6",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Shared/Timeout.cs",
+      "bytes": 5969,
+      "sha256": "b634ec6f47eb4655087329ca3b8ce17ed7418b09ae0dd57909724b5f9efecc8b",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.Shared/UnixTimestamp.cs",
+      "bytes": 1277,
+      "sha256": "208e4cbec7b902a1aa6c11df38029ac00224fb722b66d3169904e2d36bb53685",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.World/Canyon.World.csproj",
+      "bytes": 562,
+      "sha256": "e19831e9f9f23433231c37b13f9e2e3aa26c32235b39fc7698475c2fbb2884c2",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.World/Enums/MapTypeFlag.cs",
+      "bytes": 1356,
+      "sha256": "bc0d2eb367c8bcdd84f1b1792ee96bd22da80502e4f73374624e77cbd5adf8e4",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.World/Enums/RegionType.cs",
+      "bytes": 446,
+      "sha256": "945b6e2fcbb3e0096826143ce6e75c4ba1bc0786534622ac7a0fc1a67720791d",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.World/Enums/SceneryType.cs",
+      "bytes": 271,
+      "sha256": "059d1f4bd890c79355938639f7acd3b6e82a65eb0931ab629c173bc72aa1db8f",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.World/Enums/TileType.cs",
+      "bytes": 282,
+      "sha256": "917519e89cc31217d07878ee90cb863aa2f883ac344f175684c17d615ca3c523",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.World/MapDataManager.cs",
+      "bytes": 2053,
+      "sha256": "a3269de1adc0fcfeb8bca92e49956781ef65bacc53ced30904a2b0fe55b1e3a2",
+      "tracked": true
+    },
+    {
+      "path": "src/Canyon.World/Roles/WorldObject.cs",
+      "bytes": 456,
+      "sha256": "88633ebb79f83a2089ca8fb7db37330c43405ddc8408b294ff63af345dda4191",
+      "tracked": true
+    },
+    {
+      "path": "src/auto-patcher-server/dockerfile",
+      "bytes": 390,
+      "sha256": "77d2a7eef26f9c2458700a8de403fabcb8ee626159e1ff54d7e847760777cc8a",
+      "tracked": true
+    },
+    {
+      "path": "src/auto-patcher-server/package-lock.json",
+      "bytes": 37884,
+      "sha256": "4f2c56270e7be0a20f8c10bd22adfad22d78d116699cc08641c41168d1f4cc68",
+      "tracked": true
+    },
+    {
+      "path": "src/auto-patcher-server/package.json",
+      "bytes": 334,
+      "sha256": "10e267d62087e8561b10b3aab144928681ad1fdaa92464f316b1cefe9d12b3c1",
+      "tracked": true
+    },
+    {
+      "path": "src/auto-patcher-server/server.js",
+      "bytes": 3667,
+      "sha256": "17578fe1d05f2116862ce98f3d97401f6150d033c27afae8c18d4cca0374488c",
+      "tracked": true
+    },
+    {
+      "path": "src/auto-patcher-server/views/dashboard.ejs",
+      "bytes": 2156,
+      "sha256": "88d72063ac55d46a37724191cf8bfa6a010bb084984f3b40be00a8672adfe960",
+      "tracked": true
+    },
+    {
+      "path": "src/auto-patcher-server/views/login.ejs",
+      "bytes": 414,
+      "sha256": "79bc2ede1818643ae87aecf5884bf005838bbf6e0c0b54a471c7b1e4ed6e2f56",
+      "tracked": true
+    },
+    {
+      "path": "wait-for-it.sh",
+      "bytes": 5109,
+      "sha256": "b63e55d956d1bd89cb60e3c708cfffe178624117a00ad25aba649707c9eee2ec",
+      "tracked": true
+    }
+  ]
+}
