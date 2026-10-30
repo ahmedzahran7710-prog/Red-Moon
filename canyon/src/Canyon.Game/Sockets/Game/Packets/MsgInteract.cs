@@ -165,9 +165,18 @@ namespace Canyon.Game.Sockets.Game.Packets
 
         public override async Task ProcessAsync(Client client)
         {
-            Character user = client.Character;
+            Character user = client?.Character;
+            if (user == null)
+            {
+                return;
+            }
 
             Role sender = RoleManager.GetRole(SenderIdentity);
+            if (sender == null
+                || (sender.Identity != user.Identity && (!sender.IsCallPet() || sender.OwnerIdentity != user.Identity)))
+            {
+                return;
+            }
 
             if (SenderIdentity == user.Identity && !user.IsAlive)
             {

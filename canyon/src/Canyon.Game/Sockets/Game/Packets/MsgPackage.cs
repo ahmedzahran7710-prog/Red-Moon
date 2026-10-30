@@ -173,7 +173,12 @@ namespace Canyon.Game.Sockets.Game.Packets
 
         public override async Task ProcessAsync(Client client)
         {
-            Character user = client.Character;
+            Character user = client?.Character;
+            if (user == null)
+            {
+                return;
+            }
+
             if (!user.IsUnlocked())
             {
                 await user.SendSecondaryPasswordInterfaceAsync();
@@ -242,6 +247,8 @@ namespace Canyon.Game.Sockets.Game.Packets
                             }
 
                             break;
+                        default:
+                            return;
                     }
                 }
             }

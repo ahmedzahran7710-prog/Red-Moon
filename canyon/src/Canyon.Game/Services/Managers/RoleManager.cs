@@ -382,6 +382,11 @@ namespace Canyon.Game.Services.Managers
 
         public static bool IsValidName(string szName)
         {
+            if (string.IsNullOrWhiteSpace(szName) || szName.Length < 3 || szName.Length > 15)
+            {
+                return false;
+            }
+
             if (long.TryParse(szName, out _))
             {
                 return false;

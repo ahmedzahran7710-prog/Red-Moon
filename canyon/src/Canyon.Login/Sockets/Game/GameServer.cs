@@ -18,7 +18,7 @@ namespace Canyon.Login.Sockets.Game
         public static GameServer Instance { get; private set; }
 
         public GameServer()
-            : base(10, 4096, false, true, NetworkDefinition.ACCOUNT_FOOTER.Length)
+            : base(10, 4096, false, true, NetworkDefinition.ACCOUNT_FOOTER.Length, NetworkDefinition.ACCOUNT_FOOTER, 4088)
         {
             Instance = this;
 
@@ -89,6 +89,13 @@ namespace Canyon.Login.Sockets.Game
 
             try
             {
+                if (type != PacketType.MsgAccServerAuth && actor.Data == null)
+                {
+                    logger.LogWarning("Rejected unauthenticated realm packet [{}] from [{}]", type, actor.IpAddress);
+                    actor.Disconnect();
+                    return;
+                }
+
                 MsgBase<Realm> msg;
                 switch (type)
                 {

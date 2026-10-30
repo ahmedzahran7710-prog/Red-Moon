@@ -192,7 +192,18 @@ namespace Canyon.Game.Sockets.Game.Packets
 
         public override async Task ProcessAsync(Client client)
         {
-            Character sender = client.Character;
+            Character sender = client?.Character;
+            if (sender == null || string.IsNullOrWhiteSpace(Message))
+            {
+                return;
+            }
+
+            Message = Message.Replace("\0", string.Empty);
+            if (Message.Length > 255)
+            {
+                Message = Message[..255];
+            }
+
             Character target = RoleManager.GetUser(RecipientName);
 
             if (sender.Name != SenderName)
@@ -363,7 +374,7 @@ namespace Canyon.Game.Sockets.Game.Packets
                 fullCmd = fullCmd.Substring(3, fullCmd.Length - 6);
             }
 
-            if (fullCmd[0] != '/')
+            if (string.IsNullOrEmpty(fullCmd) || fullCmd[0] != '/')
             {
                 return false;
             }

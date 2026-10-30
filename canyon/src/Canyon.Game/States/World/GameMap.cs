@@ -488,7 +488,7 @@ namespace Canyon.Game.States.World
 
         public bool GetRebornMap(ref uint idMap, ref Point target)
         {
-            idMap = mapEntity?.RebornMap ?? dynaMapEntity.RebornMap;
+            idMap = mapEntity?.RebornMap ?? dynaMapEntity?.RebornMap ?? 1002;
             GameMap targetMap = MapManager.GetMap(idMap);
             if (targetMap == null)
             {
@@ -496,16 +496,41 @@ namespace Canyon.Game.States.World
                 return false;
             }
 
-            if (mapEntity.LinkX == 0 || mapEntity.LinkY == 0)
+            ushort linkX = mapEntity?.LinkX ?? dynaMapEntity?.LinkX ?? 0;
+            ushort linkY = mapEntity?.LinkY ?? dynaMapEntity?.LinkY ?? 0;
+            if (linkX == 0 || linkY == 0)
             {
                 target = new Point(targetMap.PortalX, targetMap.PortalY);
             }
             else
             {
-                target = new Point(mapEntity.LinkX, mapEntity.LinkY);
+                target = new Point(linkX, linkY);
             }
 
             return true;
+        }
+
+        public bool HasPassageNear(int centerX, int centerY, int idxPassage, int radius)
+        {
+            if (idxPassage < 0 || mapData == null)
+            {
+                return false;
+            }
+
+            for (int dx = -radius; dx <= radius; dx++)
+            {
+                for (int dy = -radius; dy <= radius; dy++)
+                {
+                    int x = centerX + dx;
+                    int y = centerY + dy;
+                    if (IsValidPoint(x, y) && mapData.GetPassage(x, y) == idxPassage)
+                    {
+                        return true;
+                    }
+                }
+            }
+
+            return false;
         }
 
         public bool GetPassageById(int idxPassage, ref uint idMap, ref Point target, ref Point source)
@@ -520,7 +545,13 @@ namespace Canyon.Game.States.World
                 return false;
             }
 
-            Passway passway = passways.FirstOrDefault(x => x.Index == idxPassage);
+            int passwayIndex = passways.FindIndex(x => x.Index == idxPassage);
+            if (passwayIndex < 0)
+            {
+                return false;
+            }
+
+            Passway passway = passways[passwayIndex];
             logger.LogDebug($"Passway [{idxPassage}]");
             logger.LogDebug($"Passway [{passway.Index}] [{passway.TargetMap}] [{passway.TargetX}] [{passway.TargetY}]");
             idMap = passway.TargetMap;
@@ -543,7 +574,7 @@ namespace Canyon.Game.States.World
                 return false;
             }
 
-            int idxPassage = idxPassage = mapData.GetPassage(source.X, source.Y);
+            int idxPassage = mapData.GetPassage(source.X, source.Y);
 
             if (idxPassage < 0)
             {
@@ -562,7 +593,13 @@ namespace Canyon.Game.States.World
                 return true;
             }
 
-            Passway passway = passways.FirstOrDefault(x => x.Index == idxPassage);
+            int passwayIndex = passways.FindIndex(x => x.Index == idxPassage);
+            if (passwayIndex < 0)
+            {
+                return GetRebornMap(ref idMap, ref target);
+            }
+
+            Passway passway = passways[passwayIndex];
             logger.LogDebug($"Passway [{idxPassage}] [{passway.Index}] [{passway.TargetMap}] [{passway.TargetX}] [{passway.TargetY}]");
             idMap = passway.TargetMap;
             target = new Point(passway.TargetX, passway.TargetY);

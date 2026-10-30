@@ -70,6 +70,14 @@ namespace Canyon.Ai.Sockets
 
             try
             {
+                if (type != PacketType.MsgAiLoginExchangeEx
+                    && actor.Stage != GameServer.ConnectionStage.Ready)
+                {
+                    logger.LogWarning("Rejected packet {Type} before AI authentication completed.", type);
+                    actor.Disconnect();
+                    return;
+                }
+
                 MsgBase<GameServer> msg = null;
                 switch (type)
                 {

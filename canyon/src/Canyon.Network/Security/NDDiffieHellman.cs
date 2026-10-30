@@ -72,14 +72,43 @@ namespace Canyon.Network.Security
         /// <returns>Bytes representing the private key for Blowfish Cipher.</returns>
         public void ComputePrivateKey(string clientKeyString)
         {
+            if (string.IsNullOrWhiteSpace(clientKeyString) || clientKeyString.Length > 256)
+            {
+                throw new CryptographicException("Invalid client Diffie-Hellman key.");
+            }
+
+            for (int i = 0; i < clientKeyString.Length; i++)
+            {
+                if (!Uri.IsHexDigit(clientKeyString[i]))
+                {
+                    throw new CryptographicException("Malformed hex in client Diffie-Hellman key.");
+                }
+            }
+
             var clientKey = new BigInteger(clientKeyString, 16);
+            BigInteger maxValid = PrimeRoot.Subtract(BigInteger.One);
+            if (clientKey.CompareTo(BigInteger.One) <= 0 || clientKey.CompareTo(maxValid) >= 0)
+            {
+                throw new CryptographicException("Rejected trivial or out-of-range client Diffie-Hellman key.");
+            }
+
             PrivateKey = clientKey.ModPow(Modulus, PrimeRoot);
+            if (PrivateKey.CompareTo(BigInteger.One) <= 0)
+            {
+                throw new CryptographicException("Invalid derived Diffie-Hellman shared secret.");
+            }
         }
 
         public byte[] ProcessDHSecret()
         {
+            if (PrivateKey == null)
+            {
+                throw new CryptographicException("Diffie-Hellman shared secret has not been initialized.");
+            }
+
             byte[] key = PrivateKey.ToByteArrayUnsigned();
-            string sz1 = md5.ComputeHash(key, 0, key.TakeWhile(x => x != 0).Count()).ToHexString();
+            int validLength = key.TakeWhile(x => x != 0).Count();
+            string sz1 = md5.ComputeHash(key, 0, validLength).ToHexString();
             string sz2 = md5.ComputeHash(Encoding.ASCII.GetBytes(string.Concat(sz1, sz1))).ToHexString();
             return Encoding.ASCII.GetBytes(string.Concat(sz1, sz2));
         }

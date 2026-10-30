@@ -306,17 +306,12 @@ namespace Canyon.Network.Sockets
                 //    break;
                 //}
                 var length = BitConverter.ToUInt16(buffer.Slice(consumed, 2));
-                if (length == 0)
+                if (length < 4 || length + footerLength > buffer.Length)
                 {
                     return false;
                 }
 
                 int expected = consumed + length + footerLength;
-                if (length > buffer.Length)
-                {
-                    return false;
-                }
-
                 if (expected > examined)
                 {
                     break;

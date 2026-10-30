@@ -63,9 +63,19 @@ namespace Canyon.Game.Sockets.Game.Packets
         /// <param name="client">Client requesting packet processing</param>
         public override async Task ProcessAsync(Client client)
         {
-            if (client != null && Data.Identity == client.Character.Identity)
+            if (client?.Character == null)
+            {
+                return;
+            }
+
+            if (Data.Identity == client.Character.Identity)
             {
                 Character user = client.Character;
+                if (!await user.ValidateMovementRateAsync(isJump: false))
+                {
+                    return;
+                }
+
                 await user.ProcessOnMoveAsync();
 
                 bool moved = await user.MoveTowardAsync((int)Data.Direction, (int)Data.Mode);
@@ -143,7 +153,7 @@ namespace Canyon.Game.Sockets.Game.Packets
             }
 
             Role target = RoleManager.GetRole(Data.Identity);
-            if (target == null)
+            if (target == null || !target.IsCallPet() || target.OwnerIdentity != client.Character.Identity)
             {
                 return;
             }

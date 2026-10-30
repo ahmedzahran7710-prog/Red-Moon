@@ -13,7 +13,18 @@ namespace Canyon.Login.Sockets.Game.Packets
 
         public override async Task ProcessAsync(Realm client)
         {
-            var actor = ClientManager.GetClient(Guid.Parse(Data.Request));
+            if (client?.Data == null)
+            {
+                return;
+            }
+
+            if (string.IsNullOrWhiteSpace(Data.Request) || !Guid.TryParse(Data.Request, out Guid requestGuid))
+            {
+                logger.LogWarning("Malformed login exchange request GUID from realm [{}]", client.Data.RealmName);
+                return;
+            }
+
+            var actor = ClientManager.GetClient(requestGuid);
             if (actor == null)
             {
                 logger.LogInformation("{} was not found on client dictionary!", Data.Request);
