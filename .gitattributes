@@ -9,11 +9,18 @@ RequiredAssetsForRun/** -text -whitespace
 /dockerfile -text -whitespace
 /wait-for-it.sh -text -whitespace
 
-# Keep project governance, documentation, and manifest as clean UTF-8 LF text.
+# Preserve imported and patched ConquerLoader files byte-for-byte inside the client loader folder.
+"/لورد الكلينت/**" -text -whitespace
+
+# Keep project governance, guides, manifests, and templates as clean UTF-8 LF text.
 /.gitattributes text eol=lf
 /.gitignore text eol=lf
 /AGENTS.md text eol=lf
 /README.md text eol=lf
 /CANYON-AUDIT.md text eol=lf
 /canyon-manifest.json text eol=lf
+"/متطلبات التشغيل.md" text eol=lf
 /ميموري.md text eol=lf
+"/لورد الكلينت/README.md" text eol=lf
+"/لورد الكلينت/config.json" text eol=lf
+"/لورد الكلينت/loader-manifest.json" text eol=lf

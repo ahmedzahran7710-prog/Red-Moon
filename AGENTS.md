@@ -7,6 +7,7 @@ Before changing anything in this repository:
 1. Read `ميموري.md` at the repository root.
 2. Treat `ميموري.md` as the persistent project memory for owner requirements, workflow rules, local environment and connection coordinates, gameplay decisions, and the CanyonV6192 engineering/security record.
 3. Update `ميموري.md` after every research round, audit, bug fix, configuration change, architectural decision, or user correction.
+4. Keep `متطلبات التشغيل.md` updated automatically whenever any modification changes setup steps, configuration files, database structure, ports, client requirements, or `لورد الكلينت/` usage, so the owner always has an accurate runbook ready at his PC.
 
 ## Communication & Style Rules
 
