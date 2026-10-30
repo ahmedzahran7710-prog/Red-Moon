@@ -1222,17 +1222,28 @@ namespace Canyon.Game.States
         {
             try
             {
-                if (param.Trim().StartsWith("SELECT", StringComparison.InvariantCultureIgnoreCase) ||
-                    param.Trim().StartsWith("UPDATE", StringComparison.InvariantCultureIgnoreCase))
+                if (!IsSafeActionSql(param, selectOnly: false))
                 {
-                    if (!param.Contains("WHERE") || !param.Contains("LIMIT"))
+                    logger.LogCritical($"Blocked unsafe SQL in ExecuteActionExecutequery {action.Id}: [{param}]");
+                    return false;
+                }
+
+                string trimmed = param.Trim();
+                if (trimmed.StartsWith("SELECT", StringComparison.InvariantCultureIgnoreCase) ||
+                    trimmed.StartsWith("UPDATE", StringComparison.InvariantCultureIgnoreCase) ||
+                    trimmed.StartsWith("DELETE", StringComparison.InvariantCultureIgnoreCase))
+                {
+                    if (!trimmed.Contains("WHERE", StringComparison.InvariantCultureIgnoreCase) ||
+                        (!trimmed.StartsWith("DELETE", StringComparison.InvariantCultureIgnoreCase)
+                         && !trimmed.Contains("LIMIT", StringComparison.InvariantCultureIgnoreCase)))
                     {
-                        logger.LogCritical($"ExecuteActionExecutequery {action.Id} doesn't have WHERE or LIMIT clause [{param}]");
+                        logger.LogCritical($"ExecuteActionExecutequery {action.Id} missing required WHERE/LIMIT clause [{param}]");
                         return false;
                     }
                 }
 
-                await new ServerDbContext().Database.ExecuteSqlRawAsync(param);
+                await using var db = new ServerDbContext();
+                await db.Database.ExecuteSqlRawAsync(param);
             }
             catch (Exception ex)
             {
@@ -8029,19 +8040,128 @@ namespace Canyon.Game.States
             DbAction action, string param, Character user,
             Role role, Item item, string input)
         {
-            if (user == null)
+            if (user == null || action.Data >= Role.MAX_VAR_AMOUNT)
             {
+                return false;
+            }
+
+            if (!IsSafeActionSql(param, selectOnly: true))
+            {
+                logger.LogCritical($"Blocked unsafe SQL in ExecuteActionUserSelectToData {action.Id}: [{param}]");
                 return false;
             }
 
             try
             {
-                user.VarData[action.Data] = long.Parse(await ServerDbContext.ScalarAsync(param));
+                string scalar = await ServerDbContext.ScalarAsync(param);
+                user.VarData[action.Data] = long.TryParse(scalar, out long parsed) ? parsed : 0;
             }
             catch (Exception ex)
             {
                 logger.LogCritical(ex, "Error executing select to data", ex.Message);
                 return false;
+            }
+
+            return true;
+        }
+
+        private static string EscapeSqlLiteral(string value)
+        {
+            if (string.IsNullOrEmpty(value))
+            {
+                return string.Empty;
+            }
+
+            var sb = new System.Text.StringBuilder(value.Length + 8);
+            foreach (char c in value)
+            {
+                switch (c)
+                {
+                    case '\\': sb.Append(@"\\"); break;
+                    case '\'': sb.Append(@"\'"); break;
+                    case '"': sb.Append(@"\" + "\""); break;
+                    case '\0': break;
+                    case '\b': sb.Append(@"\b"); break;
+                    case '\n': sb.Append(@"\n"); break;
+                    case '\r': sb.Append(@"\r"); break;
+                    case '\t': sb.Append(@"\t"); break;
+                    case '\x1A': sb.Append(@"\Z"); break;
+                    default: sb.Append(c); break;
+                }
+            }
+            return sb.ToString();
+        }
+
+        private static bool IsSafeActionSql(string sql, bool selectOnly)
+        {
+            if (string.IsNullOrWhiteSpace(sql))
+            {
+                return false;
+            }
+
+            string trimmed = sql.Trim().TrimEnd(';').Trim();
+            if (string.IsNullOrEmpty(trimmed))
+            {
+                return false;
+            }
+
+            // Strip single/double quoted literals to inspect SQL structure for stacked queries or comments
+            var unquoted = new System.Text.StringBuilder(trimmed.Length);
+            bool inSingle = false, inDouble = false;
+            for (int i = 0; i < trimmed.Length; i++)
+            {
+                char c = trimmed[i];
+                if (c == '\\' && (inSingle || inDouble))
+                {
+                    i++;
+                    continue;
+                }
+                if (c == '\'' && !inDouble)
+                {
+                    inSingle = !inSingle;
+                    unquoted.Append(' ');
+                    continue;
+                }
+                if (c == '"' && !inSingle)
+                {
+                    inDouble = !inDouble;
+                    unquoted.Append(' ');
+                    continue;
+                }
+                if (!inSingle && !inDouble)
+                {
+                    unquoted.Append(c);
+                }
+            }
+
+            if (inSingle || inDouble)
+            {
+                return false;
+            }
+
+            string structural = unquoted.ToString();
+            if (structural.Contains(';') || structural.Contains("--") || structural.Contains("/*") || structural.Contains("*/"))
+            {
+                return false;
+            }
+
+            string upper = structural.ToUpperInvariant();
+            if (selectOnly && !upper.StartsWith("SELECT "))
+            {
+                return false;
+            }
+
+            string[] forbidden =
+            {
+                "INTO OUTFILE", "INTO DUMPFILE", "LOAD_FILE",
+                "DROP ", "ALTER ", "TRUNCATE ", "GRANT ", "REVOKE ", "CREATE USER", "BENCHMARK(", "SLEEP("
+            };
+            foreach (string token in forbidden)
+            {
+                if (upper.Contains(token, StringComparison.Ordinal))
+                {
+                    return false;
+                }
             }
 
             return true;
@@ -10772,16 +10892,20 @@ namespace Canyon.Game.States
         private static async Task<string> FormatParamAsync(DbAction action, Character user, Role role, Item item, string input)
         {
             string result = action.Param;
+            bool isSqlAction = (TaskActionType)action.Type is TaskActionType.ActionExecutequery or TaskActionType.ActionUserSelectToData;
+            string SafeStr(string value, string fallback = "") => isSqlAction
+                ? EscapeSqlLiteral(value ?? fallback)
+                : (value ?? fallback);
 
-            result = result.Replace("%user_name", user?.Name ?? StrNone)
+            result = result.Replace("%user_name", SafeStr(user?.Name, StrNone))
                 .Replace("%user_id", user?.Identity.ToString() ?? "0")
                 .Replace("%user_lev", user?.Level.ToString() ?? "0")
                 .Replace("%user_mete", user?.Metempsychosis.ToString() ?? "0")
                 .Replace("%user_meto", user?.Metempsychosis.ToString() ?? "0")
-                .Replace("%user_mate", user?.MateName ?? StrNone)
+                .Replace("%user_mate", SafeStr(user?.MateName, StrNone))
                 .Replace("%user_pro", user?.Profession.ToString() ?? "0")
                 .Replace("%user_map_id", user?.Map?.Identity.ToString() ?? "0")
-                .Replace("%user_map_name", user?.Map?.Name ?? StrNone)
+                .Replace("%user_map_name", SafeStr(user?.Map?.Name, StrNone))
                 .Replace("%user_map_x", user?.X.ToString() ?? "0")
                 .Replace("%user_map_y", user?.Y.ToString() ?? "0")
                 .Replace("%map_owner_id", user?.Map?.OwnerIdentity.ToString() ?? "0")
@@ -10789,7 +10913,7 @@ namespace Canyon.Game.States
                 .Replace("%user_nobility_position", user?.NobilityPosition.ToString() ?? "0")
                 .Replace("%user_home_id", user?.HomeIdentity.ToString() ?? "0")
                 .Replace("%syn_id", user?.SyndicateIdentity.ToString() ?? "0")
-                .Replace("%syn_name", user?.SyndicateName ?? StrNone)
+                .Replace("%syn_name", SafeStr(user?.SyndicateName, StrNone))
                 .Replace("%account_id", user?.Client?.AccountIdentity.ToString() ?? "0")
                 .Replace("%user_virtue", user?.VirtuePoints.ToString() ?? "0")
                 .Replace("%map_owner_id", user?.Map?.OwnerIdentity.ToString() ?? "0")
@@ -10800,7 +10924,7 @@ namespace Canyon.Game.States
                 .Replace("%user_vip", user?.BaseVipLevel.ToString())
                 .Replace("%user_team", user?.Team?.MemberCount.ToString() ?? "0");
 
-            result = result.Replace("%accept0", input);
+            result = result.Replace("%accept0", SafeStr(input));
 
             if (result.Contains("%levelup_exp"))
             {
@@ -10885,7 +11009,7 @@ namespace Canyon.Game.States
                     for (int i = Role.MAX_VAR_AMOUNT - 1; i >= 0; i--)
                     {
                         result = result.Replace($"%iter_var_data{i}", user.VarData[i].ToString());
-                        result = result.Replace($"%iter_var_str{i}", user.VarString[i]);
+                        result = result.Replace($"%iter_var_str{i}", SafeStr(user.VarString[i]));
                     }
                 }
 
@@ -10969,7 +11093,7 @@ namespace Canyon.Game.States
             if (item != null)
             {
                 result = result.Replace("%item_data", item.Identity.ToString())
-                    .Replace("%item_name", item.Name)
+                    .Replace("%item_name", SafeStr(item.Name))
                     .Replace("%item_type", item.Type.ToString())
                     .Replace("%item_id", item.Identity.ToString());
             }
@@ -11024,7 +11148,7 @@ namespace Canyon.Game.States
 
                 var data = await DynamicGlobalDataManager.GetAsync(evt);
                 string value = DynamicGlobalDataManager.GetStringData(data, idx);
-                result = ReplaceFirst(result, $"%global_dyna_data_str({evt},{idx})", value.ToString());
+                result = ReplaceFirst(result, $"%global_dyna_data_str({evt},{idx})", SafeStr(value));
             }
 
             while (result.Contains("%global_dyna_data"))

@@ -23,7 +23,7 @@ namespace Canyon.Game.Sockets.Game
         /// </summary>
         /// <param name="config">The server's read configuration file</param>
         public GameServer(ServerConfiguration config)
-            : base(config.Realm.MaxOnlinePlayers, exchange: true, footerLength: 8)
+            : base(config.Realm.MaxOnlinePlayers, exchange: true, footerLength: 8, expectedFooter: "TQClient", maxPacketSize: 1024)
         {
             processor = new PacketProcessor<Client>(ProcessAsync, config.Realm.Processors);
             _ = processor.StartAsync(CancellationToken.None).ConfigureAwait(false);
@@ -546,7 +546,7 @@ namespace Canyon.Game.Sockets.Game
                     default:
                         {
                             logger.LogWarning($"Missing packet {type}, Length {length}\n{PacketDump.Hex(packet)}");
-                            if (actor.Character.IsGm())
+                            if (actor.Character?.IsGm() == true)
                             {
                                 await actor.SendAsync(new MsgTalk(actor.Identity, TalkChannel.Service,
                                                                   string.Format("Missing packet {0}, Length {1}",
@@ -576,18 +576,23 @@ namespace Canyon.Game.Sockets.Game
                 }
                 else
                 {
-                    // we will not send all packets to NO_MAP_GROUP
-                    // after this point we are only letting 1052 and first 10010 packet
-                    if (type == PacketType.MsgConnect 
-                        || type == PacketType.MsgRegister 
-                        || type == PacketType.MsgRank
-                        || (msg is MsgAction action && action.Action != MsgAction.ActionType.MapJump))
+                    // Strict pre-map packet state gate:
+                    // 1. Before MsgConnect: only MsgConnect is accepted.
+                    // 2. Character creation stage: only MsgRegister (or MsgConnect) is accepted.
+                    // 3. Authenticated character awaiting map partition entry: only MsgRank and non-jump login MsgAction.
+                    bool allowPreMap =
+                        (type == PacketType.MsgConnect && actor.Character == null)
+                        || (type == PacketType.MsgRegister && actor.Creation != null && actor.Character == null)
+                        || (actor.Character != null && (type == PacketType.MsgRank
+                            || (msg is MsgAction action && action.Action != MsgAction.ActionType.MapJump)));
+
+                    if (allowPreMap)
                     {
                         Kernel.Services.Processor.Queue(ServerProcessor.NO_MAP_GROUP, () => msg.ProcessAsync(actor));
                     }
                     else
                     {
-                        logger.LogWarning("Message [{}] sent out of map.", type);
+                        logger.LogWarning("Rejected out-of-state pre-map packet [{}] from [{}].", type, actor.IpAddress);
                     }
                 }
             }

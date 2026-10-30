@@ -257,9 +257,16 @@ namespace Canyon.Game.Sockets.Game.Packets
 
             try
             {
+                if (!Kernel.Registration.Remove(client.Creation.Token))
+                {
+                    await client.SendAsync(RegisterInvalid);
+                    client.Disconnect();
+                    return;
+                }
+
                 // Save the character and continue with login
                 await CharacterRepository.CreateAsync(character);
-                Kernel.Registration.Remove(client.Creation.Token);
+                client.Creation = null;
 
                 await GenerateInitialEquipmentAsync(character);
 #if DEBUG_FULL_ITEM
@@ -278,6 +285,11 @@ namespace Canyon.Game.Sockets.Game.Packets
             }
             catch
             {
+                if (client.Creation != null && !Kernel.Registration.Contains(client.Creation.Token))
+                {
+                    Kernel.Registration.Add(client.Creation.Token);
+                }
+
                 await client.SendAsync(RegisterTryAgain);
                 return;
             }

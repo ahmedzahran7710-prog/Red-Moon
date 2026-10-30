@@ -2375,6 +2375,7 @@ namespace Canyon.Game.States.User
 
         public Task KickbackAsync()
         {
+            ResetMovementBudget();
             return SendAsync(new MsgAction
             {
                 Identity = Identity,
@@ -2385,6 +2386,73 @@ namespace Canyon.Game.States.User
                 Action = ActionType.Kickback,
                 Timestamp = (uint)Environment.TickCount
             });
+        }
+
+        private long moveBudgetTick;
+        private long lastSpeedViolationTick;
+        private int speedViolationCount;
+        private long lastDialogActionTick;
+
+        public void ResetMovementBudget()
+        {
+            moveBudgetTick = 0;
+        }
+
+        public bool CheckDialogActionCooldown(int cooldownMs = 500)
+        {
+            long now = Environment.TickCount64;
+            if (now - lastDialogActionTick < cooldownMs)
+            {
+                return false;
+            }
+
+            lastDialogActionTick = now;
+            return true;
+        }
+
+        public async Task<bool> ValidateMovementRateAsync(bool isJump)
+        {
+            bool hasSpeedBuff = QueryStatus(StatusSet.CYCLONE) != null
+                || QueryStatus(StatusSet.SUPER_CYCLONE) != null
+                || QueryStatus(StatusSet.DRAGON_CYCLONE) != null
+                || QueryStatus(StatusSet.OBLIVION) != null
+                || QueryStatus(StatusSet.RIDING) != null
+                || QueryStatus(StatusSet.ACCELERATED) != null
+                || QueryStatus(StatusSet.INCREASE_MOVE_SPEED) != null
+                || QueryStatus(StatusSet.FLY) != null
+                || QueryStatus(StatusSet.FATAL_STRIKE) != null;
+
+            int stepCostMs = isJump
+                ? (hasSpeedBuff ? 150 : 300)
+                : (hasSpeedBuff ? 60 : 150);
+
+            long now = Environment.TickCount64;
+            moveBudgetTick = Math.Max(now - 650, moveBudgetTick) + stepCostMs;
+            if (moveBudgetTick > now + 400)
+            {
+                if (now - lastSpeedViolationTick > 10_000)
+                {
+                    speedViolationCount = 1;
+                }
+                else
+                {
+                    speedViolationCount++;
+                }
+
+                lastSpeedViolationTick = now;
+                await KickbackAsync();
+                moveBudgetTick = now + 350;
+
+                if (speedViolationCount >= 10)
+                {
+                    logger.LogWarning("Kicking player [{Id}:{Name}] for sustained speedhack violations.", Identity, Name);
+                    await RoleManager.KickOutAsync(Identity, "Speedhack detected");
+                }
+
+                return false;
+            }
+
+            return true;
         }
 
         #endregion
@@ -2583,6 +2651,8 @@ namespace Canyon.Game.States.User
                 logger.LogWarning("FlyMap user [{Identity}] not in map", Identity);
                 return false;
             }
+
+            ResetMovementBudget();
 
             if (idMap == 0)
             {

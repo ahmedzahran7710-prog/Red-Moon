@@ -4,6 +4,7 @@ using System.Collections.Concurrent;
 using System.Net;
 using System.Net.Sockets;
 using System.Runtime.CompilerServices;
+using System.Text;
 
 namespace Canyon.Network.Sockets
 {
@@ -24,6 +25,8 @@ namespace Canyon.Network.Sockets
         private readonly ConcurrentStack<Memory<byte>> bufferPool;
         private readonly bool enableKeyExchange;
         private readonly int footerLength;
+        private readonly byte[] expectedFooterBytes;
+        private readonly int maxPacketSize;
         private readonly TaskFactory receiveTasks;
         private readonly CancellationTokenSource shutdownToken;
         private readonly Socket socket;
@@ -42,12 +45,16 @@ namespace Canyon.Network.Sockets
         /// <param name="delay">Use Nagel's algorithm to delay sending smaller packets</param>
         /// <param name="exchange">Use a key exchange before receiving packets</param>
         /// <param name="footerLength">Length of the packet footer</param>
+        /// <param name="expectedFooter">Optional ASCII packet footer to enforce on every split packet</param>
+        /// <param name="maxPacketSize">Maximum allowed packet body size in bytes</param>
         protected TcpServerListener(
             int maxConn = 1000,
             int bufferSize = 4096,
             bool delay = false,
             bool exchange = false,
-            int footerLength = 0)
+            int footerLength = 0,
+            string expectedFooter = null,
+            int maxPacketSize = 1024)
         {
             // Initialize and configure server socket
             socket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp)
@@ -62,6 +69,10 @@ namespace Canyon.Network.Sockets
             bufferPool = new ConcurrentStack<Memory<byte>>();
             enableKeyExchange = exchange;
             this.footerLength = footerLength;
+            expectedFooterBytes = !string.IsNullOrEmpty(expectedFooter) && expectedFooter.Length == footerLength
+                ? Encoding.ASCII.GetBytes(expectedFooter)
+                : null;
+            this.maxPacketSize = Math.Clamp(maxPacketSize, 64, bufferSize - footerLength);
             receiveTasks = new TaskFactory(shutdownToken.Token);
             registry = new TcpServerRegistry();
 
@@ -121,8 +132,33 @@ namespace Canyon.Network.Sockets
                     }
 
                     // Construct the client before receiving data
-                    bufferPool.TryPop(out Memory<byte> buffer);
-                    TActor actor = await AcceptedAsync(socket, buffer);
+                    if (!bufferPool.TryPop(out Memory<byte> buffer))
+                    {
+                        socket.Close();
+                        registry.RemoveActiveClient(ip);
+                        acceptanceSemaphore.Release();
+                        continue;
+                    }
+
+                    TActor actor;
+                    try
+                    {
+                        actor = await AcceptedAsync(socket, buffer);
+                        if (actor == null)
+                        {
+                            throw new SocketException((int)SocketError.ConnectionRefused);
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        logger.LogWarning(ex, "Failed to initialize accepted client from [IP: {Ip}]", ip);
+                        try { socket.Close(); } catch { }
+                        buffer.Span.Clear();
+                        bufferPool.Push(buffer);
+                        registry.RemoveActiveClient(ip);
+                        acceptanceSemaphore.Release();
+                        continue;
+                    }
 
                     // Start receiving data from the client connection
                     if (enableKeyExchange)
@@ -156,126 +192,143 @@ namespace Canyon.Network.Sockets
         {
             // Initialize multiple receive variables
             var actor = state as TActor;
-            var timeout = new CancellationTokenSource();
+            using var timeout = new CancellationTokenSource();
             int examined = 0, remaining = 0;
+            bool handoffToReceiving = false;
 
-            if (actor.Socket.Connected && !shutdownToken.IsCancellationRequested)
+            try
             {
-                try
+                if (actor.Socket.Connected && !shutdownToken.IsCancellationRequested)
                 {
-                    using var cancellation = CancellationTokenSource.CreateLinkedTokenSource(
-                        timeout.Token, shutdownToken.Token);
-                    // Receive data from the client socket
-                    ValueTask<int> receiveOperation = actor.Socket.ReceiveAsync(
-                        actor.Buffer[..],
-                        SocketFlags.None,
-                        cancellation.Token);
-
-                    timeout.CancelAfter(TimeSpan.FromSeconds(ReceiveTimeoutSeconds));
-                    examined = await receiveOperation;
-
-                    if (examined == 0)
+                    try
                     {
-                        actor.Disconnect();
-                        Disconnecting(actor);
+                        using var cancellation = CancellationTokenSource.CreateLinkedTokenSource(
+                            timeout.Token, shutdownToken.Token);
+                        // Receive data from the client socket
+                        ValueTask<int> receiveOperation = actor.Socket.ReceiveAsync(
+                            actor.Buffer[..],
+                            SocketFlags.None,
+                            cancellation.Token);
+
+                        timeout.CancelAfter(TimeSpan.FromSeconds(ReceiveTimeoutSeconds));
+                        examined = await receiveOperation;
+
+                        if (examined == 0)
+                        {
+                            return;
+                        }
+
+                        if (examined < ExchangeStartPosition + 2)
+                        {
+                            throw new InvalidOperationException("Invalid handshake packet length.");
+                        }
+                    }
+                    catch (Exception e)
+                    {
+                        if (e is SocketException socketEx)
+                        {
+                            if (socketEx.SocketErrorCode < SocketError.ConnectionAborted ||
+                                socketEx.SocketErrorCode > SocketError.Shutdown)
+                            {
+                                logger.LogError(socketEx, "ExchangingAsync Socket Exception");
+                            }
+                        }
+                        else
+                        {
+                            logger.LogWarning(e, "ExchangingAsync terminated for [IP: {Ip}]", actor.IpAddress);
+                        }
+
                         return;
                     }
 
-                    if (examined < ExchangeStartPosition + 2)
+                    int consumed;
+                    if (ExchangeStartPosition == 7) // for TQ
                     {
-                        throw new Exception("Invalid length");
-                    }
-                }
-                catch (Exception e)
-                {
-                    if (e is SocketException socketEx)
-                    {
-                        if (socketEx.SocketErrorCode < SocketError.ConnectionAborted ||
-                            socketEx.SocketErrorCode > SocketError.Shutdown)
+                        // Decrypt traffic by first discarding the first 7 bytes, as per TQ Digital's
+                        // exchange protocol, then decrypting only what is necessary for the exchange.
+                        // This is to prevent the next packet from being decrypted with the wrong key.
+                        actor.Cipher.Decrypt(
+                            actor.Buffer[..9].Span,
+                            actor.Buffer[..9].Span);
+                        ushort handshakePayloadLen = BitConverter.ToUInt16(actor.Buffer.Span.Slice(7, 2));
+                        if (handshakePayloadLen < 2)
                         {
-                            logger.LogError(socketEx, "ExchangingAsync Socket Exception");
+                            logger.LogWarning("Rejected malformed TQ handshake header length [{Len}] for [IP: {Ip}]", handshakePayloadLen, actor.IpAddress);
+                            return;
                         }
+
+                        consumed = handshakePayloadLen + 7;
                     }
                     else
                     {
-                        logger.LogError(e, "ExchangingAsync Exception");
+                        consumed = examined;
                     }
 
-                    actor.Disconnect();
-                    Disconnecting(actor);
-                    return;
-                }
-
-                int consumed;
-                if (ExchangeStartPosition == 7) // for TQ
-                {
-                    // Decrypt traffic by first discarding the first 7 bytes, as per TQ Digital's
-                    // exchange protocol, then decrypting only what is necessary for the exchange.
-                    // This is to prevent the next packet from being decrypted with the wrong key.
-                    actor.Cipher.Decrypt(
-                        actor.Buffer[..9].Span,
-                        actor.Buffer[..9].Span);
-                    consumed = BitConverter.ToUInt16(actor.Buffer.Span.Slice(7, 2)) + 7;
-                }
-                else
-                {
-                    consumed = examined;
-                }
-
-                if (consumed > examined)
-                {
-                    logger.LogError($"Exchange error length [{consumed},{examined}] for [IP: {actor.IpAddress}]");
-                    actor.Disconnect();
-                    Disconnecting(actor);
-                    return;
-                }
-
-                if (ExchangeStartPosition == 7)
-                {
-                    actor.Cipher?.Decrypt(
-                        actor.Buffer[9..consumed].Span,
-                        actor.Buffer[9..consumed].Span);
-
-                }
-                else
-                {
-                    actor.Cipher?.Decrypt(
-                        actor.Buffer[..consumed].Span,
-                        actor.Buffer[..consumed].Span);
-                }
-
-                // Process the exchange now that bytes are decrypted
-                if (!Exchanged(actor, actor.Buffer[..consumed].Span))
-                {
-                    logger.LogError("Exchange error for [IP: {IpAddress}]", actor.IpAddress);
-                    actor.Disconnect();
-                    Disconnecting(actor);
-                    return;
-                }
-
-                // Now that the key has changed, decrypt the rest of the bytes in the buffer
-                // and prepare to start receiving packets on a standard receive loop.
-                if (consumed < examined)
-                {
-                    actor.Cipher?.Decrypt(
-                        actor.Buffer[consumed..examined].Span,
-                        actor.Buffer[consumed..examined].Span);
-
-                    if (!Splitting(actor, examined, ref consumed))
+                    if (consumed > examined)
                     {
-                        logger.LogError("[Exchange] Client disconnected due to invalid packet.");
-                        actor.Disconnect();
-                        Disconnecting(actor);
+                        logger.LogWarning($"Exchange error length [{consumed},{examined}] for [IP: {actor.IpAddress}]");
                         return;
                     }
 
-                    remaining = examined - consumed;
-                    actor.Buffer[consumed..examined].CopyTo(actor.Buffer);
+                    if (ExchangeStartPosition == 7)
+                    {
+                        actor.Cipher?.Decrypt(
+                            actor.Buffer[9..consumed].Span,
+                            actor.Buffer[9..consumed].Span);
+                    }
+                    else
+                    {
+                        actor.Cipher?.Decrypt(
+                            actor.Buffer[..consumed].Span,
+                            actor.Buffer[..consumed].Span);
+                    }
+
+                    // Process the exchange now that bytes are decrypted
+                    if (!Exchanged(actor, actor.Buffer[..consumed].Span))
+                    {
+                        logger.LogWarning("Exchange error for [IP: {IpAddress}]", actor.IpAddress);
+                        return;
+                    }
+
+                    // Now that the key has changed, decrypt the rest of the bytes in the buffer
+                    // and prepare to start receiving packets on a standard receive loop.
+                    if (consumed < examined)
+                    {
+                        actor.Cipher?.Decrypt(
+                            actor.Buffer[consumed..examined].Span,
+                            actor.Buffer[consumed..examined].Span);
+
+                        if (!Splitting(actor, examined, ref consumed))
+                        {
+                            logger.LogWarning("[Exchange] Client disconnected due to invalid packet.");
+                            return;
+                        }
+
+                        remaining = examined - consumed;
+                        actor.Buffer[consumed..examined].CopyTo(actor.Buffer);
+                    }
+                }
+
+                handoffToReceiving = true;
+            }
+            catch (Exception ex)
+            {
+                logger.LogError(ex, "Unhandled exception during key exchange for [IP: {Ip}]", actor?.IpAddress);
+            }
+            finally
+            {
+                if (!handoffToReceiving && actor != null)
+                {
+                    actor.Disconnect();
+                    Disconnecting(actor);
                 }
             }
 
-            // Start receiving packets
-            await ReceivingAsync(state, remaining);
+            if (handoffToReceiving)
+            {
+                // Start receiving packets
+                await ReceivingAsync(state, remaining);
+            }
         }
 
         /// <summary>
@@ -302,73 +355,88 @@ namespace Canyon.Network.Sockets
         {
             // Initialize multiple receive variables
             var actor = state as TActor;
-            var timeout = new CancellationTokenSource();
+            using var timeout = new CancellationTokenSource();
             int examined = 0, consumed = 0;
 
-            while (actor.Socket.Connected && !shutdownToken.IsCancellationRequested)
+            try
             {
-                try
+                while (actor.Socket.Connected && !shutdownToken.IsCancellationRequested)
                 {
-#if !DEBUG
-                    using var cancellation = CancellationTokenSource.CreateLinkedTokenSource(
-                        timeout.Token, shutdownToken.Token);
-                    // Receive data from the client socket
-                    ValueTask<int> receiveOperation = actor.Socket.ReceiveAsync(
-                        actor.Buffer[remaining..],
-                        SocketFlags.None,
-                        cancellation.Token);
-#else
-                    ValueTask<int> receiveOperation = actor.Socket.ReceiveAsync(
-                        actor.Buffer[remaining..],
-                        SocketFlags.None);
-#endif
+                    try
+                    {
+                        if (remaining >= actor.Buffer.Length)
+                        {
+                            logger.LogWarning("Receive buffer overflow for [IP: {Ip}]", actor.IpAddress);
+                            break;
+                        }
 
-                    int receiveTimeOut = actor.ReceiveTimeOutSeconds > 0
-                                             ? actor.ReceiveTimeOutSeconds
-                                             : ReceiveTimeoutSeconds;
-                    timeout.CancelAfter(TimeSpan.FromSeconds(receiveTimeOut));
-                    examined = await receiveOperation;
-                    if (examined == 0)
+                        using var cancellation = CancellationTokenSource.CreateLinkedTokenSource(
+                            timeout.Token, shutdownToken.Token);
+                        // Receive data from the client socket
+                        ValueTask<int> receiveOperation = actor.Socket.ReceiveAsync(
+                            actor.Buffer[remaining..],
+                            SocketFlags.None,
+                            cancellation.Token);
+
+                        int receiveTimeOut = actor.ReceiveTimeOutSeconds > 0
+                                                 ? actor.ReceiveTimeOutSeconds
+                                                 : ReceiveTimeoutSeconds;
+#if DEBUG
+                        receiveTimeOut = Math.Max(receiveTimeOut, 300);
+#endif
+                        timeout.CancelAfter(TimeSpan.FromSeconds(receiveTimeOut));
+                        examined = await receiveOperation;
+                        if (examined == 0)
+                        {
+                            break;
+                        }
+                    }
+                    catch (OperationCanceledException)
                     {
                         break;
                     }
-                }
-                catch (OperationCanceledException e)
-                {
-                    logger.LogError(e, "ReceivingAsync OperationCanceledException");
-                    break;
-                }
-                catch (SocketException e)
-                {
-                    if (e.SocketErrorCode is < SocketError.ConnectionAborted or > SocketError.Shutdown)
+                    catch (SocketException e)
                     {
-                        logger.LogError(e, "ReceivingAsync Socket Exception");
+                        if (e.SocketErrorCode is < SocketError.ConnectionAborted or > SocketError.Shutdown)
+                        {
+                            logger.LogError(e, "ReceivingAsync Socket Exception");
+                        }
+
+                        break;
                     }
 
-                    break;
+                    // Decrypt traffic
+                    actor.Cipher?.Decrypt(
+                        actor.Buffer.Slice(remaining, examined).Span,
+                        actor.Buffer.Slice(remaining, examined).Span);
+
+                    // Handle splitting and processing of data
+                    consumed = 0;
+                    if (!Splitting(actor, examined + remaining, ref consumed))
+                    {
+                        logger.LogWarning("Client [IP: {Ip}] disconnected due to invalid packet.", actor.IpAddress);
+                        break;
+                    }
+
+                    remaining = examined + remaining - consumed;
+                    if (remaining > 0)
+                    {
+                        actor.Buffer.Slice(consumed, remaining).CopyTo(actor.Buffer);
+                    }
                 }
-
-                // Decrypt traffic
-                actor.Cipher?.Decrypt(
-                    actor.Buffer.Slice(remaining, examined).Span,
-                    actor.Buffer.Slice(remaining, examined).Span);
-
-                // Handle splitting and processing of data
-                consumed = 0;
-                if (!Splitting(actor, examined + remaining, ref consumed))
-                {
-                    logger.LogError("Client disconnected due to invalid packet.");
-                    actor.Disconnect();
-                    break;
-                }
-
-                remaining = examined + remaining - consumed;
-                actor.Buffer.Slice(consumed, remaining).CopyTo(actor.Buffer);
             }
-
-            actor.Disconnect();
-            // Disconnect the client
-            Disconnecting(actor);
+            catch (Exception ex)
+            {
+                logger.LogError(ex, "Unhandled exception in ReceivingAsync for [IP: {Ip}]", actor?.IpAddress);
+            }
+            finally
+            {
+                if (actor != null)
+                {
+                    actor.Disconnect();
+                    Disconnecting(actor);
+                }
+            }
         }
 
         /// <summary>
@@ -385,26 +453,26 @@ namespace Canyon.Network.Sockets
         {
             // Consume packets from the socket buffer
             Span<byte> buffer = actor.Buffer.Span;
-            while (consumed + 2 < examined)
+            while (consumed + 2 <= examined)
             {
                 var length = BitConverter.ToUInt16(buffer.Slice(consumed, 2));
-                if (length == 0)
+                if (length < 4 || length > maxPacketSize || length + footerLength > buffer.Length)
                 {
                     return false;
                 }
 
                 int expected = consumed + length + footerLength;
-                if (length > buffer.Length)
-                {
-                    return false;
-                }
-
                 if (expected > examined)
                 {
                     break;
                 }
 
-                // TODO add footer validation?
+                if (expectedFooterBytes != null
+                    && !buffer.Slice(consumed + length, footerLength).SequenceEqual(expectedFooterBytes))
+                {
+                    return false;
+                }
+
                 Received(actor, buffer.Slice(consumed, length)); // skip the footer
                 consumed += length + footerLength;
             }

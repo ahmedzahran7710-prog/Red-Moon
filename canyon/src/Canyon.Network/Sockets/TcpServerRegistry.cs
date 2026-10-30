@@ -33,8 +33,8 @@ namespace Canyon.Network.Sockets
         /// <param name="maxAttemptsPerMinute">Maximum connection attempts per minute</param>
         public TcpServerRegistry(
             int banMinutes = 15,
-            int maxActiveConn = int.MaxValue,
-            int maxAttemptsPerMinute = int.MaxValue)
+            int maxActiveConn = 16,
+            int maxAttemptsPerMinute = 35)
         {
             mActive = new Dictionary<string, int>();
             mAttempts = new Dictionary<string, int>();
@@ -84,12 +84,30 @@ namespace Canyon.Network.Sockets
         /// </summary>
         /// <param name="ip">IPv4 address of the client</param>
         /// <returns>True if the connection is allowed.</returns>
+        private static bool IsLoopbackIp(string ip)
+        {
+            return string.IsNullOrEmpty(ip)
+                || ip == "127.0.0.1"
+                || ip == "::1"
+                || ip.StartsWith("127.", StringComparison.Ordinal);
+        }
+
         public BlockReason AddActiveClient(string ip)
         {
-            // Check for blocked IP addresses
-            if (mBlocks.ContainsKey(ip))
+            if (IsLoopbackIp(ip))
             {
-                return BlockReason.MaxConnectionsAttempts;
+                return BlockReason.None;
+            }
+
+            // Check for blocked IP addresses
+            if (mBlocks.TryGetValue(ip, out DateTime expireAt))
+            {
+                if (expireAt > DateTime.Now)
+                {
+                    return BlockReason.MaxConnectionsAttempts;
+                }
+
+                mBlocks.TryRemove(ip, out _);
             }
 
             // Check if the client should be blocked for frequent connections and then 
@@ -151,13 +169,18 @@ namespace Canyon.Network.Sockets
         /// <param name="ip">IPv4 address of the client</param>
         public void RemoveActiveClient(string ip)
         {
+            if (IsLoopbackIp(ip))
+            {
+                return;
+            }
+
             // Decrement active connections count
             lock (mActiveMutex)
             {
                 if (mActive.TryGetValue(ip, out int attempts))
                 {
                     attempts--;
-                    if (attempts == 0)
+                    if (attempts <= 0)
                     {
                         mActive.Remove(ip);
                     }

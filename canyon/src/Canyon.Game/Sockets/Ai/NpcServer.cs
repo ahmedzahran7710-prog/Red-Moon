@@ -16,6 +16,11 @@ namespace Canyon.Game.Sockets.Ai
 
         public static AiClient NpcClient { get; private set; }
 
+        internal static void SetAuthenticatedClient(AiClient client)
+        {
+            NpcClient = client;
+        }
+
         /// <summary>
         ///     Instantiates a new instance of <see cref="Server" /> by initializing the
         ///     <see cref="PacketProcessor" /> for processing packets from the players using
@@ -23,20 +28,19 @@ namespace Canyon.Game.Sockets.Ai
         /// </summary>
         /// <param name="config">The server's read configuration file</param>
         public NpcServer()
-            : base(1, exchange: false, footerLength: NetworkDefinition.NPC_FOOTER.Length)
+            : base(1, exchange: false, footerLength: NetworkDefinition.NPC_FOOTER.Length, expectedFooter: NetworkDefinition.NPC_FOOTER, maxPacketSize: 4088)
         {
             processor = new PacketProcessor<AiClient>(ProcessAsync, 1);
             _ = processor.StartAsync(CancellationToken.None).ConfigureAwait(false);
             ExchangeStartPosition = 0;
         }
 
-        protected override async Task<AiClient> AcceptedAsync(Socket socket, Memory<byte> buffer)
+        protected override Task<AiClient> AcceptedAsync(Socket socket, Memory<byte> buffer)
         {
             uint partition = processor.SelectPartition();
             var client = new AiClient(socket, buffer, partition);
-            NpcClient = client;
             logger.LogInformation($"Accepting connection from npc server on [{client.IpAddress}].");
-            return client;
+            return Task.FromResult(client);
         }
 
         /// <summary>
@@ -83,6 +87,14 @@ namespace Canyon.Game.Sockets.Ai
 
             try
             {
+                if (type != PacketType.MsgAiLoginExchange
+                    && actor.Stage != AiClient.ConnectionStage.Authenticated)
+                {
+                    logger.LogWarning($"Rejected unauthenticated AI packet [{type}] from [{actor.IpAddress}].");
+                    actor.Disconnect();
+                    return;
+                }
+
                 // Switch on the packet type
                 MsgBase<AiClient> msg = null;
                 switch (type)

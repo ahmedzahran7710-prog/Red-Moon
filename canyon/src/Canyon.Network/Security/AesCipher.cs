@@ -50,29 +50,32 @@ namespace Canyon.Network.Security
         /// <inheritdoc />
         public void GenerateKeys(object[] seeds)
         {
-            byte[] key = (byte[])seeds[0];
-            key.CopyTo(new Memory<byte>(aes.Key));
-
-            if (seeds.Length > 2)
+            if (seeds == null || seeds.Length == 0 || seeds[0] is not byte[] rawKey || rawKey.Length == 0)
             {
-                byte[] eIv = (byte[])seeds[1];
-                byte[] dIv = (byte[])seeds[2];
-                eIv.CopyTo(new Memory<byte>(mEncryptIv));
-                dIv.CopyTo(new Memory<byte>(mDecryptIv));
+                throw new CryptographicException("Invalid key material for AES key generation.");
+            }
+
+            byte[] derivedKey = SHA256.HashData(rawKey);
+            aes.Key = derivedKey;
+
+            if (seeds.Length > 2 && seeds[1] is byte[] eIv && seeds[2] is byte[] dIv && eIv.Length > 0 && dIv.Length > 0)
+            {
+                mEncryptIv = eIv.Length == 16 ? (byte[])eIv.Clone() : SHA256.HashData(eIv)[..16];
+                mDecryptIv = dIv.Length == 16 ? (byte[])dIv.Clone() : SHA256.HashData(dIv)[..16];
             }
             else
             {
-                Console.WriteLine($"Using shared encryption settings!!! Not recommended on production environment");
-
                 byte[] iv = Encoding.ASCII.GetBytes(SharedIv);
 
-                mEncryptIv = new byte[iv.Length];
-                mDecryptIv = new byte[iv.Length];
+                mEncryptIv = new byte[16];
+                mDecryptIv = new byte[16];
 
-                iv.CopyTo(mEncryptIv, 0);
-                iv.CopyTo(mDecryptIv, 0);
+                Buffer.BlockCopy(iv, 0, mEncryptIv, 0, Math.Min(iv.Length, 16));
+                Buffer.BlockCopy(iv, 0, mDecryptIv, 0, Math.Min(iv.Length, 16));
             }
 
+            mEncryptor?.Dispose();
+            mDecryptor?.Dispose();
             mEncryptor = aes.CreateEncryptor(aes.Key, mEncryptIv);
             mDecryptor = aes.CreateDecryptor(aes.Key, mDecryptIv);
         }

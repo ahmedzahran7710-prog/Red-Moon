@@ -204,7 +204,12 @@ namespace Canyon.Game.Sockets.Game.Packets
 
         public override async Task ProcessAsync(Client client)
         {
-            Character user = client.Character;
+            Character user = client?.Character;
+            if (user == null)
+            {
+                return;
+            }
+
             Role role = RoleManager.GetRole(Identity);
             Character targetUser = RoleManager.GetUser(Command);
 
@@ -354,6 +359,11 @@ namespace Canyon.Game.Sockets.Game.Packets
 
                 case ActionType.CharacterDirection: // 79
                     {
+                        if (Identity != user.Identity)
+                        {
+                            return;
+                        }
+
                         await user.SetDirectionAsync((FacingDirection)(Direction % 8), false);
                         await user.BroadcastRoomMsgAsync(this, true);
                         break;
@@ -384,6 +394,12 @@ namespace Canyon.Game.Sockets.Game.Packets
 
                 case ActionType.MapPortal: // 85
                     {
+                        if (user.Map == null || !user.IsAlive || user.Map.IsPrisionMap())
+                        {
+                            await user.KickbackAsync();
+                            return;
+                        }
+
                         uint idMap = 0;
                         var tgtPos = new Point();
                         Point sourcePos;
@@ -391,21 +407,40 @@ namespace Canyon.Game.Sockets.Game.Packets
                         logger.LogDebug($"MapPortal: {Command} {CommandX} {CommandY} {MapColor}");
                         if (Command == 0)
                         {
+                            if (!user.Map.HasPassageNear(user.X, user.Y, (int)MapColor, 3))
+                            {
+                                await user.KickbackAsync();
+                                return;
+                            }
+
                             sourcePos = new Point(user.X, user.Y);
                             result = user.Map.GetPassageById((int)MapColor, ref idMap, ref tgtPos, ref sourcePos);
                         }
                         else
                         {
+                            if (user.GetDistance(CommandX, CommandY) > 5)
+                            {
+                                await user.KickbackAsync();
+                                return;
+                            }
+
                             sourcePos = new Point(CommandX, CommandY);
                             result = user.Map.GetPassageMap(ref idMap, ref tgtPos, ref sourcePos);
                         }
 
                         if (!result)
                         {
-                            user.Map.GetRebornMap(ref idMap, ref tgtPos);
+                            await user.KickbackAsync();
+                            return;
                         }
 
                         GameMap targetMap = MapManager.GetMap(idMap);
+                        if (targetMap == null)
+                        {
+                            await user.KickbackAsync();
+                            return;
+                        }
+
                         if (targetMap.IsRecordDisable())
                         {
                             await user.SavePositionAsync(user.RecordMapIdentity, user.RecordMapX, user.RecordMapY);
@@ -669,7 +704,8 @@ namespace Canyon.Game.Sockets.Game.Packets
 
                 case ActionType.MapJump: // 137
                     {
-                        if (role == null)
+                        if (role == null
+                            || (Identity != user.Identity && (!role.IsCallPet() || role.OwnerIdentity != user.Identity)))
                         {
                             return;
                         }
@@ -684,7 +720,7 @@ namespace Canyon.Game.Sockets.Game.Packets
                             return;
                         }
 
-                        if (role.Map.IsRaceTrack())
+                        if (role.Map == null || role.Map.IsRaceTrack())
                         {
                             if (role is Character player)
                             {
@@ -704,18 +740,42 @@ namespace Canyon.Game.Sockets.Game.Packets
                                 return;
                             }
 
-                            if (user.GetDistance(newX, newY) >= 2 * Screen.VIEW_SIZE)
+                            int jumpDistance = user.GetDistance(newX, newY);
+                            if (jumpDistance >= 2 * Screen.VIEW_SIZE)
                             {
                                 await user.SendAsync(StrInvalidMsg, TalkChannel.System, Color.Red);
                                 await RoleManager.KickOutAsync(user.Identity, "big jump");
                                 return;
                             }
+
+                            if (jumpDistance > Screen.VIEW_SIZE)
+                            {
+                                await user.KickbackAsync();
+                                return;
+                            }
+
+                            if (!await user.ValidateMovementRateAsync(isJump: true))
+                            {
+                                return;
+                            }
+                        }
+                        else if (role.GetDistance(newX, newY) > Screen.VIEW_SIZE)
+                        {
+                            return;
                         }
 
-                        ArgumentX = user.X;
-                        ArgumentY = user.Y;
+                        ArgumentX = role.X;
+                        ArgumentY = role.Y;
 
-                        await user.ProcessOnMoveAsync();
+                        if (Identity == user.Identity)
+                        {
+                            await user.ProcessOnMoveAsync();
+                        }
+                        else
+                        {
+                            await role.ProcessOnMoveAsync();
+                        }
+
                         bool result = await role.JumpPosAsync(newX, newY);
 
                         Character couple;
@@ -768,8 +828,8 @@ namespace Canyon.Game.Sockets.Game.Packets
                         }
                         else
                         {
-                            X = user.X;
-                            Y = user.Y;
+                            X = role.X;
+                            Y = role.Y;
 
                             await role.SetDirectionAsync((FacingDirection)(Direction % 8), false);
                             if (role is Character roleUser)
@@ -785,10 +845,10 @@ namespace Canyon.Game.Sockets.Game.Packets
                             await BroadcastNpcMsgAsync(new MsgAiAction
                             {
                                 Action = AiActionType.Jump,
-                                Identity = user.Identity,
-                                X = user.X,
-                                Y = user.Y,
-                                Direction = (int)user.Direction
+                                Identity = role.Identity,
+                                X = role.X,
+                                Y = role.Y,
+                                Direction = (int)role.Direction
                             });
                         }
                         break;

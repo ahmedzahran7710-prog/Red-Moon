@@ -18,7 +18,7 @@ namespace Canyon.GM.Server.Sockets.Game
         public static GameServer Instance { get; private set; }
 
         public GameServer()
-            : base(10, 4096, false, true, NetworkDefinition.GM_TOOLS_FOOTER.Length)
+            : base(10, 4096, false, true, NetworkDefinition.GM_TOOLS_FOOTER.Length, NetworkDefinition.GM_TOOLS_FOOTER, 4088)
         {
             Instance = this;
 
@@ -98,6 +98,13 @@ namespace Canyon.GM.Server.Sockets.Game
 
             try
             {
+                if (type != PacketType.MsgPigletLogin && Actor?.Guid != actor.Guid)
+                {
+                    logger.LogWarning($"Rejected unauthenticated GM GameActor packet [{type}] from [{actor.IpAddress}]");
+                    actor.Disconnect();
+                    return;
+                }
+
                 MsgBase<GameActor> msg;
                 switch (type)
                 {
@@ -152,14 +159,14 @@ namespace Canyon.GM.Server.Sockets.Game
 
         protected override void Disconnected(GameActor actor)
         {
-            if (actor.Guid == Actor.Guid)
+            if (actor != null && Actor != null && actor.Guid == Actor.Guid)
             {
                 Actor = null;
                 logger.LogInformation($"Game server has disconnected!!!");
                 UserManager.DisconnectionClear();
                 ServerStatus = 0;
 
-                if (PanelClient.Instance.Actor != null)
+                if (PanelClient.Instance?.Actor != null)
                 {
                     PanelClient.Instance.Actor.SendAsync(new MsgPigletRealmStatus
                     {

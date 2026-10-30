@@ -8,6 +8,7 @@ using Canyon.Shared;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using System;
+using System.Security.Cryptography;
 using System.Text;
 using static System.Runtime.InteropServices.JavaScript.JSType;
 
@@ -48,11 +49,15 @@ namespace Canyon.Login.Repositories
 
         public static async Task<RealmDataResponse> FindByIdAsync(string uuid)
         {
+            if (string.IsNullOrWhiteSpace(uuid) || !Guid.TryParse(uuid, out Guid realmGuid))
+            {
+                return null;
+            }
 #if !USE_MYSQL_DB
             try
             {
                 // Load realm connection information
-                return await Kernel.RestClient.GetAsync<RealmDataResponse>($"{Kernel.ServerConfiguration.Realm.Url}/api/realms/find-by-id/{uuid}");
+                return await Kernel.RestClient.GetAsync<RealmDataResponse>($"{Kernel.ServerConfiguration.Realm.Url}/api/realms/find-by-id/{realmGuid}");
             }
             catch
             {
@@ -60,7 +65,7 @@ namespace Canyon.Login.Repositories
             }
 #else
             await using var ctx = new ServerDbContext();
-            var realm = await ctx.RealmDatas.FirstOrDefaultAsync(x => x.RealmID == Guid.Parse(uuid));
+            var realm = await ctx.RealmDatas.FirstOrDefaultAsync(x => x.RealmID == realmGuid);
             if (realm == null)
             {
                 return null;
@@ -108,17 +113,27 @@ namespace Canyon.Login.Repositories
                 return false;
             }
 #else
-            using var ctx = new ServerDbContext();
-            var realm = GetById(realmId);
-            if (realm == null)
-            { 
+            if (string.IsNullOrEmpty(userName) || string.IsNullOrEmpty(password))
+            {
                 return false;
             }
+
+            using var ctx = new ServerDbContext();
+            var realm = GetById(realmId);
+            if (realm == null || string.IsNullOrEmpty(realm.Username) || string.IsNullOrEmpty(realm.Password))
+            {
+                return false;
+            }
+
             string encUsername = AesCipherHelper.Encrypt(AES_KEY, userName);
-            logger.LogDebug("Encrypted username: {}", encUsername);
             string encPassword = AesCipherHelper.Encrypt(AES_KEY, password);
-            logger.LogDebug("Encrypted password: {}", encPassword);
-            return realm.Username.Equals(encUsername) && realm.Password.Equals(encPassword);
+            bool userMatches = CryptographicOperations.FixedTimeEquals(
+                Encoding.UTF8.GetBytes(realm.Username),
+                Encoding.UTF8.GetBytes(encUsername));
+            bool passMatches = CryptographicOperations.FixedTimeEquals(
+                Encoding.UTF8.GetBytes(realm.Password),
+                Encoding.UTF8.GetBytes(encPassword));
+            return userMatches && passMatches;
 #endif
         }
 

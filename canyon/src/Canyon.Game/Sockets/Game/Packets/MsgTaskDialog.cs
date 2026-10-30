@@ -80,7 +80,17 @@ namespace Canyon.Game.Sockets.Game.Packets
 
         public override async Task ProcessAsync(Client client)
         {
-            Character user = client.Character;
+            Character user = client?.Character;
+            if (user == null)
+            {
+                return;
+            }
+
+            Text = (Text ?? string.Empty).Replace("\0", string.Empty);
+            if (Text.Length > 255)
+            {
+                Text = Text[..255];
+            }
 
             switch (InteractionType)
             {
@@ -208,6 +218,17 @@ namespace Canyon.Game.Sockets.Game.Packets
 
                         if (TaskIdentity is > 20000000 and < 20099999)
                         {
+                            if (!user.IsAlive
+                                || user.Map == null
+                                || user.Map.IsPrisionMap()
+                                || user.Map.IsTeleportDisable()
+                                || user.Trade != null
+                                || !user.CheckDialogActionCooldown()
+                                || EventManager.GetAction(TaskIdentity) == null)
+                            {
+                                return;
+                            }
+
                             await GameAction.ExecuteActionAsync(TaskIdentity, user, null, null, string.Empty);
                         }
                         break;

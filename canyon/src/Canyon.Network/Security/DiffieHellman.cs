@@ -64,15 +64,31 @@ namespace Canyon.Network.Security
         {
             try
             {
+                if (publicKey == null || publicKey.Length == 0 || modulus == null || modulus.Length == 0)
+                {
+                    return false;
+                }
+
+                var remotePublic = new BigInteger(1, publicKey);
+                var remoteModulus = new BigInteger(1, modulus);
+                BigInteger maxValid = PrimeRoot.Subtract(BigInteger.One);
+                if (remotePublic.CompareTo(BigInteger.One) <= 0
+                    || remotePublic.CompareTo(maxValid) >= 0
+                    || remoteModulus.CompareTo(BigInteger.One) <= 0
+                    || remoteModulus.CompareTo(maxValid) >= 0)
+                {
+                    return false;
+                }
+
                 // 1.2.840.113549.1.3.1
                 var targetKey = new DHPublicKeyParameters(
-                    new BigInteger(1, publicKey),
+                    remotePublic,
                     new DHParameters(PrimeRoot, Generator),
                     new DerObjectIdentifier("1.2.840.113549.1.3.1")
                 );
 
-                SharedKey = mAgreement.CalculateAgreement(targetKey, new BigInteger(1, modulus));
-                return true;
+                SharedKey = mAgreement.CalculateAgreement(targetKey, remoteModulus);
+                return SharedKey != null && SharedKey.CompareTo(BigInteger.One) > 0;
             }
 #if DEBUG
             catch (Exception ex)
