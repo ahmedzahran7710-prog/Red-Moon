@@ -53,7 +53,7 @@ def verify(archive_path, expected_head=None, extract=None):
         for name in names:
             if any(name == bad or name.startswith(bad + '/') for bad in FORBIDDEN):
                 raise ValueError('Configured runtime data must not ship: ' + name)
-            if name.startswith(('downloads/', 'vendor/', 'src/FoxConquer5517/', '.local-migration-')):
+            if name.startswith(('downloads/', 'vendor/', 'canyon/', 'src/FoxConquer5517/', '.local-migration-')):
                 raise ValueError('Obsolete/duplicate source or migration state in bundle')
         for name, expected in inventory.items():
             if hashlib.sha256(archive.read(name)).hexdigest() != expected:

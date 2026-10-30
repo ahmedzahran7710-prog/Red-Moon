@@ -26,7 +26,7 @@ FORBIDDEN = ('.local', 'client-config', 'ci-profile.json', 'server/Logs', 'serve
                  'server/' + name + suffix for name in ('LoginServer', 'MsgServer')
                  for suffix in ('.exe', '.dll', '.pdb', '.deps.json', '.runtimeconfig.json'))
 # Keep a single maintained source tree; history/vendor remain available in Git.
-EXCLUDED_PREFIXES = ('.github/', 'vendor/', 'downloads/', 'audit/', 'tests/managed/', 'src/FoxConquer5517/')
+EXCLUDED_PREFIXES = ('.github/', 'vendor/', 'canyon/', 'downloads/', 'audit/', 'tests/managed/', 'src/FoxConquer5517/')
 EXCLUDED_FILES = {'tests/test_baseline.py', 'tools/package_launcher_hotfix.py', 'tests/test_launcher_hotfix.py'}
 REFERENCE_MANIFEST = 'audit/fox5517-manifest.json'
 VERIFICATION_FILES = ('integration-results.json', 'legacy-integration-results.json', 'migration-results.json')
