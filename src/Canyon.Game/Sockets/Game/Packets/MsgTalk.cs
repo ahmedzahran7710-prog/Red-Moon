@@ -1918,8 +1918,12 @@ namespace Canyon.Game.Sockets.Game.Packets
 
                 case "/server":
                 case "/about":
+                case "/credits":
+                case "/developer":
                     {
-                        await user.SendAsync(string.Format(StrWelcomeServerInfo, RoleManager.OnlinePlayers), TalkChannel.Talk, System.Drawing.Color.Yellow);
+                        DeveloperRightsGuard.VerifyResourceStrings(StrWelcomeLoginTalk, StrWelcomeLoginTopLeft, StrWelcomeServerInfo);
+                        await user.SendAsync(DeveloperRightsGuard.FormatServerInfo(RoleManager.OnlinePlayers), TalkChannel.Talk, System.Drawing.Color.Yellow);
+                        await user.SendAsync(DeveloperRightsGuard.WelcomeLoginTalk, TalkChannel.Talk, System.Drawing.Color.White);
                         return true;
                     }
             }

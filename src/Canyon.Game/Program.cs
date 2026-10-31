@@ -29,13 +29,10 @@ namespace Canyon.Game
 
         public static async Task<int> Main(params string[] args)
         {
+            DeveloperRightsGuard.EnforceOrTerminate(typeof(Program).Assembly);
+            DeveloperRightsGuard.VerifyResourceStrings(StrWelcomeLoginTalk, StrWelcomeLoginTopLeft, StrWelcomeServerInfo);
             Console.Title = "Loading...";
-
-            Console.WriteLine("\tMoonQueen: Game Server");
-            Console.WriteLine($"\t\tDeveloped by ahmedzahran | Copyright 2026-{DateTime.Now:yyyy}");
-            Console.WriteLine($"\t\tVersion: {Version}");
-            Console.WriteLine("\tAll Rights Reserved - MoonQueen");
-            Console.WriteLine();
+            DeveloperRightsGuard.PrintProtectedBanner("Game Server", Version);
 
             Console.WriteLine("Initializating log factory");
 

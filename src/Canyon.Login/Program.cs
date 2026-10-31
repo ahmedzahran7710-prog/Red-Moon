@@ -17,13 +17,9 @@ namespace Canyon.Login
 
         public static async Task<int> Main(params string[] args)
         {
+            DeveloperRightsGuard.EnforceOrTerminate(typeof(Program).Assembly);
             Console.Title = "Loading...";
-
-            Console.WriteLine("\tMoonQueen: Login Server");
-            Console.WriteLine($"\t\tDeveloped by ahmedzahran | Copyright 2026-{DateTime.Now:yyyy}");
-            Console.WriteLine($"\t\tVersion: {Version}");
-            Console.WriteLine("\tAll Rights Reserved - MoonQueen");
-            Console.WriteLine();
+            DeveloperRightsGuard.PrintProtectedBanner("Login Server", Version);
 
             Console.WriteLine("Initializating log factory");
 

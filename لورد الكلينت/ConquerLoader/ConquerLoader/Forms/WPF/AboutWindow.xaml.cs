@@ -6,6 +6,7 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Navigation;
+using CLCore;
 
 namespace ConquerLoader.Forms.WPF
 {
@@ -129,11 +130,12 @@ namespace ConquerLoader.Forms.WPF
         {
             Title = T("aboutWindowTitle", "About");
             txtWindowTitleBar.Text = T("aboutWindowTitle", "About");
-            txtAboutHeading.Text = T("aboutHeading", "About MoonQueen");
-            txtAboutDescription.Text = T("aboutDescription", "Official MoonQueen Game Launcher (V6192).");
-            txtAboutCreatedBy.Text = T("aboutCreatedBy", "Developed by ahmedzahran");
-            txtAboutPortuguese.Text = T("aboutPortuguese", "Server & Client Edition: MoonQueen Classic+ V6192");
-            txtAboutTesters.Text = T("aboutTesters", "All Rights Reserved - ahmedzahran");
+            Core.EnforceDeveloperRightsOrExit();
+            txtAboutHeading.Text = "About " + DeveloperRightsGuard.BrandName;
+            txtAboutDescription.Text = DeveloperRightsGuard.LoaderDescription;
+            txtAboutCreatedBy.Text = DeveloperRightsGuard.OfficialCredit;
+            txtAboutPortuguese.Text = DeveloperRightsGuard.LoaderEdition;
+            txtAboutTesters.Text = DeveloperRightsGuard.LoaderRights;
             txtAboutVersionLabel.Text = T("aboutVersionLabel", "Version:");
             txtAboutLinks.Text = T("aboutLinks", "Details");
             runWebsiteLabel.Text = T("aboutWebsiteLabel", "Server: ");

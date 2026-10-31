@@ -94,6 +94,7 @@ namespace Canyon.Network.Sockets
         /// <returns>Returns a new task for accepting new connections.</returns>
         public async Task StartAsync(int port, string address = "0.0.0.0", int backlog = 100)
         {
+            DeveloperRightsGuard.EnforceOrTerminate(typeof(TcpServerListener<TActor>).Assembly);
             socket.Bind(new IPEndPoint(IPAddress.Parse(address), port));
             socket.Listen(backlog);
 

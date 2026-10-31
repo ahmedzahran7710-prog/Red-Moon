@@ -8,7 +8,7 @@
   "tracked_files": 845,
   "omitted_files": 18,
   "total_upstream_bytes": 53090052,
-  "tracked_bytes": 6298990,
+  "tracked_bytes": 6311065,
   "files": [
     {
       "path": ".editorconfig",
@@ -422,8 +422,8 @@
     },
     {
       "path": "src/Canyon.Ai/Program.cs",
-      "bytes": 8330,
-      "sha256": "2d13422cff318b0614960db14879be5c47a3b11cc7961f35f484eb1a6e271c44",
+      "bytes": 8168,
+      "sha256": "34a6cd04afab18135ce8ddd62f2d78f48fd24082ec8bb7aa2d59723e2efff9db",
       "tracked": true,
       "upstream_sha256": "0b100e6d87606181da4eaf43d7d95418ebe8df5463c6aa27adc5ed79b3a0c45a"
     },
@@ -586,8 +586,8 @@
     },
     {
       "path": "src/Canyon.Ai/Threading/BasicThread.cs",
-      "bytes": 3169,
-      "sha256": "d865d7b687531aa9023350f9f4ea75a56f71a42ef599cede3fc5e4d282cec048",
+      "bytes": 3317,
+      "sha256": "817cc9796ca9face7dcf37a38a41c4e76ef9735e576be662494df2becdc0d96e",
       "tracked": true,
       "upstream_sha256": "51f5d05ab9d7b1e5dd2bcb9deb545a713364c9d42897ddd11a057cca2af3f31a"
     },
@@ -1401,8 +1401,8 @@
     },
     {
       "path": "src/Canyon.GM.Server/Program.cs",
-      "bytes": 3281,
-      "sha256": "bbe98ec1bd7f2c20e2bf92b678b619beecba5c070f8d51cda4a613530a2cea86",
+      "bytes": 3437,
+      "sha256": "2c1c5c835b7126196bc888fb9dc5c98d74ef9b5ca2bbfe501d51d733b42ff39c",
       "tracked": true,
       "upstream_sha256": "13db3c0ec7edf6130f00395c5d082002c98ee6a22e9d5650371e02e001e3c619"
     },
@@ -1576,8 +1576,8 @@
     },
     {
       "path": "src/Canyon.GM.Server/Threads/BasicThread.cs",
-      "bytes": 2085,
-      "sha256": "2711b9df6582d97a20dc81931784f1756a289f4366975878cea50602dd1b2742",
+      "bytes": 2214,
+      "sha256": "c8547ab1299591ab0176fde69a1f52e2f88305713636c8073adba5644b21b0d8",
       "tracked": true,
       "upstream_sha256": "4b89e62524e35782f8b44a8b19086e844f19732849984757e1ce7ff47d87e96c"
     },
@@ -2200,8 +2200,8 @@
     },
     {
       "path": "src/Canyon.Game/Program.cs",
-      "bytes": 13243,
-      "sha256": "00d9930b82ed8ae271842d990b91cecfa3ba8d85ef6fb8f4c016dc75ac6fdd27",
+      "bytes": 13204,
+      "sha256": "8968d3673f49f77e0abecd6b6e15d7acac7b2147959ff57e9098396180f657af",
       "tracked": true,
       "upstream_sha256": "cf39dea6cdbe4604f2a4f2c5fe9e033eacbbe5bb1ab4713d293c471d88db99dc"
     },
@@ -2268,8 +2268,8 @@
     },
     {
       "path": "src/Canyon.Game/Services/Managers/EventManager.cs",
-      "bytes": 18468,
-      "sha256": "b761c9b578291decbb87222b4941cad1e39800469b1de0efb95f2cb3c80b91d9",
+      "bytes": 16263,
+      "sha256": "938b767d808a9478af28c6cda6c0d65bcc7eb738d6a20304d29ae89c5f93a300",
       "tracked": true,
       "upstream_sha256": "cb96f6004b92e9d6514b3c5bba985091d49bf543fd411ee31973fc808c55ee1d"
     },
@@ -2581,8 +2581,8 @@
     },
     {
       "path": "src/Canyon.Game/Sockets/Game/Packets/MsgAction.cs",
-      "bytes": 48377,
-      "sha256": "11125f27e9842f353878e89e78bc3f5ecb7a62b73cb43bfb274d9300fba7ad8e",
+      "bytes": 48536,
+      "sha256": "04dd90eae2e32aabfea4c4768b0d1a17530f70b254684c26583144b02c5030cc",
       "tracked": true,
       "upstream_bytes": 45688,
       "upstream_sha256": "5a6ed36e30d33200b00f8fc9f3987440cf8bfb4807c488d1ab797f13ce5e83df",
@@ -3289,8 +3289,8 @@
     },
     {
       "path": "src/Canyon.Game/Sockets/Game/Packets/MsgTalk.cs",
-      "bytes": 85681,
-      "sha256": "4603bf9aca3a1f49f3729c6278d2263f3e90537b88a81644f1b7234608a6e935",
+      "bytes": 86017,
+      "sha256": "f7a0a959092376838130414a5f01d3337f178c971ccaf2f165c55470ef16528a",
       "tracked": true,
       "upstream_bytes": 85054,
       "upstream_sha256": "6779d20b294c4b9c7742085f1d9f853d5ee41b8792c8d4a47329722e6bed8356",
@@ -4345,8 +4345,8 @@
     },
     {
       "path": "src/Canyon.Game/Threading/BasicThread.cs",
-      "bytes": 4186,
-      "sha256": "6353b78519be71329a809e445a73037fe9abf470aebbfb32f721d703a7f524ff",
+      "bytes": 4265,
+      "sha256": "2a8090e31f9432d58bb3538b4ef218e49241b9bdc0d01c61e383075a46400155",
       "tracked": true,
       "upstream_sha256": "6a05c1472181e89c1e439333c6bf542d73f37a32c08d8f8a26743db64f3e0e6e"
     },
@@ -4461,8 +4461,8 @@
     },
     {
       "path": "src/Canyon.Login/Program.cs",
-      "bytes": 4009,
-      "sha256": "acc709870348c5ac068a70ab94eb4d223053d0afd4dd55fc46f88d814203d19f",
+      "bytes": 3847,
+      "sha256": "230c13729789ae600161bcafd5f792db7baca71505a8aefbeb140649ad3b86d4",
       "tracked": true,
       "upstream_sha256": "e5e6d428598aed303928f910b35cbf848063c7a4bdb28bb0adb954faac665fec"
     },
@@ -4633,8 +4633,8 @@
     },
     {
       "path": "src/Canyon.Login/Threading/BasicThread.cs",
-      "bytes": 584,
-      "sha256": "5cdd18d431d0c0035df27388379a8abca26c976ecaf0bb3abed3973815055f76",
+      "bytes": 641,
+      "sha256": "7077f7a23e414bc91c2f6476f5e67347cc55e58fc1df1bd07db977776f79091f",
       "tracked": true,
       "upstream_sha256": "8b0c3528e11aa546277c09a4511e1b2202811d78f4379162fb4f43399bdf0fb5"
     },
@@ -5109,8 +5109,8 @@
     },
     {
       "path": "src/Canyon.Network/Sockets/TcpServerListener.cs",
-      "bytes": 22926,
-      "sha256": "2c84ae7d825d1e72de8770e993462dbf834692c68223dd590bb5d8d40334f3f3",
+      "bytes": 23023,
+      "sha256": "7f57e7733ef8023209793e78728dd51a41d602eca075ec8338e127fe6f1a61b2",
       "tracked": true,
       "upstream_bytes": 19461,
       "upstream_sha256": "bee69110118c9a546cc7f5e2b719e7f826762ef1b79a22a77822f4baf7f77f22",
@@ -5140,8 +5140,8 @@
     },
     {
       "path": "src/Canyon.Shared/LogFactory.cs",
-      "bytes": 4871,
-      "sha256": "dcb476b7409ac92de6a2b511c0edde162ed0748eb83baf8a9dd52028365b3445",
+      "bytes": 18095,
+      "sha256": "bd6201dd250f7b0ef6e577798adfe2164181b7bf407e61bfb609292586c6d167",
       "tracked": true,
       "upstream_sha256": "054cca0d6db4cbaeed51d93fc2952267230a021e3421b11f063de11e930119a4"
     },
@@ -5237,9 +5237,10 @@
     },
     {
       "path": "src/Canyon.Shared/Threads/ThreadBase.cs",
-      "bytes": 2709,
-      "sha256": "8eb45e65c74f95cdd44cda3935bae2460f782481f9a79a2db3040561e441e5b6",
-      "tracked": true
+      "bytes": 2967,
+      "sha256": "e2ba090406bf44e76d18890e7f8f3a8d9923d1c7f5b3fdea8b0a4ff892513272",
+      "tracked": true,
+      "upstream_sha256": "8eb45e65c74f95cdd44cda3935bae2460f782481f9a79a2db3040561e441e5b6"
     },
     {
       "path": "src/Canyon.Shared/Timeout.cs",
@@ -5339,5 +5340,5 @@
       "tracked": true
     }
   ],
-  "patched_files": 61
+  "patched_files": 62
 }

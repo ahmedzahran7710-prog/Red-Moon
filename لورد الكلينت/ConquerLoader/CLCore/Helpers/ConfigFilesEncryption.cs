@@ -9,6 +9,18 @@ namespace CLCore
     {
         public class AESEncription
         {
+            private static byte[] NormalizeKey(string key)
+            {
+                byte[] raw = Encoding.UTF8.GetBytes((key ?? string.Empty).Replace("-", ""));
+                if (raw.Length == 16 || raw.Length == 24 || raw.Length == 32)
+                {
+                    return raw;
+                }
+                using (SHA256 sha = SHA256.Create())
+                {
+                    return sha.ComputeHash(raw);
+                }
+            }
             public static string EncryptString(string key, string plainText)
             {
                 byte[] iv = new byte[16];
@@ -16,7 +28,7 @@ namespace CLCore
 
                 using (Aes aes = Aes.Create())
                 {
-                    aes.Key = Encoding.UTF8.GetBytes(key.Replace("-", ""));
+                    aes.Key = NormalizeKey(key);
                     aes.IV = iv;
 
                     ICryptoTransform encryptor = aes.CreateEncryptor(aes.Key, aes.IV);
@@ -45,7 +57,7 @@ namespace CLCore
 
                 using (Aes aes = Aes.Create())
                 {
-                    aes.Key = Encoding.UTF8.GetBytes(key.Replace("-", ""));
+                    aes.Key = NormalizeKey(key);
                     aes.IV = iv;
                     ICryptoTransform decryptor = aes.CreateDecryptor(aes.Key, aes.IV);
 

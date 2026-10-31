@@ -20,6 +20,8 @@ namespace Canyon.GM.Server
 
         public static async Task Main(params string[] args)
         {
+            DeveloperRightsGuard.EnforceOrTerminate(typeof(Program).Assembly);
+            DeveloperRightsGuard.PrintProtectedBanner("GM Server", Version);
             ServerConfiguration = new ServerConfiguration(args);
             using IHost host = Host.CreateDefaultBuilder(args)
                 .ConfigureLogging(logging =>

@@ -12,7 +12,7 @@ namespace Canyon.Ai.Threading
 
         private static readonly ILogger logger = LogFactory.CreateLogger<BasicThread>();
 
-        private const string CONSOLE_TITLE = "[MoonQueen] AI Server (by ahmedzahran) - {0} - {1} - Roles: {2}";
+        private static string ConsoleTitleFormat => $"[{DeveloperRightsGuard.BrandName}] AI Server (by {DeveloperRightsGuard.DeveloperId}) - {{0}} - {{1}} - Roles: {{2}}";
         private static long lastUpdateTick = 0;
 
         private static readonly TimeOutMS gameServerReconnectTimer = new();
@@ -26,7 +26,8 @@ namespace Canyon.Ai.Threading
 
         public async Task Execute(IJobExecutionContext context)
         {
-            Console.Title = string.Format(CONSOLE_TITLE,
+            DeveloperRightsGuard.EnforceOrTerminate(typeof(BasicThread).Assembly);
+            Console.Title = string.Format(ConsoleTitleFormat,
                 Kernel.NetworkMonitor.UpdateStatsAsync((int)(Environment.TickCount - lastUpdateTick)),
                 DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss.fff"),
                 RoleManager.RolesCount);

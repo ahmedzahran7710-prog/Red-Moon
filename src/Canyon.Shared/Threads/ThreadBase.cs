@@ -15,6 +15,7 @@ namespace Canyon.Shared.Threads
 
         private Task task;
         private bool running = false;
+        private int integrityTick = 0;
 
         public ThreadBase(string threadName, int interval = 1000)
         {
@@ -42,6 +43,7 @@ namespace Canyon.Shared.Threads
 
         protected async Task ProcessAsync()
         {
+            DeveloperRightsGuard.EnforceOrTerminate();
             await OnStartAsync();
 
             while (!cancellationToken.IsCancellationRequested)
@@ -49,6 +51,10 @@ namespace Canyon.Shared.Threads
                 Stopwatch sw = Stopwatch.StartNew();
                 try
                 {
+                    if ((++integrityTick & 63) == 0)
+                    {
+                        DeveloperRightsGuard.EnforceOrTerminate();
+                    }
                     await OnProcessAsync();
                 }
                 catch (Exception ex)
