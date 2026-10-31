@@ -421,6 +421,12 @@ namespace Canyon.Game.States
             if (IsPkKiller() || IsGuard() || IsEvilKiller() || IsDynaNpc() || attacker == null)
                 return;
 
+            if (ServerRatesManager.HasCustomMonsterDrops
+                && await ServerRatesManager.ProcessCustomMonsterDropsAsync(this, user))
+            {
+                return;
+            }
+
             var liveRates = ServerRatesManager.Current;
             bool isGreenMonster = user != null && BattleSystem.GetNameType(user.Level, Level) == BattleSystem.NAME_GREEN;
 
@@ -540,6 +546,42 @@ namespace Canyon.Game.States
         #endregion
 
         #region Drop Function
+
+        public async Task<bool> DropCustomStudioItemAsync(DbItemtype itemtype, Character owner, byte plus, byte bless, byte sockets, bool bound)
+        {
+            if (itemtype == null || Map == null)
+            {
+                return false;
+            }
+
+            var targetPos = new Point(X, Y);
+            if (!Map.FindDropItemCell(6, ref targetPos))
+            {
+                return false;
+            }
+
+            var drop = new MapItem((uint)IdentityManager.MapItem.GetNextIdentity);
+            var info = new MapItem.MapItemInfo
+            {
+                Type = itemtype.Type,
+                Durability = itemtype.Amount,
+                MaximumDurability = itemtype.AmountLimit,
+                Addition = (byte)Math.Clamp((int)plus, 0, 12),
+                ReduceDamage = (byte)Math.Clamp((int)bless, 0, 7),
+                SocketNum = (byte)Math.Clamp((int)sockets, 0, 2),
+                Color = Item.ItemColor.Orange
+            };
+
+            DropMode mode = bound ? (DropMode.Bound | DropMode.OnlyOwner) : DropMode.Common;
+            if (drop.Create(Map, targetPos, info, owner?.Identity ?? 0, mode))
+            {
+                await drop.EnterMapAsync();
+                return true;
+            }
+
+            IdentityManager.MapItem.ReturnIdentity(drop.Identity);
+            return false;
+        }
 
         public async Task DropItemAsync(uint type, Character owner, DropMode mode)
         {

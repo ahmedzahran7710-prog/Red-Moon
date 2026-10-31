@@ -166,14 +166,32 @@ namespace Canyon.Game.Services.Managers
 
         private static readonly HashSet<string> processedCommandIds = new(StringComparer.Ordinal);
         private static readonly LinkedList<StudioCommandResult> recentResults = new();
+        private static readonly SemaphoreSlim promoLock = new(1, 1);
+
+        private static long lastPromosTicks = 0;
+        private static long lastAutoBroadcastTicks = 0;
+        private static long lastCustomDropsTicks = 0;
+
+        private static volatile StudioPromoEnvelope currentPromos = new();
+        private static volatile StudioAutoBroadcastEnvelope currentAutoBroadcast = new();
+        private static volatile Dictionary<uint, StudioMonsterDropProfile> currentCustomDrops = new();
+        private static volatile bool hasCustomMonsterDrops = false;
+
+        private static readonly ConcurrentDictionary<string, DateTime> autoBroadcastLastIntervalUtc = new(StringComparer.Ordinal);
+        private static readonly ConcurrentDictionary<string, string> autoBroadcastLastDailyDate = new(StringComparer.Ordinal);
 
         public static string RatesFilePath => Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "MoonQueen.Rates.json");
         public static string StatusFilePath => Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "MoonQueen.Rates.status.json");
         public static string CommandsFilePath => Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "MoonQueen.Studio.Commands.json");
         public static string ShopsSnapshotFilePath => Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "MoonQueen.Shops.snapshot.json");
         public static string SearchSnapshotFilePath => Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "MoonQueen.Studio.Search.json");
+        public static string PromosFilePath => Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "MoonQueen.Studio.Promos.json");
+        public static string AutoBroadcastFilePath => Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "MoonQueen.Studio.AutoBroadcast.json");
+        public static string CustomDropsFilePath => Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "MoonQueen.Studio.CustomDrops.json");
+        public static string InspectSnapshotFilePath => Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "MoonQueen.Studio.Inspect.json");
 
         public static ServerConfiguration.ServerRatesConfiguration Current => current;
+        public static bool HasCustomMonsterDrops => hasCustomMonsterDrops;
 
         public sealed class StudioCommandEnvelope
         {
@@ -228,6 +246,108 @@ namespace Canyon.Game.Services.Managers
             public int ScatterRadius { get; set; } = 3;
             public uint RoleId { get; set; }
             public string Query { get; set; } = string.Empty;
+
+            // Tool #5, #7, #8: Accounts, Live Inspector & Broadcast Channel
+            public uint AccountId { get; set; }
+            public ushort AuthorityId { get; set; } = 1;
+            public string IpAddress { get; set; } = string.Empty;
+            public string MacAddress { get; set; } = string.Empty;
+            public uint ItemId { get; set; }
+            public string Channel { get; set; } = "TopLeft";
+        }
+
+        public sealed class StudioPromoEnvelope
+        {
+            public List<StudioPromoCode> Codes { get; set; } = new();
+        }
+
+        public sealed class StudioPromoCode
+        {
+            public string Code { get; set; } = string.Empty;
+            public string Title { get; set; } = string.Empty;
+            public bool Enabled { get; set; } = true;
+            public int MaxUses { get; set; } = 0;
+            public int UsedCount { get; set; } = 0;
+            public int MinLevel { get; set; } = 1;
+            public long ExpiresUnix { get; set; } = 0;
+            public string ExpiresAt { get; set; } = string.Empty;
+            public bool OnePerIpOrMac { get; set; } = false;
+            public long SilverAmount { get; set; }
+            public int CpAmount { get; set; }
+            public int BoundCpAmount { get; set; }
+            public int BlessingHours { get; set; }
+            public int VipLevel { get; set; } = -1;
+            public uint ItemType { get; set; }
+            public int ItemAmount { get; set; } = 1;
+            public byte Plus { get; set; }
+            public byte Bless { get; set; }
+            public byte Enchant { get; set; }
+            public byte SocketOne { get; set; }
+            public byte SocketTwo { get; set; }
+            public bool Bound { get; set; } = true;
+            public List<uint> RedeemedAccounts { get; set; } = new();
+            public List<uint> RedeemedPlayers { get; set; } = new();
+            public List<string> RedeemedIps { get; set; } = new();
+            public List<string> RedeemedMacs { get; set; } = new();
+            public List<StudioPromoRedemptionLog> RecentClaims { get; set; } = new();
+        }
+
+        public sealed class StudioPromoRedemptionLog
+        {
+            public uint AccountId { get; set; }
+            public uint PlayerId { get; set; }
+            public string PlayerName { get; set; } = string.Empty;
+            public string Ip { get; set; } = string.Empty;
+            public string ClaimedAt { get; set; } = string.Empty;
+        }
+
+        public sealed class StudioAutoBroadcastEnvelope
+        {
+            public bool Enabled { get; set; } = false;
+            public List<StudioAutoBroadcastItem> Items { get; set; } = new();
+        }
+
+        public sealed class StudioAutoBroadcastItem
+        {
+            public string Id { get; set; } = string.Empty;
+            public bool Enabled { get; set; } = true;
+            public string Mode { get; set; } = "interval"; // "interval" | "daily"
+            public int IntervalMinutes { get; set; } = 15;
+            public string DailyTime { get; set; } = string.Empty; // "HH:mm"
+            public string Channel { get; set; } = "TopLeft"; // TopLeft | Center | Talk | Broadcast
+            public string Message { get; set; } = string.Empty;
+        }
+
+        public sealed class StudioCustomDropsEnvelope
+        {
+            public List<StudioMonsterDropProfile> Profiles { get; set; } = new();
+        }
+
+        public sealed class StudioMonsterDropProfile
+        {
+            public uint MonsterType { get; set; }
+            public string MonsterName { get; set; } = string.Empty;
+            public bool Enabled { get; set; } = true;
+            public string Mode { get; set; } = "additional"; // "additional" | "override"
+            public List<StudioMonsterDropRule> Rules { get; set; } = new();
+        }
+
+        public sealed class StudioMonsterDropRule
+        {
+            public string Id { get; set; } = string.Empty;
+            public uint ItemType { get; set; }
+            public string ItemName { get; set; } = string.Empty;
+            public double ChancePercent { get; set; } = 10.0;
+            public int MinCount { get; set; } = 1;
+            public int MaxCount { get; set; } = 1;
+            public byte Plus { get; set; }
+            public byte Bless { get; set; }
+            public byte Sockets { get; set; }
+            public bool Bound { get; set; }
+            public long BonusSilver { get; set; }
+            public int BonusCps { get; set; }
+            public int BonusBoundCps { get; set; }
+            public bool WorldAnnounce { get; set; }
         }
 
         public sealed class StudioCommandResult
@@ -264,6 +384,9 @@ namespace Canyon.Game.Services.Managers
                 logger.LogWarning(ex, "[MoonQueen Studio] Could not initialize MoonQueen.Rates.json, using in-memory defaults.");
             }
 
+            await ReloadPromosIfChangedAsync(force: true);
+            await ReloadAutoBroadcastIfChangedAsync(force: true);
+            await ReloadCustomDropsIfChangedAsync(force: true);
             await WriteStatusSnapshotAsync("Initialized");
         }
 
@@ -285,6 +408,11 @@ namespace Canyon.Game.Services.Managers
                         await ProcessStudioCommandsAsync();
                     }
                 }
+
+                await ReloadPromosIfChangedAsync(force: false);
+                await ReloadAutoBroadcastIfChangedAsync(force: false);
+                await ReloadCustomDropsIfChangedAsync(force: false);
+                await ProcessAutoBroadcastTickAsync();
 
                 if (File.Exists(RatesFilePath))
                 {
@@ -802,6 +930,166 @@ namespace Canyon.Game.Services.Managers
                     return (true, $"Cleared {removed} Studio-spawned boss/invasion monster(s).");
                 }
 
+                // =========================================================
+                // TOOL #5: ACCOUNTS, BAN KICK & LIVE AUTHORITY SYNC
+                // =========================================================
+                case "account_kick":
+                {
+                    string matchIp = (cmd.IpAddress ?? string.Empty).Trim();
+                    string matchMac = (cmd.MacAddress ?? string.Empty).Trim();
+
+                    var victims = RoleManager.QueryUserSet()
+                        .Where(u =>
+                            (cmd.AccountId > 0 && u.Client?.AccountIdentity == cmd.AccountId)
+                            || (cmd.PlayerId > 0 && u.Identity == cmd.PlayerId)
+                            || (!string.IsNullOrEmpty(matchIp) && string.Equals(u.Client?.IpAddress, matchIp, StringComparison.OrdinalIgnoreCase))
+                            || (!string.IsNullOrEmpty(matchMac) && string.Equals(u.Client?.MacAddress, matchMac, StringComparison.OrdinalIgnoreCase)))
+                        .ToList();
+
+                    int kicked = 0;
+                    foreach (var v in victims)
+                    {
+                        if (!string.IsNullOrWhiteSpace(cmd.Message))
+                        {
+                            await v.SendAsync(cmd.Message, TalkChannel.Talk, Color.Red);
+                        }
+                        await RoleManager.KickOutAsync(v.Identity, string.IsNullOrWhiteSpace(cmd.Message) ? "Account action from MoonQueen Control Studio" : cmd.Message);
+                        kicked++;
+                    }
+                    return (true, kicked > 0 ? $"Disconnected {kicked} online session(s) immediately." : "Account updated (player was not currently online).");
+                }
+
+                case "account_sync_authority":
+                {
+                    var targets = RoleManager.QueryUserSet()
+                        .Where(u =>
+                            (cmd.AccountId > 0 && u.Client?.AccountIdentity == cmd.AccountId)
+                            || (cmd.PlayerId > 0 && u.Identity == cmd.PlayerId))
+                        .ToList();
+
+                    foreach (var t in targets)
+                    {
+                        if (t.Client != null)
+                        {
+                            t.Client.AuthorityLevel = cmd.AuthorityId;
+                            await t.LoadTitlesAsync();
+                        }
+                    }
+                    return (true, targets.Count > 0
+                        ? $"Synced live AuthorityLevel={cmd.AuthorityId} for {targets.Count} online character(s)."
+                        : $"AuthorityLevel={cmd.AuthorityId} saved (will apply on next login).");
+                }
+
+                // =========================================================
+                // TOOL #7: LIVE INVENTORY & WAREHOUSE INSPECTOR
+                // =========================================================
+                case "player_inspect":
+                {
+                    Character target = cmd.PlayerId > 0
+                        ? RoleManager.GetUser(cmd.PlayerId)
+                        : RoleManager.GetUser(cmd.PlayerName ?? string.Empty);
+
+                    if (target == null)
+                    {
+                        return (false, "Player is currently offline (Studio reads offline inventory directly from database).");
+                    }
+
+                    await target.SaveAsync();
+                    var liveItems = target.UserPackage.GetAllItemsForStudio()
+                        .Select(it => new
+                        {
+                            id = it.Identity,
+                            type = it.Type,
+                            name = it.Name,
+                            position = (ushort)it.Position,
+                            owner_id = it.OwnerIdentity,
+                            plus = it.Plus,
+                            bless = it.ReduceDamage,
+                            enchant = it.Enchantment,
+                            gem1 = (byte)it.SocketOne,
+                            gem2 = (byte)it.SocketTwo,
+                            durability = it.Durability,
+                            max_durability = it.MaximumDurability,
+                            stack = it.AccumulateNum,
+                            bound = it.IsBound
+                        })
+                        .ToList();
+
+                    var payload = new
+                    {
+                        online = true,
+                        generated_at = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"),
+                        generated_unix = DateTimeOffset.UtcNow.ToUnixTimeSeconds(),
+                        player = new
+                        {
+                            id = target.Identity,
+                            account_id = target.Client?.AccountIdentity ?? 0,
+                            name = target.Name,
+                            level = target.Level,
+                            reborn = target.Metempsychosis,
+                            profession = target.Profession,
+                            bp = target.BattlePower,
+                            silvers = target.Silvers,
+                            storage_money = target.StorageMoney,
+                            cps = target.ConquerPoints,
+                            bound_cps = target.ConquerPointsBound,
+                            pk = target.PkPoints,
+                            vip = target.BaseVipLevel,
+                            map_id = target.MapIdentity,
+                            map_name = target.Map?.Name ?? $"Map #{target.MapIdentity}",
+                            x = target.X,
+                            y = target.Y
+                        },
+                        items = liveItems
+                    };
+
+                    string tmp = InspectSnapshotFilePath + ".tmp";
+                    await File.WriteAllTextAsync(tmp, JsonSerializer.Serialize(payload, jsonOptions));
+                    File.Move(tmp, InspectSnapshotFilePath, overwrite: true);
+                    return (true, $"Exported live package snapshot for [{target.Name}] ({liveItems.Count} items).");
+                }
+
+                case "player_delete_item":
+                {
+                    if (cmd.ItemId == 0)
+                    {
+                        return (false, "Invalid ItemId (0).");
+                    }
+
+                    Character target = cmd.PlayerId > 0
+                        ? RoleManager.GetUser(cmd.PlayerId)
+                        : RoleManager.GetUser(cmd.PlayerName ?? string.Empty);
+
+                    if (target == null)
+                    {
+                        return (false, "Player is offline; delete handled directly via database.");
+                    }
+
+                    var (removed, itemName) = await target.UserPackage.StudioDeleteItemByIdAsync(cmd.ItemId);
+                    if (!removed)
+                    {
+                        return (false, $"Item #{cmd.ItemId} was not found in [{target.Name}]'s live package.");
+                    }
+
+                    await target.SaveAsync();
+                    return (true, $"Removed item [{itemName} #{cmd.ItemId}] live from [{target.Name}].");
+                }
+
+                // =========================================================
+                // TOOL #8: INSTANT BROADCAST PREVIEW
+                // =========================================================
+                case "broadcast_now":
+                {
+                    if (string.IsNullOrWhiteSpace(cmd.Message))
+                    {
+                        return (false, "Broadcast message cannot be empty.");
+                    }
+
+                    TalkChannel ch = ResolveTalkChannel(cmd.Channel);
+                    await BroadcastWorldMsgAsync(cmd.Message.Trim(), ch, Color.Gold);
+                    return (true, $"Broadcasted message on [{ch}]: {cmd.Message}");
+                }
+
                 default:
                     return (false, $"Unknown studio command type: {cmd.Type}");
             }
@@ -1095,6 +1383,10 @@ namespace Canyon.Game.Services.Managers
                     updated_at = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"),
                     updated_unix = DateTimeOffset.UtcNow.ToUnixTimeSeconds(),
                     active_rates = current,
+                    promo_codes_count = currentPromos?.Codes?.Count(c => c.Enabled) ?? 0,
+                    auto_broadcast_enabled = currentAutoBroadcast?.Enabled ?? false,
+                    auto_broadcast_count = currentAutoBroadcast?.Items?.Count(i => i.Enabled) ?? 0,
+                    custom_drop_monsters_count = currentCustomDrops?.Count ?? 0,
                     events = EventManager.GetStudioEventsSnapshot(),
                     online_players_list = onlineUsers,
                     spawned_bosses = spawnedBosses,
@@ -1108,6 +1400,480 @@ namespace Canyon.Game.Services.Managers
             {
                 // Status file is advisory for GUI feedback; never interrupt server loop.
             }
+        }
+
+        private static TalkChannel ResolveTalkChannel(string channelName)
+        {
+            if (string.IsNullOrWhiteSpace(channelName))
+            {
+                return TalkChannel.TopLeft;
+            }
+            if (channelName.Equals("Center", StringComparison.OrdinalIgnoreCase))
+            {
+                return TalkChannel.Center;
+            }
+            if (channelName.Equals("Talk", StringComparison.OrdinalIgnoreCase))
+            {
+                return TalkChannel.Talk;
+            }
+            if (channelName.Equals("Broadcast", StringComparison.OrdinalIgnoreCase))
+            {
+                return TalkChannel.Broadcast;
+            }
+            return TalkChannel.TopLeft;
+        }
+
+        private static async Task ReloadPromosIfChangedAsync(bool force)
+        {
+            if (!File.Exists(PromosFilePath))
+            {
+                if (force)
+                {
+                    currentPromos = new StudioPromoEnvelope();
+                }
+                return;
+            }
+
+            long ticks = File.GetLastWriteTimeUtc(PromosFilePath).Ticks;
+            if (!force && (ticks == 0 || ticks == lastPromosTicks))
+            {
+                return;
+            }
+
+            await promoLock.WaitAsync();
+            try
+            {
+                string raw = await File.ReadAllTextAsync(PromosFilePath);
+                var parsed = string.IsNullOrWhiteSpace(raw)
+                    ? new StudioPromoEnvelope()
+                    : JsonSerializer.Deserialize<StudioPromoEnvelope>(raw, jsonOptions) ?? new StudioPromoEnvelope();
+                parsed.Codes ??= new List<StudioPromoCode>();
+                currentPromos = parsed;
+                lastPromosTicks = ticks;
+            }
+            catch (IOException)
+            {
+            }
+            catch (Exception ex)
+            {
+                logger.LogWarning(ex, "[MoonQueen Studio] Could not parse MoonQueen.Studio.Promos.json.");
+                lastPromosTicks = ticks;
+            }
+            finally
+            {
+                promoLock.Release();
+            }
+        }
+
+        public static async Task RedeemPromoCodeInGameAsync(Character user, string rawParam)
+        {
+            if (user == null)
+            {
+                return;
+            }
+
+            string code = (rawParam ?? string.Empty).Trim().ToUpperInvariant();
+            if (string.IsNullOrWhiteSpace(code))
+            {
+                await user.SendAsync("Usage: /redeem <CODE>  (Example: /redeem MOON2026)", TalkChannel.Talk, Color.Yellow);
+                return;
+            }
+
+            await promoLock.WaitAsync();
+            try
+            {
+                if (File.Exists(PromosFilePath))
+                {
+                    long diskTicks = File.GetLastWriteTimeUtc(PromosFilePath).Ticks;
+                    if (diskTicks != lastPromosTicks)
+                    {
+                        string raw = await File.ReadAllTextAsync(PromosFilePath);
+                        if (!string.IsNullOrWhiteSpace(raw))
+                        {
+                            currentPromos = JsonSerializer.Deserialize<StudioPromoEnvelope>(raw, jsonOptions) ?? new StudioPromoEnvelope();
+                            lastPromosTicks = diskTicks;
+                        }
+                    }
+                }
+
+                var promo = currentPromos?.Codes?.FirstOrDefault(c =>
+                    !string.IsNullOrWhiteSpace(c.Code)
+                    && c.Code.Trim().Equals(code, StringComparison.OrdinalIgnoreCase));
+
+                if (promo == null || !promo.Enabled)
+                {
+                    await user.SendAsync($"[{DeveloperRightsGuard.BrandName}] Invalid or inactive gift code '{code}'.", TalkChannel.Talk, Color.Red);
+                    return;
+                }
+
+                long nowUnix = DateTimeOffset.UtcNow.ToUnixTimeSeconds();
+                if (promo.ExpiresUnix > 0 && nowUnix > promo.ExpiresUnix)
+                {
+                    await user.SendAsync($"[{DeveloperRightsGuard.BrandName}] Gift code '{code}' has expired.", TalkChannel.Talk, Color.Red);
+                    return;
+                }
+
+                if (promo.MaxUses > 0 && promo.UsedCount >= promo.MaxUses)
+                {
+                    await user.SendAsync($"[{DeveloperRightsGuard.BrandName}] Gift code '{code}' has reached its maximum redemptions ({promo.MaxUses}).", TalkChannel.Talk, Color.Red);
+                    return;
+                }
+
+                if (promo.MinLevel > 1 && user.Level < promo.MinLevel)
+                {
+                    await user.SendAsync($"[{DeveloperRightsGuard.BrandName}] You must be at least Level {promo.MinLevel} to redeem '{code}'.", TalkChannel.Talk, Color.Yellow);
+                    return;
+                }
+
+                promo.RedeemedAccounts ??= new List<uint>();
+                promo.RedeemedPlayers ??= new List<uint>();
+                promo.RedeemedIps ??= new List<string>();
+                promo.RedeemedMacs ??= new List<string>();
+                promo.RecentClaims ??= new List<StudioPromoRedemptionLog>();
+
+                uint accId = user.Client?.AccountIdentity ?? 0;
+                string ip = user.Client?.IpAddress ?? string.Empty;
+                string mac = user.Client?.MacAddress ?? string.Empty;
+
+                if ((accId > 0 && promo.RedeemedAccounts.Contains(accId)) || promo.RedeemedPlayers.Contains(user.Identity))
+                {
+                    await user.SendAsync($"[{DeveloperRightsGuard.BrandName}] You have already redeemed code '{code}'.", TalkChannel.Talk, Color.Yellow);
+                    return;
+                }
+
+                if (promo.OnePerIpOrMac)
+                {
+                    if (!string.IsNullOrWhiteSpace(ip) && promo.RedeemedIps.Contains(ip, StringComparer.OrdinalIgnoreCase))
+                    {
+                        await user.SendAsync($"[{DeveloperRightsGuard.BrandName}] This code has already been claimed from your network.", TalkChannel.Talk, Color.Yellow);
+                        return;
+                    }
+                    if (!string.IsNullOrWhiteSpace(mac)
+                        && !mac.Equals("Unknown", StringComparison.OrdinalIgnoreCase)
+                        && !mac.Equals("000000000000", StringComparison.OrdinalIgnoreCase)
+                        && promo.RedeemedMacs.Contains(mac, StringComparer.OrdinalIgnoreCase))
+                    {
+                        await user.SendAsync($"[{DeveloperRightsGuard.BrandName}] This code has already been claimed on this device.", TalkChannel.Talk, Color.Yellow);
+                        return;
+                    }
+                }
+
+                if (promo.ItemType > 0)
+                {
+                    DbItemtype it = ItemManager.GetItemtype(promo.ItemType);
+                    if (it == null)
+                    {
+                        await user.SendAsync($"[{DeveloperRightsGuard.BrandName}] Gift item #{promo.ItemType} is unavailable.", TalkChannel.Talk, Color.Red);
+                        return;
+                    }
+                    int needSlots = Math.Clamp(promo.ItemAmount <= 0 ? 1 : promo.ItemAmount, 1, 20);
+                    if (!user.UserPackage.IsPackSpare(needSlots, it.Type))
+                    {
+                        await user.SendAsync($"[{DeveloperRightsGuard.BrandName}] Please free at least {needSlots} inventory slot(s) and try /redeem {code} again.", TalkChannel.Talk, Color.Yellow);
+                        return;
+                    }
+                }
+
+                var rewardCmd = new StudioCommandItem
+                {
+                    SilverAmount = promo.SilverAmount,
+                    CpAmount = promo.CpAmount,
+                    BoundCpAmount = promo.BoundCpAmount,
+                    BlessingHours = promo.BlessingHours,
+                    VipLevel = promo.VipLevel,
+                    ItemType = promo.ItemType,
+                    ItemAmount = promo.ItemAmount <= 0 ? 1 : promo.ItemAmount,
+                    Plus = promo.Plus,
+                    Bless = promo.Bless,
+                    Enchant = promo.Enchant,
+                    SocketOne = promo.SocketOne,
+                    SocketTwo = promo.SocketTwo,
+                    Bound = promo.Bound,
+                    Message = $"[{DeveloperRightsGuard.BrandName} Promo '{code}'] Congratulations! You claimed: "
+                };
+
+                string summary = await ApplyRewardPackageToUserAsync(user, new StudioCommandItem
+                {
+                    SilverAmount = rewardCmd.SilverAmount,
+                    CpAmount = rewardCmd.CpAmount,
+                    BoundCpAmount = rewardCmd.BoundCpAmount,
+                    BlessingHours = rewardCmd.BlessingHours,
+                    VipLevel = rewardCmd.VipLevel,
+                    ItemType = rewardCmd.ItemType,
+                    ItemAmount = rewardCmd.ItemAmount,
+                    Plus = rewardCmd.Plus,
+                    Bless = rewardCmd.Bless,
+                    Enchant = rewardCmd.Enchant,
+                    SocketOne = rewardCmd.SocketOne,
+                    SocketTwo = rewardCmd.SocketTwo,
+                    Bound = rewardCmd.Bound,
+                    Message = string.IsNullOrWhiteSpace(promo.Title)
+                        ? $"[{DeveloperRightsGuard.BrandName} Gift Code '{code}'] Claimed successfully!"
+                        : $"[{DeveloperRightsGuard.BrandName} - {promo.Title}] Code '{code}' claimed successfully!"
+                });
+
+                promo.UsedCount++;
+                if (accId > 0) promo.RedeemedAccounts.Add(accId);
+                promo.RedeemedPlayers.Add(user.Identity);
+                if (!string.IsNullOrWhiteSpace(ip) && !promo.RedeemedIps.Contains(ip, StringComparer.OrdinalIgnoreCase))
+                {
+                    promo.RedeemedIps.Add(ip);
+                }
+                if (!string.IsNullOrWhiteSpace(mac) && !promo.RedeemedMacs.Contains(mac, StringComparer.OrdinalIgnoreCase))
+                {
+                    promo.RedeemedMacs.Add(mac);
+                }
+
+                promo.RecentClaims.Insert(0, new StudioPromoRedemptionLog
+                {
+                    AccountId = accId,
+                    PlayerId = user.Identity,
+                    PlayerName = user.Name,
+                    Ip = ip,
+                    ClaimedAt = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")
+                });
+                if (promo.RecentClaims.Count > 50)
+                {
+                    promo.RecentClaims.RemoveRange(50, promo.RecentClaims.Count - 50);
+                }
+
+                string tmp = PromosFilePath + ".tmp";
+                await File.WriteAllTextAsync(tmp, JsonSerializer.Serialize(currentPromos, jsonOptions));
+                File.Move(tmp, PromosFilePath, overwrite: true);
+                lastPromosTicks = File.GetLastWriteTimeUtc(PromosFilePath).Ticks;
+
+                logger.LogInformation("[MoonQueen Promo] [{Player}] redeemed '{Code}' -> {Summary}", user.Name, code, summary);
+            }
+            catch (Exception ex)
+            {
+                logger.LogError(ex, "[MoonQueen Promo] Error redeeming code '{Code}' for {User}", code, user.Name);
+            }
+            finally
+            {
+                promoLock.Release();
+            }
+        }
+
+        private static async Task ReloadAutoBroadcastIfChangedAsync(bool force)
+        {
+            if (!File.Exists(AutoBroadcastFilePath))
+            {
+                if (force)
+                {
+                    currentAutoBroadcast = new StudioAutoBroadcastEnvelope();
+                }
+                return;
+            }
+
+            long ticks = File.GetLastWriteTimeUtc(AutoBroadcastFilePath).Ticks;
+            if (!force && (ticks == 0 || ticks == lastAutoBroadcastTicks))
+            {
+                return;
+            }
+
+            try
+            {
+                string raw = await File.ReadAllTextAsync(AutoBroadcastFilePath);
+                var parsed = string.IsNullOrWhiteSpace(raw)
+                    ? new StudioAutoBroadcastEnvelope()
+                    : JsonSerializer.Deserialize<StudioAutoBroadcastEnvelope>(raw, jsonOptions) ?? new StudioAutoBroadcastEnvelope();
+                parsed.Items ??= new List<StudioAutoBroadcastItem>();
+                currentAutoBroadcast = parsed;
+                lastAutoBroadcastTicks = ticks;
+
+                DateTime nowUtc = DateTime.UtcNow;
+                int idx = 0;
+                foreach (var item in parsed.Items)
+                {
+                    if (!string.IsNullOrWhiteSpace(item.Id))
+                    {
+                        autoBroadcastLastIntervalUtc.TryAdd(item.Id, nowUtc.AddSeconds(idx * 5));
+                        idx++;
+                    }
+                }
+            }
+            catch (IOException)
+            {
+            }
+            catch (Exception ex)
+            {
+                logger.LogWarning(ex, "[MoonQueen Studio] Could not parse MoonQueen.Studio.AutoBroadcast.json.");
+                lastAutoBroadcastTicks = ticks;
+            }
+        }
+
+        private static async Task ProcessAutoBroadcastTickAsync()
+        {
+            var cfg = currentAutoBroadcast;
+            if (cfg == null || !cfg.Enabled || cfg.Items == null || cfg.Items.Count == 0)
+            {
+                return;
+            }
+
+            DateTime nowUtc = DateTime.UtcNow;
+            DateTime nowLocal = DateTime.Now;
+            string hhmm = nowLocal.ToString("HH:mm");
+            string today = nowLocal.ToString("yyyy-MM-dd");
+
+            foreach (var item in cfg.Items)
+            {
+                if (item == null || !item.Enabled || string.IsNullOrWhiteSpace(item.Message))
+                {
+                    continue;
+                }
+
+                string key = string.IsNullOrWhiteSpace(item.Id) ? item.Message : item.Id;
+                if (string.Equals(item.Mode, "daily", StringComparison.OrdinalIgnoreCase))
+                {
+                    if (!string.IsNullOrWhiteSpace(item.DailyTime)
+                        && string.Equals(item.DailyTime.Trim(), hhmm, StringComparison.Ordinal))
+                    {
+                        if (!autoBroadcastLastDailyDate.TryGetValue(key, out string lastDate) || lastDate != today)
+                        {
+                            autoBroadcastLastDailyDate[key] = today;
+                            await BroadcastWorldMsgAsync(item.Message.Trim(), ResolveTalkChannel(item.Channel), Color.Gold);
+                        }
+                    }
+                }
+                else
+                {
+                    int mins = Math.Clamp(item.IntervalMinutes <= 0 ? 15 : item.IntervalMinutes, 1, 1440);
+                    DateTime lastUtc = autoBroadcastLastIntervalUtc.GetOrAdd(key, nowUtc);
+                    if ((nowUtc - lastUtc).TotalMinutes >= mins)
+                    {
+                        autoBroadcastLastIntervalUtc[key] = nowUtc;
+                        await BroadcastWorldMsgAsync(item.Message.Trim(), ResolveTalkChannel(item.Channel), Color.Gold);
+                    }
+                }
+            }
+        }
+
+        private static async Task ReloadCustomDropsIfChangedAsync(bool force)
+        {
+            if (!File.Exists(CustomDropsFilePath))
+            {
+                if (force)
+                {
+                    currentCustomDrops = new Dictionary<uint, StudioMonsterDropProfile>();
+                    hasCustomMonsterDrops = false;
+                }
+                return;
+            }
+
+            long ticks = File.GetLastWriteTimeUtc(CustomDropsFilePath).Ticks;
+            if (!force && (ticks == 0 || ticks == lastCustomDropsTicks))
+            {
+                return;
+            }
+
+            try
+            {
+                string raw = await File.ReadAllTextAsync(CustomDropsFilePath);
+                var parsed = string.IsNullOrWhiteSpace(raw)
+                    ? new StudioCustomDropsEnvelope()
+                    : JsonSerializer.Deserialize<StudioCustomDropsEnvelope>(raw, jsonOptions) ?? new StudioCustomDropsEnvelope();
+
+                var dict = new Dictionary<uint, StudioMonsterDropProfile>();
+                if (parsed.Profiles != null)
+                {
+                    foreach (var prof in parsed.Profiles)
+                    {
+                        if (prof != null && prof.Enabled && prof.MonsterType > 0 && prof.Rules != null && prof.Rules.Count > 0)
+                        {
+                            dict[prof.MonsterType] = prof;
+                        }
+                    }
+                }
+
+                currentCustomDrops = dict;
+                hasCustomMonsterDrops = dict.Count > 0;
+                lastCustomDropsTicks = ticks;
+                logger.LogInformation("[MoonQueen Studio] Loaded custom drop profiles for {Count} monster type(s).", dict.Count);
+            }
+            catch (IOException)
+            {
+            }
+            catch (Exception ex)
+            {
+                logger.LogWarning(ex, "[MoonQueen Studio] Could not parse MoonQueen.Studio.CustomDrops.json.");
+                lastCustomDropsTicks = ticks;
+            }
+        }
+
+        public static async Task<bool> ProcessCustomMonsterDropsAsync(Monster monster, Character killer)
+        {
+            if (monster == null || !hasCustomMonsterDrops)
+            {
+                return false;
+            }
+
+            var map = currentCustomDrops;
+            if (map == null || !map.TryGetValue(monster.Type, out var profile) || profile == null || !profile.Enabled || profile.Rules == null)
+            {
+                return false;
+            }
+
+            var rng = Random.Shared;
+            foreach (var rule in profile.Rules)
+            {
+                if (rule == null || rule.ChancePercent <= 0d)
+                {
+                    continue;
+                }
+
+                if (rule.ChancePercent < 100d && (rng.NextDouble() * 100d) >= rule.ChancePercent)
+                {
+                    continue;
+                }
+
+                if (killer != null)
+                {
+                    if (rule.BonusSilver > 0)
+                    {
+                        await killer.AwardMoneyAsync(rule.BonusSilver);
+                    }
+                    if (rule.BonusCps > 0)
+                    {
+                        await killer.ChangeConquerPointsAsync(rule.BonusCps, true);
+                    }
+                    if (rule.BonusBoundCps > 0)
+                    {
+                        await killer.ChangeBoundConquerPointsAsync(rule.BonusBoundCps, true);
+                    }
+                }
+
+                if (rule.ItemType > 0)
+                {
+                    DbItemtype itemtype = ItemManager.GetItemtype(rule.ItemType);
+                    if (itemtype != null)
+                    {
+                        int minQ = Math.Clamp(rule.MinCount <= 0 ? 1 : rule.MinCount, 1, 15);
+                        int maxQ = Math.Clamp(rule.MaxCount < minQ ? minQ : rule.MaxCount, minQ, 15);
+                        int qty = maxQ > minQ ? rng.Next(minQ, maxQ + 1) : minQ;
+                        int dropped = 0;
+
+                        for (int i = 0; i < qty; i++)
+                        {
+                            if (await monster.DropCustomStudioItemAsync(itemtype, killer, rule.Plus, rule.Bless, rule.Sockets, rule.Bound))
+                            {
+                                dropped++;
+                            }
+                        }
+
+                        if (dropped > 0 && rule.WorldAnnounce)
+                        {
+                            string plusTag = rule.Plus > 0 ? $" (+{rule.Plus})" : string.Empty;
+                            string killerLabel = killer?.Name ?? "A brave warrior";
+                            await BroadcastWorldMsgAsync(
+                                $"[{DeveloperRightsGuard.BrandName} Boss Drop] {killerLabel} defeated {monster.Name} and dropped {dropped}x {itemtype.Name}{plusTag}!",
+                                TalkChannel.Center,
+                                Color.Gold);
+                        }
+                    }
+                }
+            }
+
+            return string.Equals(profile.Mode, "override", StringComparison.OrdinalIgnoreCase);
         }
     }
 }

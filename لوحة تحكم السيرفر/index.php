@@ -222,25 +222,40 @@ function h(string $s): string
             </div>
         </section>
 
-        <!-- Studio Navigation Tabs (Ordered: Rates + Tools #1 -> #2 -> #3 -> #4 + Next Ideas) -->
+        <!-- Studio Navigation Tabs (Ordered: Rates + Tools #1 -> #10) -->
         <nav class="studio-tabs">
             <button type="button" class="tab-btn active" data-tab-target="paneLiveRates">
                 ⚡ الريتات والدروب
             </button>
             <button type="button" class="tab-btn" data-tab-target="paneEventsStudio">
-                1️⃣ 🏆 المسابقات والحروب الحية
+                1️⃣ 🏆 المسابقات والحروب
             </button>
             <button type="button" class="tab-btn" data-tab-target="paneShopsStudio">
-                2️⃣ 🛒 المتاجر والـ Mall الفوري
+                2️⃣ 🛒 المتاجر والـ Mall
             </button>
             <button type="button" class="tab-btn" data-tab-target="panePlayersStudio">
-                3️⃣ 🎁 رادار اللاعبين والهدايا (<span id="tabOnlineCount"><?= (int)($status['online_players'] ?? 0) ?></span>)
+                3️⃣ 🎁 رادار اللاعبين (<span id="tabOnlineCount"><?= (int)($status['online_players'] ?? 0) ?></span>)
             </button>
             <button type="button" class="tab-btn" data-tab-target="paneBossStudio">
-                4️⃣ 👹 صانع غزوات الزعماء (<span id="tabBossCount">0</span>)
+                4️⃣ 👹 غزوات الزعماء (<span id="tabBossCount">0</span>)
             </button>
-            <button type="button" class="tab-btn" data-tab-target="paneProposedSuite">
-                💡 أفكار أدوات إضافية مقترحة
+            <button type="button" class="tab-btn" data-tab-target="paneAccountsStudio">
+                5️⃣ 🛡️ الحسابات والحظر وفك التعليق
+            </button>
+            <button type="button" class="tab-btn" data-tab-target="panePromosStudio">
+                6️⃣ 🎟️ أكواد الهدايا (<span id="tabPromoCount"><?= (int)($status['promo_codes_count'] ?? 0) ?></span>)
+            </button>
+            <button type="button" class="tab-btn" data-tab-target="paneInspectorStudio">
+                7️⃣ 🎒 مفتش الشنطة والمخازن
+            </button>
+            <button type="button" class="tab-btn" data-tab-target="paneAutoBroadcastStudio">
+                8️⃣ 📣 مجدول الإعلانات التلقائية
+            </button>
+            <button type="button" class="tab-btn" data-tab-target="paneCustomDropsStudio">
+                9️⃣ 💎 محرر دروب الوحوش
+            </button>
+            <button type="button" class="tab-btn" data-tab-target="paneBackupEconomyStudio">
+                🔟 💾 النسخ الاحتياطي والاقتصاد
             </button>
         </nav>
 
@@ -1006,83 +1021,508 @@ function h(string $s): string
         </div>
 
         <!-- ================================================================
-             NEXT-WAVE PROPOSED ADMIN TOOLS IDEAS (#5 to #10)
+             TOOL #5: ACCOUNTS, BAN, UNSTUCK & AUTHORITY STUDIO
              ================================================================ -->
-        <div id="paneProposedSuite" class="tab-pane">
+        <div id="paneAccountsStudio" class="tab-pane">
             <section class="section-card">
                 <div class="section-head">
                     <div>
-                        <h2>💡 أفكار أدوات إدارية إضافية مقترحة لتطوير MoonQueen في المراحل القادمة</h2>
-                        <p>بعد اكتمال وتشغيل الأدوات الخمس الأساسية حياً (الريتات + المسابقات + المتاجر + رادار اللاعبين والهدايا + غزوات الزعماء)، هذه 6 أفكار عملية جديدة مصممة خصيصاً لسورس <code>MoonQueen V6192</code>:</p>
+                        <h2>5️⃣ 🛡️ مركز الحسابات والحظر وفك التعليق (Accounts, Ban &amp; Unstuck Studio)</h2>
+                        <p>بحث شامل في <code>moonqueen_account</code> و <code>moonqueen_game</code>، حظر/فك حظر مع طرد حي فوري، حظر شبكة IP/MAC، فك تعليق أي شخصية لـ Twin City، تغيير باسورد مشفّر متوافق مع Canyon، وترقية صلاحيات PM/GM.</p>
+                    </div>
+                    <div style="display:flex; gap:8px; flex-wrap:wrap;">
+                        <button type="button" id="btnRefreshAccounts" class="btn btn-ghost">🔄 تحديث القائمة</button>
                     </div>
                 </div>
 
-                <div class="suite-grid">
-                    <article class="suite-card">
-                        <span class="suite-badge">فكرة مقترحة #5 — تسويق وجذب لاعبين</span>
-                        <h3>🎟️ مولّد أكواد الهدايا الترويجية الفوري (Live Promo &amp; Gift Code Studio)</h3>
-                        <p>أنشئ أكواد ترويجية لصفحة الفيسبوك أو الديسكورد (مثل <code>MOONQUEEN2026</code>) بعدد استخدامات محدد وهدية مخصصة يصرفها اللاعب داخل اللعبة بأمر <code>/claim</code> أو من NPC بدون ريستارت!</p>
-                        <ul class="suite-points">
-                            <li>قفل تلقائي بعد مرة واحدة لكل حساب أو لكل جهاز (MAC Address)</li>
-                            <li>تحديد تاريخ انتهاء بالساعة والدقيقة وحزمة جوائز مرنة</li>
-                            <li>عداد حي يعرض من قام بصرف الكود لحظة بلحظة</li>
-                        </ul>
-                    </article>
+                <div class="studio-split-2">
+                    <!-- Left: Create Account / Network Ban -->
+                    <div style="display:flex; flex-direction:column; gap:14px;">
+                        <div class="section-card" style="margin-bottom:0; padding:16px;">
+                            <h3 style="font-size:0.98rem; color:var(--gold); margin-bottom:10px;">➕ إنشاء حساب جديد أو حساب PM/GM جاهز</h3>
+                            <div class="control-group" style="margin-bottom:10px;">
+                                <label class="control-label">اسم الحساب (Username)</label>
+                                <input id="accNewUsername" type="text" class="text-input" placeholder="مثال: ahmedpm" style="direction:ltr;">
+                            </div>
+                            <div class="control-group" style="margin-bottom:10px;">
+                                <label class="control-label">كلمة المرور</label>
+                                <input id="accNewPassword" type="text" class="text-input" placeholder="4 إلى 16 حرف/رقم" style="direction:ltr;">
+                            </div>
+                            <div class="control-group" style="margin-bottom:12px;">
+                                <label class="control-label">الصلاحية (Authority)</label>
+                                <select id="accNewAuthority" class="text-input">
+                                    <option value="1">👤 لاعب عادي (Player = 1)</option>
+                                    <option value="2">🤝 متعاون (Cooperator = 2)</option>
+                                    <option value="7">🛡️ مشرف (GM = 7 — أوامر ولون أصفر)</option>
+                                    <option value="8">👑 مدير السيرفر (PM = 8 — كامل الصلاحيات + [PM])</option>
+                                </select>
+                            </div>
+                            <button type="button" id="btnCreateAccount" class="btn btn-primary" style="width:100%;">✨ إنشاء الحساب وتشفير Salt تلقائياً</button>
+                            <div class="control-hint">ملاحظة: عند تسمية شخصيتك داخل اللعبة بحساب PM يمكنك إضافة <code>[PM]</code> لاسمك لتفعيل كل أوامر الـ PM فوراً.</div>
+                        </div>
 
-                    <article class="suite-card">
-                        <span class="suite-badge">فكرة مقترحة #6 — حماية الاقتصاد</span>
-                        <h3>🛡️ رادار مراقبة الاقتصاد وكاشف التضخم (Live Economy &amp; Anti-Dupe Watchdog)</h3>
-                        <p>لوحة تراقب إجمالي الـ CPs والفضة وقطع الـ +12 في السيرفر وتنبهك فوراً لو زادت ثروة لاعب فجأة بشكل غير طبيعي!</p>
-                        <ul class="suite-points">
-                            <li>كشف أعلى 20 حساب في الـ CPs والفضة والـ DragonBalls بضغطة زر</li>
-                            <li>تتبع حي لعمليات المتاجرة الكبيرة (<code>cq_trade</code>) ورمي الأدوات على الأرض</li>
-                            <li>تجميد مؤقت لحساب مشتبه به لحين المراجعة</li>
-                        </ul>
-                    </article>
+                        <div class="section-card" style="margin-bottom:0; padding:16px;">
+                            <h3 style="font-size:0.98rem; color:#fb7185; margin-bottom:10px;">🚫 حظر شبكة كاملة (IP / MAC Address Ban)</h3>
+                            <div class="control-group" style="margin-bottom:8px;">
+                                <label class="control-label">عنوان الـ IP المراد حظره (اختياري)</label>
+                                <input id="banNetworkIp" type="text" class="text-input" placeholder="مثال: 25.44.12.9" style="direction:ltr;">
+                            </div>
+                            <div class="control-group" style="margin-bottom:10px;">
+                                <label class="control-label">بصمة الجهاز MAC Address (اختياري)</label>
+                                <input id="banNetworkMac" type="text" class="text-input" placeholder="مثال: 001A2B3C4D5E" style="direction:ltr;">
+                            </div>
+                            <button type="button" id="btnBanNetwork" class="btn btn-crimson" style="width:100%;">⛔ حظر وطرد جميع حسابات هذا الجهاز فوراً</button>
+                            <div class="control-hint">محمي تلقائياً ضد حظر جهاز السيرفر المحلي <code>127.0.0.1</code> أو حسابات <code>PM</code>.</div>
+                        </div>
+                    </div>
 
-                    <article class="suite-card">
-                        <span class="suite-badge">فكرة مقترحة #7 — أمان الداتابيز</span>
-                        <h3>💾 خزنة النسخ الاحتياطي الذكي بضغطة زر (One-Click MariaDB Snapshot Vault)</h3>
-                        <p>حفظ نسخة احتياطية مضغوطة ومؤرخة من <code>moonqueen_account</code> و <code>moonqueen_game</code> قبل أي تعديل كبير بضغطة واحدة من المتصفح!</p>
-                        <ul class="suite-points">
-                            <li>جدولة نسخ تلقائي كل 6 ساعات مع الاحتفاظ بآخر 10 نسخ نظيفة</li>
-                            <li>حفظ النسخ في مجلد محلي آمن مستبعد من Git بالكامل</li>
-                            <li>عرض حجم كل قاعدة بيانات وعدد الحسابات والشخصيات المسجلة</li>
-                        </ul>
-                    </article>
+                    <!-- Right: Accounts Search & Table -->
+                    <div class="section-card" style="margin-bottom:0; padding:16px;">
+                        <div style="display:flex; gap:10px; flex-wrap:wrap; margin-bottom:12px;">
+                            <input id="accSearchInput" type="text" class="text-input" style="flex:1; min-width:220px;" placeholder="🔍 ابحث باسم الحساب، اسم الشخصية، رقم الـ ID، الـ IP أو الـ MAC...">
+                            <select id="accFilterSelect" class="text-input" style="max-width:190px;">
+                                <option value="all">كل الحسابات</option>
+                                <option value="banned">المحظورون فقط</option>
+                                <option value="staff">فريق الإدارة (PM / GM)</option>
+                            </select>
+                            <button type="button" id="btnSearchAccounts" class="btn btn-primary">بحث</button>
+                        </div>
 
-                    <article class="suite-card">
-                        <span class="suite-badge">فكرة مقترحة #8 — تصميم بدون كود</span>
-                        <h3>🧙 المصمم المرئي لحوارات الـ NPCs والـ Teleporters (Visual NPC &amp; Lua Builder)</h3>
-                        <p>صمّم أي NPC جديد (مرشد، ناقل خرائط، بائع حزم، مستبدل توكنات) عبر نموذج عربي بسيط يولّد كود Lua نظيف ويفعّله حياً بدون ريستارت!</p>
-                        <ul class="suite-points">
-                            <li>معاينة شكل حوار الـ NPC وصورته (Avatar) قبل الحفظ</li>
-                            <li>دعم شروط اللفل والريبورن والـ CPs والفضة أوتوماتيكياً</li>
-                            <li>ريلود فوري لـ <code>LuaScriptManager</code> بضغطة واحدة</li>
-                        </ul>
-                    </article>
+                        <div id="multiClientAlertBox" style="display:none; margin-bottom:12px; padding:10px 14px; border-radius:10px; background:rgba(245,158,11,0.12); border:1px solid rgba(245,158,11,0.35); font-size:0.84rem; color:#fde68a;"></div>
 
-                    <article class="suite-card">
-                        <span class="suite-badge">فكرة مقترحة #9 — عدالة اللعب</span>
-                        <h3>🕵️ كاشف الحسابات المتعددة وحارس الـ MAC/IP (Multi-Client &amp; Bot Inspector)</h3>
-                        <p>يعرض اللاعبين الفاتحين أكثر من حساب من نفس الـ IP أو الـ MAC Address، مع إمكانية تحديد حد أقصى للحسابات داخل المسابقات!</p>
-                        <ul class="suite-points">
-                            <li>منع دخول أكثر من حساب واحد من نفس الجهاز في Elite PK و CTF و Skill PK</li>
-                            <li>قائمة حظر/فك حظر فوري للـ Account أو الـ MAC من نفس الشاشة</li>
-                            <li>تنبيه عند محاولة دخول متكررة فاشلة</li>
-                        </ul>
-                    </article>
+                        <div class="data-table-wrap" style="max-height:540px;">
+                            <table class="studio-table">
+                                <thead>
+                                    <tr>
+                                        <th>الحساب (#ID)</th>
+                                        <th>الشخصية</th>
+                                        <th>الحالة والرتبة</th>
+                                        <th>الـ IP / MAC</th>
+                                        <th>إجراءات فورية بضغطة واحدة</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="accountsTableBody">
+                                    <tr><td colspan="5" style="text-align:center; color:var(--text-muted);">اضغط تحديث أو ابحث لعرض الحسابات...</td></tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
 
-                    <article class="suite-card">
-                        <span class="suite-badge">فكرة مقترحة #10 — أتمتة السيرفر</span>
-                        <h3>⏰ المجدول التلقائي لإيفنتات السيرفر (Auto Happy-Hour &amp; Invasion Scheduler)</h3>
-                        <p>جدول أسبوعي ذكي يشغّل Happy Hour 2x كل خميس وجمعة وينزّل زعيم غزوة كل ساعتين أوتوماتيكياً ويرجع للوضع البيور 1x وحده بعد انتهاء الوقت!</p>
-                        <ul class="suite-points">
-                            <li>يعمل أوتوماتيكياً حتى وأنت نائم أو خارج البيت</li>
-                            <li>إعلانات عدّ تنازلي قبل الإيفنت بـ 5 دقائق</li>
-                            <li>عودة تلقائية آمنة لريتات السيرفر الأصلية فور انتهاء المدة</li>
-                        </ul>
-                    </article>
+        <!-- ================================================================
+             TOOL #6: LIVE PROMO & GIFT CODES STUDIO (/redeem)
+             ================================================================ -->
+        <div id="panePromosStudio" class="tab-pane">
+            <section class="section-card">
+                <div class="section-head">
+                    <div>
+                        <h2>6️⃣ 🎟️ استوديو أكواد الهدايا والتعويضات الفوري (Live Promo &amp; Gift Codes)</h2>
+                        <p>أنشئ كود هدية في ثانية واحدة ويصرفه اللاعب فوراً داخل الشات بكتابة <code>/redeem CODE</code> أو <code>/code CODE</code> أو <code>/gift CODE</code> بدون ريستارت!</p>
+                    </div>
+                    <button type="button" id="btnRefreshPromos" class="btn btn-ghost">🔄 تحديث الأكواد</button>
+                </div>
+
+                <div class="studio-split-2">
+                    <!-- Left: Create / Update Promo Form -->
+                    <div class="section-card" style="margin-bottom:0; padding:16px;">
+                        <h3 style="font-size:0.98rem; color:var(--gold); margin-bottom:10px;">🎁 إنشاء أو تعديل كود هدية جديد</h3>
+
+                        <div class="mini-form-grid" style="margin-bottom:10px;">
+                            <div>
+                                <label class="control-label">الكود (Code)</label>
+                                <input id="promoCode" type="text" class="text-input" placeholder="MOONQUEEN2026" style="direction:ltr; text-transform:uppercase;">
+                            </div>
+                            <div>
+                                <label class="control-label">عنوان الهدية</label>
+                                <input id="promoTitle" type="text" class="text-input" value="هدية MoonQueen الخاصة">
+                            </div>
+                        </div>
+
+                        <div class="mini-form-grid" style="margin-bottom:10px;">
+                            <div>
+                                <label class="control-label">أقصى عدد مرات صرف (0 = مفتوح)</label>
+                                <input id="promoMaxUses" type="number" class="text-input" min="0" max="1000000" value="100">
+                            </div>
+                            <div>
+                                <label class="control-label">أقل لفل مسموح (Min Level)</label>
+                                <input id="promoMinLevel" type="number" class="text-input" min="1" max="140" value="1">
+                            </div>
+                        </div>
+
+                        <div class="mini-form-grid" style="margin-bottom:10px;">
+                            <div>
+                                <label class="control-label">صلاحية بالساعات (0 = دائم)</label>
+                                <input id="promoValidHours" type="number" class="text-input" min="0" max="8760" value="0">
+                            </div>
+                            <div>
+                                <label class="control-label">ساعات بركة السماء (Blessing Hours)</label>
+                                <input id="promoVipDays" type="number" class="text-input" min="0" max="8760" value="0">
+                            </div>
+                        </div>
+
+                        <div class="mini-form-grid" style="margin-bottom:10px;">
+                            <div>
+                                <label class="control-label">💎 CPs عادية</label>
+                                <input id="promoCps" type="number" class="text-input" min="0" value="0">
+                            </div>
+                            <div>
+                                <label class="control-label">🔒 Bound CPs</label>
+                                <input id="promoBoundCps" type="number" class="text-input" min="0" value="0">
+                            </div>
+                        </div>
+
+                        <div class="control-group" style="margin-bottom:10px;">
+                            <label class="control-label">🪙 فضة (Silver)</label>
+                            <input id="promoSilver" type="number" class="text-input" min="0" value="0">
+                        </div>
+
+                        <hr style="border:0; border-top:1px solid var(--border-subtle); margin:12px 0;">
+                        <div style="font-size:0.84rem; color:var(--gold); font-weight:700; margin-bottom:8px;">🗡️ أداة اختيارية مع الكود (Item Reward):</div>
+
+                        <div class="mini-form-grid" style="margin-bottom:8px;">
+                            <div>
+                                <label class="control-label">رقم الأداة (ItemType ID)</label>
+                                <input id="promoItemType" type="number" class="text-input" min="0" value="0" placeholder="مثال: 1088000 (DragonBall)">
+                            </div>
+                            <div>
+                                <label class="control-label">الكمية (Count)</label>
+                                <input id="promoItemCount" type="number" class="text-input" min="1" max="50" value="1">
+                            </div>
+                        </div>
+
+                        <div style="display:flex; gap:6px; flex-wrap:wrap; margin-bottom:10px;">
+                            <button type="button" class="preset-chip" data-promo-pick="1088000" data-promo-pick-name="DragonBall">🐉 DragonBall</button>
+                            <button type="button" class="preset-chip" data-promo-pick="720028" data-promo-pick-name="DBScroll">📜 DBScroll</button>
+                            <button type="button" class="preset-chip" data-promo-pick="1088001" data-promo-pick-name="Meteor">☄️ Meteor</button>
+                            <button type="button" class="preset-chip" data-promo-pick="730003" data-promo-pick-name="+3 Stone">💎 +3 Stone</button>
+                            <button type="button" class="preset-chip" data-promo-pick="723700" data-promo-pick-name="ExpBall">🔮 ExpBall</button>
+                        </div>
+
+                        <div class="mini-form-grid" style="margin-bottom:10px;">
+                            <div>
+                                <label class="control-label">+Plus (0–12)</label>
+                                <input id="promoItemPlus" type="number" class="text-input" min="0" max="12" value="0">
+                            </div>
+                            <div>
+                                <label class="control-label">-Bless (0 / 1 / 3 / 5 / 7)</label>
+                                <select id="promoItemBless" class="text-input">
+                                    <option value="0">0%</option>
+                                    <option value="1">-1%</option>
+                                    <option value="3">-3%</option>
+                                    <option value="5">-5%</option>
+                                    <option value="7">-7%</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="mini-form-grid" style="margin-bottom:12px;">
+                            <div>
+                                <label class="control-label">السوكتات (Sockets)</label>
+                                <select id="promoItemSockets" class="text-input">
+                                    <option value="0">بدون سوكت</option>
+                                    <option value="1">1 Socket</option>
+                                    <option value="2">2 Sockets</option>
+                                </select>
+                            </div>
+                            <div style="display:flex; flex-direction:column; justify-content:center; gap:6px; padding-top:16px;">
+                                <label style="font-size:0.82rem; cursor:pointer;"><input id="promoItemBound" type="checkbox"> قفل الأداة (Monopoly / Bound)</label>
+                                <label style="font-size:0.82rem; cursor:pointer;"><input id="promoOnePerDevice" type="checkbox" checked> منع التكرار لنفس الـ IP / MAC</label>
+                            </div>
+                        </div>
+
+                        <button type="button" id="btnSavePromo" class="btn btn-primary" style="width:100%;">🎟️ حفظ وتفعيل الكود حياً (&lt; 1 ثانية)</button>
+                    </div>
+
+                    <!-- Right: Active Promo Codes List -->
+                    <div class="section-card" style="margin-bottom:0; padding:16px;">
+                        <h3 style="font-size:0.98rem; color:var(--gold); margin-bottom:10px;">📋 الأكواد المسجلة وعداد الصرف الحي</h3>
+                        <div class="data-table-wrap" style="max-height:600px;">
+                            <table class="studio-table">
+                                <thead>
+                                    <tr>
+                                        <th>الكود</th>
+                                        <th>تفاصيل الجائزة</th>
+                                        <th>مرات الصرف</th>
+                                        <th>الحالة / الصلاحية</th>
+                                        <th>آخر الصارفين</th>
+                                        <th>تحكم</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="promosTableBody">
+                                    <tr><td colspan="6" style="text-align:center; color:var(--text-muted);">لا توجد أكواد مسجلة بعد — أنشئ أول كود من اليمين!</td></tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <!-- ================================================================
+             TOOL #7: LIVE INVENTORY, EQUIPMENT & WAREHOUSE INSPECTOR
+             ================================================================ -->
+        <div id="paneInspectorStudio" class="tab-pane">
+            <section class="section-card">
+                <div class="section-head">
+                    <div>
+                        <h2>7️⃣ 🎒 مفتش الشنطة والمخازن والعتاد (Live Inventory &amp; Warehouse Inspector)</h2>
+                        <p>افحص أي شخصية أونلاين أو أوفلاين (عتاد أساسي وبديل + الحقيبة + جميع المخازن والخزنات) مع كشف الجودة و<code>+Plus</code> و<code>-Bless</code> والسوكتات والجواهر وسحب أي أداة مخالفة بأمان تام!</p>
+                    </div>
+                </div>
+
+                <div style="display:flex; gap:10px; flex-wrap:wrap; margin-bottom:16px;">
+                    <input id="inspectQueryInput" type="text" class="text-input" style="flex:1; min-width:260px;" placeholder="🔍 اكتب اسم الشخصية أو رقم الـ Character ID أو اختر من اللاعبين الأونلاين...">
+                    <button type="button" id="btnRunInspect" class="btn btn-primary">🎒 فحص شامل الآن</button>
+                </div>
+
+                <!-- Summary Banner -->
+                <div id="inspectPlayerSummary" style="display:none; margin-bottom:16px;"></div>
+
+                <!-- Sub-filter bar -->
+                <div id="inspectFilterBar" style="display:none; gap:8px; flex-wrap:wrap; margin-bottom:14px;">
+                    <button type="button" class="preset-chip active" data-inv-tab="all">الكل (<span id="invCntAll">0</span>)</button>
+                    <button type="button" class="preset-chip" data-inv-tab="equip">🛡️ العتاد الملبوس (<span id="invCntEquip">0</span>)</button>
+                    <button type="button" class="preset-chip" data-inv-tab="bag">🎒 الحقيبة (<span id="invCntBag">0</span>)</button>
+                    <button type="button" class="preset-chip" data-inv-tab="warehouse">🏦 المخازن والخزنة (<span id="invCntWh">0</span>)</button>
+                    <input id="inspectItemFilter" type="text" class="text-input" style="max-width:240px; margin-right:auto;" placeholder="فلترة اسم الأداة أو +12...">
+                </div>
+
+                <div id="inspectGearContainer">
+                    <div style="text-align:center; padding:32px; color:var(--text-muted);">
+                        ابحث باسم أي شخصية بالأعلى (أو اضغط زر <strong>🎒 فحص العتاد</strong> بجانب أي لاعب في رادار اللاعبين أو الحسابات أو الاقتصاد).
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <!-- ================================================================
+             TOOL #8: AUTO-BROADCAST & WAR SCHEDULE STUDIO
+             ================================================================ -->
+        <div id="paneAutoBroadcastStudio" class="tab-pane">
+            <section class="section-card">
+                <div class="section-head">
+                    <div>
+                        <h2>8️⃣ 📣 مجدول الإعلانات التلقائية ومواعيد الحروب (Auto-Broadcast &amp; Schedule Studio)</h2>
+                        <p>جدول رسائل دورية (كل X دقيقة) أو رسائل يومية في ساعة محددة (<code>HH:mm</code>) تُبث تلقائياً في شاشة اللعبة بدون تدخل منك، مع زر بث تجريبي فوري.</p>
+                    </div>
+                    <div style="display:flex; gap:10px; align-items:center;">
+                        <label style="font-weight:800; color:var(--gold); cursor:pointer;">
+                            <input id="autoBcMasterEnabled" type="checkbox" checked> تفعيل المحرك التلقائي
+                        </label>
+                        <button type="button" id="btnAddAutoBcRow" class="btn btn-ghost">➕ إضافة رسالة جديدة</button>
+                        <button type="button" id="btnSaveAutoBc" class="btn btn-primary">💾 حفظ وتفعيل الجدول حياً</button>
+                    </div>
+                </div>
+
+                <div style="display:flex; gap:8px; flex-wrap:wrap; margin-bottom:14px;">
+                    <span class="control-hint" style="margin:0; align-self:center;">قوالب سريعة جاهزة:</span>
+                    <button type="button" class="preset-chip" data-bc-template="welcome">👋 ترحيب وقوانين السيرفر</button>
+                    <button type="button" class="preset-chip" data-bc-template="gw">🏰 تذكير Guild War</button>
+                    <button type="button" class="preset-chip" data-bc-template="elitepk">⚔️ موعد Elite PK (19:55)</button>
+                    <button type="button" class="preset-chip" data-bc-template="promo">🎟️ تذكير بأمر /redeem</button>
+                </div>
+
+                <div class="data-table-wrap">
+                    <table class="studio-table">
+                        <thead>
+                            <tr>
+                                <th style="width:70px;">مفعّل</th>
+                                <th style="width:155px;">نوع التوقيت</th>
+                                <th style="width:150px;">الفاصل / الساعة</th>
+                                <th style="width:165px;">مكان الظهور</th>
+                                <th>نص الإعلان داخل اللعبة</th>
+                                <th style="width:130px;">إجراءات</th>
+                            </tr>
+                        </thead>
+                        <tbody id="autoBcTableBody">
+                            <tr><td colspan="6" style="text-align:center; color:var(--text-muted);">جاري تحميل جدول الإعلانات...</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+        </div>
+
+        <!-- ================================================================
+             TOOL #9: BOSS & MONSTER CUSTOM DROP STUDIO
+             ================================================================ -->
+        <div id="paneCustomDropsStudio" class="tab-pane">
+            <section class="section-card">
+                <div class="section-head">
+                    <div>
+                        <h2>9️⃣ 💎 محرر دروب الزعماء والوحوش المخصص (Boss &amp; Monster Drop Studio)</h2>
+                        <p>خصّص دروب أي وحش أو زعيم (بنسبة <code>%</code> دقيقة + <code>+Plus</code> + سوكت + فضة/CPs + إعلان عالمي عند السقوط) مع الحفاظ التام على الدروب الأصلي النقي لباقي الوحوش!</p>
+                    </div>
+                    <button type="button" id="btnRefreshCustomDrops" class="btn btn-ghost">🔄 تحديث القواعد</button>
+                </div>
+
+                <div class="studio-split-2">
+                    <!-- Left: Monster Picker + Profile Editor -->
+                    <div class="section-card" style="margin-bottom:0; padding:16px;">
+                        <h3 style="font-size:0.98rem; color:var(--gold); margin-bottom:10px;">👹 اختيار الوحش أو الزعيم</h3>
+                        <div style="display:flex; gap:6px; margin-bottom:8px;">
+                            <input id="dropCatalogQuery" type="text" class="text-input" placeholder="ابحث عن وحش أو أداة في الداتابيز (TeratoDragon)...">
+                            <button type="button" id="btnDropCatalogSearch" class="btn btn-ghost">🔍</button>
+                        </div>
+                        <div id="dropCatalogResults" style="display:none; max-height:150px; overflow-y:auto; margin-bottom:10px; padding:8px; border-radius:8px; background:rgba(0,0,0,0.35); font-size:0.80rem;"></div>
+
+                        <div style="display:flex; gap:6px; flex-wrap:wrap; margin-bottom:10px;">
+                            <button type="button" class="preset-chip" data-drop-boss="20070" data-drop-boss-name="TeratoDragon">🐉 TeratoDragon (20070)</button>
+                            <button type="button" class="preset-chip" data-drop-boss="20060" data-drop-boss-name="SnowBanshee">❄️ SnowBanshee (20060)</button>
+                            <button type="button" class="preset-chip" data-drop-boss="20160" data-drop-boss-name="ThrillingSpook">👻 ThrillingSpook (20160)</button>
+                            <button type="button" class="preset-chip" data-drop-boss="20300" data-drop-boss-name="NemesisTyrant">🔥 NemesisTyrant (20300)</button>
+                        </div>
+
+                        <div class="mini-form-grid" style="margin-bottom:10px;">
+                            <div>
+                                <label class="control-label">رقم الوحش (MonsterType ID)</label>
+                                <input id="cdMonsterType" type="number" class="text-input" placeholder="20070">
+                            </div>
+                            <div>
+                                <label class="control-label">اسم الوحش للتوضيح</label>
+                                <input id="cdMonsterName" type="text" class="text-input" placeholder="TeratoDragon">
+                            </div>
+                        </div>
+
+                        <div class="mini-form-grid" style="margin-bottom:12px;">
+                            <div>
+                                <label class="control-label">نظام الدروب (Mode)</label>
+                                <select id="cdDropMode" class="text-input">
+                                    <option value="additional">➕ إضافي فوق دروب كونكر الأصلي (Additional)</option>
+                                    <option value="override">🔄 استبدال كامل لدروب الوحش (Override)</option>
+                                </select>
+                            </div>
+                            <div style="display:flex; align-items:center; padding-top:18px;">
+                                <label style="font-weight:700; cursor:pointer;"><input id="cdProfileEnabled" type="checkbox" checked> تفعيل هذا الملف حياً</label>
+                            </div>
+                        </div>
+
+                        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
+                            <span style="font-size:0.86rem; font-weight:800; color:var(--gold);">📜 قواعد السقوط لهذا الوحش:</span>
+                            <button type="button" id="btnAddDropRuleRow" class="btn btn-ghost btn-sm">➕ إضافة قاعدة أداة/جائزة</button>
+                        </div>
+
+                        <div id="cdRulesEditorList" style="display:flex; flex-direction:column; gap:10px; margin-bottom:12px;"></div>
+
+                        <button type="button" id="btnSaveCustomDropProfile" class="btn btn-primary" style="width:100%;">💎 حفظ وتفعيل دروب الوحش فوراً (&lt; 1 ثانية)</button>
+                    </div>
+
+                    <!-- Right: Saved Profiles Table -->
+                    <div class="section-card" style="margin-bottom:0; padding:16px;">
+                        <h3 style="font-size:0.98rem; color:var(--gold); margin-bottom:10px;">📋 ملفات الدروب المخصصة النشطة حالياً</h3>
+                        <div class="control-hint" style="margin-bottom:10px;">في الوضع الافتراضي تكون هذه القائمة فارغة ليبقى السيرفر <strong>100% Pure Official Conquer</strong> حتى تضيف قاعدة بنفسك.</div>
+                        <div class="data-table-wrap" style="max-height:560px;">
+                            <table class="studio-table">
+                                <thead>
+                                    <tr>
+                                        <th>الوحش / الزعيم</th>
+                                        <th>النظام</th>
+                                        <th>ملخص قواعد الدروب</th>
+                                        <th>الحالة</th>
+                                        <th>تحكم</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="customDropsTableBody">
+                                    <tr><td colspan="5" style="text-align:center; color:var(--text-muted);">لا توجد قواعد مخصصة حالياً — الدروب يعمل بالنظام الرسمي النقي 100%.</td></tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <!-- ================================================================
+             TOOL #10: 1-CLICK BACKUP VAULT & LIVE ECONOMY RADAR
+             ================================================================ -->
+        <div id="paneBackupEconomyStudio" class="tab-pane">
+            <section class="section-card">
+                <div class="section-head">
+                    <div>
+                        <h2>🔟 💾 خزنة النسخ الاحتياطي بضغطة زر ورادار الاقتصاد (Backup Vault &amp; Economy Radar)</h2>
+                        <p>احفظ نسخة احتياطية مضغوطة ومؤرخة من <code>moonqueen_account</code> و <code>moonqueen_game</code> في ثوانٍ، وراقب ثروات السيرفر والـ DragonBalls وقطع الـ <code>+12</code> لحظة بلحظة.</p>
+                    </div>
+                    <div style="display:flex; gap:8px; flex-wrap:wrap;">
+                        <button type="button" class="btn btn-primary" data-run-backup="both">💾 نسخ احتياطي شامل الآن (Account + Game)</button>
+                        <button type="button" class="btn btn-ghost" data-run-backup="account">🔐 نسخ الحسابات فقط</button>
+                        <button type="button" class="btn btn-ghost" data-run-backup="game">⚔️ نسخ الشخصيات واللعبة فقط</button>
+                        <button type="button" id="btnRefreshEconomy" class="btn btn-ghost">🔄 تحديث الرادار</button>
+                    </div>
+                </div>
+
+                <!-- Economy Summary Tiles -->
+                <div class="econ-grid">
+                    <div class="econ-card">
+                        <span class="econ-label">إجمالي الحسابات والشخصيات</span>
+                        <span id="econAccountsChars" class="econ-val">0 / 0</span>
+                        <span id="econBannedSub" class="econ-sub">المحظورون: 0</span>
+                    </div>
+                    <div class="econ-card">
+                        <span class="econ-label">💎 إجمالي الـ CPs بالسيرفر</span>
+                        <span id="econTotalCps" class="econ-val">0</span>
+                        <span id="econTotalBoundCps" class="econ-sub">Bound CPs: 0</span>
+                    </div>
+                    <div class="econ-card">
+                        <span class="econ-label">🪙 إجمالي الفضة (حقيبة + مخزن)</span>
+                        <span id="econTotalSilver" class="econ-val">0</span>
+                        <span class="econ-sub">شامل أموال الخزنات</span>
+                    </div>
+                    <div class="econ-card">
+                        <span class="econ-label">🐉 كرات التنين والميتيور</span>
+                        <span id="econDbsMeteors" class="econ-val">0 DB / 0 Scroll</span>
+                        <span id="econMeteorsSub" class="econ-sub">Meteors: 0</span>
+                    </div>
+                    <div class="econ-card">
+                        <span class="econ-label">⚔️ العتاد النادر (+12 و 2-Socket)</span>
+                        <span id="econRareGear" class="econ-val">0 (+12)</span>
+                        <span id="econSuperSub" class="econ-sub">+9..11: 0 | 2-Soc: 0 | Super: 0</span>
+                    </div>
+                </div>
+
+                <div class="studio-split-2">
+                    <!-- Left: Backup Vault Files -->
+                    <div class="section-card" style="margin-bottom:0; padding:16px;">
+                        <h3 style="font-size:0.98rem; color:var(--gold); margin-bottom:8px;">🗄️ خزنة النسخ الاحتياطية المحفوظة محلياً (<code>backups/</code>)</h3>
+                        <div class="control-hint" style="margin-bottom:10px;">محمية تلقائياً بـ <code>.htaccess</code> و <code>router.php</code> ومستبعدة من Git لخصوصية بيانات لاعبيك.</div>
+                        <div class="data-table-wrap" style="max-height:430px;">
+                            <table class="studio-table">
+                                <thead>
+                                    <tr>
+                                        <th>اسم النسخة</th>
+                                        <th>الحجم</th>
+                                        <th>التاريخ</th>
+                                        <th>تحميل / حذف</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="backupsTableBody">
+                                    <tr><td colspan="4" style="text-align:center; color:var(--text-muted);">لا توجد نسخ محفوظة بعد — اضغط "نسخ احتياطي شامل الآن".</td></tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <!-- Right: Richest Players Watchdog -->
+                    <div class="section-card" style="margin-bottom:0; padding:16px;">
+                        <h3 style="font-size:0.98rem; color:var(--gold); margin-bottom:8px;">👑 رادار أعلى 20 شخصية ثروة في السيرفر (Anti-Dupe Watchdog)</h3>
+                        <div class="data-table-wrap" style="max-height:430px;">
+                            <table class="studio-table">
+                                <thead>
+                                    <tr>
+                                        <th>الشخصية</th>
+                                        <th>Lvl</th>
+                                        <th>💎 CPs</th>
+                                        <th>🔒 Bound</th>
+                                        <th>🪙 إجمالي الفضة</th>
+                                        <th>فحص</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="richestPlayersTableBody">
+                                    <tr><td colspan="6" style="text-align:center; color:var(--text-muted);">اضغط تحديث الرادار لعرض الترتيب المالي...</td></tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
                 </div>
             </section>
         </div>

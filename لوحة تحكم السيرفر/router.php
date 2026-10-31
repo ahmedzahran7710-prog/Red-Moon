@@ -9,8 +9,8 @@ declare(strict_types=1);
 $uri = urldecode((string)parse_url($_SERVER['REQUEST_URI'] ?? '/', PHP_URL_PATH));
 
 if (
-    preg_match('#^/includes(/|$)#i', $uri) ||
-    preg_match('#/(config\.[^/]+|.*\.(json|bat|md)|\.htaccess)$#i', $uri)
+    preg_match('#^/(includes|backups)(/|$)#i', $uri) ||
+    preg_match('#/(config\.[^/]+|.*\.(json|bat|md|sql|gz)|\.htaccess)$#i', $uri)
 ) {
     http_response_code(403);
     header('Content-Type: text/plain; charset=utf-8');

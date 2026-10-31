@@ -93,10 +93,11 @@ namespace Canyon.Game.Services.Managers
                 return false;
             }
 
-            if (user.Character.IsPm() && user.AccountIdentity < 10_000)
+            if ((user.Character.Name.Contains("[PM]") && user.AuthorityLevel < 8)
+                || (user.Character.Name.Contains("[GM]") && user.AuthorityLevel < 7))
             {
                 await user.DisconnectWithMessageAsync(MsgConnectEx<Client>.RejectionCode.AccountLocked);
-                logger.LogInformation($"{user.Character.Name} no administration account ID.");
+                logger.LogInformation($"{user.Character.Name} attempted staff tag login with insufficient AuthorityLevel ({user.AuthorityLevel}).");
                 return false;
             }
 

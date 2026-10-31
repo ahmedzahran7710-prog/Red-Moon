@@ -1932,6 +1932,14 @@ namespace Canyon.Game.Sockets.Game.Packets
                         return true;
                     }
 
+                case "/redeem":
+                case "/code":
+                case "/gift":
+                    {
+                        await ServerRatesManager.RedeemPromoCodeInGameAsync(user, param);
+                        return true;
+                    }
+
                 case "/server":
                 case "/about":
                 case "/credits":

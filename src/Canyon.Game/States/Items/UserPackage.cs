@@ -1992,6 +1992,75 @@ namespace Canyon.Game.States.Items
             return null;
         }
 
+        public List<Item> GetAllItemsForStudio()
+        {
+            var result = new List<Item>();
+            result.AddRange(equipments.Values);
+            result.AddRange(inventory.Values);
+            foreach (var wh in warehouses.Values)
+            {
+                result.AddRange(wh.Values);
+            }
+            foreach (var sh in sashes.Values)
+            {
+                result.AddRange(sh.Values);
+            }
+            result.AddRange(chestPackage.Values);
+            return result;
+        }
+
+        public async Task<(bool Ok, string ItemName)> StudioDeleteItemByIdAsync(uint idItem)
+        {
+            if (inventory.TryGetValue(idItem, out var invItem))
+            {
+                string name = invItem.Name;
+                await RemoveFromInventoryAsync(invItem, RemovalType.Delete);
+                return (true, name);
+            }
+
+            foreach (var kvp in equipments)
+            {
+                if (kvp.Value.Identity == idItem)
+                {
+                    string name = kvp.Value.Name;
+                    bool removed = await UnEquipAsync(kvp.Key, RemovalType.Delete);
+                    return (removed, name);
+                }
+            }
+
+            foreach (var wh in warehouses.Values)
+            {
+                if (wh.TryRemove(idItem, out var whItem))
+                {
+                    string name = whItem.Name;
+                    await user.SendAsync(new MsgPackage(whItem, WarehouseMode.CheckOut, StorageType.Storage));
+                    await whItem.DeleteAsync();
+                    return (true, name);
+                }
+            }
+
+            foreach (var sh in sashes.Values)
+            {
+                if (sh.TryRemove(idItem, out var shItem))
+                {
+                    string name = shItem.Name;
+                    await user.SendAsync(new MsgPackage(shItem, WarehouseMode.CheckOut, StorageType.Chest));
+                    await shItem.DeleteAsync();
+                    return (true, name);
+                }
+            }
+
+            if (chestPackage.TryRemove(idItem, out var cpItem))
+            {
+                string name = cpItem.Name;
+                await user.SendAsync(new MsgPackage(cpItem, WarehouseMode.CheckOut, StorageType.ChestPackage));
+                await cpItem.DeleteAsync();
+                return (true, name);
+            }
+
+            return (false, string.Empty);
+        }
+
         public async Task ClearInventoryAsync()
         {
             foreach (var item in inventory.Values)

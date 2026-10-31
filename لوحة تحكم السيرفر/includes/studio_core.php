@@ -429,6 +429,10 @@ function mq_resolve_studio_files(): array
         'commands' => $baseDir . DIRECTORY_SEPARATOR . 'MoonQueen.Studio.Commands.json',
         'shops' => $baseDir . DIRECTORY_SEPARATOR . 'MoonQueen.Shops.snapshot.json',
         'search' => $baseDir . DIRECTORY_SEPARATOR . 'MoonQueen.Studio.Search.json',
+        'promos' => $baseDir . DIRECTORY_SEPARATOR . 'MoonQueen.Studio.Promos.json',
+        'autobroadcast' => $baseDir . DIRECTORY_SEPARATOR . 'MoonQueen.Studio.AutoBroadcast.json',
+        'customdrops' => $baseDir . DIRECTORY_SEPARATOR . 'MoonQueen.Studio.CustomDrops.json',
+        'inspect' => $baseDir . DIRECTORY_SEPARATOR . 'MoonQueen.Studio.Inspect.json',
     ];
 }
 
@@ -646,6 +650,12 @@ function mq_read_server_status(): array
     if (isset($snap['recent_results']) && is_array($snap['recent_results'])) {
         $result['recent_results'] = $snap['recent_results'];
     }
+    $result['promo_codes_count'] = (int)($snap['promo_codes_count'] ?? 0);
+    $result['auto_broadcast_enabled'] = !empty($snap['auto_broadcast_enabled']);
+    $result['auto_broadcast_count'] = (int)($snap['auto_broadcast_count'] ?? 0);
+    $result['custom_drop_monsters_count'] = (int)($snap['custom_drop_monsters_count'] ?? 0);
 
     return $result;
 }
+
+require_once __DIR__ . '/studio_tools_plus.php';
