@@ -34,7 +34,7 @@ namespace Canyon.Game
 
         public class ServerRatesConfiguration
         {
-            public string PresetName { get; set; } = "Classic+ Default (1x)";
+            public string PresetName { get; set; } = "Pure Official Conquer (1x)";
             public double ExperienceRate { get; set; } = 1.0d;
             public double MagicExpRate { get; set; } = 1.0d;
             public double WeaponSkillExpRate { get; set; } = 1.0d;
@@ -42,6 +42,8 @@ namespace Canyon.Game
             public int SilverDropChancePercent { get; set; } = 25;
             public double EquipmentDropRate { get; set; } = 1.0d;
             public double QualityItemRate { get; set; } = 1.0d;
+            public double SocketDropRate { get; set; } = 1.0d;
+            public double PlusOneDropRate { get; set; } = 1.0d;
             public double DragonBallDropRate { get; set; } = 1.0d;
             public int MeteorDropPer100k { get; set; } = 0;
             public double MonsterCpChancePercent { get; set; } = 0.0d;
@@ -58,7 +60,7 @@ namespace Canyon.Game
                 int cpMax = Math.Clamp(MonsterCpMax, cpMin, 100_000);
                 return new ServerRatesConfiguration
                 {
-                    PresetName = string.IsNullOrWhiteSpace(PresetName) ? "Classic+ Custom" : PresetName.Trim(),
+                    PresetName = string.IsNullOrWhiteSpace(PresetName) ? "Pure Official Conquer (1x)" : PresetName.Trim(),
                     ExperienceRate = Math.Clamp(double.IsFinite(ExperienceRate) ? ExperienceRate : 1.0d, 0.05d, 100.0d),
                     MagicExpRate = Math.Clamp(double.IsFinite(MagicExpRate) ? MagicExpRate : 1.0d, 0.05d, 100.0d),
                     WeaponSkillExpRate = Math.Clamp(double.IsFinite(WeaponSkillExpRate) ? WeaponSkillExpRate : 1.0d, 0.05d, 100.0d),
@@ -66,7 +68,9 @@ namespace Canyon.Game
                     SilverDropChancePercent = Math.Clamp(SilverDropChancePercent, 0, 100),
                     EquipmentDropRate = Math.Clamp(double.IsFinite(EquipmentDropRate) ? EquipmentDropRate : 1.0d, 0.0d, 25.0d),
                     QualityItemRate = Math.Clamp(double.IsFinite(QualityItemRate) ? QualityItemRate : 1.0d, 0.0d, 50.0d),
-                    DragonBallDropRate = Math.Clamp(double.IsFinite(DragonBallDropRate) ? DragonBallDropRate : 1.0d, 0.0d, 100.0d),
+                    SocketDropRate = Math.Clamp(double.IsFinite(SocketDropRate) ? SocketDropRate : 1.0d, 0.0d, 100.0d),
+                    PlusOneDropRate = Math.Clamp(double.IsFinite(PlusOneDropRate) ? PlusOneDropRate : 1.0d, 0.0d, 100.0d),
+                    DragonBallDropRate = Math.Clamp(double.IsFinite(DragonBallDropRate) ? DragonBallDropRate : 1.0d, 0.0d, 1000.0d),
                     MeteorDropPer100k = Math.Clamp(MeteorDropPer100k, 0, 100_000),
                     MonsterCpChancePercent = Math.Clamp(double.IsFinite(MonsterCpChancePercent) ? MonsterCpChancePercent : 0.0d, 0.0d, 100.0d),
                     MonsterCpMin = cpMin,

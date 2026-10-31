@@ -48,14 +48,7 @@ namespace Canyon.Game.States.Magics
         {
             int delay = this.role.Map.IsTrainingMap() ? MAGIC_DELAY : Math.Max(MAGIC_DELAY_MIN, MAGIC_DELAY - magic.Level * MAGIC_DECDELAY_PER_LEVEL);
 
-            /* 
-             * Felipe - 2023-05-25
-             * Add fixed 1000ms delay for triple attack to avoid WWK + Triple so quick even more if player may be using Autoclick
-             */ 
-            if (magic.Sort == MagicSort.Tripleattack)
-            {
-                delay = MAGIC_DELAY;
-            }
+
 
 #if DEBUG_MAGIC_DELAY
             if (this.role.IsPlayer())
@@ -811,7 +804,7 @@ namespace Canyon.Game.States.Magics
             {
                 if (targetRole is Monster m && m.SpeciesType == 0)
                 {
-                    var nBonusExp = (int)(targetRole.MaxLife * 20 / 100);
+                    var nBonusExp = (int)(targetRole.MaxLife * 5 / 100);
                     if (user != null)
                     {
                         await user.BattleSystem.OtherMemberAwardExpAsync(targetRole, nBonusExp);
@@ -1052,14 +1045,14 @@ namespace Canyon.Game.States.Magics
                     battleExp += user.AdjustExperience(target, lifeLost, false);
                     if (!target.IsAlive)
                     {
-                        var nBonusExp = (int)(target.MaxLife * 20 / 100d);
+                        var nBonusExp = (int)(target.MaxLife * 5 / 100d);
 
                         if (user.Team != null)
                         {
                             await user.Team.AwardMemberExpAsync(user.Identity, target, nBonusExp);
                         }
 
-                        experience += user.AdjustExperience(target, nBonusExp, false);
+                        battleExp += user.AdjustExperience(target, nBonusExp, false);
                     }
                 }
 
@@ -1140,7 +1133,7 @@ namespace Canyon.Game.States.Magics
                         battleExp += user.AdjustExperience(target, lifeLost, false);
                         if (!target.IsAlive)
                         {
-                            var nBonusExp = (int)(target.MaxLife * 20 / 100d);
+                            var nBonusExp = (int)(target.MaxLife * 5 / 100d);
                             if (user.Team != null)
                             {
                                 await user.Team.AwardMemberExpAsync(user.Identity, target, nBonusExp);
@@ -1698,7 +1691,7 @@ namespace Canyon.Game.States.Magics
                 {
                     var lifeLost = (int)Math.Min(damage, target.Life);
 
-                    await target.BeAttackAsync(HitByMagic(magic), role, result.Damage, true);
+                    await target.BeAttackAsync(HitByMagic(magic), role, damage, true);
 
                     if (user != null && (target is Monster monster && monster.SpeciesType == 0 && !monster.IsGuard() && !monster.IsPkKiller() && !monster.IsRighteous() || (target as DynamicNpc)?.IsGoal() == true))
                     {
@@ -1706,7 +1699,7 @@ namespace Canyon.Game.States.Magics
                         battleExp += user.AdjustExperience(target, lifeLost, false);
                         if (!target.IsAlive)
                         {
-                            var nBonusExp = (int)(target.MaxLife * 20 / 100d);
+                            var nBonusExp = (int)(target.MaxLife * 5 / 100d);
                             if (user.Team != null)
                             {
                                 await user.Team.AwardMemberExpAsync(user.Identity, target, nBonusExp);
@@ -1732,7 +1725,7 @@ namespace Canyon.Game.States.Magics
                     }
                 }
 
-                msg.Append(target.Identity, result.Damage, true, result.Effect, result.ElementalDamage);
+                msg.Append(target.Identity, displayDamage, true, result.Effect, result.ElementalDamage);
                 targets.Add(target);
             }
 
@@ -1850,7 +1843,7 @@ namespace Canyon.Game.States.Magics
                     battleExp += user.AdjustExperience(target, lifeLost, false);
                     if (!target.IsAlive)
                     {
-                        var nBonusExp = (int)(target.MaxLife * 20 / 100d);
+                        var nBonusExp = (int)(target.MaxLife * 5 / 100d);
 
                         if (user.Team != null)
                         {
@@ -2098,7 +2091,7 @@ namespace Canyon.Game.States.Magics
 
                 if (!target.IsAlive)
                 {
-                    var nBonusExp = (int)(target.MaxLife * 20 / 100);
+                    var nBonusExp = (int)(target.MaxLife * 5 / 100);
                     if (user != null)
                     {
                         await user.BattleSystem.OtherMemberAwardExpAsync(target, nBonusExp);
@@ -2268,7 +2261,7 @@ namespace Canyon.Game.States.Magics
                         battleExp += user.AdjustExperience(target, lifeLost, false);
                         if (!target.IsAlive)
                         {
-                            var nBonusExp = (int)(target.MaxLife * 20 / 100d);
+                            var nBonusExp = (int)(target.MaxLife * 5 / 100d);
                             if (user.Team != null)
                             {
                                 await user.Team.AwardMemberExpAsync(user.Identity, target, nBonusExp);
@@ -2359,7 +2352,7 @@ namespace Canyon.Game.States.Magics
                     battleExp += user.AdjustExperience(target, lifeLost, false);
                     if (!monster.IsAlive)
                     {
-                        var nBonusExp = (int)(monster.MaxLife * 20 / 100d);
+                        var nBonusExp = (int)(monster.MaxLife * 5 / 100d);
 
                         if (user.Team != null)
                         {
@@ -2906,14 +2899,14 @@ namespace Canyon.Game.States.Magics
                     battleExp += user.AdjustExperience(atkTarget, lifeLost, false);
                     if (!atkTarget.IsAlive)
                     {
-                        var nBonusExp = (int)(atkTarget.MaxLife * 20 / 100d);
+                        var nBonusExp = (int)(atkTarget.MaxLife * 5 / 100d);
 
                         if (user.Team != null)
                         {
                             await user.Team.AwardMemberExpAsync(user.Identity, atkTarget, nBonusExp);
                         }
 
-                        experience += user.AdjustExperience(atkTarget, nBonusExp, false);
+                        battleExp += user.AdjustExperience(atkTarget, nBonusExp, false);
                     }
                 }
 
@@ -3014,7 +3007,7 @@ namespace Canyon.Game.States.Magics
             if (!await target.CheckScapegoatAsync(role))
             {
                 var lifeLost = (int)Math.Min(damage, target.Life);
-                await target.BeAttackAsync(HitByMagic(magic), role, result.Damage, true);
+                await target.BeAttackAsync(HitByMagic(magic), role, damage, true);
 
                 if (user != null && (target is Monster monster && monster.SpeciesType == 0 && !monster.IsGuard() && !monster.IsPkKiller() && !monster.IsRighteous() || (target as DynamicNpc)?.IsGoal() == true))
                 {
@@ -3022,7 +3015,7 @@ namespace Canyon.Game.States.Magics
                     battleExp += user.AdjustExperience(target, lifeLost, false);
                     if (!target.IsAlive)
                     {
-                        var nBonusExp = (int)(target.MaxLife * 20 / 100d);
+                        var nBonusExp = (int)(target.MaxLife * 5 / 100d);
                         if (user.Team != null)
                         {
                             await user.Team.AwardMemberExpAsync(user.Identity, target, nBonusExp);
@@ -3272,11 +3265,14 @@ namespace Canyon.Game.States.Magics
                     damage *= 2;
                 }
 
+                int displayDamage = damage;
+                damage += result.ElementalDamage;
+
                 if (!await target.CheckScapegoatAsync(role))
                 {
                     var lifeLost = (int)Math.Min(damage, target.Life);
 
-                    await target.BeAttackAsync(HitByMagic(magic), role, result.Damage, true);
+                    await target.BeAttackAsync(HitByMagic(magic), role, damage, true);
 
                     if (user != null && (target is Monster monster && monster.SpeciesType == 0 && !monster.IsGuard() && !monster.IsPkKiller() && !monster.IsRighteous() || (target as DynamicNpc)?.IsGoal() == true))
                     {
@@ -3284,7 +3280,7 @@ namespace Canyon.Game.States.Magics
                         battleExp += user.AdjustExperience(target, lifeLost, false);
                         if (!target.IsAlive)
                         {
-                            var nBonusExp = (int)(target.MaxLife * 20 / 100d);
+                            var nBonusExp = (int)(target.MaxLife * 5 / 100d);
                             if (user.Team != null)
                             {
                                 await user.Team.AwardMemberExpAsync(user.Identity, target, nBonusExp);
@@ -3310,7 +3306,7 @@ namespace Canyon.Game.States.Magics
                     }
                 }
 
-                msg.Append(target.Identity, result.Damage, true, result.Effect, damage);
+                msg.Append(target.Identity, displayDamage, true, result.Effect, result.ElementalDamage);
             }
 
             await role.BroadcastRoomMsgAsync(msg, true);
@@ -3569,7 +3565,7 @@ namespace Canyon.Game.States.Magics
                         battleExp += user.AdjustExperience(target, lifeLost, false);
                         if (!target.IsAlive)
                         {
-                            var nBonusExp = (int)(target.MaxLife * 20 / 100d);
+                            var nBonusExp = (int)(target.MaxLife * 5 / 100d);
                             if (user.Team != null)
                             {
                                 await user.Team.AwardMemberExpAsync(user.Identity, target, nBonusExp);
@@ -3701,7 +3697,7 @@ namespace Canyon.Game.States.Magics
 
                     if (user != null)
                     {
-                        int nWeaponExp = lifeLost / 3; //(int) (nExp / 10);
+                        int nWeaponExp = Math.Max(1, lifeLost / 10);
                         if (user.UserPackage[Item.ItemPosition.RightHand]?.IsBow() == true ||
                         user.UserPackage[Item.ItemPosition.RightHand]?.IsWeaponTwoHand() == true)
                         {
@@ -3726,7 +3722,7 @@ namespace Canyon.Game.States.Magics
 
                     if (!targetRole.IsAlive)
                     {
-                        var nBonusExp = (int)(targetRole.MaxLife * 20 / 100);
+                        var nBonusExp = (int)(targetRole.MaxLife * 5 / 100);
                         if (user?.Team != null)
                         {
                             await user.BattleSystem.OtherMemberAwardExpAsync(targetRole, nBonusExp);
@@ -3890,7 +3886,7 @@ namespace Canyon.Game.States.Magics
                         battleExp += user.AdjustExperience(target, lifeLost, false);
                         if (!target.IsAlive)
                         {
-                            var nBonusExp = (int)(target.MaxLife * 20 / 100d);
+                            var nBonusExp = (int)(target.MaxLife * 5 / 100d);
                             if (user.Team != null)
                             {
                                 await user.Team.AwardMemberExpAsync(user.Identity, target, nBonusExp);
@@ -4147,7 +4143,7 @@ namespace Canyon.Game.States.Magics
                         battleExp += user.AdjustExperience(target, lifeLost, false);
                         if (!target.IsAlive)
                         {
-                            var nBonusExp = (int)(target.MaxLife * 20 / 100d);
+                            var nBonusExp = (int)(target.MaxLife * 5 / 100d);
                             if (user.Team != null)
                             {
                                 await user.Team.AwardMemberExpAsync(user.Identity, target, nBonusExp);
@@ -4328,14 +4324,14 @@ namespace Canyon.Game.States.Magics
                         battleExp += user.AdjustExperience(target, lifeLost, false);
                         if (!target.IsAlive)
                         {
-                            var nBonusExp = (int)(target.MaxLife * 20 / 100d);
+                            var nBonusExp = (int)(target.MaxLife * 5 / 100d);
 
                             if (user.Team != null)
                             {
                                 await user.Team.AwardMemberExpAsync(user.Identity, target, nBonusExp);
                             }
 
-                            experience += user.AdjustExperience(target, nBonusExp, false);
+                            battleExp += user.AdjustExperience(target, nBonusExp, false);
                         }
                     }
 
@@ -4479,7 +4475,7 @@ namespace Canyon.Game.States.Magics
                     battleExp += user.AdjustExperience(target, lifeLost, false);
                     if (!target.IsAlive)
                     {
-                        var nBonusExp = (int)(target.MaxLife * 20 / 100d);
+                        var nBonusExp = (int)(target.MaxLife * 5 / 100d);
                         if (user.Team != null)
                         {
                             await user.Team.AwardMemberExpAsync(user.Identity, target, nBonusExp);
@@ -4594,7 +4590,7 @@ namespace Canyon.Game.States.Magics
                     battleExp += user.AdjustExperience(target, lifeLost, false);
                     if (!target.IsAlive)
                     {
-                        var nBonusExp = (int)(target.MaxLife * 20 / 100d);
+                        var nBonusExp = (int)(target.MaxLife * 5 / 100d);
                         if (user.Team != null)
                         {
                             await user.Team.AwardMemberExpAsync(user.Identity, target, nBonusExp);

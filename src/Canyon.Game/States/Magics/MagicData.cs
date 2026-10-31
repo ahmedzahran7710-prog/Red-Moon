@@ -99,8 +99,12 @@ namespace Canyon.Game.States.Magics
 
                 if (!target.IsAlive && !magicRecruit)
                 {
-                    var nBonusExp = (int)(target.MaxLife * (5 / 100));
+                    var nBonusExp = (int)(target.MaxLife * 5 / 100);
                     battleExp += nBonusExp;
+                    if (owner is Character ownerUser && ownerUser.Team != null)
+                    {
+                        await ownerUser.Team.AwardMemberExpAsync(ownerUser.Identity, target, nBonusExp);
+                    }
                     if (!owner.Map.IsTrainingMap() && nBonusExp > 0)
                     {
                         await owner.SendAsync(string.Format(Language.StrKillingExperience, nBonusExp));

@@ -239,7 +239,7 @@ namespace Canyon.Game.Services.Managers
                 lastReloadTime = DateTime.Now;
 
                 logger.LogInformation(
-                    "[MoonQueen Studio] Live rates active [{Preset}] -> EXP:{Exp}x | Magic:{Mag}x | Weapon:{Wep}x | Silver:{Sil}x ({SilCh}%) | Equip:{Eq}x | Quality:{Qual}x | DB:{Db}x | Meteor:{Met}/100k | CPs:{CpCh}% ({CpMin}-{CpMax})",
+                    "[MoonQueen Studio] Live rates active [{Preset}] -> EXP:{Exp}x | Magic:{Mag}x | Weapon:{Wep}x | Silver:{Sil}x ({SilCh}%) | Equip:{Eq}x | Quality:{Qual}x | Soc:{Soc}x | +1:{Plus}x | DB:{Db}x | Meteor:{Met}/100k | CPs:{CpCh}% ({CpMin}-{CpMax})",
                     normalized.PresetName,
                     normalized.ExperienceRate,
                     normalized.MagicExpRate,
@@ -248,6 +248,8 @@ namespace Canyon.Game.Services.Managers
                     normalized.SilverDropChancePercent,
                     normalized.EquipmentDropRate,
                     normalized.QualityItemRate,
+                    normalized.SocketDropRate,
+                    normalized.PlusOneDropRate,
                     normalized.DragonBallDropRate,
                     normalized.MeteorDropPer100k,
                     normalized.MonsterCpChancePercent,
@@ -313,7 +315,7 @@ namespace Canyon.Game.Services.Managers
             string cpPart = r.MonsterCpChancePercent > 0
                 ? $" | Monster CPs: {r.MonsterCpChancePercent:0.##}% ({r.MonsterCpMin}-{r.MonsterCpMax})"
                 : string.Empty;
-            return $"[{DeveloperRightsGuard.BrandName} Rates - {r.PresetName}] EXP: {r.ExperienceRate:0.##}x | Magic: {r.MagicExpRate:0.##}x | Weapon: {r.WeaponSkillExpRate:0.##}x | Silver: {r.SilverDropRate:0.##}x | Drop: {r.EquipmentDropRate:0.##}x | Quality: {r.QualityItemRate:0.##}x | DB: {r.DragonBallDropRate:0.##}x{cpPart}";
+            return $"[{DeveloperRightsGuard.BrandName} Rates - {r.PresetName}] EXP: {r.ExperienceRate:0.##}x | Magic: {r.MagicExpRate:0.##}x | Weapon: {r.WeaponSkillExpRate:0.##}x | Silver: {r.SilverDropRate:0.##}x | Drop: {r.EquipmentDropRate:0.##}x | Quality: {r.QualityItemRate:0.##}x | Socket: {r.SocketDropRate:0.##}x | +1: {r.PlusOneDropRate:0.##}x | DB: {r.DragonBallDropRate:0.##}x{cpPart}";
         }
 
         private static async Task WriteStatusSnapshotAsync(string state)

@@ -758,12 +758,12 @@ namespace Canyon.Game.States.Items
                     return 0;
                 }
 
-                if (Position == ItemPosition.Armor || Position == ItemPosition.Headwear || Position == ItemPosition.Necklace)
+                if (Position == ItemPosition.Armor || Position == ItemPosition.Headwear)
                 {
                     return itemAddition?.MagicDef ?? 0;
                 }
 
-                return itemType?.MagicDef ?? 0;
+                return (itemType?.MagicDef ?? 0) + (itemAddition?.MagicDef ?? 0);
             }
         }
 
@@ -2675,17 +2675,7 @@ namespace Canyon.Game.States.Items
                 return false;
             }
 
-            if (await ChanceCalcAsync(0.5d))
-            {
-                if (SocketOne == SocketGem.NoSocket)
-                {
-                    SocketOne = SocketGem.EmptySocket;
-                }
-                else if (SocketTwo == SocketGem.NoSocket)
-                {
-                    SocketTwo = SocketGem.EmptySocket;
-                }
-            }
+            await TryRollUpgradeSocketAsync(user);
 
             return await ChangeTypeAsync(newType.Type);
         }
@@ -2729,21 +2719,46 @@ namespace Canyon.Game.States.Items
                 return false;
             }
 
-            if (await ChanceCalcAsync(0.5d))
-            {
-                if (SocketOne == SocketGem.NoSocket)
-                {
-                    SocketOne = SocketGem.EmptySocket;
-                }
-                else if (SocketTwo == SocketGem.NoSocket)
-                {
-                    SocketTwo = SocketGem.EmptySocket;
-                }
-            }
+            await TryRollUpgradeSocketAsync(user);
 
             Durability = newType.AmountLimit;
             MaximumDurability = newType.AmountLimit;
             return await ChangeTypeAsync(newType.Type);
+        }
+
+        public async Task<bool> TryRollUpgradeSocketAsync(Character notifyUser = null)
+        {
+            if (!IsEquipment() || IsGourd() || IsGarment() || IsMount() || IsMountArmor() || IsHossu())
+            {
+                return false;
+            }
+
+            if (SocketOne == SocketGem.NoSocket)
+            {
+                if (await ChanceCalcAsync(5, 1000))
+                {
+                    SocketOne = SocketGem.EmptySocket;
+                    if (notifyUser != null)
+                    {
+                        await notifyUser.SendAsync(StrUpgradeAwardSocket);
+                    }
+                    return true;
+                }
+            }
+            else if (SocketTwo == SocketGem.NoSocket)
+            {
+                if (await ChanceCalcAsync(15, 10000))
+                {
+                    SocketTwo = SocketGem.EmptySocket;
+                    if (notifyUser != null)
+                    {
+                        await notifyUser.SendAsync(StrUpgradeAwardSocket);
+                    }
+                    return true;
+                }
+            }
+
+            return false;
         }
 
         public async Task<bool> UpUltraEquipmentLevelAsync()
@@ -3284,38 +3299,42 @@ namespace Canyon.Game.States.Items
                 amount = (ushort)(amountLimit * (15 + await NextAsync(35)) / 100);
             }
 
+            var liveRates = Canyon.Game.Services.Managers.ServerRatesManager.Current;
+
             var socketNum = 0;
-            if (itemSort >= 400 && itemSort < 700)
+            if (itemSort >= 400 && itemSort < 700 && liveRates.SocketDropRate > 0d)
             {
-                rand = await NextAsync(100);
-                if (rand < 5)
+                int twoSocketThreshold = (int)Math.Clamp(Math.Round(5d * liveRates.SocketDropRate), 0d, 100_000d);
+                int oneSocketThreshold = (int)Math.Clamp(Math.Round(105d * liveRates.SocketDropRate), 0d, 100_000d);
+                rand = await NextAsync(100_000);
+                if (rand < twoSocketThreshold)
                 {
                     socketNum = 2;
                 }
-                else if (rand < 20)
+                else if (rand < oneSocketThreshold)
                 {
                     socketNum = 1;
                 }
             }
 
             var addition = 0;
-            rand = await NextAsync(1000);
-            if (rand < 15)
+            if (liveRates.PlusOneDropRate > 0d)
             {
-                addition = 1;
+                int plusOneThreshold = (int)Math.Clamp(Math.Round(10d * liveRates.PlusOneDropRate), 0d, 1000d);
+                rand = await NextAsync(1000);
+                if (rand < plusOneThreshold)
+                {
+                    addition = 1;
+                }
             }
 
             var reduceDamage = 0;
             if (itemSort != 201 && itemSort != 202)
             {
                 rand = await NextAsync(1000);
-                if (rand < 20)
+                if (rand < 1)
                 {
-                    reduceDamage = 5;
-                }
-                else if (rand < 50)
-                {
-                    reduceDamage = 3;
+                    reduceDamage = 1;
                 }
             }
 

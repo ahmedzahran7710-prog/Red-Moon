@@ -243,8 +243,8 @@ function h(string $s): string
 
                 <div class="presets-grid">
                     <button type="button" class="preset-card" data-preset="classic">
-                        <div class="preset-title">🛡️ Classic+ المتوازن (1x الافتراضي)</div>
-                        <div class="preset-desc">الوضع الأصلي النقي للسيرفر: 1x خبرة ومهارات ودروب، 25% فضة، وبدون ميتيور أو CPs إضافية.</div>
+                        <div class="preset-title">🛡️ كونكر الأصلية النقية (Pure Official 1x)</div>
+                        <div class="preset-desc">الأساس الرسمي النقي 100% لكونكر أونلاين (V6192) بدون أي تعديل خاص: 1x خبرة وسحر وبروف ودروب وسوكت ودراجون بول.</div>
                     </button>
                     <button type="button" class="preset-card" data-preset="weekend">
                         <div class="preset-title">🔥 إيفنت نهاية الأسبوع (Weekend 2x)</div>
@@ -359,6 +359,28 @@ function h(string $s): string
                         </div>
                         <span id="calcQuality" class="live-calc-tag">داخل لفة الجودة -> Super: 0.025% | Elite: 0.12% | Unique: 0.42%</span>
                     </div>
+
+                    <div class="control-group">
+                        <div class="control-top">
+                            <span class="control-label">مضاعف سقوط السوكت للأسلحة (Weapon Socket Rate)</span>
+                        </div>
+                        <div class="slider-row">
+                            <input id="rng_SocketDropRate" type="range" min="0" max="20" step="0.5" value="<?= h((string)($rates['SocketDropRate'] ?? 1.0)) ?>">
+                            <input id="num_SocketDropRate" type="number" class="num-box" min="0" max="100" step="0.1" value="<?= h((string)($rates['SocketDropRate'] ?? 1.0)) ?>">
+                        </div>
+                        <span id="calcSocket" class="live-calc-tag">الأصلي النقي (1x) -> 1-Socket: 0.100% | 2-Socket: 0.005%</span>
+                    </div>
+
+                    <div class="control-group">
+                        <div class="control-top">
+                            <span class="control-label">مضاعف سقوط +1 من الوحوش (+1 Composition Rate)</span>
+                        </div>
+                        <div class="slider-row">
+                            <input id="rng_PlusOneDropRate" type="range" min="0" max="10" step="0.5" value="<?= h((string)($rates['PlusOneDropRate'] ?? 1.0)) ?>">
+                            <input id="num_PlusOneDropRate" type="number" class="num-box" min="0" max="100" step="0.1" value="<?= h((string)($rates['PlusOneDropRate'] ?? 1.0)) ?>">
+                        </div>
+                        <span id="calcPlusOne" class="live-calc-tag">الأصلي النقي (1x) -> نسبة +1 على الأرض: 1.00%</span>
+                    </div>
                 </section>
 
                 <!-- Column 3: DragonBall, Meteor & Monster CPs -->
@@ -375,10 +397,10 @@ function h(string $s): string
                             <span class="control-label">مضاعف دراجون بول (DragonBall Drop Rate)</span>
                         </div>
                         <div class="slider-row">
-                            <input id="rng_DragonBallDropRate" type="range" min="0" max="15" step="0.1" value="<?= h((string)$rates['DragonBallDropRate']) ?>">
-                            <input id="num_DragonBallDropRate" type="number" class="num-box" min="0" max="100" step="0.1" value="<?= h((string)$rates['DragonBallDropRate']) ?>">
+                            <input id="rng_DragonBallDropRate" type="range" min="0" max="50" step="0.5" value="<?= h((string)$rates['DragonBallDropRate']) ?>">
+                            <input id="num_DragonBallDropRate" type="number" class="num-box" min="0" max="1000" step="0.1" value="<?= h((string)$rates['DragonBallDropRate']) ?>">
                         </div>
-                        <div class="control-hint">يحترم ميزة VIP 6+ لتجميع 10 DragonBalls تلقائياً في Scroll!</div>
+                        <span id="calcDb" class="live-calc-tag">الأصلي النقي (1x): 625 / 54,000,000 (~1 كل 86,400 وحش على الأرض)</span>
                     </div>
 
                     <div class="control-group">

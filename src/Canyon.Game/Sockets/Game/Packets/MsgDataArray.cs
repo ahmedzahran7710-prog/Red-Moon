@@ -345,7 +345,7 @@ namespace Canyon.Game.Sockets.Game.Packets
 
                                     success = true;
                                 }
-                                await user.SendAsync($"Up by meteor[{target.Type}->{nextItemType.Type}]: Chance {chance:0.000}% Required Gems[{reqGems}] SentGems[{totalGems}]", TalkChannel.Talk);
+                                logger.LogDebug("Up by meteor[{OldType}->{NewType}]: Chance {Chance:0.000}% Required Gems[{ReqGems}] SentGems[{SentGems}]", target.Type, nextItemType.Type, chance, reqGems, totalGems);
                             }
                             else
                             {
@@ -385,7 +385,7 @@ namespace Canyon.Game.Sockets.Game.Packets
                                 target.Durability = nextItemType.Amount;
 
                                 success = true;
-                                await user.SendAsync($"Up by meteor[{target.Type}->{nextItemType.Type}]: Required Gems[{reqGems}] SentGems[{totalGems}]", TalkChannel.Talk);
+                                logger.LogDebug("Up by meteor[{OldType}->{NewType}]: Required Gems[{ReqGems}] SentGems[{SentGems}]", target.Type, nextItemType.Type, reqGems, totalGems);
                             }
                         }
                         else // Dragon Balls
@@ -455,6 +455,7 @@ namespace Canyon.Game.Sockets.Game.Packets
                         if (success)
                         {
                             await target.ChangeTypeAsync(nextItemType.Type);
+                            await target.TryRollUpgradeSocketAsync(user);
                             await user.SendAsync(new MsgItem
                             {
                                 Identity = target.Identity,
@@ -589,14 +590,24 @@ namespace Canyon.Game.Sockets.Game.Packets
                                         continue;
                                 }
 
+                                if (item.Type == Item.TYPE_DRAGONBALL_SCROLL && usage + 10 > gemCost && !user.UserPackage.IsPackSpare(usage + 10 - gemCost))
+                                {
+                                    await user.SendAsync(new MsgItem
+                                    {
+                                        Identity = target.Identity,
+                                        Action = MsgItem.ItemActionType.EquipmentImprove
+                                    });
+                                    return;
+                                }
+
                                 await user.UserPackage.RemoveFromInventoryAsync(item, UserPackage.RemovalType.Delete);
-                                if (usage >= totalGems)
+                                if (usage >= gemCost)
                                 {
                                     break;
                                 }
                             }
 
-                            int rebate = usage - totalGems;
+                            int rebate = usage - gemCost;
                             if (rebate > 0)
                             {
                                 for (int i = 0; i < rebate; i++)
@@ -612,6 +623,7 @@ namespace Canyon.Game.Sockets.Game.Packets
                         if (success)
                         {
                             await target.ChangeTypeAsync(nextItemType.Type);
+                            await target.TryRollUpgradeSocketAsync(user);
                             await user.SendAsync(new MsgItem
                             {
                                 Identity = target.Identity,

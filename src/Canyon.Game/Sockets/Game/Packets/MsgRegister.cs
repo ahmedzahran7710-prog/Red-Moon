@@ -203,7 +203,7 @@ namespace Canyon.Game.Sockets.Game.Packets
                 Profession = (byte)baseClass,
                 Level = 1,
                 AutoAllot = 1,
-                Silver = 10_000,
+                Silver = 100,
 
                 Strength = allot.Strength,
                 Agility = allot.Agility,
@@ -217,7 +217,7 @@ namespace Canyon.Game.Sockets.Game.Packets
                 ManaPoints = (ushort)(allot.Spirit * 5),
 
                 FirstLogin = (uint)UnixTimestamp.Now,
-                HeavenBlessing = (uint)UnixTimestamp.FromDateTime(DateTime.Now.AddDays(30))
+                HeavenBlessing = 0
             };
 
             // Generate a random look for the character

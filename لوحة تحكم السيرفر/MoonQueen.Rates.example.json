@@ -1,5 +1,5 @@
 {
-  "PresetName": "Classic+ Default (1x)",
+  "PresetName": "Pure Official Conquer (1x)",
   "ExperienceRate": 1.0,
   "MagicExpRate": 1.0,
   "WeaponSkillExpRate": 1.0,
@@ -7,6 +7,8 @@
   "SilverDropChancePercent": 25,
   "EquipmentDropRate": 1.0,
   "QualityItemRate": 1.0,
+  "SocketDropRate": 1.0,
+  "PlusOneDropRate": 1.0,
   "DragonBallDropRate": 1.0,
   "MeteorDropPer100k": 0,
   "MonsterCpChancePercent": 0.0,
