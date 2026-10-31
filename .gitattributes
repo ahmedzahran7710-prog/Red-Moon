@@ -31,3 +31,10 @@ RequiredAssetsForRun/** -text -whitespace
 "/موقع السيرفر/.htaccess" text eol=lf
 "/موقع السيرفر/cache/.htaccess" text eol=lf
 "/موقع السيرفر/**/*.jpg" binary
+"/لوحة تحكم السيرفر/**/*.php" text eol=lf
+"/لوحة تحكم السيرفر/**/*.css" text eol=lf
+"/لوحة تحكم السيرفر/**/*.js" text eol=lf
+"/لوحة تحكم السيرفر/**/*.md" text eol=lf
+"/لوحة تحكم السيرفر/**/*.json" text eol=lf
+"/لوحة تحكم السيرفر/.htaccess" text eol=lf
+"/لوحة تحكم السيرفر/*.bat" text eol=crlf

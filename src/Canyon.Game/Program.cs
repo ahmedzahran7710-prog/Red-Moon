@@ -171,6 +171,18 @@ namespace Canyon.Game
                         case "/reloadactionall":
                             {
                                 await EventManager.LoadActionsAsync();
+                                LuaScriptManager.Reload();
+                                break;
+                            }
+                        case "/reloadrates":
+                            {
+                                await ServerRatesManager.ReloadFromDiskAsync(processTriggers: true);
+                                logger.LogInformation(ServerRatesManager.FormatSummary());
+                                break;
+                            }
+                        case "/rates":
+                            {
+                                logger.LogInformation(ServerRatesManager.FormatSummary());
                                 break;
                             }
 

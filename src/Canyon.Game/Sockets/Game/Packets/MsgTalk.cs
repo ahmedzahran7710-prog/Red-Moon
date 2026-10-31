@@ -781,7 +781,17 @@ namespace Canyon.Game.Sockets.Game.Packets
                     case "/reloadactionall":
                         {
                             await EventManager.LoadActionsAsync();
-                            await user.SendAsync("Reload action all!!!");
+                            LuaScriptManager.Reload();
+                            await user.SendAsync("Reloaded cq_action, cq_task, and Lua scripts successfully!");
+                            return true;
+                        }
+
+                    case "/reloadrates":
+                        {
+                            bool ok = await ServerRatesManager.ReloadFromDiskAsync(processTriggers: true);
+                            await user.SendAsync(ok
+                                ? $"[MoonQueen Studio] Reloaded live rates! {ServerRatesManager.FormatSummary()}"
+                                : "[MoonQueen Studio] Could not reload MoonQueen.Rates.json - check JSON format.");
                             return true;
                         }
 
@@ -1913,6 +1923,12 @@ namespace Canyon.Game.Sockets.Game.Packets
                     {
                         await user.KickbackAsync();
                         await user.Screen.SynchroScreenAsync();
+                        return true;
+                    }
+
+                case "/rates":
+                    {
+                        await user.SendAsync(ServerRatesManager.FormatSummary(), TalkChannel.Talk, System.Drawing.Color.Gold);
                         return true;
                     }
 

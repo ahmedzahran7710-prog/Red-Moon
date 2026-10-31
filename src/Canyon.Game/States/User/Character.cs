@@ -376,6 +376,11 @@ namespace Canyon.Game.States.User
             multiplier += 1 + BattlePower / 100d;
 
             experience = (long)(experience * Math.Max(0.01d, multiplier));
+            double liveExpRate = ServerRatesManager.Current.ExperienceRate;
+            if (Math.Abs(liveExpRate - 1.0d) > 0.0001d)
+            {
+                experience = (long)Math.Clamp(experience * liveExpRate, 1d, long.MaxValue / 4d);
+            }
 
             if (Metempsychosis >= 2)
             {
@@ -3014,6 +3019,11 @@ namespace Canyon.Game.States.User
             }
 
             experience = (int)(experience * (1 + VioletGemBonus / 100d));
+            double liveWeaponRate = ServerRatesManager.Current.WeaponSkillExpRate;
+            if (experience > 0 && Math.Abs(liveWeaponRate - 1.0d) > 0.0001d)
+            {
+                experience = (int)Math.Clamp(experience * liveWeaponRate, 1d, int.MaxValue / 4d);
+            }
 
             uint increaseLev = 0;
             if (skill.Level > MASTER_WEAPONSKILLLEVEL)
