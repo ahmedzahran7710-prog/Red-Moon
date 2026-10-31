@@ -117,6 +117,11 @@
    - **إغلاق ثغرة الهروب من السجن (`BotJail`) عبر مشاهدة الأرينا (`ArenaQualifier.cs`, `TeamArenaQualifier.cs`):** منع استخدام باكت `MsgArenicWitness(RequestView)` للهروب من السجن (`IsPrisionMap()`) أو الخرائط الممنوعة من الانتقال (`IsTeleportDisable()`) أو الخرائط الديناميكية (`IsDynamicMap()`) أو أثناء التجارة (`Trade != null`) أو التسجيل النشط في الأرينا.
    - **استكمال انسحاب `ElitePkGroupTournament` وإصلاح تصادم خرائط القوالب (`ElitePkGroupTournament.cs`, `ElitePkTournament.cs`, `TeamArenaQualifier.cs`):** استكمال نسختَي `UnsubscribeAsync` وربط `ElitePkTournament.OnExitAsync` وإرجاع الفائز لإحداثيات صالحة على `awaitingMap` بدل `match.Map`، وتعديل بداية عداد الخرائط الديناميكية في كلٍّ من `TeamArenaQualifier` (`940001..949999`) و`ElitePkTournament` (`910001..919999`) لمنع حذف خريطة القالب الأساسية (`940000` و`910000`) بعد انتهاء أول مباراة!
 
+3. **المرحلة 3 — محرك الريتات والدروب الحي (`ServerRatesManager`) واستوديو التحكم الفوري (`لوحة تحكم السيرفر/`) وإصلاح علة `Datastr0`:**
+   - **إصلاح خطأ نسخ في `DynamicGlobalDataManager.ChangeStringData`:** كان `case 0:` يكتب بالخطأ في `data.Datastr1` بدل `data.Datastr0`؛ تم تصحيحه إلى `data.Datastr0 = value;`.
+   - **محرك الريتات والريلود اللحظي بدون قفل السيرفر (`ServerConfiguration.cs`, `DynamicGlobalDataManager.cs`, `BasicThread.cs`, `Character.cs`, `MagicData.cs`, `Monster.cs`, `Program.cs`, `MsgTalk.cs`):** ربط مضاعفات الخبرة (`ExperienceRate`)، وخبرة السحر (`MagicExpRate`)، وبروف السلاح (`WeaponSkillExpRate`)، وكمية ونسبة الفضة (`SilverDropRate`, `SilverDropChancePercent`)، وكثافة وجودة الدروب (`EquipmentDropRate`, `QualityItemRate`)، والدراجون بول (`DragonBallDropRate`)، والميتيور الإضافي (`MeteorDropPer100k` مع دعم تجميع VIP)، وإيفنت CPs الوحوش (`MonsterCpChancePercent`, `MonsterCpMin..Max`) بلقطة ذرية محمية (`volatile ServerRatesConfiguration` مع `CloneNormalized()` لمنع أي Overflow أو قيم سالبة)، تُفحص تلقائيًا كل ثانية من `MoonQueen.Rates.json` مع كتابة نبض الحالة في `MoonQueen.Rates.status.json` ودعم الإعلان العالمي الفوري وريلود `cq_action` + `LuaScriptManager.Reload()` وأوامر `/rates` و`/reloadrates`.
+   - **استوديو `MoonQueen Control Studio` (`لوحة تحكم السيرفر/`):** واجهة رسومية محلية محمية (`127.0.0.1` فقط + `Bcrypt` + `CSRF` + ختم حقوق `ahmedzahran`) مع مشغّل ضغطة زر `تشغيل_لوحة_التحكم.bat` ومزامنة تلقائية لمجلدَي `Debug` و`Release`.
+
 ---
 
 ## 4. متطلبات التشغيل الخارجية عند التجهيز على جهاز المالك
@@ -131,11 +136,11 @@
    - إنشاء قاعدتي بيانات نظيفتين على MariaDB (`127.0.0.1:3306`) باسم `moonqueen_account` و`moonqueen_game` دون المساس بأي قواعد بيانات أخرى على الجهاز، ووضع بيانات الاتصال محليًا فقط داخل `MoonQueen.Login.Config.local.json` و`MoonQueen.Game.Config.local.json` و`MoonQueen.Ai.Config.local.json`.
 4. **تشغيل السيرفرات الثلاثة معًا:**
    - تشغيل `MoonQueen.Login.exe` + `MoonQueen.Game.exe` + `MoonQueen.Ai.exe` بالتوازي (`MoonQueen.Ai` مسؤول بالكامل عن رسبون وحركة الوحوش)، ثم تشغيل الكلينت عبر `MoonQueen.exe`.
-5. **ملاحظات تحسين مستقبلية لنظام اللعب (`Classic+`):**
-   - دروب الوحوش يعمل حاليًا بالمنطق الثابت الجاهز (مع إمكانية ربط نسب الدروب والتجربة بملف الإعداد في المراحل القادمة).
+5. **التحكم الحي في الريتات والدروب (`MoonQueen Control Studio`):**
+   - جميع الريتات مضبوطة افتراضيًا على التوازن الأصلي النقي `Classic+ (1.0x)` ويمكن تعديلها وتطبيقها في أقل من ثانية بدون ريستارت عبر `لوحة تحكم السيرفر/تشغيل_لوحة_التحكم.bat` أو الأمر `/reloadrates`.
 
 ---
 
 ## 5. الخلاصة النهائية
 
-- المستودع الآن مخصص بالكامل لسيرفر ولودر **`MoonQueen`** (تطوير **`ahmedzahran`**) في الجذر مباشرة بتنظيم هندسي نظيف، ومحصّن ومُخصص عبر **69 ملفًا في السيرفر** و**34 ملفًا في اللودر** ضد الأخطاء الخمسة الأولية، وثغرات التشفير الداخلي، وبورتات الربط غير المصادق عليها، وحقن SQL في الـ Actions، وهجمات استنزاف الاتصالات وتجميد البورت وغياب ختم `TQClient`، وهاكات السرعة (Speedhack) وحقن باكتات تحريك أو توريط اللاعبين والبوابات والمخازن البعيدة، وعلة اقتطاع حرف `'z'` في كلمات المرور (`MsgAccount = 1542`)، وجميع فخاخ `NotImplementedException` وثغرة الهروب من السجن عبر مشاهدة الأرينا وتصادم خرائط البطولات، مع حماية مشفرة متعددة الطبقات لحقوق المطور **`ahmedzahran`** ضد العبث أو التعديل في السيرفر والداتابيز واللودر والـ Hook.
+- المستودع الآن مخصص بالكامل لسيرفر ولودر وموقع ولوحة تحكم **`MoonQueen`** (تطوير **`ahmedzahran`**) في الجذر مباشرة بتنظيم هندسي نظيف، ومحصّن ومُخصص عبر **72 ملفًا في السيرفر** (`6,337,359` بايت) و**34 ملفًا في اللودر** (`7,775,979` بايت) ضد الأخطاء البرمجية الحرجة، وثغرات التشفير الداخلي، وبورتات الربط غير المصادق عليها، وحقن SQL في الـ Actions، وهجمات استنزاف الاتصالات وتجميد البورت وغياب ختم `TQClient`، وهاكات السرعة (Speedhack) وحقن باكتات تحريك أو توريط اللاعبين والبوابات والمخازن البعيدة، وعلة اقتطاع حرف `'z'` في كلمات المرور (`MsgAccount = 1542`)، وجميع فخاخ `NotImplementedException` وثغرة الهروب من السجن عبر مشاهدة الأرينا وتصادم خرائط البطولات، مع محرك ريلود فوري للريتات والدروب وحماية مشفرة متعددة الطبقات لحقوق المطور **`ahmedzahran`** ضد العبث أو التعديل.

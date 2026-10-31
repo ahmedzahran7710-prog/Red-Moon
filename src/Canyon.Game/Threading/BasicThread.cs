@@ -96,6 +96,7 @@ namespace Canyon.Game.Threading
             // }
 #endif
 
+            await ServerRatesManager.OnTimerAsync();
             await MaintenanceManager.OnTimerAsync();
 
             lastUpdateTick = Environment.TickCount;

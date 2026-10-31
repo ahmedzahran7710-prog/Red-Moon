@@ -1,0 +1,19 @@
+{
+  "PresetName": "Classic+ Default (1x)",
+  "ExperienceRate": 1.0,
+  "MagicExpRate": 1.0,
+  "WeaponSkillExpRate": 1.0,
+  "SilverDropRate": 1.0,
+  "SilverDropChancePercent": 25,
+  "EquipmentDropRate": 1.0,
+  "QualityItemRate": 1.0,
+  "DragonBallDropRate": 1.0,
+  "MeteorDropPer100k": 0,
+  "MonsterCpChancePercent": 0.0,
+  "MonsterCpMin": 1,
+  "MonsterCpMax": 3,
+  "BroadcastMessage": "",
+  "BroadcastChannel": "TopLeft",
+  "BroadcastStamp": 0,
+  "ReloadActionsStamp": 0
+}

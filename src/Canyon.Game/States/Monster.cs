@@ -418,9 +418,9 @@ namespace Canyon.Game.States
             // TODO: Use Lua Script for item drops
             // LuaScriptManager.Run(user, this, null, string.Empty, "LinkMonsterMain()");
 
-            var multiplier = 200;
-
-            if (await ChanceCalcAsync(625, 54_000_000 / multiplier))
+            var liveRates = ServerRatesManager.Current;
+            double dbMultiplier = 200d * liveRates.DragonBallDropRate;
+            if (dbMultiplier > 0d && await ChanceCalcAsync(625, Math.Max(1, (int)(54_000_000d / dbMultiplier))))
             {
                 if (user != null && user.VipLevel >= 6 && user.UserPackage.InventoryCount < 40)
                 {
@@ -433,12 +433,45 @@ namespace Canyon.Game.States
                     else {
                         await user.UserPackage.AwardItemAsync(Item.TYPE_DRAGONBALL);
                     }
-                    // TODO: announce drop
                 }
                 else
                 {
                     await DropItemAsync(Item.TYPE_DRAGONBALL, user, DropMode.Common);
-                    // TODO: announce drop
+                }
+            }
+
+            if (!IsPkKiller() && !IsGuard() && !IsEvilKiller() && !IsDynaNpc() && attacker != null)
+            {
+                if (liveRates.MeteorDropPer100k > 0 && await ChanceCalcAsync(liveRates.MeteorDropPer100k, 100_000))
+                {
+                    if (user != null && user.VipLevel > 0 && user.UserPackage.InventoryCount < 40)
+                    {
+                        if (user.UserPackage.MultiCheckItem(Item.TYPE_METEOR, Item.TYPE_METEOR, 9, true))
+                        {
+                            await user.UserPackage.MultiSpendItemAsync(Item.TYPE_METEOR, Item.TYPE_METEOR, 9, true);
+                            await user.UserPackage.AwardItemAsync(Item.TYPE_METEOR_SCROLL);
+                        }
+                        else
+                        {
+                            await user.UserPackage.AwardItemAsync(Item.TYPE_METEOR);
+                        }
+                    }
+                    else
+                    {
+                        await DropItemAsync(Item.TYPE_METEOR, user, DropMode.Common);
+                    }
+                }
+
+                if (user != null && liveRates.MonsterCpChancePercent > 0d
+                    && await ChanceCalcAsync(Math.Max(1, (int)Math.Round(liveRates.MonsterCpChancePercent * 100d)), 10_000))
+                {
+                    int cpAward = liveRates.MonsterCpMax > liveRates.MonsterCpMin
+                        ? await NextAsync(liveRates.MonsterCpMin, liveRates.MonsterCpMax + 1)
+                        : liveRates.MonsterCpMin;
+                    if (cpAward > 0 && user.ConquerPoints <= uint.MaxValue - (uint)cpAward)
+                    {
+                        await user.ChangeConquerPointsAsync(cpAward, true);
+                    }
                 }
             }
 
@@ -462,15 +495,16 @@ namespace Canyon.Game.States
             }
 
             int chance = await NextAsync(100);
-            var moneyAdj = 25;
+            var moneyAdj = liveRates.SilverDropChancePercent;
             if (user != null && BattleSystem.GetNameType(user.Level, Level) == BattleSystem.NAME_GREEN)
-                moneyAdj = 8;
+                moneyAdj = Math.Max(0, moneyAdj * 8 / 25);
 
-            if (chance < moneyAdj)
+            if (liveRates.SilverDropRate > 0d && chance < moneyAdj)
             {
                 var moneyMin = (int)(monsterType.DropMoney * 0.85f);
                 var moneyMax = (int)(monsterType.DropMoney * 1.15f);
-                var money = (uint)(moneyMin + await NextAsync(moneyMin, moneyMax) + 1);
+                var rawMoney = (double)(moneyMin + await NextAsync(moneyMin, moneyMax) + 1) * liveRates.SilverDropRate;
+                var money = (uint)Math.Clamp(rawMoney, 1d, int.MaxValue / 2d);
 
                 if (user == null || !user.Flag.HasFlag(Character.PrivilegeFlag.FirstCreditClaimed))
                 {
@@ -491,30 +525,39 @@ namespace Canyon.Game.States
             }
 
             var dropNum = 0;
-            int rate = await NextAsync(0, 10000);
-            chance = BattleSystem.AdjustDrop(750, attacker.Level, Level);
-            if (rate < Math.Min(10000, chance))
+            double eqRate = liveRates.EquipmentDropRate;
+            if (eqRate > 0d)
             {
-                dropNum = 1 + await NextAsync(4, 7); // drop 5-8 items
-            }
-            else
-            {
-                chance += BattleSystem.AdjustDrop(1000, attacker.Level, Level);
+                int rate = await NextAsync(0, 10000);
+                int tier1 = (int)Math.Clamp(750d * eqRate, 0d, 10000d);
+                int tier2 = (int)Math.Clamp(1000d * eqRate, 0d, 10000d);
+                int tier3 = (int)Math.Clamp(1200d * eqRate, 0d, 10000d);
+                int tier4 = (int)Math.Clamp(1500d * eqRate, 0d, 10000d);
+
+                chance = BattleSystem.AdjustDrop(tier1, attacker.Level, Level);
                 if (rate < Math.Min(10000, chance))
                 {
-                    dropNum = 1 + await NextAsync(2, 4); // drop 3-5 items
+                    dropNum = 1 + await NextAsync(4, 7); // drop 5-8 items
                 }
                 else
                 {
-                    chance += BattleSystem.AdjustDrop(1200, attacker.Level, Level);
+                    chance += BattleSystem.AdjustDrop(tier2, attacker.Level, Level);
                     if (rate < Math.Min(10000, chance))
                     {
-                        dropNum = 1 + await NextAsync(1, 3); // drop 1-4 items
+                        dropNum = 1 + await NextAsync(2, 4); // drop 3-5 items
                     }
                     else
                     {
-                        chance += BattleSystem.AdjustDrop(1500, attacker.Level, Level);
-                        if (rate < Math.Min(10000, chance)) dropNum = 1; // drop 1 item
+                        chance += BattleSystem.AdjustDrop(tier3, attacker.Level, Level);
+                        if (rate < Math.Min(10000, chance))
+                        {
+                            dropNum = 1 + await NextAsync(1, 3); // drop 1-4 items
+                        }
+                        else
+                        {
+                            chance += BattleSystem.AdjustDrop(tier4, attacker.Level, Level);
+                            if (rate < Math.Min(10000, chance)) dropNum = 1; // drop 1 item
+                        }
                     }
                 }
             }
@@ -575,23 +618,32 @@ namespace Canyon.Game.States
 
             if (rand < 60)
             {
+                double qRate = ServerRatesManager.Current.QualityItemRate;
                 rand = await NextAsync(qualityPrecision);
                 var quality = 0;
-                if (rand < 2500)
+                if (qRate > 0d)
                 {
-                    quality = 9;
-                }
-                else if (rand < 14500)
-                {
-                    quality = 8;
-                }
-                else if (rand < 56500)
-                {
-                    quality = 7;
-                }
-                else if (rand < 110000)
-                {
-                    quality = 6;
+                    int superCut = (int)Math.Clamp(2500d * qRate, 0d, qualityPrecision);
+                    int eliteCut = (int)Math.Clamp(14500d * qRate, superCut, qualityPrecision);
+                    int uniqueCut = (int)Math.Clamp(56500d * qRate, eliteCut, qualityPrecision);
+                    int refinedCut = (int)Math.Clamp(110000d * qRate, uniqueCut, qualityPrecision);
+
+                    if (rand < superCut)
+                    {
+                        quality = 9;
+                    }
+                    else if (rand < eliteCut)
+                    {
+                        quality = 8;
+                    }
+                    else if (rand < uniqueCut)
+                    {
+                        quality = 7;
+                    }
+                    else if (rand < refinedCut)
+                    {
+                        quality = 6;
+                    }
                 }
 
                 MapItemInfo info = await Item.CreateItemInfoAsync(monsterType, quality);

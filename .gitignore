@@ -14,12 +14,18 @@ artifacts/
 __pycache__/
 *.pyc
 
-# Machine-local Canyon & Web Portal configuration files and secrets (never commit to Git).
+# Machine-local Canyon, Web Portal & Control Studio configuration files and secrets (never commit to Git).
 *.Config.json
 *.Config.local.json
+**/MoonQueen.Rates.json
+**/MoonQueen.Rates.status.json
+!لوحة تحكم السيرفر/MoonQueen.Rates.example.json
 موقع السيرفر/config.local.php
 موقع السيرفر/cache/*.json
 موقع السيرفر/cache/*.tmp
+لوحة تحكم السيرفر/config.local.php
+لوحة تحكم السيرفر/studio-state.local.json
+لوحة تحكم السيرفر/*.tmp
 **/Properties/launchSettings.json
 compose.debug*.yml
 .env

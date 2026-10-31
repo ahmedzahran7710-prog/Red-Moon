@@ -171,6 +171,12 @@ namespace Canyon.Game.States.Magics
                 return true;
             }
 
+            double liveMagicRate = ServerRatesManager.Current.MagicExpRate;
+            if (experience > 0 && Math.Abs(liveMagicRate - 1.0d) > 0.0001d)
+            {
+                experience = (long)Math.Clamp(experience * liveMagicRate, 1d, int.MaxValue / 2d);
+            }
+
             if (magic.NeedExp > 0
                 && ((int)magic.AutoActive & 16) == 0
                 || ignoreFlag)
