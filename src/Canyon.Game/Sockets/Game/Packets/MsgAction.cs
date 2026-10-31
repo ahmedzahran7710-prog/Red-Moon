@@ -1074,12 +1074,13 @@ namespace Canyon.Game.Sockets.Game.Packets
 
                         await PigeonManager.SendToUserAsync(user);
 
+                        DeveloperRightsGuard.VerifyResourceStrings(StrWelcomeLoginTalk, StrWelcomeLoginTopLeft, StrWelcomeServerInfo);
                         if (!EventManager.HasAction(1000000))
                         {
-                            await user.SendAsync(StrWelcomeLoginTalk, TalkChannel.Talk, Color.White);
+                            await user.SendAsync(DeveloperRightsGuard.WelcomeLoginTalk, TalkChannel.Talk, Color.White);
                         }
-                        await user.SendAsync(string.Format(StrWelcomeLoginTopLeft, user.Name), TalkChannel.TopLeft, Color.Yellow);
-                        await user.SendAsync(string.Format(StrWelcomeServerInfo, RoleManager.OnlinePlayers), TalkChannel.Talk, Color.Yellow);
+                        await user.SendAsync(DeveloperRightsGuard.FormatWelcomeTopLeft(user.Name), TalkChannel.TopLeft, Color.Yellow);
+                        await user.SendAsync(DeveloperRightsGuard.FormatServerInfo(RoleManager.OnlinePlayers), TalkChannel.Talk, Color.Yellow);
 
                         if (!user.IsUnlocked())
                         {

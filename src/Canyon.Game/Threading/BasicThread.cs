@@ -15,7 +15,7 @@ namespace Canyon.Game.Threading
     {
         private static readonly ILogger logger = LogFactory.CreateLogger<BasicThread>();
 
-        private const string CONSOLE_TITLE = "[{0}] MoonQueen Game Server {9} (by ahmedzahran) - Players[{1}] Limit[{2}] Max[{3}] - {4} - Start: {8} - {5} - RoleTimerTicks[{6}] RoleCount[{7}]";
+        private static string ConsoleTitleFormat => $"[{{0}}] {DeveloperRightsGuard.BrandName} Game Server {{9}} (by {DeveloperRightsGuard.DeveloperId}) - Players[{{1}}] Limit[{{2}}] Max[{{3}}] - {{4}} - Start: {{8}} - {{5}} - RoleTimerTicks[{{6}}] RoleCount[{{7}}]";
 
         private static readonly TimeOut accountReconnect = new(5);
         private static readonly TimeOut accountPing = new(15);
@@ -36,7 +36,7 @@ namespace Canyon.Game.Threading
 
         public async Task Execute(IJobExecutionContext context)
         {
-            Console.Title = string.Format(CONSOLE_TITLE,
+            Console.Title = string.Format(ConsoleTitleFormat,
                 ServerConfiguration.Configuration.Realm.Name,
                 RoleManager.OnlinePlayers,
                 ServerConfiguration.Configuration.Realm.MaxOnlinePlayers,

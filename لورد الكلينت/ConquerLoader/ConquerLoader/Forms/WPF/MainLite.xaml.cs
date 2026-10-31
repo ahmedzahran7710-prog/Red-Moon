@@ -37,6 +37,7 @@ namespace ConquerLoader.Forms.WPF
 
         public MainLite()
         {
+            Core.EnforceDeveloperRightsOrExit();
             worker = new BackgroundWorker();
             noty = new WinForms.NotifyIcon();
 
@@ -269,18 +270,13 @@ namespace ConquerLoader.Forms.WPF
 
         private void LoadConfigInForm()
         {
+            Core.EnforceDeveloperRightsOrExit();
+            DeveloperRightsGuard.SanitizeConfig(LoaderConfig);
             lstServers.Items.Clear();
 
-            if (!string.IsNullOrEmpty(LoaderConfig.Title))
-            {
-                Title = LoaderConfig.Title;
-                txtTopBarTitle.Text = LoaderConfig.Title;
-            }
-            else
-            {
-                Title = "MoonQueen";
-                txtTopBarTitle.Text = "MoonQueen";
-            }
+            string safeTitle = DeveloperRightsGuard.SanitizeTitle(LoaderConfig != null ? LoaderConfig.Title : null);
+            Title = safeTitle;
+            txtTopBarTitle.Text = safeTitle;
 
             ApplyStaticTexts();
             ApplyWindowTitle();
@@ -364,6 +360,7 @@ namespace ConquerLoader.Forms.WPF
         {
             try
             {
+                Core.EnforceDeveloperRightsOrExit();
                 if (LoaderConfig == null || lstServers.SelectedItem == null)
                 {
                     return;
@@ -456,6 +453,7 @@ namespace ConquerLoader.Forms.WPF
 
         private void Worker_DoWork(object sender, DoWorkEventArgs e)
         {
+            Core.EnforceDeveloperRightsOrExit();
             Core.LogWritter.Write("Launching " + SelectedServer.ExecutableName + "...");
             string pathToConquerExe = Path.Combine(WinForms.Application.StartupPath, SelectedServer.ExecutableName);
             string workingDir = Path.GetDirectoryName(pathToConquerExe);
@@ -914,30 +912,15 @@ namespace ConquerLoader.Forms.WPF
 
         private void ApplyWindowTitle()
         {
-            if (LoaderConfig != null && !string.IsNullOrEmpty(LoaderConfig.Title))
-            {
-                Title = LoaderConfig.Title;
-                txtTopBarTitle.Text = LoaderConfig.Title;
-            }
-            else
-            {
-                Title = "MoonQueen";
-                txtTopBarTitle.Text = "MoonQueen";
-            }
+            string safeTitle = DeveloperRightsGuard.SanitizeTitle(LoaderConfig != null ? LoaderConfig.Title : null);
+            Title = safeTitle;
+            txtTopBarTitle.Text = safeTitle;
         }
 
         private void ApplyHeaderDescription()
         {
-            string fallback = T("mainHeaderDescription", "Choose your realm, set the launch options, and enter from a single launcher screen.");
-
-            if (LoaderConfig != null && !string.IsNullOrWhiteSpace(LoaderConfig.Description))
-            {
-                txtHeaderDescription.Text = LoaderConfig.Description.Trim();
-            }
-            else
-            {
-                txtHeaderDescription.Text = fallback;
-            }
+            string desc = LoaderConfig != null ? LoaderConfig.Description : null;
+            txtHeaderDescription.Text = DeveloperRightsGuard.SanitizeDescription(desc);
         }
 
         private void ApplyTranslation(string key, ContentControl control, string fallback)

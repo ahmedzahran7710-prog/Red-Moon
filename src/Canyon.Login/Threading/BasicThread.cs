@@ -1,4 +1,5 @@
 ﻿using Canyon.Login.Managers;
+using Canyon.Shared;
 using Quartz;
 
 namespace Canyon.Login.Threading
@@ -6,15 +7,14 @@ namespace Canyon.Login.Threading
     [DisallowConcurrentExecution]
     public sealed class BasicThread : IJob
     {
-        private const string CONSOLE_TITLE = "[MoonQueen] Login Server (by ahmedzahran) - Servers[{0}] - {1}";
-
         public BasicThread()
         {
         }
 
         public Task Execute(IJobExecutionContext context)
         {
-            Console.Title = string.Format(CONSOLE_TITLE, RealmManager.Count, DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss.fff"));
+            DeveloperRightsGuard.EnforceOrTerminate(typeof(BasicThread).Assembly);
+            Console.Title = $"[{DeveloperRightsGuard.BrandName}] Login Server (by {DeveloperRightsGuard.DeveloperId}) - Servers[{RealmManager.Count}] - {DateTime.Now:yyyy/MM/dd HH:mm:ss.fff}";
 
 
 

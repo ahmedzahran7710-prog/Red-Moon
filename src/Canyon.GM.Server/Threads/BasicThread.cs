@@ -22,7 +22,8 @@ namespace Canyon.GM.Server.Threads
 
         public async Task Execute(IJobExecutionContext context)
         {
-            Console.Title = $"[{Program.ServerConfiguration.RealmName}] MoonQueen GM Tools (by ahmedzahran) - {DateTime.Now} - Version {Program.Version}";
+            DeveloperRightsGuard.EnforceOrTerminate(typeof(BasicThread).Assembly);
+            Console.Title = $"[{Program.ServerConfiguration.RealmName}] {DeveloperRightsGuard.BrandName} GM Tools (by {DeveloperRightsGuard.DeveloperId}) - {DateTime.Now} - Version {Program.Version}";
 
             if (PanelClient.ConnectionStage == PanelClient.ConnectionState.Disconnected && PanelClient.Instance == null)
             {

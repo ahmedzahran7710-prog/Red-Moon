@@ -16,6 +16,34 @@ using namespace ConquerCipherHookBufferUtils;
 
 #define lib_func(lib, func) (GetProcAddress(GetModuleHandleA(lib), func))
 
+// Native x86 developer rights seal (MoonQueen|ahmedzahran|V6192) protected via rolling-XOR + FNV-1a 64-bit
+static const unsigned char g_mqRightsVault[27] = {
+	0xBB, 0xE7, 0x21, 0x62, 0x87, 0xD5, 0xFB, 0xB9, 0x68, 0x34, 0xCF, 0x84, 0x4B, 0x15,
+	0xDA, 0x86, 0xD7, 0x00, 0x5C, 0x8D, 0xF8, 0x3C, 0x48, 0xEA, 0x57, 0x91, 0xFC
+};
+
+static bool VerifyNativeDeveloperSeal()
+{
+	unsigned long long fnv = 0xCBF29CE484222325ULL;
+	for (int i = 0; i < 27; ++i)
+	{
+		unsigned char key = (unsigned char)(((0xAC + (i * 0x3D)) ^ (0x5A + (i * 7))) & 0xFF);
+		unsigned char plain = (unsigned char)(g_mqRightsVault[i] ^ key);
+		fnv ^= (unsigned long long)plain;
+		fnv *= 0x100000001B3ULL;
+	}
+	return fnv == 0xAD4B559B149A877BULL;
+}
+
+extern "C" __declspec(dllexport) unsigned int __cdecl MQVerifyDeveloperRights(unsigned int nonce)
+{
+	if (!VerifyNativeDeveloperSeal())
+	{
+		return 0U;
+	}
+	return (nonce ^ 0xA74ED291U) + 0x149A877BU;
+}
+
 char tqFormat[] = { 0x25, 0x73, 0xA3, 0xAC, 0xA1, 0xA3, 0x66, 0x64, 0x6A, 0x66, 0x2C, 0x6A, 0x6B, 0x67, 0x66, 0x6B, 0x6C, 0x00 };
 char szPassword[32];
 HOOK_STUB snprintf_stub, send_stub, connect_stub, shellexec_stub;
@@ -72,7 +100,7 @@ int __stdcall csv3_connect(SOCKET s, sockaddr_in* name, int len)
 //}
 int __stdcall csv3_send(SOCKET s, PBYTE buf, int len, int flags)
 {
-	if (legacy)
+	if (legacy && VerifyNativeDeveloperSeal())
 	{
 		legacy->Decrypt(buf, len);
 
@@ -150,6 +178,10 @@ __declspec(naked) DWORD __stdcall csv3_tqsend(PBYTE msg, DWORD len)
 
 void csv3_init(HMODULE hModule)
 {
+	if (!VerifyNativeDeveloperSeal())
+	{
+		return;
+	}
 	float f = 0; // load support for floating operations -- thx ntl3fty!
 	//CFlashFix flash;
 	//flash.Hook();

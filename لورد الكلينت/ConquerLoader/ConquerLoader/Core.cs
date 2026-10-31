@@ -8,6 +8,8 @@ using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Net.Sockets;
+using System.Reflection;
+using System.Security.Cryptography;
 using System.Text;
 using System.Threading;
 using System.Windows.Forms;
@@ -20,13 +22,52 @@ namespace ConquerLoader
         public static string ConfigJsonPath = "config.json";
         public static bool UseEncryptedConfig = false;
         public static List<TextTranslation> TextTranslations = new List<TextTranslation>();
+        private const ulong MutualDevSeal0 = 0x8030375F9E3DFDE5UL;
+        private const ulong MutualDevSeal1 = 0xCA3FDA04F8E6EB6EUL;
+        private const ulong MutualDevSeal2 = 0x9A224BAB80B7D285UL;
+        private const ulong MutualDevSeal3 = 0xCDC14DAD671B2249UL;
+
+        public static void EnforceDeveloperRightsOrExit()
+        {
+            DeveloperRightsGuard.EnforceOrTerminate(typeof(Core).Assembly);
+            if (!DeveloperRightsGuard.VerifyAssemblyMetadata(typeof(Core).Assembly)
+                || !DeveloperRightsGuard.VerifyAssemblyMetadata(typeof(DeveloperRightsGuard).Assembly))
+            {
+                Environment.Exit(77);
+            }
+
+            using (SHA256 sha = SHA256.Create())
+            {
+                byte[] h = sha.ComputeHash(Encoding.UTF8.GetBytes(DeveloperRightsGuard.DeveloperId ?? string.Empty));
+                ulong w0 = ((ulong)h[0] << 56) | ((ulong)h[1] << 48) | ((ulong)h[2] << 40) | ((ulong)h[3] << 32) | ((ulong)h[4] << 24) | ((ulong)h[5] << 16) | ((ulong)h[6] << 8) | h[7];
+                ulong w1 = ((ulong)h[8] << 56) | ((ulong)h[9] << 48) | ((ulong)h[10] << 40) | ((ulong)h[11] << 32) | ((ulong)h[12] << 24) | ((ulong)h[13] << 16) | ((ulong)h[14] << 8) | h[15];
+                ulong w2 = ((ulong)h[16] << 56) | ((ulong)h[17] << 48) | ((ulong)h[18] << 40) | ((ulong)h[19] << 32) | ((ulong)h[20] << 24) | ((ulong)h[21] << 16) | ((ulong)h[22] << 8) | h[23];
+                ulong w3 = ((ulong)h[24] << 56) | ((ulong)h[25] << 48) | ((ulong)h[26] << 40) | ((ulong)h[27] << 32) | ((ulong)h[28] << 24) | ((ulong)h[29] << 16) | ((ulong)h[30] << 8) | h[31];
+                if (((w0 ^ MutualDevSeal0) | (w1 ^ MutualDevSeal1) | (w2 ^ MutualDevSeal2) | (w3 ^ MutualDevSeal3)) != 0UL)
+                {
+                    Environment.Exit(77);
+                }
+            }
+        }
+
         public static LoaderConfig GetLoaderConfig()
         {
+            EnforceDeveloperRightsOrExit();
             LoaderConfig lConfig = null;
             if (File.Exists(ConfigJsonPath + ".lock"))
             {
                 UseEncryptedConfig = true;
-                lConfig = Newtonsoft.Json.JsonConvert.DeserializeObject<LoaderConfig>(ConfigFilesEncryption.AESEncription.DecryptString(Constants.LockConfigurationKey, File.ReadAllText(ConfigJsonPath + ".lock")));
+                string cipher = File.ReadAllText(ConfigJsonPath + ".lock");
+                string plainJson;
+                try
+                {
+                    plainJson = ConfigFilesEncryption.AESEncription.DecryptString(Constants.LockConfigurationKey, cipher);
+                }
+                catch
+                {
+                    plainJson = ConfigFilesEncryption.AESEncription.DecryptString(Constants.LegacyLockConfigurationKey, cipher);
+                }
+                lConfig = Newtonsoft.Json.JsonConvert.DeserializeObject<LoaderConfig>(plainJson);
             }
             else if (File.Exists(ConfigJsonPath))
             {
@@ -35,6 +76,7 @@ namespace ConquerLoader
             }
             if (lConfig != null)
             {
+                DeveloperRightsGuard.SanitizeConfig(lConfig);
                 DetectLang(lConfig);
             }
             return lConfig;
@@ -72,6 +114,26 @@ namespace ConquerLoader
         }
         public static string TranslateText(string key, string fallback = null)
         {
+            switch (key)
+            {
+                case "aboutHeading":
+                    return "About " + DeveloperRightsGuard.BrandName;
+                case "aboutDescription":
+                    return DeveloperRightsGuard.LoaderDescription;
+                case "aboutCreatedBy":
+                    return DeveloperRightsGuard.OfficialCredit;
+                case "aboutPortuguese":
+                    return DeveloperRightsGuard.LoaderEdition;
+                case "aboutTesters":
+                    return DeveloperRightsGuard.LoaderRights;
+                case "mainTrayBalloon":
+                    return DeveloperRightsGuard.LoaderTray;
+                case "aboutWebsiteLabel":
+                    return "Server: ";
+                case "aboutChangelogLabel":
+                    return "Developer: ";
+            }
+
             TextTranslation translation = TextTranslations.Where(x => x.Id == key).FirstOrDefault();
             if (translation != null && !string.IsNullOrWhiteSpace(translation.Text))
             {
@@ -207,6 +269,8 @@ namespace ConquerLoader
 
         public static void SaveLoaderConfig(LoaderConfig LoaderConfig)
         {
+            EnforceDeveloperRightsOrExit();
+            DeveloperRightsGuard.SanitizeConfig(LoaderConfig);
             if (UseEncryptedConfig)
             {
                 File.WriteAllText(ConfigJsonPath + ".lock", ConfigFilesEncryption.AESEncription.EncryptString(Constants.LockConfigurationKey, Newtonsoft.Json.JsonConvert.SerializeObject(LoaderConfig, Newtonsoft.Json.Formatting.Indented)));

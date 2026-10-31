@@ -26,6 +26,7 @@ namespace ConquerLoader.Forms
         public bool CustomDLLs = false;
         public Main()
         {
+            Core.EnforceDeveloperRightsOrExit();
             InitializeComponent();
             CLTheme.MainForm = this;
             CLTheme.MainControls = this.Controls;
@@ -139,7 +140,7 @@ namespace ConquerLoader.Forms
                     noty.Visible = true;
                     Hide();
                     noty.BalloonTipTitle = $"{ProductName} {ProductVersion}";
-                    noty.BalloonTipText = "MoonQueen Official Launcher - Developed by ahmedzahran";
+                    noty.BalloonTipText = DeveloperRightsGuard.LoaderTray;
                     noty.ShowBalloonTip(1000);
                 }
                 else if (FormWindowState.Normal == this.WindowState)

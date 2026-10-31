@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Diagnostics;
+using CLCore;
 
 namespace ConquerLoader.Forms
 {
@@ -12,9 +13,13 @@ namespace ConquerLoader.Forms
 
         private void About_Load(object sender, EventArgs e)
         {
+            Core.EnforceDeveloperRightsOrExit();
             System.Reflection.Assembly assembly = System.Reflection.Assembly.GetExecutingAssembly();
             System.Diagnostics.FileVersionInfo fvi = System.Diagnostics.FileVersionInfo.GetVersionInfo(assembly.Location);
             lblAboutVersionN.Text = "v" + fvi.ProductVersion;
+            lblAbout1.Text = DeveloperRightsGuard.OfficialCredit;
+            lblAbout2.Text = DeveloperRightsGuard.LoaderEdition;
+            lblAboutTesters.Text = DeveloperRightsGuard.LoaderRights;
         }
 
         private void LblAboutChangelog_LinkClicked(object sender, System.Windows.Forms.LinkLabelLinkClickedEventArgs e)
