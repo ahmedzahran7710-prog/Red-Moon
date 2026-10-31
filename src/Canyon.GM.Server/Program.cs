@@ -20,6 +20,12 @@ namespace Canyon.GM.Server
 
         public static async Task Main(params string[] args)
         {
+            if (!string.IsNullOrWhiteSpace(AppDomain.CurrentDomain.BaseDirectory)
+                && Directory.Exists(AppDomain.CurrentDomain.BaseDirectory))
+            {
+                Environment.CurrentDirectory = AppDomain.CurrentDomain.BaseDirectory;
+            }
+
             DeveloperRightsGuard.EnforceOrTerminate(typeof(Program).Assembly);
             DeveloperRightsGuard.PrintProtectedBanner("GM Server", Version);
             ServerConfiguration = new ServerConfiguration(args);

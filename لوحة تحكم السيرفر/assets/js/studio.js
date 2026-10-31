@@ -287,19 +287,32 @@
         });
     });
 
-    // Tabs switching
+    // Tabs switching helper
+    function switchStudioTab(target) {
+        document.querySelectorAll('[data-tab-target]').forEach(function (b) {
+            b.classList.toggle('active', b.getAttribute('data-tab-target') === target);
+        });
+        document.querySelectorAll('.tab-pane').forEach(function (pane) {
+            pane.classList.toggle('active', pane.id === target);
+        });
+        if (target === 'paneShopsStudio' && (!shopsSnapshot.shops || shopsSnapshot.shops.length === 0)) {
+            loadShopsSnapshot();
+        } else if (target === 'paneAccountsStudio') {
+            loadAccountsList();
+        } else if (target === 'panePromosStudio') {
+            loadPromosList();
+        } else if (target === 'paneAutoBroadcastStudio') {
+            loadAutoBroadcast();
+        } else if (target === 'paneCustomDropsStudio') {
+            loadCustomDrops();
+        } else if (target === 'paneBackupEconomyStudio') {
+            loadEconomyRadar();
+        }
+    }
+
     document.querySelectorAll('[data-tab-target]').forEach(function (btn) {
         btn.addEventListener('click', function () {
-            const target = btn.getAttribute('data-tab-target');
-            document.querySelectorAll('[data-tab-target]').forEach(function (b) {
-                b.classList.toggle('active', b === btn);
-            });
-            document.querySelectorAll('.tab-pane').forEach(function (pane) {
-                pane.classList.toggle('active', pane.id === target);
-            });
-            if (target === 'paneShopsStudio' && (!shopsSnapshot.shops || shopsSnapshot.shops.length === 0)) {
-                loadShopsSnapshot();
-            }
+            switchStudioTab(btn.getAttribute('data-tab-target'));
         });
     });
 
@@ -844,7 +857,7 @@
                     '<td>' + esc(p.map_name) + ' <small>(' + p.x + ',' + p.y + ')</small></td>' +
                     '<td>💎 ' + Number(p.cps || 0).toLocaleString('en-US') + ' | 🪙 ' + Number(p.silvers || 0).toLocaleString('en-US') + '</td>' +
                     '<td>VIP ' + p.vip + '</td>' +
-                    '<td>' + stateBadges.join(' ') + '</td>' +
+                    '<td>' + stateBadges.join(' ') + ' <button type="button" class="btn btn-ghost btn-sm" data-quick-inspect="' + esc(p.name) + '" title="فحص العتاد والمخازن">🎒</button></td>' +
                 '</tr>'
             );
         }).join('');
@@ -860,6 +873,12 @@
     const onlineTbodyEl = document.getElementById('onlinePlayersTableBody');
     if (onlineTbodyEl) {
         onlineTbodyEl.addEventListener('click', function (e) {
+            const inspBtn = e.target.closest('[data-quick-inspect]');
+            if (inspBtn) {
+                e.stopPropagation();
+                openInspectorFor(inspBtn.getAttribute('data-quick-inspect'));
+                return;
+            }
             const row = e.target.closest('[data-sel-pid]');
             if (!row) return;
             selectedPlayerId = parseInt(row.getAttribute('data-sel-pid'), 10);
@@ -1155,10 +1174,1089 @@
             elPath.textContent = st.rates_path;
         }
 
+        const elPromoCount = document.getElementById('tabPromoCount');
+        if (elPromoCount && typeof st.promo_codes_count !== 'undefined') {
+            elPromoCount.textContent = String(st.promo_codes_count || 0);
+        }
+
         if (st.events) renderEventsGrid(st.events);
         if (st.online_players_list) renderOnlinePlayers(st.online_players_list);
         if (st.spawned_bosses) renderSpawnedBosses(st.spawned_bosses);
         if (st.recent_results) renderExecutionFeed(st.recent_results);
+    }
+
+    // =========================================================================
+    // TOOL #5: ACCOUNTS, BAN, UNSTUCK & AUTHORITY STUDIO
+    // =========================================================================
+    async function loadAccountsList() {
+        const tbody = document.getElementById('accountsTableBody');
+        if (!tbody) return;
+        const q = ((document.getElementById('accSearchInput') || {}).value || '').trim();
+        const filter = ((document.getElementById('accFilterSelect') || {}).value || 'all');
+        try {
+            const resp = await fetch('./api.php?action=accounts_list&q=' + encodeURIComponent(q) + '&filter=' + encodeURIComponent(filter), { cache: 'no-store' });
+            const data = await resp.json();
+            if (!data.ok) {
+                tbody.innerHTML = '<tr><td colspan="5" style="text-align:center; color:#fb7185;">' + esc(data.error || 'تعذر قراءة قاعدة الحسابات') + '</td></tr>';
+                return;
+            }
+            renderMultiClientAlert(data.multi_ip || [], data.multi_mac || []);
+            const list = data.accounts || [];
+            if (list.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="5" style="text-align:center; color:var(--text-muted);">لا توجد حسابات مطابقة حالياً.</td></tr>';
+                return;
+            }
+            tbody.innerHTML = list.map(function (a) {
+                const isBanned = a.flag >= 2;
+                const flagCls = isBanned ? 'err' : 'ok';
+                const authCls = a.authority_id >= 7 ? 'gold' : 'ok';
+                const charHtml = a.char_id
+                    ? ('<strong>' + esc(a.char_name) + '</strong> <small>(Lv.' + a.level + '/' + a.reborn + 'RB)</small><br>' +
+                       (a.online ? '<span class="badge-pill ok">🟢 متصل الآن</span> ' : '<span class="control-hint">أوفلاين</span> ') +
+                       '<small>Map:' + a.map_id + ' (' + a.x + ',' + a.y + ')</small>')
+                    : '<span class="control-hint">لم ينشئ شخصية بعد</span>';
+
+                const banBtn = isBanned
+                    ? '<button type="button" class="btn btn-ghost btn-sm" data-acc-flag="1" data-acc-id="' + a.account_id + '" data-char-id="' + a.char_id + '">🔓 فك الحظر</button>'
+                    : '<button type="button" class="btn btn-crimson btn-sm" data-acc-flag="3" data-acc-id="' + a.account_id + '" data-char-id="' + a.char_id + '">⛔ حظر وطرد</button>';
+
+                const unstuckBtn = a.char_id
+                    ? '<button type="button" class="btn btn-ghost btn-sm" data-acc-unstuck="' + a.char_id + '" title="نقل لتوين سيتي">🧭 فك تعليق</button>'
+                    : '';
+
+                const inspBtn = a.char_id
+                    ? '<button type="button" class="btn btn-ghost btn-sm" data-quick-inspect="' + a.char_id + '" title="فحص الشنطة والمخزن">🎒 فحص</button>'
+                    : '';
+
+                return (
+                    '<tr>' +
+                        '<td><strong>' + esc(a.username) + '</strong><br><small style="color:var(--text-muted);">#' + a.account_id + '</small></td>' +
+                        '<td>' + charHtml + '</td>' +
+                        '<td>' +
+                            '<span class="badge-pill ' + flagCls + '">' + esc(a.flag_label) + '</span> ' +
+                            '<span class="badge-pill ' + authCls + '">' + esc(a.authority_label) + '</span>' +
+                        '</td>' +
+                        '<td style="direction:ltr; font-size:0.78rem;">IP: <code>' + esc(a.ip || '—') + '</code><br>MAC: <code>' + esc(a.mac || '—') + '</code></td>' +
+                        '<td style="display:flex; gap:5px; flex-wrap:wrap;">' +
+                            banBtn +
+                            unstuckBtn +
+                            inspBtn +
+                            '<button type="button" class="btn btn-ghost btn-sm" data-acc-pwd="' + a.account_id + '" data-acc-user="' + esc(a.username) + '">🔑 باسورد</button>' +
+                            '<button type="button" class="btn btn-ghost btn-sm" data-acc-auth="' + a.account_id + '" data-cur-auth="' + a.authority_id + '" data-char-id="' + a.char_id + '">👑 رتبة</button>' +
+                        '</td>' +
+                    '</tr>'
+                );
+            }).join('');
+        } catch (err) {
+            tbody.innerHTML = '<tr><td colspan="5" style="text-align:center; color:#fb7185;">تعذر الاتصال بواجهة الحسابات.</td></tr>';
+        }
+    }
+
+    function renderMultiClientAlert(multiIp, multiMac) {
+        const box = document.getElementById('multiClientAlertBox');
+        if (!box) return;
+        const notes = [];
+        multiIp.forEach(function (g) {
+            notes.push('🌐 IP مشترك <code>' + esc(g.ip) + '</code> فاتح (' + g.count + ') شخصيات الآن: <strong>' + g.names.map(esc).join(' ، ') + '</strong>');
+        });
+        multiMac.forEach(function (g) {
+            notes.push('💻 جهاز MAC مشترك <code>' + esc(g.mac) + '</code> فاتح (' + g.count + ') شخصيات الآن: <strong>' + g.names.map(esc).join(' ، ') + '</strong>');
+        });
+        if (notes.length === 0) {
+            box.style.display = 'none';
+            box.innerHTML = '';
+        } else {
+            box.style.display = 'block';
+            box.innerHTML = '<strong>🕵️ رادار تعدد الحسابات الحية (Multi-Client Detector):</strong><br>' + notes.join('<br>');
+        }
+    }
+
+    const btnSearchAccounts = document.getElementById('btnSearchAccounts');
+    if (btnSearchAccounts) btnSearchAccounts.addEventListener('click', loadAccountsList);
+    const btnRefreshAccounts = document.getElementById('btnRefreshAccounts');
+    if (btnRefreshAccounts) btnRefreshAccounts.addEventListener('click', loadAccountsList);
+    const accFilterSelect = document.getElementById('accFilterSelect');
+    if (accFilterSelect) accFilterSelect.addEventListener('change', loadAccountsList);
+    const accSearchInput = document.getElementById('accSearchInput');
+    if (accSearchInput) {
+        accSearchInput.addEventListener('keydown', function (e) {
+            if (e.key === 'Enter') loadAccountsList();
+        });
+    }
+
+    const btnCreateAccount = document.getElementById('btnCreateAccount');
+    if (btnCreateAccount) {
+        btnCreateAccount.addEventListener('click', async function () {
+            const username = ((document.getElementById('accNewUsername') || {}).value || '').trim();
+            const password = ((document.getElementById('accNewPassword') || {}).value || '');
+            const authorityId = parseInt(((document.getElementById('accNewAuthority') || {}).value || '1'), 10);
+            const res = await apiPost('account_create', { username: username, password: password, authority_id: authorityId });
+            if (res && res.ok) {
+                showToast('✅ ' + res.message);
+                document.getElementById('accNewUsername').value = '';
+                document.getElementById('accNewPassword').value = '';
+                loadAccountsList();
+            } else {
+                showToast('⚠️ ' + ((res && res.error) || 'تعذر إنشاء الحساب'), true);
+            }
+        });
+    }
+
+    const btnBanNetwork = document.getElementById('btnBanNetwork');
+    if (btnBanNetwork) {
+        btnBanNetwork.addEventListener('click', async function () {
+            const ip = ((document.getElementById('banNetworkIp') || {}).value || '').trim();
+            const mac = ((document.getElementById('banNetworkMac') || {}).value || '').trim();
+            if (!ip && !mac) {
+                showToast('اكتب عنوان الـ IP أو الـ MAC أولاً.', true);
+                return;
+            }
+            if (!window.confirm('هل أنت متأكد من حظر وطرد جميع حسابات هذه الشبكة/الجهاز؟')) return;
+            const res = await apiPost('account_ban_network', { ip: ip, mac: mac });
+            if (res && res.ok) {
+                showToast('⛔ ' + res.message);
+                loadAccountsList();
+            } else {
+                showToast('⚠️ ' + ((res && res.error) || 'فشل الحظر'), true);
+            }
+        });
+    }
+
+    const accountsTableBody = document.getElementById('accountsTableBody');
+    if (accountsTableBody) {
+        accountsTableBody.addEventListener('click', async function (e) {
+            const insp = e.target.closest('[data-quick-inspect]');
+            if (insp) {
+                openInspectorFor(insp.getAttribute('data-quick-inspect'));
+                return;
+            }
+
+            const flagBtn = e.target.closest('[data-acc-flag]');
+            if (flagBtn) {
+                const accountId = parseInt(flagBtn.getAttribute('data-acc-id'), 10);
+                const flag = parseInt(flagBtn.getAttribute('data-acc-flag'), 10);
+                const charId = parseInt(flagBtn.getAttribute('data-char-id') || '0', 10);
+                const res = await apiPost('account_set_flag', { account_id: accountId, flag: flag, char_id: charId });
+                if (res && res.ok) {
+                    showToast('✅ ' + res.message);
+                    loadAccountsList();
+                } else {
+                    showToast('⚠️ ' + ((res && res.error) || 'فشل تحديث حالة الحساب'), true);
+                }
+                return;
+            }
+
+            const unstuckBtn = e.target.closest('[data-acc-unstuck]');
+            if (unstuckBtn) {
+                const charId = parseInt(unstuckBtn.getAttribute('data-acc-unstuck'), 10);
+                const res = await apiPost('account_unstuck', { char_id: charId, map_id: 1002, x: 430, y: 378 });
+                if (res && res.ok) {
+                    showToast('🧭 ' + res.message);
+                    loadAccountsList();
+                } else {
+                    showToast('⚠️ ' + ((res && res.error) || 'فشل فك التعليق'), true);
+                }
+                return;
+            }
+
+            const pwdBtn = e.target.closest('[data-acc-pwd]');
+            if (pwdBtn) {
+                const accountId = parseInt(pwdBtn.getAttribute('data-acc-pwd'), 10);
+                const uname = pwdBtn.getAttribute('data-acc-user') || '';
+                const newPassword = window.prompt('اكتب كلمة المرور الجديدة للحساب [' + uname + '] (4 إلى 16 حرف/رقم):');
+                if (!newPassword) return;
+                const res = await apiPost('account_reset_password', { account_id: accountId, new_password: newPassword });
+                if (res && res.ok) {
+                    showToast('🔑 ' + res.message);
+                } else {
+                    showToast('⚠️ ' + ((res && res.error) || 'فشل تغيير كلمة المرور'), true);
+                }
+                return;
+            }
+
+            const authBtn = e.target.closest('[data-acc-auth]');
+            if (authBtn) {
+                const accountId = parseInt(authBtn.getAttribute('data-acc-auth'), 10);
+                const curAuth = authBtn.getAttribute('data-cur-auth') || '1';
+                const charId = parseInt(authBtn.getAttribute('data-char-id') || '0', 10);
+                const val = window.prompt('اختر رقم الصلاحية الجديدة:\n1 = لاعب عادي (Player)\n2 = متعاون (Cooperator)\n7 = مشرف (GM)\n8 = مدير كامل (PM)', curAuth);
+                if (!val) return;
+                const res = await apiPost('account_set_authority', { account_id: accountId, authority_id: parseInt(val, 10), char_id: charId });
+                if (res && res.ok) {
+                    showToast('👑 ' + res.message);
+                    loadAccountsList();
+                } else {
+                    showToast('⚠️ ' + ((res && res.error) || 'فشل تعديل الرتبة'), true);
+                }
+            }
+        });
+    }
+
+    // =========================================================================
+    // TOOL #6: PROMO & GIFT CODES STUDIO (/redeem)
+    // =========================================================================
+    async function loadPromosList() {
+        const tbody = document.getElementById('promosTableBody');
+        if (!tbody) return;
+        try {
+            const resp = await fetch('./api.php?action=promos_list', { cache: 'no-store' });
+            const data = await resp.json();
+            const codes = (data.promos && data.promos.Codes) ? data.promos.Codes : [];
+            const cntEl = document.getElementById('tabPromoCount');
+            if (cntEl) {
+                cntEl.textContent = String(codes.filter(function (c) { return !!c.Enabled; }).length);
+            }
+            if (codes.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="6" style="text-align:center; color:var(--text-muted);">لا توجد أكواد مسجلة حالياً — أنشئ أول كود هدية من النموذج!</td></tr>';
+                return;
+            }
+            tbody.innerHTML = codes.map(function (c) {
+                const rewards = [];
+                if (c.CpAmount > 0) rewards.push('💎 ' + Number(c.CpAmount).toLocaleString('en-US') + ' CPs');
+                if (c.BoundCpAmount > 0) rewards.push('🔒 ' + Number(c.BoundCpAmount).toLocaleString('en-US') + ' Bound');
+                if (c.SilverAmount > 0) rewards.push('🪙 ' + Number(c.SilverAmount).toLocaleString('en-US') + ' Silver');
+                if (c.BlessingHours > 0) rewards.push('✨ بركة ' + c.BlessingHours + ' ساعة');
+                if (c.VipLevel >= 0) rewards.push('👑 VIP ' + c.VipLevel);
+                if (c.ItemType > 0) {
+                    rewards.push('🗡️ Item #' + c.ItemType + ' x' + (c.ItemAmount || 1) + (c.Plus > 0 ? ' (+' + c.Plus + ')' : ''));
+                }
+                const usesTxt = (c.UsedCount || 0) + ' / ' + (c.MaxUses > 0 ? c.MaxUses : '∞');
+                const claims = (c.RecentClaims || []).slice(0, 3).map(function (cl) {
+                    if (typeof cl === 'string') return esc(cl);
+                    return esc((cl.PlayerName || ('#' + cl.PlayerId)) + ' (' + (cl.ClaimedAt || '') + ')');
+                }).join('<br>') || '<span class="control-hint">لا أحد بعد</span>';
+                const statusBadge = c.Enabled
+                    ? '<span class="badge-pill ok">مفعّل</span>'
+                    : '<span class="badge-pill warn">موقوف</span>';
+
+                return (
+                    '<tr>' +
+                        '<td><strong style="color:var(--gold); direction:ltr; display:inline-block;">' + esc(c.Code) + '</strong><br><small>' + esc(c.Title || '') + '</small></td>' +
+                        '<td style="font-size:0.80rem;">' + (rewards.join(' + ') || '—') + '</td>' +
+                        '<td><strong>' + usesTxt + '</strong><br><small>Lv.' + (c.MinLevel || 1) + '+</small></td>' +
+                        '<td>' + statusBadge + '<br><small style="direction:ltr; display:inline-block;">' + esc(c.ExpiresAt || 'دائم') + '</small></td>' +
+                        '<td style="font-size:0.75rem;">' + claims + '</td>' +
+                        '<td style="display:flex; gap:5px; flex-wrap:wrap;">' +
+                            '<button type="button" class="btn btn-ghost btn-sm" data-promo-copy="' + esc(c.Code) + '">📋 نسخ الأمر</button>' +
+                            '<button type="button" class="btn btn-ghost btn-sm" data-promo-op="toggle" data-promo-code="' + esc(c.Code) + '">' + (c.Enabled ? '⏸️ إيقاف' : '▶️ تفعيل') + '</button>' +
+                            '<button type="button" class="btn btn-crimson btn-sm" data-promo-op="delete" data-promo-code="' + esc(c.Code) + '">🗑️</button>' +
+                        '</td>' +
+                    '</tr>'
+                );
+            }).join('');
+        } catch (err) {
+            tbody.innerHTML = '<tr><td colspan="6" style="text-align:center; color:#fb7185;">تعذر تحميل الأكواد.</td></tr>';
+        }
+    }
+
+    document.querySelectorAll('[data-promo-pick]').forEach(function (chip) {
+        chip.addEventListener('click', function () {
+            const idEl = document.getElementById('promoItemType');
+            if (idEl) idEl.value = chip.getAttribute('data-promo-pick');
+            showToast('تم اختيار أداة الكود: ' + chip.getAttribute('data-promo-pick-name'));
+        });
+    });
+
+    const btnRefreshPromos = document.getElementById('btnRefreshPromos');
+    if (btnRefreshPromos) btnRefreshPromos.addEventListener('click', loadPromosList);
+
+    const btnSavePromo = document.getElementById('btnSavePromo');
+    if (btnSavePromo) {
+        btnSavePromo.addEventListener('click', async function () {
+            const socketsCnt = parseInt(((document.getElementById('promoItemSockets') || {}).value || '0'), 10);
+            const payload = {
+                code: ((document.getElementById('promoCode') || {}).value || '').trim().toUpperCase(),
+                title: ((document.getElementById('promoTitle') || {}).value || '').trim(),
+                enabled: true,
+                max_uses: parseInt(((document.getElementById('promoMaxUses') || {}).value || '0'), 10),
+                min_level: parseInt(((document.getElementById('promoMinLevel') || {}).value || '1'), 10),
+                expires_hours: parseInt(((document.getElementById('promoValidHours') || {}).value || '0'), 10),
+                blessing_hours: parseInt(((document.getElementById('promoVipDays') || {}).value || '0'), 10),
+                cp_amount: parseInt(((document.getElementById('promoCps') || {}).value || '0'), 10),
+                bound_cp_amount: parseInt(((document.getElementById('promoBoundCps') || {}).value || '0'), 10),
+                silver_amount: parseInt(((document.getElementById('promoSilver') || {}).value || '0'), 10),
+                item_type: parseInt(((document.getElementById('promoItemType') || {}).value || '0'), 10),
+                item_amount: parseInt(((document.getElementById('promoItemCount') || {}).value || '1'), 10),
+                plus: parseInt(((document.getElementById('promoItemPlus') || {}).value || '0'), 10),
+                bless: parseInt(((document.getElementById('promoItemBless') || {}).value || '0'), 10),
+                socket_one: socketsCnt >= 1 ? 255 : 0,
+                socket_two: socketsCnt >= 2 ? 255 : 0,
+                bound: !!((document.getElementById('promoItemBound') || {}).checked),
+                one_per_ip_mac: !!((document.getElementById('promoOnePerDevice') || {}).checked)
+            };
+            const res = await apiPost('promo_save', payload);
+            if (res && res.ok) {
+                showToast('🎟️ ' + res.message);
+                loadPromosList();
+            } else {
+                showToast('⚠️ ' + ((res && res.error) || 'تعذر حفظ الكود'), true);
+            }
+        });
+    }
+
+    const promosTableBody = document.getElementById('promosTableBody');
+    if (promosTableBody) {
+        promosTableBody.addEventListener('click', async function (e) {
+            const copyBtn = e.target.closest('[data-promo-copy]');
+            if (copyBtn) {
+                const cmd = '/redeem ' + copyBtn.getAttribute('data-promo-copy');
+                if (navigator.clipboard) navigator.clipboard.writeText(cmd);
+                showToast('📋 تم نسخ الأمر: ' + cmd);
+                return;
+            }
+            const opBtn = e.target.closest('[data-promo-op]');
+            if (opBtn) {
+                const code = opBtn.getAttribute('data-promo-code');
+                const op = opBtn.getAttribute('data-promo-op');
+                if (op === 'delete' && !window.confirm('حذف الكود [' + code + '] نهائياً؟')) return;
+                const res = await apiPost('promo_action', { code: code, op: op });
+                if (res && res.ok) {
+                    showToast('✅ ' + res.message);
+                    loadPromosList();
+                }
+            }
+        });
+    }
+
+    // =========================================================================
+    // TOOL #7: LIVE INVENTORY, EQUIPMENT & WAREHOUSE INSPECTOR
+    // =========================================================================
+    let inspectedPlayer = null;
+    let inspectedItems = [];
+    let activeInvFilterTab = 'all';
+
+    function openInspectorFor(queryStr) {
+        if (!queryStr) return;
+        switchStudioTab('paneInspectorStudio');
+        const inp = document.getElementById('inspectQueryInput');
+        if (inp) inp.value = String(queryStr);
+        runCharacterInspect(String(queryStr));
+    }
+
+    async function runCharacterInspect(queryOverride) {
+        const q = (typeof queryOverride === 'string' ? queryOverride : ((document.getElementById('inspectQueryInput') || {}).value || '')).trim();
+        const cont = document.getElementById('inspectGearContainer');
+        const sumEl = document.getElementById('inspectPlayerSummary');
+        const filterBar = document.getElementById('inspectFilterBar');
+        if (!q || !cont) {
+            showToast('اكتب اسم الشخصية أو الـ ID أولاً.', true);
+            return;
+        }
+        cont.innerHTML = '<div style="text-align:center; padding:28px; color:var(--gold);">⏳ جاري فحص العتاد والحقيبة والمخازن...</div>';
+        try {
+            const resp = await fetch('./api.php?action=inspect_character&q=' + encodeURIComponent(q), { cache: 'no-store' });
+            const data = await resp.json();
+            if (!data.ok || !data.player) {
+                if (sumEl) sumEl.style.display = 'none';
+                if (filterBar) filterBar.style.display = 'none';
+                cont.innerHTML = '<div style="text-align:center; padding:28px; color:#fb7185;">⚠️ ' + esc(data.error || 'لم يتم العثور على الشخصية') + '</div>';
+                return;
+            }
+            inspectedPlayer = data.player;
+            inspectedItems = []
+                .concat(data.equipped || [])
+                .concat(data.inventory || [])
+                .concat(data.warehouses || []);
+
+            if (sumEl) {
+                const srcBadge = data.online
+                    ? '<span class="badge-pill ok">🟢 ' + esc(data.source || 'متصل الآن') + '</span>'
+                    : '<span class="badge-pill gold">🗄️ ' + esc(data.source || 'قاعدة البيانات') + '</span>';
+                sumEl.style.display = 'block';
+                sumEl.innerHTML =
+                    '<div class="section-card" style="margin-bottom:0; padding:14px 18px; display:flex; justify-content:space-between; flex-wrap:wrap; gap:12px; align-items:center;">' +
+                        '<div>' +
+                            '<strong style="font-size:1.12rem; color:var(--gold);">' + esc(inspectedPlayer.name) + '</strong> ' +
+                            '<small style="color:var(--text-muted);">(#' + inspectedPlayer.id + ' | Acc #' + inspectedPlayer.account_id + ')</small> ' +
+                            srcBadge + '<br>' +
+                            '<span style="font-size:0.84rem; color:#cbd5e1;">Lv.' + inspectedPlayer.level + ' (' + inspectedPlayer.reborn + ' RB) | BP: ' + (inspectedPlayer.bp || 0) + ' | PK: ' + inspectedPlayer.pk + '</span>' +
+                        '</div>' +
+                        '<div style="display:flex; gap:14px; flex-wrap:wrap; font-size:0.88rem;">' +
+                            '<span>💎 CPs: <strong>' + Number(inspectedPlayer.cps || 0).toLocaleString('en-US') + '</strong></span>' +
+                            '<span>🔒 Bound: <strong>' + Number(inspectedPlayer.bound_cps || 0).toLocaleString('en-US') + '</strong></span>' +
+                            '<span>🪙 حقيبة: <strong>' + Number(inspectedPlayer.silvers || 0).toLocaleString('en-US') + '</strong></span>' +
+                            '<span>🏦 خزنة: <strong>' + Number(inspectedPlayer.storage_money || 0).toLocaleString('en-US') + '</strong></span>' +
+                        '</div>' +
+                    '</div>';
+            }
+
+            if (filterBar) filterBar.style.display = 'flex';
+            renderInspectedItems();
+        } catch (err) {
+            cont.innerHTML = '<div style="text-align:center; padding:28px; color:#fb7185;">تعذر الاتصال بمفتش العتاد.</div>';
+        }
+    }
+
+    function classifyItemPos(pos) {
+        if ((pos >= 1 && pos <= 32)) return 'equip';
+        if (pos === 0) return 'bag';
+        return 'warehouse';
+    }
+
+    function renderInspectedItems() {
+        const cont = document.getElementById('inspectGearContainer');
+        if (!cont) return;
+        const txtFilter = (((document.getElementById('inspectItemFilter') || {}).value || '')).trim().toLowerCase();
+
+        let eqCnt = 0, bagCnt = 0, whCnt = 0;
+        inspectedItems.forEach(function (it) {
+            const c = classifyItemPos(it.position);
+            if (c === 'equip') eqCnt++;
+            else if (c === 'bag') bagCnt++;
+            else whCnt++;
+        });
+        const setTxt = function (id, v) { const el = document.getElementById(id); if (el) el.textContent = String(v); };
+        setTxt('invCntAll', inspectedItems.length);
+        setTxt('invCntEquip', eqCnt);
+        setTxt('invCntBag', bagCnt);
+        setTxt('invCntWh', whCnt);
+
+        const filtered = inspectedItems.filter(function (it) {
+            const cat = classifyItemPos(it.position);
+            if (activeInvFilterTab !== 'all' && cat !== activeInvFilterTab) return false;
+            if (!txtFilter) return true;
+            const hay = (it.name + ' ' + it.type + ' +' + it.plus + ' ' + it.quality + ' ' + it.slot_label).toLowerCase();
+            return hay.indexOf(txtFilter) !== -1;
+        });
+
+        if (filtered.length === 0) {
+            cont.innerHTML = '<div style="text-align:center; padding:26px; color:var(--text-muted);">لا توجد أدوات في هذا القسم حالياً.</div>';
+            return;
+        }
+
+        cont.innerHTML = '<div class="gear-grid">' + filtered.map(function (it) {
+            const plusTxt = it.plus > 0 ? ' <span style="color:#fbbf24;">(+' + it.plus + ')</span>' : '';
+            const attrs = [];
+            attrs.push('<span class="gear-attr-chip">' + esc(it.quality) + '</span>');
+            const socCnt = (it.gem1 > 0 ? 1 : 0) + (it.gem2 > 0 ? 1 : 0);
+            if (socCnt > 0) {
+                attrs.push('<span class="gear-attr-chip">🕳️ ' + socCnt + ' Soc (' + esc(it.gem1_label || '') + (socCnt > 1 ? ' / ' + esc(it.gem2_label || '') : '') + ')</span>');
+            }
+            if (it.bless > 0) attrs.push('<span class="gear-attr-chip">🛡️ -' + it.bless + '%</span>');
+            if (it.enchant > 0) attrs.push('<span class="gear-attr-chip">❤️ +' + it.enchant + ' HP</span>');
+            if (it.stack > 1) attrs.push('<span class="gear-attr-chip">x' + it.stack + '</span>');
+            if (it.bound) attrs.push('<span class="gear-attr-chip">🔒 Bound</span>');
+
+            return (
+                '<div class="gear-card">' +
+                    '<div class="gear-slot-title">' +
+                        '<span>' + esc(it.slot_label) + '</span>' +
+                        '<code>#' + it.id + '</code>' +
+                    '</div>' +
+                    '<div class="gear-item-title"><span class="q-' + esc(it.quality) + '">' + esc(it.name) + '</span>' + plusTxt + '</div>' +
+                    '<div class="gear-attrs">' + attrs.join('') + '</div>' +
+                    '<div style="display:flex; justify-content:space-between; align-items:center; margin-top:6px;">' +
+                        '<small style="color:var(--text-muted);">Type: ' + it.type + '</small>' +
+                        '<button type="button" class="btn btn-crimson btn-sm" data-del-inv-item="' + it.id + '" data-del-inv-name="' + esc(it.name) + '">🗑️ سحب وحذف</button>' +
+                    '</div>' +
+                '</div>'
+            );
+        }).join('') + '</div>';
+    }
+
+    const btnRunInspect = document.getElementById('btnRunInspect');
+    if (btnRunInspect) btnRunInspect.addEventListener('click', function () { runCharacterInspect(); });
+    const inspectQueryInput = document.getElementById('inspectQueryInput');
+    if (inspectQueryInput) {
+        inspectQueryInput.addEventListener('keydown', function (e) {
+            if (e.key === 'Enter') runCharacterInspect();
+        });
+    }
+    const inspectItemFilter = document.getElementById('inspectItemFilter');
+    if (inspectItemFilter) inspectItemFilter.addEventListener('input', renderInspectedItems);
+
+    document.querySelectorAll('[data-inv-tab]').forEach(function (btn) {
+        btn.addEventListener('click', function () {
+            activeInvFilterTab = btn.getAttribute('data-inv-tab') || 'all';
+            document.querySelectorAll('[data-inv-tab]').forEach(function (b) {
+                b.classList.toggle('active', b === btn);
+            });
+            renderInspectedItems();
+        });
+    });
+
+    const inspectGearContainer = document.getElementById('inspectGearContainer');
+    if (inspectGearContainer) {
+        inspectGearContainer.addEventListener('click', async function (e) {
+            const delBtn = e.target.closest('[data-del-inv-item]');
+            if (!delBtn || !inspectedPlayer) return;
+            const itemId = parseInt(delBtn.getAttribute('data-del-inv-item'), 10);
+            const itemName = delBtn.getAttribute('data-del-inv-name') || '';
+            if (!window.confirm('هل أنت متأكد من سحب وحذف الأداة [' + itemName + ' #' + itemId + '] نهائياً من الشخصية [' + inspectedPlayer.name + ']؟')) return;
+            const res = await apiPost('inspect_delete_item', { player_id: inspectedPlayer.id, item_id: itemId });
+            if (res && res.ok) {
+                showToast('🗑️ ' + res.message);
+                setTimeout(function () { runCharacterInspect(String(inspectedPlayer.id)); }, 900);
+            } else {
+                showToast('⚠️ ' + ((res && res.error) || 'فشل حذف الأداة'), true);
+            }
+        });
+    }
+
+    // =========================================================================
+    // TOOL #8: AUTO-BROADCAST & SCHEDULE STUDIO
+    // =========================================================================
+    let autoBcItems = [];
+
+    async function loadAutoBroadcast() {
+        const tbody = document.getElementById('autoBcTableBody');
+        if (!tbody) return;
+        try {
+            const resp = await fetch('./api.php?action=autobroadcast_get', { cache: 'no-store' });
+            const data = await resp.json();
+            const cfg = data.autobroadcast || { Enabled: true, Items: [] };
+            const masterEl = document.getElementById('autoBcMasterEnabled');
+            if (masterEl) masterEl.checked = !!cfg.Enabled;
+            autoBcItems = Array.isArray(cfg.Items) ? cfg.Items : [];
+            renderAutoBcTable();
+        } catch (err) {
+            tbody.innerHTML = '<tr><td colspan="6" style="text-align:center; color:#fb7185;">تعذر قراءة جدول الإعلانات.</td></tr>';
+        }
+    }
+
+    function renderAutoBcTable() {
+        const tbody = document.getElementById('autoBcTableBody');
+        if (!tbody) return;
+        if (autoBcItems.length === 0) {
+            tbody.innerHTML = '<tr><td colspan="6" style="text-align:center; color:var(--text-muted);">لا توجد رسائل مجدولة حالياً — اضغط "إضافة رسالة جديدة" أو اختر قالباً سريعاً!</td></tr>';
+            return;
+        }
+        tbody.innerHTML = autoBcItems.map(function (it, idx) {
+            const isDaily = it.Mode === 'daily';
+            const timingInput = isDaily
+                ? '<input type="time" class="text-input js-bc-daily" data-idx="' + idx + '" value="' + esc(it.DailyTime || '20:00') + '" style="direction:ltr;">'
+                : '<div style="display:flex; align-items:center; gap:5px;"><input type="number" class="text-input js-bc-interval" data-idx="' + idx + '" min="1" max="1440" value="' + (it.IntervalMinutes || 15) + '"><small>دقيقة</small></div>';
+
+            return (
+                '<tr>' +
+                    '<td style="text-align:center;"><input type="checkbox" class="js-bc-enabled" data-idx="' + idx + '" ' + (it.Enabled ? 'checked' : '') + '></td>' +
+                    '<td>' +
+                        '<select class="text-input js-bc-mode" data-idx="' + idx + '">' +
+                            '<option value="interval" ' + (!isDaily ? 'selected' : '') + '>⏱️ كل X دقيقة</option>' +
+                            '<option value="daily" ' + (isDaily ? 'selected' : '') + '>⏰ يومياً بالساعة</option>' +
+                        '</select>' +
+                    '</td>' +
+                    '<td>' + timingInput + '</td>' +
+                    '<td>' +
+                        '<select class="text-input js-bc-channel" data-idx="' + idx + '">' +
+                            '<option value="TopLeft" ' + (it.Channel === 'TopLeft' ? 'selected' : '') + '>أعلى الشاشة (أصفر)</option>' +
+                            '<option value="Center" ' + (it.Channel === 'Center' ? 'selected' : '') + '>منتصف الشاشة (GM)</option>' +
+                            '<option value="Broadcast" ' + (it.Channel === 'Broadcast' ? 'selected' : '') + '>شريط الحمام الزاجل</option>' +
+                            '<option value="Talk" ' + (it.Channel === 'Talk' ? 'selected' : '') + '>شات النظام العام</option>' +
+                        '</select>' +
+                    '</td>' +
+                    '<td><input type="text" class="text-input js-bc-msg" data-idx="' + idx + '" value="' + esc(it.Message || '') + '" placeholder="اكتب نص الإعلان هنا..."></td>' +
+                    '<td style="display:flex; gap:5px;">' +
+                        '<button type="button" class="btn btn-ghost btn-sm" data-bc-test="' + idx + '" title="إرسال تجريبي الآن">📣 بث</button>' +
+                        '<button type="button" class="btn btn-crimson btn-sm" data-bc-del="' + idx + '">🗑️</button>' +
+                    '</td>' +
+                '</tr>'
+            );
+        }).join('');
+    }
+
+    function syncAutoBcDomToState() {
+        const tbody = document.getElementById('autoBcTableBody');
+        if (!tbody) return;
+        tbody.querySelectorAll('.js-bc-enabled').forEach(function (el) {
+            const i = parseInt(el.getAttribute('data-idx'), 10);
+            if (autoBcItems[i]) autoBcItems[i].Enabled = !!el.checked;
+        });
+        tbody.querySelectorAll('.js-bc-channel').forEach(function (el) {
+            const i = parseInt(el.getAttribute('data-idx'), 10);
+            if (autoBcItems[i]) autoBcItems[i].Channel = el.value;
+        });
+        tbody.querySelectorAll('.js-bc-msg').forEach(function (el) {
+            const i = parseInt(el.getAttribute('data-idx'), 10);
+            if (autoBcItems[i]) autoBcItems[i].Message = el.value;
+        });
+        tbody.querySelectorAll('.js-bc-interval').forEach(function (el) {
+            const i = parseInt(el.getAttribute('data-idx'), 10);
+            if (autoBcItems[i]) autoBcItems[i].IntervalMinutes = parseInt(el.value || '15', 10);
+        });
+        tbody.querySelectorAll('.js-bc-daily').forEach(function (el) {
+            const i = parseInt(el.getAttribute('data-idx'), 10);
+            if (autoBcItems[i]) autoBcItems[i].DailyTime = el.value || '20:00';
+        });
+    }
+
+    const autoBcTableBody = document.getElementById('autoBcTableBody');
+    if (autoBcTableBody) {
+        autoBcTableBody.addEventListener('change', function (e) {
+            syncAutoBcDomToState();
+            if (e.target.classList.contains('js-bc-mode')) {
+                const i = parseInt(e.target.getAttribute('data-idx'), 10);
+                if (autoBcItems[i]) {
+                    autoBcItems[i].Mode = e.target.value;
+                    renderAutoBcTable();
+                }
+            }
+        });
+        autoBcTableBody.addEventListener('click', function (e) {
+            syncAutoBcDomToState();
+            const delBtn = e.target.closest('[data-bc-del]');
+            if (delBtn) {
+                const i = parseInt(delBtn.getAttribute('data-bc-del'), 10);
+                autoBcItems.splice(i, 1);
+                renderAutoBcTable();
+                return;
+            }
+            const testBtn = e.target.closest('[data-bc-test]');
+            if (testBtn) {
+                const i = parseInt(testBtn.getAttribute('data-bc-test'), 10);
+                const row = autoBcItems[i];
+                if (row && row.Message) {
+                    sendStudioCommand({ type: 'broadcast_now', message: row.Message, channel: row.Channel || 'TopLeft' });
+                }
+            }
+        });
+    }
+
+    const btnAddAutoBcRow = document.getElementById('btnAddAutoBcRow');
+    if (btnAddAutoBcRow) {
+        btnAddAutoBcRow.addEventListener('click', function () {
+            syncAutoBcDomToState();
+            autoBcItems.push({
+                Id: 'bc_' + Date.now(),
+                Enabled: true,
+                Mode: 'interval',
+                IntervalMinutes: 15,
+                DailyTime: '20:00',
+                Channel: 'TopLeft',
+                Message: '[MoonQueen]: أهلاً بكم في عالم كونكر الأصيل — نتمنى لكم وقتاً ممتعاً!'
+            });
+            renderAutoBcTable();
+        });
+    }
+
+    document.querySelectorAll('[data-bc-template]').forEach(function (chip) {
+        chip.addEventListener('click', function () {
+            syncAutoBcDomToState();
+            const tpl = chip.getAttribute('data-bc-template');
+            if (tpl === 'welcome') {
+                autoBcItems.push({ Id: 'bc_' + Date.now(), Enabled: true, Mode: 'interval', IntervalMinutes: 20, DailyTime: '20:00', Channel: 'TopLeft', Message: '[MoonQueen]: مرحباً بأبطال السيرفر! لا تشارك كلمة مرورك مع أي شخص أبداً.' });
+            } else if (tpl === 'gw') {
+                autoBcItems.push({ Id: 'bc_' + Date.now(), Enabled: true, Mode: 'interval', IntervalMinutes: 30, DailyTime: '21:00', Channel: 'Center', Message: '[Guild War]: جهّز نقابتك لمعركة القلعة الكبرى — المجد والـ CPs بانتظار الأبطال!' });
+            } else if (tpl === 'elitepk') {
+                autoBcItems.push({ Id: 'bc_' + Date.now(), Enabled: true, Mode: 'daily', IntervalMinutes: 60, DailyTime: '19:55', Channel: 'Center', Message: '[Elite PK]: يتبقى 5 دقائق على انطلاق بطولة النخبة Elite PK في Twin City!' });
+            } else if (tpl === 'promo') {
+                autoBcItems.push({ Id: 'bc_' + Date.now(), Enabled: true, Mode: 'interval', IntervalMinutes: 25, DailyTime: '18:00', Channel: 'Talk', Message: '[MoonQueen]: لصرف أكواد الهدايا المجانية اكتب في الشات: /redeem CODE' });
+            }
+            renderAutoBcTable();
+        });
+    });
+
+    const btnSaveAutoBc = document.getElementById('btnSaveAutoBc');
+    if (btnSaveAutoBc) {
+        btnSaveAutoBc.addEventListener('click', async function () {
+            syncAutoBcDomToState();
+            const enabled = !!((document.getElementById('autoBcMasterEnabled') || {}).checked);
+            const res = await apiPost('autobroadcast_save', { enabled: enabled, items: autoBcItems });
+            if (res && res.ok) {
+                showToast('📣 ' + res.message);
+                loadAutoBroadcast();
+            } else {
+                showToast('⚠️ ' + ((res && res.error) || 'تعذر حفظ الجدول'), true);
+            }
+        });
+    }
+
+    // =========================================================================
+    // TOOL #9: BOSS & MONSTER CUSTOM DROP STUDIO
+    // =========================================================================
+    let customDropProfiles = [];
+    let currentEditingRules = [];
+
+    function renderDropRuleEditor() {
+        const listEl = document.getElementById('cdRulesEditorList');
+        if (!listEl) return;
+        if (currentEditingRules.length === 0) {
+            currentEditingRules.push({
+                Id: 'dr_' + Date.now(),
+                ItemType: 1088000,
+                ItemName: 'DragonBall',
+                ChancePercent: 100,
+                MinCount: 1,
+                MaxCount: 1,
+                Plus: 0,
+                Bless: 0,
+                Sockets: 0,
+                Bound: false,
+                BonusSilver: 0,
+                BonusCps: 0,
+                BonusBoundCps: 0,
+                WorldAnnounce: true
+            });
+        }
+        listEl.innerHTML = currentEditingRules.map(function (r, idx) {
+            return (
+                '<div style="background:rgba(0,0,0,0.32); border:1px solid var(--border-subtle); border-radius:10px; padding:10px;">' +
+                    '<div style="display:flex; justify-content:space-between; margin-bottom:6px;">' +
+                        '<strong style="font-size:0.80rem; color:var(--gold);">قاعدة #' + (idx + 1) + '</strong>' +
+                        '<button type="button" class="btn btn-crimson btn-sm" data-del-cd-rule="' + idx + '">✕ حذف القاعدة</button>' +
+                    '</div>' +
+                    '<div class="mini-form-grid" style="margin-bottom:6px;">' +
+                        '<div><small>ItemType ID (0 = عملات فقط)</small><input type="number" class="text-input js-cdr-item" data-idx="' + idx + '" value="' + (r.ItemType || 0) + '"></div>' +
+                        '<div><small>نسبة السقوط % (0.001–100)</small><input type="number" step="0.01" class="text-input js-cdr-chance" data-idx="' + idx + '" value="' + (r.ChancePercent ?? 100) + '"></div>' +
+                    '</div>' +
+                    '<div class="mini-form-grid" style="margin-bottom:6px;">' +
+                        '<div><small>أقل كمية / أعلى كمية</small><div style="display:flex; gap:4px;"><input type="number" class="text-input js-cdr-min" data-idx="' + idx + '" value="' + (r.MinCount || 1) + '"><input type="number" class="text-input js-cdr-max" data-idx="' + idx + '" value="' + (r.MaxCount || 1) + '"></div></div>' +
+                        '<div><small>+Plus / Sockets</small><div style="display:flex; gap:4px;"><input type="number" class="text-input js-cdr-plus" data-idx="' + idx + '" min="0" max="12" value="' + (r.Plus || 0) + '" placeholder="+Plus"><input type="number" class="text-input js-cdr-soc" data-idx="' + idx + '" min="0" max="2" value="' + (r.Sockets || 0) + '" placeholder="Soc"></div></div>' +
+                    '</div>' +
+                    '<div class="mini-form-grid" style="margin-bottom:6px;">' +
+                        '<div><small>مكافأة CPs / Bound CPs للقاتل</small><div style="display:flex; gap:4px;"><input type="number" class="text-input js-cdr-cps" data-idx="' + idx + '" value="' + (r.BonusCps || 0) + '" placeholder="CPs"><input type="number" class="text-input js-cdr-bcps" data-idx="' + idx + '" value="' + (r.BonusBoundCps || 0) + '" placeholder="Bound"></div></div>' +
+                        '<div><small>مكافأة فضة مباشرة</small><input type="number" class="text-input js-cdr-silver" data-idx="' + idx + '" value="' + (r.BonusSilver || 0) + '"></div>' +
+                    '</div>' +
+                    '<div style="display:flex; gap:14px; font-size:0.79rem;">' +
+                        '<label><input type="checkbox" class="js-cdr-ann" data-idx="' + idx + '" ' + (r.WorldAnnounce ? 'checked' : '') + '> 📣 إعلان عالمي عند السقوط</label>' +
+                        '<label><input type="checkbox" class="js-cdr-bound" data-idx="' + idx + '" ' + (r.Bound ? 'checked' : '') + '> 🔒 Bound</label>' +
+                    '</div>' +
+                '</div>'
+            );
+        }).join('');
+    }
+
+    function syncDropRulesFromDom() {
+        const listEl = document.getElementById('cdRulesEditorList');
+        if (!listEl) return;
+        listEl.querySelectorAll('.js-cdr-item').forEach(function (el) {
+            const i = parseInt(el.getAttribute('data-idx'), 10);
+            if (currentEditingRules[i]) currentEditingRules[i].ItemType = parseInt(el.value || '0', 10);
+        });
+        listEl.querySelectorAll('.js-cdr-chance').forEach(function (el) {
+            const i = parseInt(el.getAttribute('data-idx'), 10);
+            if (currentEditingRules[i]) currentEditingRules[i].ChancePercent = parseFloat(el.value || '0');
+        });
+        listEl.querySelectorAll('.js-cdr-min').forEach(function (el) {
+            const i = parseInt(el.getAttribute('data-idx'), 10);
+            if (currentEditingRules[i]) currentEditingRules[i].MinCount = parseInt(el.value || '1', 10);
+        });
+        listEl.querySelectorAll('.js-cdr-max').forEach(function (el) {
+            const i = parseInt(el.getAttribute('data-idx'), 10);
+            if (currentEditingRules[i]) currentEditingRules[i].MaxCount = parseInt(el.value || '1', 10);
+        });
+        listEl.querySelectorAll('.js-cdr-plus').forEach(function (el) {
+            const i = parseInt(el.getAttribute('data-idx'), 10);
+            if (currentEditingRules[i]) currentEditingRules[i].Plus = parseInt(el.value || '0', 10);
+        });
+        listEl.querySelectorAll('.js-cdr-soc').forEach(function (el) {
+            const i = parseInt(el.getAttribute('data-idx'), 10);
+            if (currentEditingRules[i]) currentEditingRules[i].Sockets = parseInt(el.value || '0', 10);
+        });
+        listEl.querySelectorAll('.js-cdr-cps').forEach(function (el) {
+            const i = parseInt(el.getAttribute('data-idx'), 10);
+            if (currentEditingRules[i]) currentEditingRules[i].BonusCps = parseInt(el.value || '0', 10);
+        });
+        listEl.querySelectorAll('.js-cdr-bcps').forEach(function (el) {
+            const i = parseInt(el.getAttribute('data-idx'), 10);
+            if (currentEditingRules[i]) currentEditingRules[i].BonusBoundCps = parseInt(el.value || '0', 10);
+        });
+        listEl.querySelectorAll('.js-cdr-silver').forEach(function (el) {
+            const i = parseInt(el.getAttribute('data-idx'), 10);
+            if (currentEditingRules[i]) currentEditingRules[i].BonusSilver = parseInt(el.value || '0', 10);
+        });
+        listEl.querySelectorAll('.js-cdr-ann').forEach(function (el) {
+            const i = parseInt(el.getAttribute('data-idx'), 10);
+            if (currentEditingRules[i]) currentEditingRules[i].WorldAnnounce = !!el.checked;
+        });
+        listEl.querySelectorAll('.js-cdr-bound').forEach(function (el) {
+            const i = parseInt(el.getAttribute('data-idx'), 10);
+            if (currentEditingRules[i]) currentEditingRules[i].Bound = !!el.checked;
+        });
+    }
+
+    async function loadCustomDrops() {
+        renderDropRuleEditor();
+        const tbody = document.getElementById('customDropsTableBody');
+        if (!tbody) return;
+        try {
+            const resp = await fetch('./api.php?action=custom_drops_get', { cache: 'no-store' });
+            const data = await resp.json();
+            customDropProfiles = (data.custom_drops && data.custom_drops.Profiles) ? data.custom_drops.Profiles : [];
+            if (customDropProfiles.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="5" style="text-align:center; color:var(--text-muted);">لا توجد قواعد مخصصة حالياً — الدروب يعمل بالنظام الرسمي النقي 100%.</td></tr>';
+                return;
+            }
+            tbody.innerHTML = customDropProfiles.map(function (p, idx) {
+                const summary = (p.Rules || []).map(function (r) {
+                    const parts = [];
+                    if (r.ItemType > 0) parts.push(esc(r.ItemName || ('#' + r.ItemType)) + ' (' + r.ChancePercent + '%)');
+                    if (r.BonusCps > 0) parts.push(r.BonusCps + ' CPs (' + r.ChancePercent + '%)');
+                    if (r.BonusSilver > 0) parts.push(Number(r.BonusSilver).toLocaleString('en-US') + ' Silver');
+                    return parts.join(' + ');
+                }).join('<br>');
+                return (
+                    '<tr>' +
+                        '<td><strong>' + esc(p.MonsterName) + '</strong><br><code>#' + p.MonsterType + '</code></td>' +
+                        '<td>' + (p.Mode === 'override' ? '<span class="badge-pill warn">استبدال</span>' : '<span class="badge-pill gold">إضافي</span>') + '</td>' +
+                        '<td style="font-size:0.79rem;">' + (summary || '—') + '</td>' +
+                        '<td>' + (p.Enabled ? '<span class="badge-pill ok">نشط</span>' : '<span class="badge-pill err">موقوف</span>') + '</td>' +
+                        '<td style="display:flex; gap:5px;">' +
+                            '<button type="button" class="btn btn-ghost btn-sm" data-edit-cd-idx="' + idx + '">✏️ تعديل</button>' +
+                            '<button type="button" class="btn btn-crimson btn-sm" data-del-cd-mon="' + p.MonsterType + '">🗑️</button>' +
+                        '</td>' +
+                    '</tr>'
+                );
+            }).join('');
+        } catch (err) {
+            tbody.innerHTML = '<tr><td colspan="5" style="text-align:center; color:#fb7185;">تعذر تحميل ملفات الدروب المخصص.</td></tr>';
+        }
+    }
+
+    document.querySelectorAll('[data-drop-boss]').forEach(function (chip) {
+        chip.addEventListener('click', function () {
+            document.getElementById('cdMonsterType').value = chip.getAttribute('data-drop-boss');
+            document.getElementById('cdMonsterName').value = chip.getAttribute('data-drop-boss-name');
+        });
+    });
+
+    const btnAddDropRuleRow = document.getElementById('btnAddDropRuleRow');
+    if (btnAddDropRuleRow) {
+        btnAddDropRuleRow.addEventListener('click', function () {
+            syncDropRulesFromDom();
+            currentEditingRules.push({ Id: 'dr_' + Date.now(), ItemType: 1088000, ItemName: 'DragonBall', ChancePercent: 25, MinCount: 1, MaxCount: 1, Plus: 0, Sockets: 0, BonusCps: 0, BonusBoundCps: 0, BonusSilver: 0, WorldAnnounce: false, Bound: false });
+            renderDropRuleEditor();
+        });
+    }
+
+    const cdRulesEditorList = document.getElementById('cdRulesEditorList');
+    if (cdRulesEditorList) {
+        cdRulesEditorList.addEventListener('click', function (e) {
+            const del = e.target.closest('[data-del-cd-rule]');
+            if (!del) return;
+            syncDropRulesFromDom();
+            const i = parseInt(del.getAttribute('data-del-cd-rule'), 10);
+            currentEditingRules.splice(i, 1);
+            renderDropRuleEditor();
+        });
+    }
+
+    const btnDropCatalogSearch = document.getElementById('btnDropCatalogSearch');
+    if (btnDropCatalogSearch) {
+        btnDropCatalogSearch.addEventListener('click', async function () {
+            const q = ((document.getElementById('dropCatalogQuery') || {}).value || '').trim();
+            const box = document.getElementById('dropCatalogResults');
+            if (!q || !box) return;
+            const resp = await fetch('./api.php?action=db_catalog_search&q=' + encodeURIComponent(q), { cache: 'no-store' });
+            const data = await resp.json();
+            box.style.display = 'block';
+            const mons = (data.monsters || []).slice(0, 8).map(function (m) {
+                return '<div>👹 <a href="#" data-pick-cd-mon="' + m.id + '" data-pick-cd-mname="' + esc(m.name) + '" style="color:var(--gold);">' + esc(m.name) + ' (#' + m.id + ' Lv.' + m.level + ')</a></div>';
+            }).join('');
+            const items = (data.items || []).slice(0, 10).map(function (it) {
+                return '<div>🗡️ <a href="#" data-pick-cd-item="' + it.id + '" style="color:#60a5fa;">' + esc(it.name) + ' (#' + it.id + ')</a></div>';
+            }).join('');
+            box.innerHTML = (mons + items) || '<span class="control-hint">لا توجد نتائج مطابقة.</span>';
+        });
+    }
+
+    const dropCatalogResults = document.getElementById('dropCatalogResults');
+    if (dropCatalogResults) {
+        dropCatalogResults.addEventListener('click', function (e) {
+            const monLink = e.target.closest('[data-pick-cd-mon]');
+            if (monLink) {
+                e.preventDefault();
+                document.getElementById('cdMonsterType').value = monLink.getAttribute('data-pick-cd-mon');
+                document.getElementById('cdMonsterName').value = monLink.getAttribute('data-pick-cd-mname');
+                return;
+            }
+            const itemLink = e.target.closest('[data-pick-cd-item]');
+            if (itemLink) {
+                e.preventDefault();
+                syncDropRulesFromDom();
+                if (currentEditingRules.length > 0) {
+                    currentEditingRules[currentEditingRules.length - 1].ItemType = parseInt(itemLink.getAttribute('data-pick-cd-item'), 10);
+                    renderDropRuleEditor();
+                }
+            }
+        });
+    }
+
+    const btnSaveCustomDropProfile = document.getElementById('btnSaveCustomDropProfile');
+    if (btnSaveCustomDropProfile) {
+        btnSaveCustomDropProfile.addEventListener('click', async function () {
+            syncDropRulesFromDom();
+            const payload = {
+                monster_type: parseInt(((document.getElementById('cdMonsterType') || {}).value || '0'), 10),
+                monster_name: ((document.getElementById('cdMonsterName') || {}).value || '').trim(),
+                mode: ((document.getElementById('cdDropMode') || {}).value || 'additional'),
+                enabled: !!((document.getElementById('cdProfileEnabled') || {}).checked),
+                rules: currentEditingRules.map(function (r) {
+                    return {
+                        id: r.Id,
+                        item_type: r.ItemType,
+                        chance_percent: r.ChancePercent,
+                        min_count: r.MinCount,
+                        max_count: r.MaxCount,
+                        plus: r.Plus,
+                        sockets: r.Sockets,
+                        bound: r.Bound,
+                        bonus_silver: r.BonusSilver,
+                        bonus_cps: r.BonusCps,
+                        bonus_bound_cps: r.BonusBoundCps,
+                        world_announce: r.WorldAnnounce
+                    };
+                })
+            };
+            const res = await apiPost('custom_drop_save', payload);
+            if (res && res.ok) {
+                showToast('💎 ' + res.message);
+                loadCustomDrops();
+            } else {
+                showToast('⚠️ ' + ((res && res.error) || 'تعذر حفظ الدروب'), true);
+            }
+        });
+    }
+
+    const btnRefreshCustomDrops = document.getElementById('btnRefreshCustomDrops');
+    if (btnRefreshCustomDrops) btnRefreshCustomDrops.addEventListener('click', loadCustomDrops);
+
+    const customDropsTableBody = document.getElementById('customDropsTableBody');
+    if (customDropsTableBody) {
+        customDropsTableBody.addEventListener('click', async function (e) {
+            const editBtn = e.target.closest('[data-edit-cd-idx]');
+            if (editBtn) {
+                const p = customDropProfiles[parseInt(editBtn.getAttribute('data-edit-cd-idx'), 10)];
+                if (!p) return;
+                document.getElementById('cdMonsterType').value = p.MonsterType;
+                document.getElementById('cdMonsterName').value = p.MonsterName;
+                document.getElementById('cdDropMode').value = p.Mode || 'additional';
+                document.getElementById('cdProfileEnabled').checked = !!p.Enabled;
+                currentEditingRules = JSON.parse(JSON.stringify(p.Rules || []));
+                renderDropRuleEditor();
+                showToast('تم تحميل قواعد [' + p.MonsterName + '] للتعديل.');
+                return;
+            }
+            const delBtn = e.target.closest('[data-del-cd-mon]');
+            if (delBtn) {
+                const monType = parseInt(delBtn.getAttribute('data-del-cd-mon'), 10);
+                if (!window.confirm('حذف الدروب المخصص للوحش #' + monType + ' والعودة للدروب الرسمي؟')) return;
+                const res = await apiPost('custom_drop_delete', { monster_type: monType });
+                if (res && res.ok) {
+                    showToast('✅ ' + res.message);
+                    loadCustomDrops();
+                }
+            }
+        });
+    }
+
+    // =========================================================================
+    // TOOL #10: 1-CLICK BACKUP VAULT & LIVE ECONOMY RADAR
+    // =========================================================================
+    async function loadEconomyRadar() {
+        try {
+            const resp = await fetch('./api.php?action=economy_radar', { cache: 'no-store' });
+            const data = await resp.json();
+            if (!data.ok) {
+                showToast('⚠️ ' + (data.error || 'تعذر قراءة رادار الاقتصاد'), true);
+                return;
+            }
+            const s = data.metrics || {};
+            const setTxt = function (id, v) { const el = document.getElementById(id); if (el) el.textContent = v; };
+            setTxt('econAccountsChars', Number(s.total_accounts || 0).toLocaleString('en-US') + ' / ' + Number(s.total_chars || 0).toLocaleString('en-US'));
+            setTxt('econBannedSub', 'المحظورون: ' + Number(s.banned_accounts || 0).toLocaleString('en-US') + ' | المتصلون: ' + Number(s.online_now || 0));
+            setTxt('econTotalCps', Number(s.total_cps || 0).toLocaleString('en-US'));
+            setTxt('econTotalBoundCps', 'Bound CPs: ' + Number(s.total_bound_cps || 0).toLocaleString('en-US'));
+            setTxt('econTotalSilver', Number(s.total_silver || 0).toLocaleString('en-US'));
+            setTxt('econDbsMeteors', Number(s.dragonballs || 0).toLocaleString('en-US') + ' DB');
+            setTxt('econMeteorsSub', 'Meteors: ' + Number(s.meteors || 0).toLocaleString('en-US'));
+            setTxt('econRareGear', Number(s.plus12_items || 0) + ' (+12)');
+            setTxt('econSuperSub', '2-Soc: ' + (s.two_socket_items || 0) + ' | إجمالي القطع: ' + Number(s.total_items || 0).toLocaleString('en-US'));
+
+            renderBackupsTable(data.backups || []);
+            renderRichestPlayersTable(data.richest || []);
+        } catch (err) {}
+    }
+
+    function renderBackupsTable(files) {
+        const tbody = document.getElementById('backupsTableBody');
+        if (!tbody) return;
+        if (!files.length) {
+            tbody.innerHTML = '<tr><td colspan="4" style="text-align:center; color:var(--text-muted);">لا توجد نسخ محفوظة بعد — اضغط "نسخ احتياطي شامل الآن".</td></tr>';
+            return;
+        }
+        tbody.innerHTML = files.map(function (f) {
+            const fname = f.file || f.name || '';
+            return (
+                '<tr>' +
+                    '<td style="direction:ltr; font-size:0.80rem;"><code>' + esc(fname) + '</code></td>' +
+                    '<td><strong>' + esc(f.size_human || ((f.size_kb || 0) + ' KB')) + '</strong></td>' +
+                    '<td style="direction:ltr; font-size:0.78rem;">' + esc(f.created_at) + '</td>' +
+                    '<td style="display:flex; gap:5px;">' +
+                        '<a class="btn btn-ghost btn-sm" href="./api.php?action=backup_download&file=' + encodeURIComponent(fname) + '">⬇️ تحميل</a>' +
+                        '<button type="button" class="btn btn-crimson btn-sm" data-del-backup="' + esc(fname) + '">🗑️</button>' +
+                    '</td>' +
+                '</tr>'
+            );
+        }).join('');
+    }
+
+    function renderRichestPlayersTable(rows) {
+        const tbody = document.getElementById('richestPlayersTableBody');
+        if (!tbody) return;
+        if (!rows.length) {
+            tbody.innerHTML = '<tr><td colspan="6" style="text-align:center; color:var(--text-muted);">لا توجد شخصيات مسجلة بعد.</td></tr>';
+            return;
+        }
+        tbody.innerHTML = rows.map(function (r) {
+            const totalSilv = Number(r.total_silver ?? (Number(r.money || 0) + Number(r.money_saved || 0)));
+            const pid = r.id || r.identity;
+            return (
+                '<tr>' +
+                    '<td><strong>' + esc(r.name) + '</strong></td>' +
+                    '<td>Lv.' + r.level + ' (' + r.metempsychosis + 'RB)</td>' +
+                    '<td><strong>' + Number(r.emoney || 0).toLocaleString('en-US') + '</strong></td>' +
+                    '<td>' + Number(r.emoney_mono || 0).toLocaleString('en-US') + '</td>' +
+                    '<td>' + totalSilv.toLocaleString('en-US') + '</td>' +
+                    '<td><button type="button" class="btn btn-ghost btn-sm" data-quick-inspect="' + pid + '">🎒 فحص</button></td>' +
+                '</tr>'
+            );
+        }).join('');
+    }
+
+    document.querySelectorAll('[data-run-backup]').forEach(function (btn) {
+        btn.addEventListener('click', async function () {
+            const scope = btn.getAttribute('data-run-backup') || 'both';
+            btn.disabled = true;
+            showToast('⏳ جاري أخذ وضغط النسخة الاحتياطية لـ MariaDB...');
+            try {
+                const res = await apiPost('backup_create', { scope: scope });
+                if (res && res.ok) {
+                    showToast('💾 ' + res.message);
+                    loadEconomyRadar();
+                } else {
+                    showToast('⚠️ ' + ((res && res.error) || 'تعذر إنشاء النسخة الاحتياطية'), true);
+                }
+            } finally {
+                btn.disabled = false;
+            }
+        });
+    });
+
+    const btnRefreshEconomy = document.getElementById('btnRefreshEconomy');
+    if (btnRefreshEconomy) btnRefreshEconomy.addEventListener('click', loadEconomyRadar);
+
+    const backupsTableBody = document.getElementById('backupsTableBody');
+    if (backupsTableBody) {
+        backupsTableBody.addEventListener('click', async function (e) {
+            const delBtn = e.target.closest('[data-del-backup]');
+            if (!delBtn) return;
+            const fname = delBtn.getAttribute('data-del-backup');
+            if (!window.confirm('حذف النسخة الاحتياطية [' + fname + ']؟')) return;
+            const res = await apiPost('backup_delete', { file: fname });
+            if (res && res.ok) {
+                showToast('🗑️ ' + res.message);
+                loadEconomyRadar();
+            }
+        });
+    }
+
+    const richestPlayersTableBody = document.getElementById('richestPlayersTableBody');
+    if (richestPlayersTableBody) {
+        richestPlayersTableBody.addEventListener('click', function (e) {
+            const insp = e.target.closest('[data-quick-inspect]');
+            if (insp) openInspectorFor(insp.getAttribute('data-quick-inspect'));
+        });
     }
 
     async function pollStatus() {

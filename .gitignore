@@ -27,6 +27,7 @@ __pycache__/
 موقع السيرفر/cache/*.tmp
 لوحة تحكم السيرفر/config.local.php
 لوحة تحكم السيرفر/studio-state.local.json
+لوحة تحكم السيرفر/backups/
 لوحة تحكم السيرفر/*.tmp
 تشغيل السيرفر/launcher.local.json
 تشغيل السيرفر/*.tmp

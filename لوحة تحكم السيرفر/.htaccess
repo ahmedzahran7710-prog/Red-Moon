@@ -13,7 +13,7 @@ Options -Indexes
     Allow from ::1
 </IfModule>
 
-<FilesMatch "(^config\.|\.json$|\.bat$|\.md$)">
+<FilesMatch "(^config\.|\.json$|\.bat$|\.md$|\.sql$|\.gz$)">
     <IfModule mod_authz_core.c>
         Require all denied
     </IfModule>
@@ -25,5 +25,5 @@ Options -Indexes
 
 <IfModule mod_rewrite.c>
     RewriteEngine On
-    RewriteRule ^includes/ - [F,L]
+    RewriteRule ^(includes|backups)/ - [F,L]
 </IfModule>

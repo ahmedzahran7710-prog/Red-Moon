@@ -16,6 +16,26 @@ if (!mq_is_authenticated()) {
 
 $action = (string)($_GET['action'] ?? $_POST['action'] ?? 'status');
 
+if ($action === 'backup_download') {
+    $fname = basename(trim((string)($_GET['file'] ?? '')));
+    if (!mq_is_valid_backup_filename($fname)) {
+        http_response_code(400);
+        echo json_encode(['ok' => false, 'error' => 'اسم ملف غير صالح.'], JSON_UNESCAPED_UNICODE);
+        exit;
+    }
+    $full = mq_backups_dir() . DIRECTORY_SEPARATOR . $fname;
+    if (!is_file($full)) {
+        http_response_code(404);
+        echo json_encode(['ok' => false, 'error' => 'الملف غير موجود.'], JSON_UNESCAPED_UNICODE);
+        exit;
+    }
+    header('Content-Type: application/octet-stream');
+    header('Content-Disposition: attachment; filename="' . $fname . '"');
+    header('Content-Length: ' . (string)filesize($full));
+    readfile($full);
+    exit;
+}
+
 if ($action === 'status') {
     echo json_encode([
         'ok' => true,
@@ -34,10 +54,68 @@ if ($action === 'shops') {
 }
 
 if ($action === 'search_results') {
+    $snap = mq_read_search_snapshot();
+    $q = trim((string)($_GET['q'] ?? ''));
+    if (empty($snap['items']) && empty($snap['monsters'])) {
+        $dbFallback = mq_direct_db_catalog_search($q);
+        if (!empty($dbFallback['ok'])) {
+            $snap['available'] = true;
+            $snap['items'] = $dbFallback['items'];
+            $snap['monsters'] = $dbFallback['monsters'];
+        }
+    }
     echo json_encode([
         'ok' => true,
-        'search' => mq_read_search_snapshot(),
+        'search' => $snap,
     ], JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
+    exit;
+}
+
+if ($action === 'db_catalog_search') {
+    $q = (string)($_GET['q'] ?? '');
+    echo json_encode(mq_direct_db_catalog_search($q), JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
+    exit;
+}
+
+if ($action === 'accounts_list') {
+    $q = (string)($_GET['q'] ?? '');
+    $filter = (string)($_GET['filter'] ?? 'all');
+    echo json_encode(mq_accounts_search($q, $filter), JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
+    exit;
+}
+
+if ($action === 'promos_list') {
+    echo json_encode([
+        'ok' => true,
+        'promos' => mq_read_promos(),
+    ], JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
+    exit;
+}
+
+if ($action === 'inspect_character') {
+    $q = (string)($_GET['q'] ?? '');
+    echo json_encode(mq_inspect_character($q), JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
+    exit;
+}
+
+if ($action === 'autobroadcast_get') {
+    echo json_encode([
+        'ok' => true,
+        'autobroadcast' => mq_read_autobroadcast(),
+    ], JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
+    exit;
+}
+
+if ($action === 'custom_drops_get') {
+    echo json_encode([
+        'ok' => true,
+        'custom_drops' => mq_read_custom_drops(),
+    ], JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
+    exit;
+}
+
+if ($action === 'economy_radar') {
+    echo json_encode(mq_economy_radar(), JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
     exit;
 }
 
@@ -156,6 +234,111 @@ if ($action === 'set_target_path') {
     exit;
 }
 
+if ($action === 'account_set_flag') {
+    $res = mq_account_set_flag(
+        (int)($payload['account_id'] ?? 0),
+        (int)($payload['flag'] ?? 1),
+        (int)($payload['char_id'] ?? 0)
+    );
+    echo json_encode($res, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
+    exit;
+}
+
+if ($action === 'account_ban_network') {
+    $res = mq_account_ban_network(
+        (string)($payload['ip'] ?? ''),
+        (string)($payload['mac'] ?? '')
+    );
+    echo json_encode($res, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
+    exit;
+}
+
+if ($action === 'account_unstuck') {
+    $res = mq_account_unstuck(
+        (int)($payload['char_id'] ?? 0),
+        mq_clamp_int($payload['map_id'] ?? 1002, 1, 999999, 1002),
+        mq_clamp_int($payload['x'] ?? 430, 1, 2000, 430),
+        mq_clamp_int($payload['y'] ?? 378, 1, 2000, 378)
+    );
+    echo json_encode($res, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
+    exit;
+}
+
+if ($action === 'account_reset_password') {
+    $res = mq_account_reset_password(
+        (int)($payload['account_id'] ?? 0),
+        (string)($payload['new_password'] ?? '')
+    );
+    echo json_encode($res, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
+    exit;
+}
+
+if ($action === 'account_set_authority') {
+    $res = mq_account_set_authority(
+        (int)($payload['account_id'] ?? 0),
+        (int)($payload['authority_id'] ?? 1),
+        (int)($payload['char_id'] ?? 0)
+    );
+    echo json_encode($res, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
+    exit;
+}
+
+if ($action === 'account_create') {
+    $res = mq_account_create(
+        (string)($payload['username'] ?? ''),
+        (string)($payload['password'] ?? ''),
+        (int)($payload['authority_id'] ?? 1)
+    );
+    echo json_encode($res, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
+    exit;
+}
+
+if ($action === 'promo_save') {
+    echo json_encode(mq_save_promo($payload), JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
+    exit;
+}
+
+if ($action === 'promo_action') {
+    echo json_encode(
+        mq_toggle_or_delete_promo((string)($payload['code'] ?? ''), (string)($payload['op'] ?? 'toggle')),
+        JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES
+    );
+    exit;
+}
+
+if ($action === 'inspect_delete_item') {
+    echo json_encode(
+        mq_delete_character_item((int)($payload['player_id'] ?? 0), (int)($payload['item_id'] ?? 0)),
+        JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES
+    );
+    exit;
+}
+
+if ($action === 'autobroadcast_save') {
+    echo json_encode(mq_save_autobroadcast($payload), JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
+    exit;
+}
+
+if ($action === 'custom_drop_save') {
+    echo json_encode(mq_save_custom_drop_profile($payload), JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
+    exit;
+}
+
+if ($action === 'custom_drop_delete') {
+    echo json_encode(mq_delete_custom_drop_profile((int)($payload['monster_type'] ?? 0)), JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
+    exit;
+}
+
+if ($action === 'backup_create') {
+    echo json_encode(mq_create_backup((string)($payload['scope'] ?? 'both')), JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
+    exit;
+}
+
+if ($action === 'backup_delete') {
+    echo json_encode(mq_delete_backup_file((string)($payload['file'] ?? '')), JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
+    exit;
+}
+
 if ($action === 'studio_command') {
     $cmdType = strtolower(trim((string)($payload['type'] ?? '')));
     $allowedTypes = [
@@ -170,6 +353,11 @@ if ($action === 'studio_command') {
         'player_action',
         'boss_spawn',
         'boss_clear',
+        'account_kick',
+        'account_sync_authority',
+        'player_inspect',
+        'player_delete_item',
+        'broadcast_now',
     ];
 
     if (!in_array($cmdType, $allowedTypes, true)) {

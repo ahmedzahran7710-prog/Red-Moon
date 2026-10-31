@@ -2886,12 +2886,12 @@ namespace Canyon.Game.States.User
 
         public bool IsPm()
         {
-            return Name.Contains("[PM]");
+            return Name.Contains("[PM]") || Client?.AuthorityLevel >= 8;
         }
 
         public bool IsGm()
         {
-            return IsPm() || Name.Contains("[GM]");
+            return IsPm() || Name.Contains("[GM]") || Client?.AuthorityLevel >= 7;
         }
 
         public bool DisplayAction { get; set; } = false;
