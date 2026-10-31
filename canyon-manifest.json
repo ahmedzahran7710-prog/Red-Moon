@@ -8,7 +8,7 @@
   "tracked_files": 845,
   "omitted_files": 18,
   "total_upstream_bytes": 53090052,
-  "tracked_bytes": 6337415,
+  "tracked_bytes": 6393292,
   "files": [
     {
       "path": ".editorconfig",
@@ -2294,8 +2294,8 @@
     },
     {
       "path": "src/Canyon.Game/Services/Managers/DynamicGlobalDataManager.cs",
-      "bytes": 14023,
-      "sha256": "be8b3baff3f8a07b4dacfd51cd6a841e77d60ea87f967df06382e10fddec4fb9",
+      "bytes": 48584,
+      "sha256": "e4b3ad907a82917f42dab5c5911c49d6cf0cf9743489d6adfcd39f28297fdccc",
       "tracked": true,
       "upstream_sha256": "17cdc244dac123ec8456fc5c678880605211c37d95c6f6c39edeb22d2a6664c6",
       "upstream_bytes": 4378,
@@ -2303,8 +2303,8 @@
     },
     {
       "path": "src/Canyon.Game/Services/Managers/EventManager.cs",
-      "bytes": 16263,
-      "sha256": "938b767d808a9478af28c6cda6c0d65bcc7eb738d6a20304d29ae89c5f93a300",
+      "bytes": 25458,
+      "sha256": "1601c49741cabc21762a12013043fc09ba68720913d30b18c230b0c40b3c568c",
       "tracked": true,
       "upstream_sha256": "cb96f6004b92e9d6514b3c5bba985091d49bf543fd411ee31973fc808c55ee1d",
       "upstream_bytes": 16263,
@@ -2342,9 +2342,12 @@
     },
     {
       "path": "src/Canyon.Game/Services/Managers/ItemManager.cs",
-      "bytes": 18912,
-      "sha256": "c2b0bc94ceeac88f68303011010027ecd4527ebec16288f0e5fb8588f4844f41",
-      "tracked": true
+      "bytes": 22553,
+      "sha256": "3413bb6b14772475b248e3d13c0c78dd4c22f6e991f7b6dde38b2e4f8cb6c58d",
+      "tracked": true,
+      "upstream_sha256": "c2b0bc94ceeac88f68303011010027ecd4527ebec16288f0e5fb8588f4844f41",
+      "upstream_bytes": 18912,
+      "patched": true
     },
     {
       "path": "src/Canyon.Game/Services/Managers/JiangHuManager.cs",
@@ -2408,8 +2411,8 @@
     },
     {
       "path": "src/Canyon.Game/Services/Managers/RoleManager.cs",
-      "bytes": 17286,
-      "sha256": "93aae53f076a7463a493a06f9a57320355fe7db3f1e2d4adfe551c845f561b6f",
+      "bytes": 17470,
+      "sha256": "b25e78299e20fb5c6e706f5d51cfc7b810a6a8ae0d461611ea751da35fe31c88",
       "tracked": true,
       "upstream_bytes": 17133,
       "upstream_sha256": "6a3722ff0974829f08497550b707547f8c60e2e0c12f2151b9531bc0792d7917",
@@ -3767,9 +3770,12 @@
     },
     {
       "path": "src/Canyon.Game/States/Events/CaptureTheFlag.cs",
-      "bytes": 44010,
-      "sha256": "73004f90c9543bb19dbef4083b25d0bd598e36e9608827f504d16154c9f79e30",
-      "tracked": true
+      "bytes": 44498,
+      "sha256": "bebd100cb171a14823fe5a1b5aefa138fb53683d6b4712b9bb3a985a291a8b81",
+      "tracked": true,
+      "upstream_sha256": "73004f90c9543bb19dbef4083b25d0bd598e36e9608827f504d16154c9f79e30",
+      "upstream_bytes": 44010,
+      "patched": true
     },
     {
       "path": "src/Canyon.Game/States/Events/Elite/ElitePkGroupTournament.cs",
@@ -3788,8 +3794,8 @@
     },
     {
       "path": "src/Canyon.Game/States/Events/Elite/ElitePkTournament.cs",
-      "bytes": 10806,
-      "sha256": "ad32be89f0148dc8cf247f8b33e6bb44f2c19a8208e000cc7e6394ecdfd46646",
+      "bytes": 10973,
+      "sha256": "783259a98facdfc864748f9315c544054977dd673354209d1a248467acda6198",
       "tracked": true,
       "upstream_bytes": 10440,
       "upstream_sha256": "7dd2e48488311598080f7e33454e9f48376b96fb3a300c84c0fdac017e3a551b",
@@ -3797,9 +3803,12 @@
     },
     {
       "path": "src/Canyon.Game/States/Events/FamilyWar.cs",
-      "bytes": 18891,
-      "sha256": "549675e08fd417d5c86780c6152803d7ff90f2bf7d99a0de9449e3b2569bec91",
-      "tracked": true
+      "bytes": 20967,
+      "sha256": "8d50f1915c6846ff54b87da51386e4c1fd99d72f37cd7fdafd293b6e77ebffc3",
+      "tracked": true,
+      "upstream_sha256": "549675e08fd417d5c86780c6152803d7ff90f2bf7d99a0de9449e3b2569bec91",
+      "upstream_bytes": 18891,
+      "patched": true
     },
     {
       "path": "src/Canyon.Game/States/Events/GameEvent.cs",
@@ -3839,15 +3848,21 @@
     },
     {
       "path": "src/Canyon.Game/States/Events/LineSkillPK.cs",
-      "bytes": 12329,
-      "sha256": "7cc42be7344f0aac4c5a98655622c6a5d0ff9d6aa4c48335727c54785c30ee46",
-      "tracked": true
+      "bytes": 13201,
+      "sha256": "97ca4f15e8f844458e3acb70e3d2c2926b37cfec71c2a8274718c2c42e3e6b97",
+      "tracked": true,
+      "upstream_sha256": "7cc42be7344f0aac4c5a98655622c6a5d0ff9d6aa4c48335727c54785c30ee46",
+      "upstream_bytes": 12329,
+      "patched": true
     },
     {
       "path": "src/Canyon.Game/States/Events/Mount/HorseRacing.cs",
-      "bytes": 16630,
-      "sha256": "3eef5f05ceef22503bdcaad730a6124aa6fb5eebcc0053983461ee0bc31cd3db",
-      "tracked": true
+      "bytes": 17372,
+      "sha256": "f88a862e087a3371b4717d83990e630fddf0456d777b62c182ca70812137a4f1",
+      "tracked": true,
+      "upstream_sha256": "3eef5f05ceef22503bdcaad730a6124aa6fb5eebcc0053983461ee0bc31cd3db",
+      "upstream_bytes": 16630,
+      "patched": true
     },
     {
       "path": "src/Canyon.Game/States/Events/Qualifier/ArenicInformation.cs",
@@ -3902,9 +3917,12 @@
     },
     {
       "path": "src/Canyon.Game/States/Events/QuizShow.cs",
-      "bytes": 14813,
-      "sha256": "8a2cad0c9ae0eb2db5bf8eacde8f3dac1731e7986bdc694483dbb495542579b8",
-      "tracked": true
+      "bytes": 17155,
+      "sha256": "53c0d67a69c06aaac7703a260a8e6d342501a265b6b8026ce5a421a4e7f363bc",
+      "tracked": true,
+      "upstream_sha256": "8a2cad0c9ae0eb2db5bf8eacde8f3dac1731e7986bdc694483dbb495542579b8",
+      "upstream_bytes": 14813,
+      "patched": true
     },
     {
       "path": "src/Canyon.Game/States/Events/SyndicateGameEvent.cs",
@@ -4157,9 +4175,12 @@
     },
     {
       "path": "src/Canyon.Game/States/NPCs/DynamicNpc.cs",
-      "bytes": 15733,
-      "sha256": "65e68801e6a56328113af3bdf36ade5bb0b6aa34eba3c501ee2a225fa825ff35",
-      "tracked": true
+      "bytes": 17342,
+      "sha256": "1eeaab276d77e66526aeeb9e0f05ba9acc76b406e0f066b4f7b0c3605f9c7d1d",
+      "tracked": true,
+      "upstream_sha256": "65e68801e6a56328113af3bdf36ade5bb0b6aa34eba3c501ee2a225fa825ff35",
+      "upstream_bytes": 15733,
+      "patched": true
     },
     {
       "path": "src/Canyon.Game/States/NPCs/Npc.cs",

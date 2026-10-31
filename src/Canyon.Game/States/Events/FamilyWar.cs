@@ -40,6 +40,7 @@ namespace Canyon.Game.States.Events
 
         private int lastUpdate;
         private FamilyWarStage stage = FamilyWarStage.Idle;
+        private DateTime? manualEndTime;
 
         //private const int ChallengeTime = 6;
         private const int TakeRewardTime = 6;
@@ -59,17 +60,72 @@ namespace Canyon.Game.States.Events
 
         #region Override
 
-        public override bool IsInTime => uint.Parse(DateTime.Now.ToString("HHmmss")) >= 203000
-                                         && uint.Parse(DateTime.Now.ToString("HHmmss")) < 210000;
+        public override bool IsActive => stage == FamilyWarStage.Running
+                                         || (manualEndTime.HasValue && DateTime.Now < manualEndTime.Value);
+
+        public override bool IsInTime => (manualEndTime.HasValue && DateTime.Now < manualEndTime.Value)
+                                         || (uint.Parse(DateTime.Now.ToString("HHmmss")) >= 203000
+                                             && uint.Parse(DateTime.Now.ToString("HHmmss")) < 210000);
 
         public override bool IsAllowedToJoin(Role sender)
         {
-            return uint.Parse(DateTime.Now.ToString("HHmmss")) >= 203000
-                   && uint.Parse(DateTime.Now.ToString("HHmmss")) < 203500;
+            return (manualEndTime.HasValue && DateTime.Now < manualEndTime.Value)
+                   || (uint.Parse(DateTime.Now.ToString("HHmmss")) >= 203000
+                       && uint.Parse(DateTime.Now.ToString("HHmmss")) < 203500);
+        }
+
+        public async Task<bool> ForceStartAsync(int durationMinutes = 30)
+        {
+            manualEndTime = DateTime.Now.AddMinutes(Math.Clamp(durationMinutes, 5, 180));
+            stage = FamilyWarStage.Running;
+            Stage = EventStage.Running;
+
+            foreach (var npc in familyWarNpcs.Values)
+            {
+                Family owner = GetFamilyOwner(npc.Identity);
+                foreach (Family challenger in GetChallengersByNpc(npc.Identity))
+                {
+                    await challenger.SendAsync(new MsgFamilyOccupy
+                    {
+                        Action = MsgFamilyOccupy.FamilyPromptType.AnnounceWarBegin
+                    });
+                }
+
+                if (owner != null)
+                {
+                    await owner.SendAsync(new MsgFamilyOccupy
+                    {
+                        Action = MsgFamilyOccupy.FamilyPromptType.AnnounceWarBegin
+                    });
+                }
+            }
+            return true;
+        }
+
+        public async Task<bool> ForceStopAsync()
+        {
+            manualEndTime = null;
+            stage = FamilyWarStage.Idle;
+            Stage = EventStage.Idle;
+            foreach (Family family in FamilyManager.QueryFamilies(x => x.Challenge != 0))
+            {
+                family.Challenge = 0;
+                await family.SaveAsync();
+            }
+            return true;
         }
 
         public override async Task OnTimerAsync()
         {
+            if (manualEndTime.HasValue)
+            {
+                if (DateTime.Now >= manualEndTime.Value)
+                {
+                    await ForceStopAsync();
+                }
+                return;
+            }
+
             int now = int.Parse(DateTime.Now.ToString("yyyyMMdd"));
             int time = int.Parse(DateTime.Now.ToString("HHmm"));
             if (stage == FamilyWarStage.Idle)

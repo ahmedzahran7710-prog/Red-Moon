@@ -240,16 +240,6 @@ namespace Canyon.Game.States.Events.Elite
             await StartAsync();
         }
 
-        public async Task StartAsync()
-        {
-            logger.LogWarning("CMD Starting event");
-            foreach (var group in groups)
-            {
-                await group.StartupAsync();
-            }
-            Stage = EventStage.Running;
-        }
-
         public async Task StepAsync(int group)
         {
             if (group < 0 || group > 3)
@@ -261,13 +251,29 @@ namespace Canyon.Game.States.Events.Elite
             await groups[group].DebugStepAsync();
         }
 
-        public async Task StopAsync()
-        {
-            logger.LogWarning("CMD Stopping event");
+#endif
 
+        public async Task StartAsync()
+        {
+            if (Stage == EventStage.Running)
+            {
+                return;
+            }
+
+            logger.LogWarning("CMD Starting event");
+            foreach (var group in groups)
+            {
+                await group.StartupAsync();
+            }
+            Stage = EventStage.Running;
         }
 
-#endif
+        public Task StopAsync()
+        {
+            logger.LogWarning("CMD Stopping event");
+            Stage = EventStage.Idle;
+            return Task.CompletedTask;
+        }
 
         public bool IsAllowedToJoin(Character user, int groupIndex)
         {

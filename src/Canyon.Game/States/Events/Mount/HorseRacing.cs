@@ -199,6 +199,33 @@ namespace Canyon.Game.States.Events.Mount
             await fence.ChangePosAsync(idMap, x, y);
         }
 
+        public async Task<bool> ForceStartAsync()
+        {
+            uint mapId = (uint)(horseRacingClerk?.Data0 ?? MAP_IDENTITY);
+            if (mapId == 0)
+            {
+                mapId = MAP_IDENTITY;
+            }
+            await PrepareStartupAsync(mapId);
+            return true;
+        }
+
+        public Task<bool> ForceStopAsync()
+        {
+            if (Stage == EventStage.Running)
+            {
+                endRaceTimeOut.Clear();
+                Stage = EventStage.Ending;
+            }
+            else
+            {
+                preparationTimeout.Clear();
+                startUpTimeOut.Clear();
+                Stage = EventStage.Idle;
+            }
+            return Task.FromResult(true);
+        }
+
         public async Task PrepareStartupAsync(uint mapId)
         {
             GameMap map = MapManager.GetMap(mapId);

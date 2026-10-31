@@ -25,6 +25,22 @@ if ($action === 'status') {
     exit;
 }
 
+if ($action === 'shops') {
+    echo json_encode([
+        'ok' => true,
+        'shops_data' => mq_read_shops_snapshot(),
+    ], JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
+    exit;
+}
+
+if ($action === 'search_results') {
+    echo json_encode([
+        'ok' => true,
+        'search' => mq_read_search_snapshot(),
+    ], JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
+    exit;
+}
+
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     http_response_code(405);
     echo json_encode(['ok' => false, 'error' => 'Method Not Allowed'], JSON_UNESCAPED_UNICODE);
@@ -117,7 +133,6 @@ if ($action === 'reload_actions') {
 if ($action === 'set_target_path') {
     $customPath = trim((string)($payload['custom_rates_path'] ?? ''));
     if ($customPath !== '') {
-        // Basic sanity check: prevent traversal to unexpected extensions
         if (is_dir($customPath)) {
             $customPath = rtrim($customPath, "\\/") . DIRECTORY_SEPARATOR . 'MoonQueen.Rates.json';
         } elseif (!preg_match('/MoonQueen\.Rates\.json$/i', $customPath)) {
@@ -137,6 +152,81 @@ if ($action === 'set_target_path') {
             : 'تم ربط اللوحة بالمسار المخصص بنجاح!',
         'status' => mq_read_server_status(),
         'saved_rates' => mq_read_rates(),
+    ], JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
+    exit;
+}
+
+if ($action === 'studio_command') {
+    $cmdType = strtolower(trim((string)($payload['type'] ?? '')));
+    $allowedTypes = [
+        'event_control',
+        'shop_reload',
+        'shop_upsert',
+        'shop_delete',
+        'item_update_price',
+        'catalog_search',
+        'player_reward',
+        'reward_all_online',
+        'player_action',
+        'boss_spawn',
+        'boss_clear',
+    ];
+
+    if (!in_array($cmdType, $allowedTypes, true)) {
+        http_response_code(400);
+        echo json_encode(['ok' => false, 'error' => 'نوع الأمر غير مدعوم: ' . $cmdType], JSON_UNESCAPED_UNICODE);
+        exit;
+    }
+
+    $cmd = [
+        'Type' => $cmdType,
+        'EventKey' => mb_substr(trim((string)($payload['event_key'] ?? '')), 0, 40, 'UTF-8'),
+        'Action' => mb_substr(trim((string)($payload['sub_action'] ?? '')), 0, 32, 'UTF-8'),
+        'DurationMinutes' => mq_clamp_int($payload['duration_minutes'] ?? 60, 5, 360, 60),
+        'Broadcast' => !empty($payload['broadcast']),
+        'NpcId' => mq_clamp_int($payload['npc_id'] ?? 0, 0, 2000000000, 0),
+        'GoodsId' => mq_clamp_int($payload['goods_id'] ?? 0, 0, 2000000000, 0),
+        'ItemType' => mq_clamp_int($payload['item_type'] ?? 0, 0, 2000000000, 0),
+        'MoneyType' => mq_clamp_int($payload['money_type'] ?? 0, 0, 5, 0),
+        'SilverPrice' => isset($payload['silver_price']) && $payload['silver_price'] !== '' ? mq_clamp_int($payload['silver_price'], 0, 2000000000, -1) : -1,
+        'CpPrice' => isset($payload['cp_price']) && $payload['cp_price'] !== '' ? mq_clamp_int($payload['cp_price'], 0, 2000000000, -1) : -1,
+        'BoundCpPrice' => isset($payload['bound_cp_price']) && $payload['bound_cp_price'] !== '' ? mq_clamp_int($payload['bound_cp_price'], 0, 2000000000, -1) : -1,
+        'HonorPrice' => isset($payload['honor_price']) && $payload['honor_price'] !== '' ? mq_clamp_int($payload['honor_price'], 0, 2000000000, -1) : -1,
+        'RidingPrice' => isset($payload['riding_price']) && $payload['riding_price'] !== '' ? mq_clamp_int($payload['riding_price'], 0, 2000000000, -1) : -1,
+        'PlayerId' => mq_clamp_int($payload['player_id'] ?? 0, 0, 2000000000, 0),
+        'PlayerName' => mb_substr(trim((string)($payload['player_name'] ?? '')), 0, 32, 'UTF-8'),
+        'SilverAmount' => mq_clamp_int($payload['silver_amount'] ?? 0, 0, 2000000000, 0),
+        'CpAmount' => mq_clamp_int($payload['cp_amount'] ?? 0, 0, 100000000, 0),
+        'BoundCpAmount' => mq_clamp_int($payload['bound_cp_amount'] ?? 0, 0, 100000000, 0),
+        'BlessingHours' => mq_clamp_int($payload['blessing_hours'] ?? 0, 0, 8760, 0),
+        'VipLevel' => isset($payload['vip_level']) && $payload['vip_level'] !== '' && (int)$payload['vip_level'] >= 0
+            ? mq_clamp_int($payload['vip_level'], 0, 6, -1)
+            : -1,
+        'ItemAmount' => mq_clamp_int($payload['item_amount'] ?? 1, 1, 20, 1),
+        'Plus' => mq_clamp_int($payload['plus'] ?? 0, 0, 12, 0),
+        'Bless' => mq_clamp_int($payload['bless'] ?? 0, 0, 7, 0),
+        'Enchant' => mq_clamp_int($payload['enchant'] ?? 0, 0, 255, 0),
+        'SocketOne' => mq_clamp_int($payload['socket_one'] ?? 0, 0, 255, 0),
+        'SocketTwo' => mq_clamp_int($payload['socket_two'] ?? 0, 0, 255, 0),
+        'Bound' => !empty($payload['bound']),
+        'Message' => mb_substr(trim((string)($payload['message'] ?? '')), 0, 180, 'UTF-8'),
+        'MapId' => mq_clamp_int($payload['map_id'] ?? 0, 0, 2000000000, 0),
+        'X' => mq_clamp_int($payload['x'] ?? 0, 0, 2000, 0),
+        'Y' => mq_clamp_int($payload['y'] ?? 0, 0, 2000, 0),
+        'MonsterType' => mq_clamp_int($payload['monster_type'] ?? 0, 0, 2000000000, 0),
+        'Count' => mq_clamp_int($payload['count'] ?? 1, 1, 25, 1),
+        'ScatterRadius' => mq_clamp_int($payload['scatter_radius'] ?? 3, 0, 25, 3),
+        'RoleId' => mq_clamp_int($payload['role_id'] ?? 0, 0, 2000000000, 0),
+        'Query' => mb_substr(trim((string)($payload['query'] ?? '')), 0, 60, 'UTF-8'),
+    ];
+
+    $queued = mq_enqueue_studio_command($cmd);
+    echo json_encode([
+        'ok' => $queued['ok'],
+        'cmd_id' => $queued['cmd_id'],
+        'message' => $queued['ok']
+            ? '⚡ تم إرسال الأمر الفوري إلى MoonQueen.Game — جاري التنفيذ خلال أقل من ثانية!'
+            : ($queued['error'] ?? 'تعذر إرسال الأمر.'),
     ], JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
     exit;
 }

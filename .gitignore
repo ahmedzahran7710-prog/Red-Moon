@@ -19,6 +19,8 @@ __pycache__/
 *.Config.local.json
 **/MoonQueen.Rates.json
 **/MoonQueen.Rates.status.json
+**/MoonQueen.Shops.snapshot.json
+**/MoonQueen.Studio.*.json
 !لوحة تحكم السيرفر/MoonQueen.Rates.example.json
 موقع السيرفر/config.local.php
 موقع السيرفر/cache/*.json

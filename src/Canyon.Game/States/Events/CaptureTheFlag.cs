@@ -320,6 +320,23 @@ namespace Canyon.Game.States.Events
             }
         }
 
+        public async Task<bool> ForceStartAsync(int durationMinutes = 60)
+        {
+            await PrepareEventAsync();
+            endTime = DateTime.Now.AddMinutes(Math.Clamp(durationMinutes, 5, 360));
+            return true;
+        }
+
+        public async Task<bool> ForceStopAsync()
+        {
+            if (Stage != EventStage.Idle)
+            {
+                Stage = EventStage.Idle;
+                await EndEventAsync();
+            }
+            return true;
+        }
+
         public async Task PrepareEventAsync()
         {
             // clear old meeds history

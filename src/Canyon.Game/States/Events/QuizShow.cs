@@ -47,7 +47,86 @@ namespace Canyon.Game.States.Events
 
         public override EventType Identity => EventType.QuizShow;
 
+        public override bool IsActive => Status == QuizStatus.Running || ready;
+
         public QuizStatus Status { get; private set; } = QuizStatus.Idle;
+
+        public async Task<bool> ForceStartAsync()
+        {
+            if (quizShowNpc == null)
+            {
+                quizShowNpc = RoleManager.GetRole<DynamicNpc>(NPC_ID_U);
+            }
+
+            if (AllQuestions.Count == 0)
+            {
+                AllQuestions.AddRange(await QuizRepository.GetAsync());
+            }
+
+            if (AllQuestions.Count == 0)
+            {
+                return false;
+            }
+
+            Users.Clear();
+            foreach (Character player in RoleManager.QueryRoleByType<Character>())
+            {
+                if (!Users.TryGetValue(player.Identity, out QuizUser user))
+                {
+                    Users.TryAdd(player.Identity, new QuizUser
+                    {
+                        Identity = player.Identity,
+                        Name = player.Name,
+                        TimeTaken = 0
+                    });
+                }
+                else
+                {
+                    user.Points = 0;
+                    user.Canceled = false;
+                    user.TimeTaken = 0;
+                    user.CurrentQuestion = 0;
+                }
+            }
+
+            LoadQuestions();
+            await BroadcastMsgAsync(new MsgQuiz
+            {
+                Action = QuizAction.Start,
+                Param1 = 10,
+                Param2 = MAX_QUESTION,
+                Param3 = TIME_PER_QUESTION,
+                Param4 = ExperienceReward[0],
+                Param5 = ExperienceReward[1],
+                Param6 = ExperienceReward[2]
+            });
+
+            if (quizShowNpc != null)
+            {
+                quizShowNpc.Data0 = 4;
+            }
+
+            Status = QuizStatus.Running;
+            Stage = EventStage.Running;
+            ready = true;
+            currentQuestionIndex = -1;
+            questionTimer.Startup(10);
+            return true;
+        }
+
+        public Task<bool> ForceStopAsync()
+        {
+            Status = QuizStatus.Idle;
+            Stage = EventStage.Idle;
+            ready = false;
+            if (quizShowNpc != null)
+            {
+                quizShowNpc.Data0 = 0;
+            }
+            Users.Clear();
+            CurrentQuestions.Clear();
+            return Task.FromResult(true);
+        }
 
         public override async Task<bool> CreateAsync()
         {
