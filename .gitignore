@@ -28,6 +28,8 @@ __pycache__/
 لوحة تحكم السيرفر/config.local.php
 لوحة تحكم السيرفر/studio-state.local.json
 لوحة تحكم السيرفر/*.tmp
+تشغيل السيرفر/launcher.local.json
+تشغيل السيرفر/*.tmp
 **/Properties/launchSettings.json
 compose.debug*.yml
 .env

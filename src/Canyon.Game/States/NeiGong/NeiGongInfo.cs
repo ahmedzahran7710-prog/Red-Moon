@@ -7,13 +7,25 @@ namespace Canyon.Game.States.NeiGong
     {
         private List<StrengthType> secretTypes = new();
 
+        private static readonly ILogger logger = LogFactory.CreateLogger<NeiGongInfo>();
+
         public NeiGongInfo()
         {
+            string iniPath = Path.Combine(Environment.CurrentDirectory, "ini", "NeiGongInfo.ini");
+            if (!File.Exists(iniPath))
+            {
+                logger.LogWarning("Client file ini/NeiGongInfo.ini not found at {Path}; ensure the V6192 client 'ini' folder is copied into {Dir}.", iniPath, Environment.CurrentDirectory);
+                return;
+            }
+
             var configuration = new ConfigurationBuilder()
-                .AddIniFile(Path.Combine(Environment.CurrentDirectory, "ini", "NeiGongInfo.ini"))
+                .AddIniFile(iniPath, optional: true)
                 .Build();
 
-            int neiGongCount = int.Parse(configuration["NeiGong:Num"]);
+            if (!int.TryParse(configuration["NeiGong:Num"], out int neiGongCount) || neiGongCount <= 0)
+            {
+                return;
+            }
             for (int i = 1; i <= neiGongCount; i++)
             {
                 int neiGongId = int.Parse(configuration[$"{i}:id"]);

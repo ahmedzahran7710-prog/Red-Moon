@@ -38,3 +38,6 @@ RequiredAssetsForRun/** -text -whitespace
 "/لوحة تحكم السيرفر/**/*.json" text eol=lf
 "/لوحة تحكم السيرفر/.htaccess" text eol=lf
 "/لوحة تحكم السيرفر/*.bat" text eol=crlf
+"/تشغيل السيرفر/*.ps1" -text -whitespace
+"/تشغيل السيرفر/*.bat" text eol=crlf
+"/تشغيل السيرفر/*.md" text eol=lf

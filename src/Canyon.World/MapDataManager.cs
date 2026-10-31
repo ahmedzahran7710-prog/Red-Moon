@@ -16,7 +16,14 @@ namespace Canyon.World
 
         public static async Task LoadDataAsync()
         {
-            FileStream stream = File.OpenRead(Path.Combine(Environment.CurrentDirectory, "ini", "GameMap.dat"));
+            string gameMapPath = Path.Combine(Environment.CurrentDirectory, "ini", "GameMap.dat");
+            if (!File.Exists(gameMapPath))
+            {
+                logger.LogCritical("Missing required client map index '{Path}'. Copy the V6192 client 'ini' and 'map' folders into '{Dir}'.", gameMapPath, Environment.CurrentDirectory);
+                throw new FileNotFoundException("Missing required client ini/GameMap.dat file.", gameMapPath);
+            }
+
+            FileStream stream = File.OpenRead(gameMapPath);
             var reader = new BinaryReader(stream);
 
             int mapDataCount = reader.ReadInt32();
