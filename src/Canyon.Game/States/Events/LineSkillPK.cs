@@ -27,6 +27,7 @@ namespace Canyon.Game.States.Events
         private ConcurrentDictionary<uint, Participant> participants = new ConcurrentDictionary<uint, Participant>();
         private TimeOutMS updateScreen = new TimeOutMS(RANK_REFRESH_RATE_MS);
         private DateTime eventStartTime = default;
+        private int manualDurationSeconds = EVENT_DURATION_SECONDS;
 
         public LineSkillPK() 
             : base("Line Skill PK Event")
@@ -38,7 +39,7 @@ namespace Canyon.Game.States.Events
         {
             get
             {
-                DateTime endTime = eventStartTime.AddSeconds(EVENT_DURATION_SECONDS);
+                DateTime endTime = eventStartTime.AddSeconds(manualDurationSeconds);
                 if (eventStartTime.Equals(default))
                 {
                     var strNow = "";
@@ -281,18 +282,41 @@ namespace Canyon.Game.States.Events
                     CalculatePoints(user.Attacks, user.AttacksSuccess, user.ReceivedAttacks)), TalkChannel.GuildWarRight2);
             }
 
-            TimeSpan timeSpan = TimeSpan.FromSeconds(EVENT_DURATION_SECONDS);
+            TimeSpan timeSpan = TimeSpan.FromSeconds(manualDurationSeconds);
             await Map.BroadcastMsgAsync($"Remaining time: {timeSpan - (DateTime.Now - eventStartTime):hh\\:mm\\:ss}", TalkChannel.GuildWarRight2).ConfigureAwait(true);
         }
 
         public void ForceStartup()
         {
+            manualDurationSeconds = EVENT_DURATION_SECONDS;
             eventStartTime = DateTime.Now;
+        }
+
+        public void ForceStartup(int durationMinutes)
+        {
+            manualDurationSeconds = Math.Clamp(durationMinutes, 5, 180) * 60;
+            participants.Clear();
+            eventStartTime = DateTime.Now;
+            Stage = EventStage.Running;
+            updateScreen.Startup(RANK_REFRESH_RATE_MS);
         }
 
         public void ForceEnd()
         {
             eventStartTime = default;
+        }
+
+        public void ForceStop()
+        {
+            if (Stage == EventStage.Running)
+            {
+                eventStartTime = DateTime.Now.AddHours(-4);
+            }
+            else
+            {
+                eventStartTime = default;
+                Stage = EventStage.Idle;
+            }
         }
 
         private async Task RewardsAsync()
@@ -302,6 +326,11 @@ namespace Canyon.Game.States.Events
                 var championInfo = participants.Values
                     .Where(x => CalculatePoints(x.Attacks, x.AttacksSuccess, x.ReceivedAttacks) > 0)
                     .OrderByDescending(x => CalculatePoints(x.Attacks, x.AttacksSuccess, x.ReceivedAttacks)).FirstOrDefault();
+
+                if (championInfo == null)
+                {
+                    break;
+                }
 
                 Character user = RoleManager.GetUser(championInfo.Identity);
                 if (user == null)

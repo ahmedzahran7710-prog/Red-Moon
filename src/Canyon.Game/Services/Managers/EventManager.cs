@@ -5,6 +5,7 @@ using Canyon.Database.Entities;
 using Canyon.Game.Database;
 using Canyon.Game.Database.Repositories;
 using Canyon.Game.Scripting;
+using Canyon.Game.Sockets.Game.Packets;
 using Canyon.Game.States;
 using Canyon.Game.States.Events;
 using Canyon.Game.States.Events.Elite;
@@ -102,13 +103,10 @@ public class EventManager
         await RegisterEventAsync(new FamilyWar());
         await RegisterEventAsync(new CaptureTheFlag());
         await RegisterEventAsync(new HorseRacing());
-
-#if DEBUG
         await RegisterEventAsync(new LineSkillPK());
         await RegisterEventAsync(new ArenaQualifier());
         await RegisterEventAsync(new ElitePkTournament());
         await RegisterEventAsync(new TeamArenaQualifier());
-#endif
 
         dailyReset = await DailyResetRepository.GetLatestAsync();
         if (dailyReset != null)
@@ -299,6 +297,196 @@ public class EventManager
     public static T GetEvent<T>() where T : GameEvent
     {
         return events.Values.FirstOrDefault(x => x.GetType() == typeof(T)) as T;
+    }
+
+    public static List<object> GetStudioEventsSnapshot()
+    {
+        var list = new List<object>();
+
+        var synFlags = RoleManager.QueryRoles(r => r is DynamicNpc d && d.IsSynFlag()).Cast<DynamicNpc>().ToList();
+        var mainPole = synFlags.FirstOrDefault(d => d.MapIdentity == 1038) ?? synFlags.FirstOrDefault();
+        bool gwActive = mainPole?.Map?.IsWarTime() == true || (mainPole?.IsManualWarActive == true);
+        list.Add(new
+        {
+            key = "guild_war",
+            name = "Guild War (حرب النقاشات / الجيلد وور)",
+            is_active = gwActive,
+            stage = gwActive ? "Running" : "Idle",
+            map_id = mainPole?.MapIdentity ?? 1038u,
+            owner = mainPole?.Name ?? "None",
+            manual_until = mainPole?.ManualWarEndTime?.ToString("HH:mm:ss") ?? string.Empty
+        });
+
+        void AddEv<T>(string key, string displayName, uint defaultMap) where T : GameEvent
+        {
+            var ev = GetEvent<T>();
+            list.Add(new
+            {
+                key,
+                name = displayName,
+                is_active = ev?.IsActive == true || ev?.Stage == GameEvent.EventStage.Running,
+                stage = ev?.Stage.ToString() ?? "Unregistered",
+                map_id = ev?.Map?.Identity ?? defaultMap,
+                owner = string.Empty,
+                manual_until = string.Empty
+            });
+        }
+
+        AddEv<CaptureTheFlag>("capture_the_flag", "Capture The Flag (حرب الأعلام CTF)", 2057);
+        AddEv<ElitePkTournament>("elite_pk", "Elite PK Tournament (بطولة النخبة)", 2075);
+        AddEv<LineSkillPK>("line_skill_pk", "Skill Team / Line Skill PK (بطولة الفاست بليد والسنت)", 2080);
+        AddEv<FamilyWar>("family_war", "Clan / Family War (حرب العائلات)", 1002);
+        AddEv<QuizShow>("quiz_show", "Quiz Show (مسابقة الأسئلة الذكية)", 1002);
+        AddEv<HorseRacing>("horse_racing", "Horse Racing (سباق الخيول)", 9929);
+        AddEv<ArenaQualifier>("arena_qualifier", "1v1 Arena Qualifier (أرينا الفردي)", 900000);
+        AddEv<TeamArenaQualifier>("team_arena_qualifier", "Team Arena Qualifier (أرينا الفرق)", 910000);
+
+        return list;
+    }
+
+    public static async Task<(bool Ok, string Message)> TriggerStudioEventAsync(string eventKey, string action, int durationMinutes = 60, bool broadcast = true)
+    {
+        bool start = !string.Equals(action, "stop", StringComparison.OrdinalIgnoreCase);
+        string key = (eventKey ?? string.Empty).Trim().ToLowerInvariant();
+        int dur = Math.Clamp(durationMinutes <= 0 ? 60 : durationMinutes, 5, 360);
+
+        switch (key)
+        {
+            case "guild_war":
+            {
+                var poles = RoleManager.QueryRoles(r => r is DynamicNpc d && d.IsSynFlag() && d.MapIdentity == 1038)
+                    .Cast<DynamicNpc>()
+                    .ToList();
+                if (poles.Count == 0)
+                {
+                    poles = RoleManager.QueryRoles(r => r is DynamicNpc d && d.IsSynFlag()).Cast<DynamicNpc>().ToList();
+                }
+                if (poles.Count == 0)
+                {
+                    return (false, "No Guild War SynFlag NPC found on loaded maps.");
+                }
+
+                foreach (var pole in poles)
+                {
+                    if (start)
+                    {
+                        await pole.ForceStartSynWarAsync(dur);
+                    }
+                    else
+                    {
+                        await pole.ForceEndSynWarAsync();
+                    }
+                }
+
+                if (broadcast)
+                {
+                    string msg = start
+                        ? $"[{DeveloperRightsGuard.BrandName}] Guild War is NOW OPEN for {dur} minutes! Gather your Syndicate at Map 1038!"
+                        : $"[{DeveloperRightsGuard.BrandName}] Guild War has ended! Congratulations to the victorious Syndicate!";
+                    await BroadcastWorldMsgAsync(msg, TalkChannel.Center, System.Drawing.Color.Gold);
+                }
+                return (true, start ? $"Guild War started for {dur} min." : "Guild War stopped and winner finalized.");
+            }
+
+            case "capture_the_flag":
+            {
+                var ev = GetEvent<CaptureTheFlag>();
+                if (ev == null) return (false, "CaptureTheFlag is not registered.");
+                if (start) await ev.ForceStartAsync(dur);
+                else await ev.ForceStopAsync();
+                if (broadcast)
+                {
+                    string msg = start
+                        ? $"[{DeveloperRightsGuard.BrandName}] Capture The Flag (CTF) has STARTED for {dur} minutes!"
+                        : $"[{DeveloperRightsGuard.BrandName}] Capture The Flag (CTF) has ended!";
+                    await BroadcastWorldMsgAsync(msg, TalkChannel.Center, System.Drawing.Color.Gold);
+                }
+                return (true, start ? $"Capture The Flag started ({dur} min)." : "Capture The Flag stopped.");
+            }
+
+            case "elite_pk":
+            {
+                var ev = GetEvent<ElitePkTournament>();
+                if (ev == null) return (false, "ElitePkTournament is not registered.");
+                if (start) await ev.StartAsync();
+                else await ev.StopAsync();
+                if (broadcast)
+                {
+                    string msg = start
+                        ? $"[{DeveloperRightsGuard.BrandName}] Elite PK Tournament registration & brackets are NOW OPEN!"
+                        : $"[{DeveloperRightsGuard.BrandName}] Elite PK Tournament has concluded!";
+                    await BroadcastWorldMsgAsync(msg, TalkChannel.Center, System.Drawing.Color.Gold);
+                }
+                return (true, start ? "Elite PK Tournament started." : "Elite PK Tournament stopped.");
+            }
+
+            case "line_skill_pk":
+            {
+                var ev = GetEvent<LineSkillPK>();
+                if (ev == null) return (false, "LineSkillPK is not registered.");
+                if (start) ev.ForceStartup(dur);
+                else ev.ForceStop();
+                if (broadcast)
+                {
+                    string msg = start
+                        ? $"[{DeveloperRightsGuard.BrandName}] Line Skill PK (FastBlade/ScentSword) is NOW OPEN for {dur} minutes!"
+                        : $"[{DeveloperRightsGuard.BrandName}] Line Skill PK is wrapping up and distributing rewards!";
+                    await BroadcastWorldMsgAsync(msg, TalkChannel.Center, System.Drawing.Color.Gold);
+                }
+                return (true, start ? $"Line Skill PK started ({dur} min)." : "Line Skill PK ending & distributing rewards.");
+            }
+
+            case "family_war":
+            {
+                var ev = GetEvent<FamilyWar>();
+                if (ev == null) return (false, "FamilyWar is not registered.");
+                if (start) await ev.ForceStartAsync(dur);
+                else await ev.ForceStopAsync();
+                if (broadcast)
+                {
+                    string msg = start
+                        ? $"[{DeveloperRightsGuard.BrandName}] Clan / Family War is NOW ACTIVE for {dur} minutes!"
+                        : $"[{DeveloperRightsGuard.BrandName}] Clan / Family War has ended!";
+                    await BroadcastWorldMsgAsync(msg, TalkChannel.Center, System.Drawing.Color.Gold);
+                }
+                return (true, start ? $"Family War started ({dur} min)." : "Family War stopped.");
+            }
+
+            case "quiz_show":
+            {
+                var ev = GetEvent<QuizShow>();
+                if (ev == null) return (false, "QuizShow is not registered.");
+                if (start)
+                {
+                    bool ok = await ev.ForceStartAsync();
+                    if (!ok) return (false, "QuizShow could not start (no questions found in cq_quiz).");
+                }
+                else
+                {
+                    await ev.ForceStopAsync();
+                }
+                return (true, start ? "Quiz Show started (10s countdown)." : "Quiz Show stopped.");
+            }
+
+            case "horse_racing":
+            {
+                var ev = GetEvent<HorseRacing>();
+                if (ev == null) return (false, "HorseRacing is not registered.");
+                if (start) await ev.ForceStartAsync();
+                else await ev.ForceStopAsync();
+                if (broadcast)
+                {
+                    string msg = start
+                        ? $"[{DeveloperRightsGuard.BrandName}] Horse Racing preparation has started! Head to the Horse Racing Clerk!"
+                        : $"[{DeveloperRightsGuard.BrandName}] Horse Racing has ended!";
+                    await BroadcastWorldMsgAsync(msg, TalkChannel.Center, System.Drawing.Color.Gold);
+                }
+                return (true, start ? "Horse Racing started." : "Horse Racing stopped.");
+            }
+
+            default:
+                return (false, $"Unsupported event key: {eventKey}");
+        }
     }
 
     public static GameEvent GetEvent(GameEvent.EventType type)

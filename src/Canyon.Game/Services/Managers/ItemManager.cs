@@ -96,6 +96,100 @@ namespace Canyon.Game.Services.Managers
             return itemtypes.TryGetValue(type, out var item) ? item : null;
         }
 
+        public static void UpsertItemtypeInMemory(DbItemtype itemtype)
+        {
+            if (itemtype != null)
+            {
+                itemtypes[itemtype.Type] = itemtype;
+            }
+        }
+
+        public static List<DbItemtype> QueryItemtypes(Func<DbItemtype, bool> predicate)
+        {
+            return itemtypes.Values.Where(predicate).ToList();
+        }
+
+        public static async Task<(int ItemCount, int ShopNpcCount)> ReloadShopsAndPricesAsync()
+        {
+            int updatedItems = 0;
+            foreach (DbItemtype item in await ItemtypeRepository.GetAsync())
+            {
+                itemtypes[item.Type] = item;
+                updatedItems++;
+            }
+
+            int reloadedShops = 0;
+            var npcs = RoleManager.QueryRoles(r => r is Canyon.Game.States.NPCs.BaseNpc).Cast<Canyon.Game.States.NPCs.BaseNpc>().ToList();
+            foreach (var npc in npcs)
+            {
+                if (npc.IsShopNpc() || npc.Identity is 2888 or 6000 or 6001 or 6002 or 6003)
+                {
+                    await npc.InitializeAsync();
+                    reloadedShops++;
+                }
+            }
+
+            return (updatedItems, reloadedShops);
+        }
+
+        public static object BuildShopsSnapshot()
+        {
+            var npcs = RoleManager.QueryRoles(r => r is Canyon.Game.States.NPCs.BaseNpc)
+                .Cast<Canyon.Game.States.NPCs.BaseNpc>()
+                .Where(n => (n.ShopGoods != null && n.ShopGoods.Count > 0) || n.IsShopNpc() || n.Identity is 2888 or 6000 or 6001 or 6002 or 6003)
+                .OrderBy(n => n.Identity)
+                .ToList();
+
+            var shops = new List<object>();
+            foreach (var npc in npcs)
+            {
+                var goodsList = new List<object>();
+                if (npc.ShopGoods != null)
+                {
+                    foreach (var g in npc.ShopGoods.OrderBy(x => x.Identity))
+                    {
+                        var it = GetItemtype(g.Itemtype);
+                        goodsList.Add(new
+                        {
+                            goods_id = g.Identity,
+                            owner_id = g.OwnerIdentity,
+                            itemtype = g.Itemtype,
+                            item_name = it?.Name ?? $"Item #{g.Itemtype}",
+                            req_level = it?.ReqLevel ?? 0,
+                            moneytype = g.Moneytype,
+                            silver_price = it?.Price ?? 0,
+                            cp_price = it?.EmoneyPrice ?? 0,
+                            bound_cp_price = it?.BoundEmoneyPrice ?? 0,
+                            honor_price = g.HonorPrice,
+                            riding_price = g.RidingPrice,
+                            goldenleague_price = g.GoldenLeaguePrice,
+                            monopoly = it?.Monopoly ?? 0
+                        });
+                    }
+                }
+
+                shops.Add(new
+                {
+                    npc_id = npc.Identity,
+                    name = string.IsNullOrWhiteSpace(npc.Name) ? $"Shop #{npc.Identity}" : npc.Name,
+                    map_id = npc.MapIdentity,
+                    x = npc.X,
+                    y = npc.Y,
+                    type = npc.Type,
+                    items_count = goodsList.Count,
+                    items = goodsList
+                });
+            }
+
+            return new
+            {
+                generated_at = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"),
+                total_itemtypes = itemtypes.Count,
+                shops_count = shops.Count,
+                shops
+            };
+        }
+
         public static DbItemAddition GetItemAddition(uint type, byte level)
         {
             return itemAdditions.TryGetValue(AdditionKey(type, level), out var item) ? item : null;

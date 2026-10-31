@@ -375,6 +375,11 @@ namespace Canyon.Game.Services.Managers
             return monsterTypes.TryGetValue(type, out DbMonstertype mob) ? mob : null;
         }
 
+        public static List<DbMonstertype> QueryMonsterTypes(Func<DbMonstertype, bool> predicate)
+        {
+            return monsterTypes.Values.Where(predicate).ToList();
+        }
+
         public static List<DbMonsterTypeMagic> GetMonsterMagics(uint type)
         {
             return monsterMagics.Values.Where(x => x.MonsterType == type).ToList();

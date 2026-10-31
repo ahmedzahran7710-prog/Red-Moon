@@ -196,6 +196,93 @@ function mq_default_rates(): array
     ];
 }
 
+function mq_default_events_catalog(): array
+{
+    return [
+        [
+            'key' => 'guild_war',
+            'name' => 'Guild War (حرب النقاشات / الجيلد وور)',
+            'is_active' => false,
+            'stage' => 'Idle',
+            'map_id' => 1038,
+            'owner' => '—',
+            'manual_until' => '',
+        ],
+        [
+            'key' => 'capture_the_flag',
+            'name' => 'Capture The Flag (حرب الأعلام CTF)',
+            'is_active' => false,
+            'stage' => 'Idle',
+            'map_id' => 2057,
+            'owner' => '',
+            'manual_until' => '',
+        ],
+        [
+            'key' => 'elite_pk',
+            'name' => 'Elite PK Tournament (بطولة النخبة)',
+            'is_active' => false,
+            'stage' => 'Idle',
+            'map_id' => 2075,
+            'owner' => '',
+            'manual_until' => '',
+        ],
+        [
+            'key' => 'line_skill_pk',
+            'name' => 'Skill Team / Line Skill PK (بطولة الفاست بليد والسنت)',
+            'is_active' => false,
+            'stage' => 'Idle',
+            'map_id' => 2080,
+            'owner' => '',
+            'manual_until' => '',
+        ],
+        [
+            'key' => 'family_war',
+            'name' => 'Clan / Family War (حرب العائلات)',
+            'is_active' => false,
+            'stage' => 'Idle',
+            'map_id' => 1002,
+            'owner' => '',
+            'manual_until' => '',
+        ],
+        [
+            'key' => 'quiz_show',
+            'name' => 'Quiz Show (مسابقة الأسئلة الذكية)',
+            'is_active' => false,
+            'stage' => 'Idle',
+            'map_id' => 1002,
+            'owner' => '',
+            'manual_until' => '',
+        ],
+        [
+            'key' => 'horse_racing',
+            'name' => 'Horse Racing (سباق الخيول)',
+            'is_active' => false,
+            'stage' => 'Idle',
+            'map_id' => 9929,
+            'owner' => '',
+            'manual_until' => '',
+        ],
+        [
+            'key' => 'arena_qualifier',
+            'name' => '1v1 Arena Qualifier (أرينا الفردي — مفعّلة في Release)',
+            'is_active' => true,
+            'stage' => 'Running',
+            'map_id' => 900000,
+            'owner' => '',
+            'manual_until' => '',
+        ],
+        [
+            'key' => 'team_arena_qualifier',
+            'name' => 'Team Arena Qualifier (أرينا الفرق — مفعّلة في Release)',
+            'is_active' => true,
+            'stage' => 'Running',
+            'map_id' => 910000,
+            'owner' => '',
+            'manual_until' => '',
+        ],
+    ];
+}
+
 function mq_clamp_float($val, float $min, float $max, float $fallback): float
 {
     if (!is_numeric($val)) {
@@ -322,6 +409,22 @@ function mq_resolve_targets(): array
     ];
 }
 
+function mq_resolve_studio_files(): array
+{
+    $targets = mq_resolve_targets();
+    $primaryRates = $targets['primary'];
+    $baseDir = dirname($primaryRates);
+
+    return [
+        'base_dir' => $baseDir,
+        'rates' => $primaryRates,
+        'status' => $baseDir . DIRECTORY_SEPARATOR . 'MoonQueen.Rates.status.json',
+        'commands' => $baseDir . DIRECTORY_SEPARATOR . 'MoonQueen.Studio.Commands.json',
+        'shops' => $baseDir . DIRECTORY_SEPARATOR . 'MoonQueen.Shops.snapshot.json',
+        'search' => $baseDir . DIRECTORY_SEPARATOR . 'MoonQueen.Studio.Search.json',
+    ];
+}
+
 function mq_read_rates(): array
 {
     $targets = mq_resolve_targets();
@@ -375,6 +478,105 @@ function mq_write_rates_atomic(array $rates): array
     ];
 }
 
+function mq_enqueue_studio_command(array $command): array
+{
+    $files = mq_resolve_studio_files();
+    $cmdPath = $files['commands'];
+    $dir = dirname($cmdPath);
+    if (!is_dir($dir)) {
+        @mkdir($dir, 0775, true);
+    }
+
+    $cmdId = 'cmd_' . (string)round(microtime(true) * 1000) . '_' . bin2hex(random_bytes(3));
+    $command['Id'] = $cmdId;
+
+    $envelope = ['Commands' => []];
+    if (is_file($cmdPath)) {
+        $raw = @file_get_contents($cmdPath);
+        if (is_string($raw) && $raw !== '') {
+            $parsed = json_decode($raw, true);
+            if (is_array($parsed) && isset($parsed['Commands']) && is_array($parsed['Commands'])) {
+                $envelope['Commands'] = array_slice($parsed['Commands'], -25);
+            }
+        }
+    }
+
+    $envelope['Commands'][] = $command;
+    $json = json_encode($envelope, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES) . "\n";
+
+    $tmp = $cmdPath . '.studio.tmp';
+    if (@file_put_contents($tmp, $json, LOCK_EX) === false || !@rename($tmp, $cmdPath)) {
+        @unlink($tmp);
+        return [
+            'ok' => false,
+            'cmd_id' => $cmdId,
+            'error' => 'تعذر كتابة أمر الاستوديو في المسار: ' . $cmdPath,
+        ];
+    }
+
+    return [
+        'ok' => true,
+        'cmd_id' => $cmdId,
+        'path' => $cmdPath,
+    ];
+}
+
+function mq_read_shops_snapshot(): array
+{
+    $files = mq_resolve_studio_files();
+    $path = $files['shops'];
+    if (!is_file($path)) {
+        return [
+            'available' => false,
+            'generated_at' => '—',
+            'total_itemtypes' => 0,
+            'shops_count' => 0,
+            'shops' => [],
+        ];
+    }
+    $raw = @file_get_contents($path);
+    $decoded = is_string($raw) ? json_decode($raw, true) : null;
+    if (!is_array($decoded)) {
+        return [
+            'available' => false,
+            'generated_at' => '—',
+            'total_itemtypes' => 0,
+            'shops_count' => 0,
+            'shops' => [],
+        ];
+    }
+    $decoded['available'] = true;
+    return $decoded;
+}
+
+function mq_read_search_snapshot(): array
+{
+    $files = mq_resolve_studio_files();
+    $path = $files['search'];
+    if (!is_file($path)) {
+        return [
+            'available' => false,
+            'query' => '',
+            'generated_at' => '—',
+            'items' => [],
+            'monsters' => [],
+        ];
+    }
+    $raw = @file_get_contents($path);
+    $decoded = is_string($raw) ? json_decode($raw, true) : null;
+    if (!is_array($decoded)) {
+        return [
+            'available' => false,
+            'query' => '',
+            'generated_at' => '—',
+            'items' => [],
+            'monsters' => [],
+        ];
+    }
+    $decoded['available'] = true;
+    return $decoded;
+}
+
 function mq_read_server_status(): array
 {
     $targets = mq_resolve_targets();
@@ -395,6 +597,10 @@ function mq_read_server_status(): array
         'updated_at' => '—',
         'seconds_since_heartbeat' => null,
         'active_rates' => null,
+        'events' => mq_default_events_catalog(),
+        'online_players_list' => [],
+        'spawned_bosses' => [],
+        'recent_results' => [],
     ];
 
     if (!is_file($statusPath)) {
@@ -421,6 +627,18 @@ function mq_read_server_status(): array
     $result['updated_at'] = (string)($snap['updated_at'] ?? '—');
     $result['seconds_since_heartbeat'] = $age;
     $result['active_rates'] = is_array($snap['active_rates'] ?? null) ? $snap['active_rates'] : null;
+    if (!empty($snap['events']) && is_array($snap['events'])) {
+        $result['events'] = $snap['events'];
+    }
+    if (isset($snap['online_players_list']) && is_array($snap['online_players_list'])) {
+        $result['online_players_list'] = $snap['online_players_list'];
+    }
+    if (isset($snap['spawned_bosses']) && is_array($snap['spawned_bosses'])) {
+        $result['spawned_bosses'] = $snap['spawned_bosses'];
+    }
+    if (isset($snap['recent_results']) && is_array($snap['recent_results'])) {
+        $result['recent_results'] = $snap['recent_results'];
+    }
 
     return $result;
 }

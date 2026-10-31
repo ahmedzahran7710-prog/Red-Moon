@@ -16,6 +16,9 @@ namespace Canyon.Game.States.NPCs
         private readonly DbDynanpc npc;
         private readonly ConcurrentDictionary<uint, Score> scores = new();
         private readonly TimeOut deathTimer = new();
+        private DateTime? manualWarEndTime;
+        public bool IsManualWarActive => manualWarEndTime.HasValue && DateTime.Now < manualWarEndTime.Value;
+        public DateTime? ManualWarEndTime => manualWarEndTime;
 
         public DynamicNpc(DbDynanpc npc)
             : base(npc.Id)
@@ -348,10 +351,59 @@ namespace Canyon.Game.States.NPCs
 
         #region Score
 
+        public async Task ForceStartSynWarAsync(int durationMinutes = 60)
+        {
+            if (!IsSynFlag() || Map == null)
+            {
+                return;
+            }
+
+            manualWarEndTime = DateTime.Now.AddMinutes(Math.Clamp(durationMinutes, 5, 720));
+            if (!Map.IsWarTime())
+            {
+                await Map.SetStatusAsync(1, true);
+                await Map.BroadcastMsgAsync(StrWarStart, TalkChannel.System);
+            }
+        }
+
+        public async Task ForceEndSynWarAsync()
+        {
+            if (!IsSynFlag() || Map == null)
+            {
+                return;
+            }
+
+            manualWarEndTime = null;
+            if (Map.IsWarTime())
+            {
+                await OnFightEndAsync();
+            }
+        }
+
         public async Task CheckFightTimeAsync()
         {
             if (!IsSynFlag())
             {
+                return;
+            }
+
+            if (manualWarEndTime.HasValue)
+            {
+                if (DateTime.Now < manualWarEndTime.Value)
+                {
+                    if (!Map.IsWarTime())
+                    {
+                        await Map.SetStatusAsync(1, true);
+                        await Map.BroadcastMsgAsync(StrWarStart, TalkChannel.System);
+                    }
+                    return;
+                }
+
+                manualWarEndTime = null;
+                if (Map.IsWarTime())
+                {
+                    await OnFightEndAsync();
+                }
                 return;
             }
 
