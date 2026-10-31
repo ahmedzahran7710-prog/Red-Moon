@@ -11,9 +11,9 @@ declare(strict_types=1);
  */
 
 return [
-    // اتركه فارغاً للاكتشاف التلقائي لمجلد src/Bin/Debug/net7.0 أو Release/net7.0،
+    // اتركه فارغاً للاكتشاف التلقائي لمجلد البناء الأساسي src/Bin/net7.0 (أو Release/Debug)،
     // أو ضع المسار الكامل لملف MoonQueen.Rates.json بجوار MoonQueen.Game.exe:
-    // مثال: 'F:\\AhmedZahran\\Red-Moon\\src\\Bin\\Debug\\net7.0\\MoonQueen.Rates.json'
+    // مثال: 'F:\\AhmedZahran\\MoonQueen-Source\\src\\Bin\\net7.0\\MoonQueen.Rates.json'
     'rates_file_path' => '',
 
     // هاش كلمة مرور الأدمن (يُنشأ تلقائياً عند أول تشغيل عبر شاشة الإعداد السريع)

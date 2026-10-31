@@ -9,13 +9,12 @@ declare(strict_types=1);
 const MQ_STUDIO_BRAND = 'MoonQueen';
 const MQ_STUDIO_DEV_EN = 'ahmedzahran';
 const MQ_STUDIO_DEV_AR = 'احمد زهران';
-const MQ_STUDIO_SEAL_SHA256 = '6c48c68206466d66367d294891463a2a123616c1b973361001c8750215303f25';
+const MQ_STUDIO_SEAL_SHA256 = 'f00c83c7789c6b18a7ce5a5cd5b905c85fd41e20cd2e88806c3a92a7a96348b9';
 
 function mq_verify_developer_seal(): void
 {
     $payload = MQ_STUDIO_BRAND . '|' . MQ_STUDIO_DEV_EN . '|' . MQ_STUDIO_DEV_AR;
-    $expected = hash('sha256', 'MoonQueen|ahmedzahran|احمد زهران');
-    if ($payload !== 'MoonQueen|ahmedzahran|احمد زهران' || !hash_equals($expected, hash('sha256', $payload))) {
+    if ($payload !== 'MoonQueen|ahmedzahran|احمد زهران' || !hash_equals(MQ_STUDIO_SEAL_SHA256, hash('sha256', $payload))) {
         http_response_code(500);
         exit('Tamper detected: MoonQueen developer rights seal (ahmedzahran) is immutable.');
     }
@@ -369,42 +368,50 @@ function mq_resolve_targets(): array
     }
 
     $repo = mq_repo_root();
-    $debugDir = $repo . DIRECTORY_SEPARATOR . 'src' . DIRECTORY_SEPARATOR . 'Bin' . DIRECTORY_SEPARATOR . 'Debug' . DIRECTORY_SEPARATOR . 'net7.0';
-    $releaseDir = $repo . DIRECTORY_SEPARATOR . 'src' . DIRECTORY_SEPARATOR . 'Bin' . DIRECTORY_SEPARATOR . 'Release' . DIRECTORY_SEPARATOR . 'net7.0';
+    $candidateDirs = [
+        $repo . DIRECTORY_SEPARATOR . 'src' . DIRECTORY_SEPARATOR . 'Bin' . DIRECTORY_SEPARATOR . 'net7.0',
+        $repo . DIRECTORY_SEPARATOR . 'src' . DIRECTORY_SEPARATOR . 'Bin' . DIRECTORY_SEPARATOR . 'Release' . DIRECTORY_SEPARATOR . 'net7.0',
+        $repo . DIRECTORY_SEPARATOR . 'src' . DIRECTORY_SEPARATOR . 'Bin' . DIRECTORY_SEPARATOR . 'Debug' . DIRECTORY_SEPARATOR . 'net7.0',
+    ];
 
-    $debugRates = $debugDir . DIRECTORY_SEPARATOR . 'MoonQueen.Rates.json';
-    $releaseRates = $releaseDir . DIRECTORY_SEPARATOR . 'MoonQueen.Rates.json';
+    $primaryDir = null;
+    $freshestMtime = 0;
 
-    $debugStatus = $debugDir . DIRECTORY_SEPARATOR . 'MoonQueen.Rates.status.json';
-    $releaseStatus = $releaseDir . DIRECTORY_SEPARATOR . 'MoonQueen.Rates.status.json';
-
-    $debugMtime = is_file($debugStatus) ? (int)@filemtime($debugStatus) : 0;
-    $releaseMtime = is_file($releaseStatus) ? (int)@filemtime($releaseStatus) : 0;
-
-    if ($releaseMtime > $debugMtime) {
-        return [
-            'mode' => 'auto',
-            'primary' => $releaseRates,
-            'mirrors' => is_dir($debugDir) ? [$debugRates] : [],
-        ];
+    foreach ($candidateDirs as $dir) {
+        $statusFile = $dir . DIRECTORY_SEPARATOR . 'MoonQueen.Rates.status.json';
+        if (is_file($statusFile)) {
+            $mtime = (int)@filemtime($statusFile);
+            if ($mtime > $freshestMtime) {
+                $freshestMtime = $mtime;
+                $primaryDir = $dir;
+            }
+        }
     }
 
-    if (is_dir($releaseDir) && !is_dir($debugDir)) {
-        return [
-            'mode' => 'auto',
-            'primary' => $releaseRates,
-            'mirrors' => [],
-        ];
+    if ($primaryDir === null) {
+        foreach ($candidateDirs as $dir) {
+            if (is_dir($dir)) {
+                $primaryDir = $dir;
+                break;
+            }
+        }
     }
 
+    if ($primaryDir === null) {
+        $primaryDir = $candidateDirs[0];
+    }
+
+    $primaryRates = $primaryDir . DIRECTORY_SEPARATOR . 'MoonQueen.Rates.json';
     $mirrors = [];
-    if (is_dir($releaseDir)) {
-        $mirrors[] = $releaseRates;
+    foreach ($candidateDirs as $dir) {
+        if ($dir !== $primaryDir && is_dir($dir)) {
+            $mirrors[] = $dir . DIRECTORY_SEPARATOR . 'MoonQueen.Rates.json';
+        }
     }
 
     return [
         'mode' => 'auto',
-        'primary' => $debugRates,
+        'primary' => $primaryRates,
         'mirrors' => $mirrors,
     ];
 }

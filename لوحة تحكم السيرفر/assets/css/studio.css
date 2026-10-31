@@ -27,7 +27,7 @@
 }
 
 body {
-    font-family: 'Cairo', system-ui, -apple-system, sans-serif;
+    font-family: 'Cairo', 'Segoe UI', Tahoma, Arial, system-ui, -apple-system, sans-serif;
     background:
         radial-gradient(circle at 15% 8%, rgba(225, 29, 72, 0.20), transparent 36%),
         radial-gradient(circle at 85% 12%, rgba(245, 196, 81, 0.10), transparent 32%),

@@ -71,14 +71,22 @@ namespace Canyon.Game.Services.Managers
             logger.LogInformation("{Count} additions loaded", itemAdditions.Count);
 
             validRefineryIds = new List<uint>();
-            using StreamReader quenchReader = new(Path.Combine(Environment.CurrentDirectory, "ini", "ItemQuench.ini"));
-            string quenchLine;
-            while ((quenchLine = quenchReader.ReadLine()) != null)
+            string quenchPath = Path.Combine(Environment.CurrentDirectory, "ini", "ItemQuench.ini");
+            if (File.Exists(quenchPath))
             {
-                if (uint.TryParse(quenchLine, out uint quenchId) && validRefineryIds.All(x => x != quenchId))
+                using StreamReader quenchReader = new(quenchPath);
+                string quenchLine;
+                while ((quenchLine = quenchReader.ReadLine()) != null)
                 {
-                    validRefineryIds.Add(quenchId);
+                    if (uint.TryParse(quenchLine, out uint quenchId) && validRefineryIds.All(x => x != quenchId))
+                    {
+                        validRefineryIds.Add(quenchId);
+                    }
                 }
+            }
+            else
+            {
+                logger.LogWarning("Optional client file ini/ItemQuench.ini not found at {Path}; continuing with 0 refinery entries.", quenchPath);
             }
 
             logger.LogInformation("{Count} valid refineries added", validRefineryIds.Count);

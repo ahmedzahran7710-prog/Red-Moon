@@ -17,6 +17,12 @@ namespace Canyon.Login
 
         public static async Task<int> Main(params string[] args)
         {
+            if (!string.IsNullOrWhiteSpace(AppDomain.CurrentDomain.BaseDirectory)
+                && Directory.Exists(AppDomain.CurrentDomain.BaseDirectory))
+            {
+                Environment.CurrentDirectory = AppDomain.CurrentDomain.BaseDirectory;
+            }
+
             DeveloperRightsGuard.EnforceOrTerminate(typeof(Program).Assembly);
             Console.Title = "Loading...";
             DeveloperRightsGuard.PrintProtectedBanner("Login Server", Version);

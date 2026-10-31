@@ -16,14 +16,23 @@ namespace Canyon.Game.Scripting
             Settings = new LuaScriptsSettings();
         }
 
+        private static readonly ILogger logger = LogFactory.CreateLogger<LuaScriptsSettings>();
+
         public LuaScriptsSettings() 
         {
+            string luaIniPath = Path.Combine(Environment.CurrentDirectory, "lua", "lua.ini");
+            if (!File.Exists(luaIniPath))
+            {
+                logger.LogWarning("Lua index file lua/lua.ini not found at {Path}; copy RequiredAssetsForRun/lua into {Dir}/lua.", luaIniPath, Environment.CurrentDirectory);
+                return;
+            }
+
             new ConfigurationBuilder()
-                .AddIniFile(Path.Combine(Environment.CurrentDirectory, "lua", "lua.ini"))
+                .AddIniFile(luaIniPath, optional: true)
                 .Build()
                 .Bind(this);
         }
 
-        public Dictionary<string, string> MOD { get; set; }
+        public Dictionary<string, string> MOD { get; set; } = new();
     }
 }

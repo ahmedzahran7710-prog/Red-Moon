@@ -29,6 +29,12 @@ namespace Canyon.Game
 
         public static async Task<int> Main(params string[] args)
         {
+            if (!string.IsNullOrWhiteSpace(AppDomain.CurrentDomain.BaseDirectory)
+                && Directory.Exists(AppDomain.CurrentDomain.BaseDirectory))
+            {
+                Environment.CurrentDirectory = AppDomain.CurrentDomain.BaseDirectory;
+            }
+
             DeveloperRightsGuard.EnforceOrTerminate(typeof(Program).Assembly);
             DeveloperRightsGuard.VerifyResourceStrings(StrWelcomeLoginTalk, StrWelcomeLoginTopLeft, StrWelcomeServerInfo);
             Console.Title = "Loading...";
