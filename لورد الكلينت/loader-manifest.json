@@ -9,7 +9,7 @@
   "omitted_files": 5,
   "patched_files": 34,
   "total_upstream_bytes": 42053216,
-  "tracked_bytes": 7775561,
+  "tracked_bytes": 7775979,
   "files": [
     {
       "path": ".github/FUNDING.yml",
@@ -44,8 +44,8 @@
     },
     {
       "path": "ConquerCipherHook/ConquerCipherHook.cpp",
-      "bytes": 5537,
-      "sha256": "fe8035872d6f22bd94a7188576eb8bc73809414f9bd8d6c6572c7016f7db7e41",
+      "bytes": 5681,
+      "sha256": "2eb109a74d5abe301db041cef806efd36f5045ea3db81f667ddb53f73c4aef28",
       "tracked": true,
       "upstream_sha256": "73726048c28504f8ece4caf0da9088e379d434bd8114cdb9b0440be19fd039ee"
     },
@@ -1064,8 +1064,8 @@
     },
     {
       "path": "README.md",
-      "bytes": 5251,
-      "sha256": "078b6674dbcd4676f07e0b939163086f0526d9259d2a15ae9ce00acc21adb08c",
+      "bytes": 5525,
+      "sha256": "dab4ef3bd590863d1831608b99ca0b21ed581d13b1dd82a281f2251eb66c097c",
       "tracked": true,
       "upstream_sha256": "5ca1a680991bbd381dfcce73aef464b0b0d67148f1da81d0d0a8ceb5f36852a1"
     }

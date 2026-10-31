@@ -38,23 +38,56 @@ namespace Canyon.Network.Packets.Login
         /// <returns>Returns the decrypted password string.</returns>
         protected string DecryptPassword(byte[] buffer, uint seed)
         {
-            // debug purposes
+            if (buffer == null || buffer.Length < 32)
+            {
+                return string.Empty;
+            }
+
+            // Byte 31 (packet offset 91) is untouched (0x00) in legacy 0..31-char packets.
+            // Updated ConquerCipherHook stamps (0xA0 | pwLen) at buffer[31] for exact lossless recovery
+            // (including passwords ending with lowercase 'z' at odd indices, where 'z' ^ 0x7A == 0x00).
+            // Legacy hooks (buffer[31] == 0x00) fall back to scanning 0..30 for last non-zero ciphertext byte
+            // and decrypting 0..pwLen-1 unconditionally so interior 'z' bytes are never skipped.
+            int pwLen;
+            if ((buffer[31] & 0xE0) == 0xA0)
+            {
+                pwLen = buffer[31] & 0x1F;
+            }
+            else
+            {
+                int lastNonZero = -1;
+                for (int idx = 30; idx >= 0; idx--)
+                {
+                    if (buffer[idx] != 0)
+                    {
+                        lastNonZero = idx;
+                        break;
+                    }
+                }
+                pwLen = lastNonZero + 1;
+            }
+
+            if (pwLen <= 0)
+            {
+                return string.Empty;
+            }
+
+            byte[] plain = new byte[pwLen];
+            Buffer.BlockCopy(buffer, 0, plain, 0, pwLen);
+
             byte[] pSeed =
             {
                 46, 22, 32, 87, 95, 48, 8, 2, 4, 34, 59, 83, 21, 2, 243, 1, 1, 2, 80, 37, 202, 31, 99, 75, 7, 4, 6, 23, 100, 221, 82, 134
             };
             int length = pSeed.Length;
-            for (int x = 0; x < buffer.Length; x++)
+            for (int x = 0; x < pwLen; x++)
             {
-                if (buffer[x] != 0)
-                {
-                    buffer[x] ^= pSeed[(x * 48 % 32) % length];
-                    buffer[x] ^= pSeed[(x * 24 % 16) % length];
-                    buffer[x] ^= pSeed[(x * 12 % 8) % length];
-                    buffer[x] ^= pSeed[(x * 6 % 4) % length];
-                }
+                plain[x] ^= pSeed[(x * 48 % 32) % length];
+                plain[x] ^= pSeed[(x * 24 % 16) % length];
+                plain[x] ^= pSeed[(x * 12 % 8) % length];
+                plain[x] ^= pSeed[(x * 6 % 4) % length];
             }
-            return Encoding.ASCII.GetString(buffer).Trim('\0');
+            return Encoding.ASCII.GetString(plain, 0, pwLen).TrimEnd('\0');
         }
     }
 }

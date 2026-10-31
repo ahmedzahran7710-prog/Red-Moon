@@ -1,4 +1,5 @@
 ﻿using Canyon.Game.Services.Managers;
+using Canyon.Game.States.Events.Qualifier.TeamQualifier;
 using Canyon.Game.States.Events.Qualifier.UserQualifier;
 using Canyon.Game.States.User;
 using Canyon.Network.Packets;
@@ -73,9 +74,15 @@ namespace Canyon.Game.Sockets.Game.Packets
 
         public override async Task ProcessAsync(Client client)
         {
-            Character user = client.Character;
+            Character user = client?.Character;
+            if (user == null)
+            {
+                return;
+            }
+
             ArenaQualifier qualifier = EventManager.GetEvent<ArenaQualifier>();
-            if (qualifier == null)
+            TeamArenaQualifier teamQualifier = EventManager.GetEvent<TeamArenaQualifier>();
+            if (qualifier == null && teamQualifier == null)
             {
                 return;
             }
@@ -89,19 +96,40 @@ namespace Canyon.Game.Sockets.Game.Packets
                             return;
                         }
 
-                        await qualifier.WatchAsync(user, Identity);
+                        if (qualifier?.FindMatch(Identity) != null)
+                        {
+                            await qualifier.WatchAsync(user, Identity);
+                        }
+                        else if (teamQualifier?.FindMatchByTarget(Identity) != null)
+                        {
+                            await teamQualifier.WatchAsync(user, Identity);
+                        }
                         break;
                     }
 
                 case WitnessAction.QuitView:
                     {
-                        await qualifier.WitnessExitAsync(user);
+                        if (qualifier != null && qualifier.IsWitness(user))
+                        {
+                            await qualifier.WitnessExitAsync(user);
+                        }
+                        else if (teamQualifier != null && teamQualifier.IsWitness(user))
+                        {
+                            await teamQualifier.WitnessExitAsync(user);
+                        }
                         break;
                     }
 
                 case WitnessAction.Fighters:
                     {
-                        await qualifier.WitnessVoteAsync(user, Identity);
+                        if (qualifier?.FindMatch(Identity) != null)
+                        {
+                            await qualifier.WitnessVoteAsync(user, Identity);
+                        }
+                        else if (teamQualifier?.FindMatchByTarget(Identity) != null)
+                        {
+                            await teamQualifier.WitnessVoteAsync(user, Identity);
+                        }
                         break;
                     }
 

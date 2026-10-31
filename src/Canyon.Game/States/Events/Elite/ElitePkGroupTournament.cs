@@ -920,12 +920,33 @@ namespace Canyon.Game.States.Events.Elite
 
         public override Task UnsubscribeAsync(ElitePkParticipant entity)
         {
-            throw new NotImplementedException();
+            if (entity == null)
+            {
+                return Task.CompletedTask;
+            }
+            return UnsubscribeAsync(entity.Identity);
         }
 
-        public override Task UnsubscribeAsync(uint identity)
+        public override async Task UnsubscribeAsync(uint identity)
         {
-            throw new NotImplementedException();
+            if (identity == 0)
+            {
+                return;
+            }
+
+            if (stage != InternalTournamentStage.Running && matches.Count == 0)
+            {
+                participants.RemoveAll(x => x == null || x.Identity == identity);
+            }
+
+            Character user = RoleManager.GetUser(identity);
+            if (user != null && user.MapIdentity == waitingMapId)
+            {
+                uint recordMapId = user.RecordMapIdentity != 0 ? user.RecordMapIdentity : DEFAULT_MAP_ID;
+                ushort recordX = user.RecordMapIdentity != 0 ? user.RecordMapX : DEFAULT_MAP_X;
+                ushort recordY = user.RecordMapIdentity != 0 ? user.RecordMapY : DEFAULT_MAP_Y;
+                await user.FlyMapAsync(recordMapId, recordX, recordY);
+            }
         }
 
         private async Task PrepareMapAsync(BaseTournamentMatch<ElitePkParticipant, Character> match)
@@ -1187,7 +1208,7 @@ namespace Canyon.Game.States.Events.Elite
                         continue;
                     }
 
-                    var point = await match.Map.QueryRandomPositionAsync();
+                    var point = await (awaitingMap ?? match.Map).QueryRandomPositionAsync();
                     await user.FlyMapAsync(waitingMapId, point.X, point.Y);
                 }
                 else

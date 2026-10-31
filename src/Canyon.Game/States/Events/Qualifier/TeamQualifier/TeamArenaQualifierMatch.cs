@@ -582,7 +582,7 @@ namespace Canyon.Game.States.Events.Qualifier.TeamQualifier
                         await participant.SetAttributesAsync(ClientUpdateType.Stamina, Role.DEFAULT_USER_ENERGY);
                     }
 
-                    if (Company1.PreviousPkModes.TryGetValue(participant.Identity, out PkModeType pkMode))
+                    if (company.PreviousPkModes.TryGetValue(participant.Identity, out PkModeType pkMode))
                         await participant.SetPkModeAsync(pkMode);
                 }
 
@@ -621,6 +621,30 @@ namespace Canyon.Game.States.Events.Qualifier.TeamQualifier
 
             TeamArenaQualifier.MapIdentityGenerator.ReturnIdentity(MapIdentity);
             Status = MatchStatus.ReadyToDispose;
+        }
+
+        public bool Wave(Character user, uint target)
+        {
+            if (user == null || wavers.Contains(user.Identity))
+            {
+                return false;
+            }
+
+            if (Company1 != null && (target == Company1.Identity || target == TeamId1 || Company1.Participants.ContainsKey(target)))
+            {
+                Cheers1 += 1;
+            }
+            else if (Company2 != null && (target == Company2.Identity || target == TeamId2 || Company2.Participants.ContainsKey(target)))
+            {
+                Cheers2 += 1;
+            }
+            else
+            {
+                return false;
+            }
+
+            wavers.Add(user.Identity);
+            return true;
         }
 
         public Task SendAsync(IPacket msg)

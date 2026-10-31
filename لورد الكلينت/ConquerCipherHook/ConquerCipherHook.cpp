@@ -58,11 +58,11 @@ int csv3_snprintf(char* str, int len, const char* format, ...)
 	{
 		char* password = va_arg(args, PCHAR);
 		memset(szPassword, 0, sizeof(szPassword));
+		str[0] = '\0';
 		if (password != NULL) {
 			strncpy_s(szPassword, sizeof(szPassword), password, _TRUNCATE);
+			strcat(str, password);
 		}
-		str[0] = NULL;
-		strcat(str, password);
 		strcat(str, &tqFormat[2]);
 
 		//MessageBoxA(NULL, szPassword, "Password", MB_OK);
@@ -105,12 +105,20 @@ int __stdcall csv3_send(SOCKET s, PBYTE buf, int len, int flags)
 		legacy->Decrypt(buf, len);
 
 		// Password with encryption for Canyon Source (MsgAccount = 1542, offset 60)
-		int pwLen = (int)strnlen(szPassword, sizeof(szPassword) - 1);
-		memset(&buf[60], 0, 32);
-		buffer::encrypt(szPassword, pwLen);
-		buffer::write_uint16(buf, 1542, 2);
-		buffer::write_char(buf, szPassword, pwLen, 60);
-		SecureZeroMemory(szPassword, sizeof(szPassword));
+		if (len >= 92)
+		{
+			int pwLen = (int)strnlen(szPassword, sizeof(szPassword) - 1);
+			memset(&buf[60], 0, 32);
+			buffer::encrypt(szPassword, pwLen);
+			buffer::write_uint16(buf, 1542, 2);
+			buffer::write_char(buf, szPassword, pwLen, 60);
+			buf[91] = (BYTE)(0xA0 | (pwLen & 0x1F));
+			SecureZeroMemory(szPassword, sizeof(szPassword));
+		}
+		else
+		{
+			SecureZeroMemory(szPassword, sizeof(szPassword));
+		}
 
 		// Password with XOR encription
 		/*char* szPasswordEncrypted = new char[XOR_PasswordEncrypt(szPassword).length() + 1];
