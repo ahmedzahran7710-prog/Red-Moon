@@ -3,7 +3,7 @@
 
     const PRESETS = {
         classic: {
-            PresetName: 'Classic+ Default (1x)',
+            PresetName: 'Pure Official Conquer (1x)',
             ExperienceRate: 1.0,
             MagicExpRate: 1.0,
             WeaponSkillExpRate: 1.0,
@@ -11,12 +11,14 @@
             SilverDropChancePercent: 25,
             EquipmentDropRate: 1.0,
             QualityItemRate: 1.0,
+            SocketDropRate: 1.0,
+            PlusOneDropRate: 1.0,
             DragonBallDropRate: 1.0,
             MeteorDropPer100k: 0,
             MonsterCpChancePercent: 0.0,
             MonsterCpMin: 1,
             MonsterCpMax: 3,
-            suggestedMsg: 'تم إعادة ريتات السيرفر إلى الوضع الكلاسيكي المتوازن (Classic+ 1x).'
+            suggestedMsg: 'تم ضبط ريتات السيرفر على الأساس الرسمي النقي لكونكر أونلاين (Pure Official 1x).'
         },
         weekend: {
             PresetName: 'Weekend Boost (2x)',
@@ -27,7 +29,9 @@
             SilverDropChancePercent: 30,
             EquipmentDropRate: 1.25,
             QualityItemRate: 1.25,
-            DragonBallDropRate: 1.25,
+            SocketDropRate: 1.25,
+            PlusOneDropRate: 1.25,
+            DragonBallDropRate: 1.5,
             MeteorDropPer100k: 15,
             MonsterCpChancePercent: 0.0,
             MonsterCpMin: 1,
@@ -43,7 +47,9 @@
             SilverDropChancePercent: 35,
             EquipmentDropRate: 1.5,
             QualityItemRate: 1.5,
-            DragonBallDropRate: 1.5,
+            SocketDropRate: 1.5,
+            PlusOneDropRate: 1.5,
+            DragonBallDropRate: 2.0,
             MeteorDropPer100k: 25,
             MonsterCpChancePercent: 0.0,
             MonsterCpMin: 1,
@@ -59,7 +65,9 @@
             SilverDropChancePercent: 32,
             EquipmentDropRate: 2.0,
             QualityItemRate: 2.0,
-            DragonBallDropRate: 2.0,
+            SocketDropRate: 2.0,
+            PlusOneDropRate: 2.0,
+            DragonBallDropRate: 3.0,
             MeteorDropPer100k: 45,
             MonsterCpChancePercent: 1.5,
             MonsterCpMin: 1,
@@ -76,6 +84,8 @@
         'SilverDropChancePercent',
         'EquipmentDropRate',
         'QualityItemRate',
+        'SocketDropRate',
+        'PlusOneDropRate',
         'DragonBallDropRate',
         'MeteorDropPer100k',
         'MonsterCpChancePercent',
@@ -140,6 +150,36 @@
         const qTag = document.getElementById('calcQuality');
         if (qTag) {
             qTag.textContent = 'داخل لفة الجودة -> Super: ' + superPct + '% | Elite: ' + elitePct + '% | Unique: ' + uniquePct + '%';
+        }
+
+        const socRate = Math.max(0, getFieldVal('SocketDropRate'));
+        const socTag = document.getElementById('calcSocket');
+        if (socTag) {
+            if (socRate <= 0) {
+                socTag.textContent = 'مغلق (0%) — لا تسقط أسلحة بسوكت من الوحوش';
+            } else {
+                const oneSocPct = Math.min(100, (100 * socRate) / 1000).toFixed(3);
+                const twoSocPct = Math.min(100, (5 * socRate) / 1000).toFixed(4);
+                socTag.textContent = 'للأسلحة الساقطة -> 1-Socket: ' + oneSocPct + '% | 2-Socket: ' + twoSocPct + '%';
+            }
+        }
+
+        const plusRate = Math.max(0, getFieldVal('PlusOneDropRate'));
+        const plusTag = document.getElementById('calcPlusOne');
+        if (plusTag) {
+            const plusPct = Math.min(100, 1.0 * plusRate).toFixed(2);
+            plusTag.textContent = 'نسبة سقوط قطعة +1 من الوحوش: ' + plusPct + '%';
+        }
+
+        const dbRate = Math.max(0, getFieldVal('DragonBallDropRate'));
+        const dbTag = document.getElementById('calcDb');
+        if (dbTag) {
+            if (dbRate <= 0) {
+                dbTag.textContent = 'مغلق (0%) — لا تسقط DragonBall من الوحوش';
+            } else {
+                const approxKills = Math.max(1, Math.round(86400 / dbRate));
+                dbTag.textContent = 'معدل أصلي نقي: تقريباً 1 DragonBall كل ' + approxKills.toLocaleString('en-US') + ' وحش على الأرض';
+            }
         }
 
         const meteorPer100k = Math.max(0, Math.round(getFieldVal('MeteorDropPer100k')));

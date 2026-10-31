@@ -281,7 +281,7 @@ namespace Canyon.Game.States
             if (user != null &&
                 (target is Monster monster && monster.SpeciesType == 0 && !monster.IsGuard() && !monster.IsPkKiller() && !monster.IsRighteous() || npc?.IsGoal() == true))
             {
-                int nWeaponExp = (int)nExp / 3; //(int) (nExp / 10);
+                int nWeaponExp = Math.Max(1, (int)(nExp / 10));
                 nExp = user.AdjustExperience(target, nExp, false);
                 var nAdditionExp = 0;
                 if (!target.IsAlive && npc?.IsGoal() != true)
@@ -470,7 +470,7 @@ namespace Canyon.Game.States
             }
             else
             {
-                attack = attacker.MinAttack -
+                attack = attacker.MinAttack +
                          await NextAsync(1, Math.Max(1, attacker.MaxAttack - attacker.MinAttack) / 2 + 1);
             }
 
@@ -679,8 +679,9 @@ namespace Canyon.Game.States
                 }
             }
 
-            var magicDefBonusCoef = Math.Max(1, target.MagicDefenseBonus - (attacker.Penetration / 100)) / 200d;
-            attack = (int)(attack * (1 - magicDefBonusCoef));
+            double penetrationRate = Math.Clamp(attacker.Penetration / 10000d, 0d, 1d);
+            double magicDefBonusCoef = Math.Clamp((target.MagicDefenseBonus / 100d) * (1d - penetrationRate), 0d, 0.90d);
+            attack = (int)(attack * (1d - magicDefBonusCoef));
 
             if (adjustAtk > 0 && adjustAtk < Calculations.ADJUST_PERCENT)
             {

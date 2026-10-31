@@ -418,65 +418,34 @@ namespace Canyon.Game.States
             // TODO: Use Lua Script for item drops
             // LuaScriptManager.Run(user, this, null, string.Empty, "LinkMonsterMain()");
 
-            var liveRates = ServerRatesManager.Current;
-            double dbMultiplier = 200d * liveRates.DragonBallDropRate;
-            if (dbMultiplier > 0d && await ChanceCalcAsync(625, Math.Max(1, (int)(54_000_000d / dbMultiplier))))
-            {
-                if (user != null && user.VipLevel >= 6 && user.UserPackage.InventoryCount < 40)
-                {
-                    // if the user already has 9 dragon balls we want to get rid of them and award a db scroll
-                    if (user.UserPackage.MultiCheckItem(Item.TYPE_DRAGONBALL, Item.TYPE_DRAGONBALL, 9, true))
-                    {
-                        await user.UserPackage.MultiSpendItemAsync(Item.TYPE_DRAGONBALL,Item.TYPE_DRAGONBALL, 9, true);
-                        await user.UserPackage.AwardItemAsync(Item.TYPE_DRAGONBALL_SCROLL);
-                    }
-                    else {
-                        await user.UserPackage.AwardItemAsync(Item.TYPE_DRAGONBALL);
-                    }
-                }
-                else
-                {
-                    await DropItemAsync(Item.TYPE_DRAGONBALL, user, DropMode.Common);
-                }
-            }
-
-            if (!IsPkKiller() && !IsGuard() && !IsEvilKiller() && !IsDynaNpc() && attacker != null)
-            {
-                if (liveRates.MeteorDropPer100k > 0 && await ChanceCalcAsync(liveRates.MeteorDropPer100k, 100_000))
-                {
-                    if (user != null && user.VipLevel > 0 && user.UserPackage.InventoryCount < 40)
-                    {
-                        if (user.UserPackage.MultiCheckItem(Item.TYPE_METEOR, Item.TYPE_METEOR, 9, true))
-                        {
-                            await user.UserPackage.MultiSpendItemAsync(Item.TYPE_METEOR, Item.TYPE_METEOR, 9, true);
-                            await user.UserPackage.AwardItemAsync(Item.TYPE_METEOR_SCROLL);
-                        }
-                        else
-                        {
-                            await user.UserPackage.AwardItemAsync(Item.TYPE_METEOR);
-                        }
-                    }
-                    else
-                    {
-                        await DropItemAsync(Item.TYPE_METEOR, user, DropMode.Common);
-                    }
-                }
-
-                if (user != null && liveRates.MonsterCpChancePercent > 0d
-                    && await ChanceCalcAsync(Math.Max(1, (int)Math.Round(liveRates.MonsterCpChancePercent * 100d)), 10_000))
-                {
-                    int cpAward = liveRates.MonsterCpMax > liveRates.MonsterCpMin
-                        ? await NextAsync(liveRates.MonsterCpMin, liveRates.MonsterCpMax + 1)
-                        : liveRates.MonsterCpMin;
-                    if (cpAward > 0 && user.ConquerPoints <= uint.MaxValue - (uint)cpAward)
-                    {
-                        await user.ChangeConquerPointsAsync(cpAward, true);
-                    }
-                }
-            }
-
             if (IsPkKiller() || IsGuard() || IsEvilKiller() || IsDynaNpc() || attacker == null)
                 return;
+
+            var liveRates = ServerRatesManager.Current;
+            bool isGreenMonster = user != null && BattleSystem.GetNameType(user.Level, Level) == BattleSystem.NAME_GREEN;
+
+            double dbMultiplier = liveRates.DragonBallDropRate;
+            if (!isGreenMonster && dbMultiplier > 0d && await ChanceCalcAsync(625, Math.Max(1, (int)(54_000_000d / dbMultiplier))))
+            {
+                await DropItemAsync(Item.TYPE_DRAGONBALL, user, DropMode.Common);
+            }
+
+            if (!isGreenMonster && liveRates.MeteorDropPer100k > 0 && await ChanceCalcAsync(liveRates.MeteorDropPer100k, 100_000))
+            {
+                await DropItemAsync(Item.TYPE_METEOR, user, DropMode.Common);
+            }
+
+            if (!isGreenMonster && user != null && liveRates.MonsterCpChancePercent > 0d
+                && await ChanceCalcAsync(Math.Max(1, (int)Math.Round(liveRates.MonsterCpChancePercent * 100d)), 10_000))
+            {
+                int cpAward = liveRates.MonsterCpMax > liveRates.MonsterCpMin
+                    ? await NextAsync(liveRates.MonsterCpMin, liveRates.MonsterCpMax + 1)
+                    : liveRates.MonsterCpMin;
+                if (cpAward > 0 && user.ConquerPoints <= uint.MaxValue - (uint)cpAward)
+                {
+                    await user.ChangeConquerPointsAsync(cpAward, true);
+                }
+            }
 
             if (user?.Team != null)
             {
@@ -501,9 +470,9 @@ namespace Canyon.Game.States
 
             if (liveRates.SilverDropRate > 0d && chance < moneyAdj)
             {
-                var moneyMin = (int)(monsterType.DropMoney * 0.85f);
-                var moneyMax = (int)(monsterType.DropMoney * 1.15f);
-                var rawMoney = (double)(moneyMin + await NextAsync(moneyMin, moneyMax) + 1) * liveRates.SilverDropRate;
+                var moneyMin = Math.Max(1, (int)(monsterType.DropMoney * 0.85f));
+                var moneyMax = Math.Max(moneyMin, (int)(monsterType.DropMoney * 1.15f));
+                var rawMoney = (double)await NextAsync(moneyMin, moneyMax + 1) * liveRates.SilverDropRate;
                 var money = (uint)Math.Clamp(rawMoney, 1d, int.MaxValue / 2d);
 
                 if (user == null || !user.Flag.HasFlag(Character.PrivilegeFlag.FirstCreditClaimed))

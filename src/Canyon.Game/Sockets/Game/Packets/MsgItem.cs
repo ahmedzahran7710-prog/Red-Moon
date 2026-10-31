@@ -687,7 +687,10 @@ namespace Canyon.Game.Sockets.Game.Packets
 
                         if (await ChanceCalcAsync(nChance))
                         {
-                            await item.ChangeTypeAsync(idNewType);
+                            if (await item.ChangeTypeAsync(idNewType))
+                            {
+                                await item.TryRollUpgradeSocketAsync(user);
+                            }
                         }
                         else
                         {
@@ -700,12 +703,6 @@ namespace Canyon.Game.Sockets.Game.Packets
                             {
                                 item.Durability = (ushort)(item.MaximumDurability / 2);
                             }
-                        }
-
-                        if (item.SocketOne == Item.SocketGem.NoSocket && await ChanceCalcAsync(5, 1000))
-                        {
-                            item.SocketOne = Item.SocketGem.EmptySocket;
-                            await user.SendAsync(StrUpgradeAwardSocket);
                         }
 
                         await item.SaveAsync();
@@ -770,7 +767,10 @@ namespace Canyon.Game.Sockets.Game.Packets
 
                         if (await ChanceCalcAsync(nChance))
                         {
-                            await item.ChangeTypeAsync((uint)idNewType);
+                            if (await item.ChangeTypeAsync((uint)idNewType))
+                            {
+                                await item.TryRollUpgradeSocketAsync(user);
+                            }
                         }
                         else
                         {
@@ -783,13 +783,6 @@ namespace Canyon.Game.Sockets.Game.Packets
                             {
                                 item.Durability = (ushort)(item.MaximumDurability / 2);
                             }
-                        }
-
-                        if (item.SocketOne == Item.SocketGem.NoSocket && await ChanceCalcAsync(5, 1000))
-                        {
-                            item.SocketOne = Item.SocketGem.EmptySocket;
-                            await user.SendAsync(StrUpgradeAwardSocket);
-                            await item.SaveAsync();
                         }
 
                         await item.SaveAsync();

@@ -174,7 +174,7 @@ function mq_is_authenticated(): bool
 function mq_default_rates(): array
 {
     return [
-        'PresetName' => 'Classic+ Default (1x)',
+        'PresetName' => 'Pure Official Conquer (1x)',
         'ExperienceRate' => 1.0,
         'MagicExpRate' => 1.0,
         'WeaponSkillExpRate' => 1.0,
@@ -182,6 +182,8 @@ function mq_default_rates(): array
         'SilverDropChancePercent' => 25,
         'EquipmentDropRate' => 1.0,
         'QualityItemRate' => 1.0,
+        'SocketDropRate' => 1.0,
+        'PlusOneDropRate' => 1.0,
         'DragonBallDropRate' => 1.0,
         'MeteorDropPer100k' => 0,
         'MonsterCpChancePercent' => 0.0,
@@ -220,7 +222,7 @@ function mq_normalize_rates(array $input, ?array $existing = null): array
     $base = array_merge(mq_default_rates(), $existing ?? []);
     $preset = trim((string)($input['PresetName'] ?? $base['PresetName']));
     if ($preset === '') {
-        $preset = 'Classic+ Custom';
+        $preset = 'Pure Official Conquer (1x)';
     }
     $preset = mb_substr($preset, 0, 64, 'UTF-8');
 
@@ -244,7 +246,9 @@ function mq_normalize_rates(array $input, ?array $existing = null): array
         'SilverDropChancePercent' => mq_clamp_int($input['SilverDropChancePercent'] ?? $base['SilverDropChancePercent'], 0, 100, 25),
         'EquipmentDropRate' => mq_clamp_float($input['EquipmentDropRate'] ?? $base['EquipmentDropRate'], 0.0, 25.0, 1.0),
         'QualityItemRate' => mq_clamp_float($input['QualityItemRate'] ?? $base['QualityItemRate'], 0.0, 50.0, 1.0),
-        'DragonBallDropRate' => mq_clamp_float($input['DragonBallDropRate'] ?? $base['DragonBallDropRate'], 0.0, 100.0, 1.0),
+        'SocketDropRate' => mq_clamp_float($input['SocketDropRate'] ?? $base['SocketDropRate'], 0.0, 100.0, 1.0),
+        'PlusOneDropRate' => mq_clamp_float($input['PlusOneDropRate'] ?? $base['PlusOneDropRate'], 0.0, 100.0, 1.0),
+        'DragonBallDropRate' => mq_clamp_float($input['DragonBallDropRate'] ?? $base['DragonBallDropRate'], 0.0, 1000.0, 1.0),
         'MeteorDropPer100k' => mq_clamp_int($input['MeteorDropPer100k'] ?? $base['MeteorDropPer100k'], 0, 100000, 0),
         'MonsterCpChancePercent' => mq_clamp_float($input['MonsterCpChancePercent'] ?? $base['MonsterCpChancePercent'], 0.0, 100.0, 0.0),
         'MonsterCpMin' => $cpMin,

@@ -1015,14 +1015,9 @@ namespace Canyon.Game.States.User
 
             foreach (Magic magic in MagicData.Magics.Values.Where(x => x.AutoActive.HasFlag(MagicData.AutoActive.OnAttack)))
             {
-                double percent = magic.Percent;
-                if (magic.Sort == MagicData.MagicSort.Tripleattack && target is Character)
-                {
-                    percent = 33.33d;
-                }
                 if ((magic.WeaponSubtype == 0
                         || CheckWeaponSubType(magic.WeaponSubtype, magic.UseItemNum))
-                    && await ChanceCalcAsync(percent))
+                    && await ChanceCalcAsync(magic.Percent))
                 {
                     return await ProcessMagicAttackAsync(magic.Type, target.Identity, target.X, target.Y,
                                                          (uint)MagicData.AutoActive.OnAttack);

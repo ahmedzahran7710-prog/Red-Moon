@@ -330,12 +330,6 @@ namespace Canyon.Game.States.User
                 return;
             }
 
-            const int battleExpTax = 5;
-            if (Level < 130)
-            {
-                experience *= battleExpTax;
-            }
-
             if (Level >= 120)
             {
                 experience /= 2;
@@ -373,7 +367,7 @@ namespace Canyon.Game.States.User
                 await SendAsync(StrLuckyGuyQuintuple);
             }
 
-            multiplier += 1 + BattlePower / 100d;
+            multiplier += BattlePower / 100d;
 
             experience = (long)(experience * Math.Max(0.01d, multiplier));
             double liveExpRate = ServerRatesManager.Current.ExperienceRate;
