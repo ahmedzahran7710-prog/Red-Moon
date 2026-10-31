@@ -31,10 +31,10 @@ namespace Canyon.Game
         {
             Console.Title = "Loading...";
 
-            Console.WriteLine("\tCanyon: Game Server");
-            Console.WriteLine($"\t\tCopyright 2022-{DateTime.Now:yyyy} Felipe Vieira Vendramini \"Konichu\"");
+            Console.WriteLine("\tMoonQueen: Game Server");
+            Console.WriteLine($"\t\tDeveloped by ahmedzahran | Copyright 2026-{DateTime.Now:yyyy}");
             Console.WriteLine($"\t\tVersion: {Version}");
-            Console.WriteLine("\tSome Rights Reserved");
+            Console.WriteLine("\tAll Rights Reserved - MoonQueen");
             Console.WriteLine();
 
             Console.WriteLine("Initializating log factory");
@@ -42,7 +42,7 @@ namespace Canyon.Game
             Kernel.Services.LogProcessor = new LogProcessor(CancellationToken.None);
             _ = Kernel.Services.LogProcessor.StartAsync(CancellationToken.None);
 
-            LogFactory.Initialize(Kernel.Services.LogProcessor, "Canyon.Game");
+            LogFactory.Initialize(Kernel.Services.LogProcessor, "MoonQueen.Game");
             logger = LogFactory.CreateLogger<Program>();
 
             logger.LogInformation("Starting game server settings...");

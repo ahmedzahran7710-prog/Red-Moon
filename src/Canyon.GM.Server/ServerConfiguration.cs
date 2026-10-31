@@ -8,12 +8,13 @@ namespace Canyon.GM.Server
 
         public ServerConfiguration(params string[] args)
         {   
-            var configFile = Environment.GetEnvironmentVariable("MACHINE_ENV") == "docker" ?
-                             "Canyon.GM.Config.json" :
-                             "Canyon.GM.Config.local.json";
-            
+            bool isDocker = Environment.GetEnvironmentVariable("MACHINE_ENV") == "docker";
+            var legacyConfigFile = isDocker ? "Canyon.GM.Config.json" : "Canyon.GM.Config.local.json";
+            var configFile = isDocker ? "MoonQueen.GM.Config.json" : "MoonQueen.GM.Config.local.json";
+
             new ConfigurationBuilder()
-            .AddJsonFile(configFile, optional: true) // Set optional to true if the file might not exist
+            .AddJsonFile(legacyConfigFile, optional: true)
+            .AddJsonFile(configFile, optional: true)
             .AddCommandLine(args)
             .AddEnvironmentVariables()
             .Build()

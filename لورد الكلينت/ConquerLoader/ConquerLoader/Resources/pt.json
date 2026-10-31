@@ -277,7 +277,7 @@
   },
   {
     "id": "mainFirstRunDescription",
-    "text": "O ConquerLoader precisa de pelo menos um servidor antes de poder iniciar o jogo. O assistente vai guia-lo passo a passo."
+    "text": "MoonQueen needs at least one server before it can launch the game. The guided wizard will walk you through the setup step by step."
   },
   {
     "id": "mainFirstRunStep1",
@@ -349,27 +349,27 @@
   },
   {
     "id": "aboutWindowTitle",
-    "text": "Sobre"
+    "text": "About MoonQueen"
   },
   {
     "id": "aboutHeading",
-    "text": "Sobre o ConquerLoader"
+    "text": "About MoonQueen"
   },
   {
     "id": "aboutDescription",
-    "text": "Um launcher leve com suporte a plugins e gestao de servidores para Conquer Online."
+    "text": "Official MoonQueen Game Launcher (V6192)."
   },
   {
     "id": "aboutCreatedBy",
-    "text": "Criado por Cristian Ocana Soler (DaRkFoxDeveloper)"
+    "text": "Developed by ahmedzahran"
   },
   {
     "id": "aboutPortuguese",
-    "text": "Traducao para portugues por Louan Fontenele"
+    "text": "Server & Client Edition: MoonQueen Classic+ V6192"
   },
   {
     "id": "aboutTesters",
-    "text": "Testers: Robert Frias, Pezzi Tomas"
+    "text": "All Rights Reserved - ahmedzahran"
   },
   {
     "id": "aboutVersionLabel",
@@ -377,15 +377,15 @@
   },
   {
     "id": "aboutLinks",
-    "text": "Links"
+    "text": "Details"
   },
   {
     "id": "aboutWebsiteLabel",
-    "text": "Site: "
+    "text": "Server: "
   },
   {
     "id": "aboutChangelogLabel",
-    "text": "Mudancas: "
+    "text": "Developer: "
   },
   {
     "id": "pluginsWindowTitle",

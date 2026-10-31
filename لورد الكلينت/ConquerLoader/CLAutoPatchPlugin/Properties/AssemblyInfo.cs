@@ -2,11 +2,11 @@ using System.Reflection;
 using System.Runtime.InteropServices;
 
 [assembly: AssemblyTitle("CLAutoPatchPlugin")]
-[assembly: AssemblyDescription("Manifest-driven autopatch plugin for ConquerLoader")]
+[assembly: AssemblyDescription("Manifest-driven autopatch plugin for MoonQueen")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("CLAutoPatchPlugin")]
-[assembly: AssemblyCopyright("Copyright © 2026")]
+[assembly: AssemblyCompany("ahmedzahran")]
+[assembly: AssemblyProduct("MoonQueen.AutoPatch")]
+[assembly: AssemblyCopyright("Copyright © ahmedzahran 2026")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 [assembly: ComVisible(false)]

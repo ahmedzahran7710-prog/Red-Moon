@@ -17,7 +17,7 @@ namespace CLCore.Models
 
         private void WriteHeader()
         {
-            Log.Add("[ConquerLoader]");
+            Log.Add("[MoonQueen]");
         }
 
         private void WriteFooter()

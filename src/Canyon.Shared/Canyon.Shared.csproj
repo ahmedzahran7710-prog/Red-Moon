@@ -2,6 +2,12 @@
 
 	<PropertyGroup>
 		<TargetFramework>net7.0</TargetFramework>
+		<AssemblyName>MoonQueen.Shared</AssemblyName>
+		<RootNamespace>Canyon.Shared</RootNamespace>
+		<Product>MoonQueen</Product>
+		<Authors>ahmedzahran</Authors>
+		<Company>ahmedzahran</Company>
+		<Copyright>Copyright © ahmedzahran</Copyright>
 		<ImplicitUsings>enable</ImplicitUsings>
 		<OutputPath>../Bin</OutputPath>
 		<AllowUnsafeBlocks>true</AllowUnsafeBlocks>

@@ -173,7 +173,7 @@ namespace ConquerLoader.Forms.WPF
                     noty.Visible = true;
                     Hide();
                     noty.BalloonTipTitle = ProductNameText + " " + ProductVersionText;
-                    noty.BalloonTipText = T("mainTrayBalloon", "The extensible loader for ConquerOnline");
+                    noty.BalloonTipText = T("mainTrayBalloon", "MoonQueen Official Launcher - Developed by ahmedzahran");
                     noty.ShowBalloonTip(1000);
                 }
                 else if (WindowState == WindowState.Normal)
@@ -278,8 +278,8 @@ namespace ConquerLoader.Forms.WPF
             }
             else
             {
-                Title = "ConquerLoader";
-                txtTopBarTitle.Text = "ConquerLoader";
+                Title = "MoonQueen";
+                txtTopBarTitle.Text = "MoonQueen";
             }
 
             ApplyStaticTexts();
@@ -462,7 +462,7 @@ namespace ConquerLoader.Forms.WPF
             bool noUseDX8DX9 = true;
             bool useDecryptedServerDat = true;
             bool alreadyUsingLoader = Process.GetProcessesByName(Process.GetCurrentProcess().ProcessName).Length > 1;
-            if (alreadyUsingLoader) Core.LogWritter.Write("Detected already using ConquerLoader.");
+            if (alreadyUsingLoader) Core.LogWritter.Write("Detected already using MoonQueen Launcher.");
 
             GenerateRequiredDLL();
 
@@ -893,7 +893,7 @@ namespace ConquerLoader.Forms.WPF
             ApplyTranslation("btnSettings", btnOpenSettingsFromOverlay, "Open Settings");
             ApplyTranslation("lblAbout", btnAboutFromOverlay, "About");
             txtFirstRunTitle.Text = T("mainFirstRunTitle", "Let's create your first server");
-            txtFirstRunDescription.Text = T("mainFirstRunDescription", "ConquerLoader needs at least one server before it can launch the game. The guided wizard will walk you through the setup step by step.");
+            txtFirstRunDescription.Text = T("mainFirstRunDescription", "MoonQueen needs at least one server before it can launch the game. The guided wizard will walk you through the setup step by step.");
             txtFirstRunStep1.Text = T("mainFirstRunStep1", "1. Choose a name for the server so you can recognize it later.");
             txtFirstRunStep2.Text = T("mainFirstRunStep2", "2. Enter the server IP, client version, and executable in the wizard.");
             txtFirstRunStep3.Text = T("mainFirstRunStep3", "3. Save the server and come back here to launch the game.");
@@ -921,8 +921,8 @@ namespace ConquerLoader.Forms.WPF
             }
             else
             {
-                Title = "ConquerLoader";
-                txtTopBarTitle.Text = "ConquerLoader";
+                Title = "MoonQueen";
+                txtTopBarTitle.Text = "MoonQueen";
             }
         }
 

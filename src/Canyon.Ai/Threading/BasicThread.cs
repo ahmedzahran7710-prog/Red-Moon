@@ -12,7 +12,7 @@ namespace Canyon.Ai.Threading
 
         private static readonly ILogger logger = LogFactory.CreateLogger<BasicThread>();
 
-        private const string CONSOLE_TITLE = "Conquer Online AI Server - {0} - {1} - Roles: {2}";
+        private const string CONSOLE_TITLE = "[MoonQueen] AI Server (by ahmedzahran) - {0} - {1} - Roles: {2}";
         private static long lastUpdateTick = 0;
 
         private static readonly TimeOutMS gameServerReconnectTimer = new();

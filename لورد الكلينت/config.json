@@ -1,7 +1,7 @@
 {
   "Servers": [
     {
-      "ServerName": "RedMoon",
+      "ServerName": "MoonQueen",
       "ServerVersion": 6192,
       "LoginHost": "25.21.212.130",
       "GameHost": "25.21.212.130",
@@ -11,17 +11,17 @@
       "EnableHostName": false,
       "UseDirectX9": false,
       "Hostname": "",
-      "ServerNameMemoryAddress": "0x00A56348",
+      "ServerNameMemoryAddress": "",
       "ServerIcon": "Group2/1.swf",
       "Group": {
         "GroupName": "Group2",
         "GroupIcon": "Group2.swf",
-        "Servers": []
+        "Servers": null
       }
     }
   ],
   "DefaultServer": {
-    "ServerName": "RedMoon",
+    "ServerName": "MoonQueen",
     "ServerVersion": 6192,
     "LoginHost": "25.21.212.130",
     "GameHost": "25.21.212.130",
@@ -31,12 +31,12 @@
     "EnableHostName": false,
     "UseDirectX9": false,
     "Hostname": "",
-    "ServerNameMemoryAddress": "0x00A56348",
+    "ServerNameMemoryAddress": "",
     "ServerIcon": "Group2/1.swf",
     "Group": {
       "GroupName": "Group2",
       "GroupIcon": "Group2.swf",
-      "Servers": []
+      "Servers": null
     }
   },
   "DebugMode": false,
@@ -44,10 +44,10 @@
   "HighResolution": true,
   "FHDResolution": false,
   "FullScreen": false,
-  "ServernameChange": true,
+  "ServernameChange": false,
   "DisableAutoFixFlash": true,
-  "Title": "Red Moon - Conquer 6192",
-  "Description": "Red Moon Classic+ Server",
+  "Title": "MoonQueen",
+  "Description": "Welcome to MoonQueen (V6192) - Developed by ahmedzahran",
   "Lang": "en",
   "LicenseKey": "",
   "DisableScreenChanges": false,

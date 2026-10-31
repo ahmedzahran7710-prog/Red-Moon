@@ -8,7 +8,7 @@
     <ProjectGuid>{AF23285A-B4CD-46B1-962D-0CD66A55482B}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <RootNamespace>ConquerLoader</RootNamespace>
-    <AssemblyName>ConquerLoader</AssemblyName>
+    <AssemblyName>MoonQueen</AssemblyName>
     <TargetFrameworkVersion>v4.6.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>

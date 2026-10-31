@@ -60,7 +60,7 @@ namespace Canyon.Shared
                 );
 
             var logger = loggerFactory.CreateLogger<LogFactory>();
-            logger.LogInformation("Canyon logger factory has been initialized!");
+            logger.LogInformation("MoonQueen logger factory has been initialized!");
         }
 
         public static ILogger CreateLogger<T>()

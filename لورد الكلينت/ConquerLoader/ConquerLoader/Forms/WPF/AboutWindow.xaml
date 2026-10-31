@@ -22,7 +22,7 @@
     <Window.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="/ConquerLoader;component/Forms/WPF/SharedTheme.xaml" />
+                <ResourceDictionary Source="/MoonQueen;component/Forms/WPF/SharedTheme.xaml" />
             </ResourceDictionary.MergedDictionaries>
         <SolidColorBrush x:Key="OutlineBrush" Color="#9EA6B4" />
         <SolidColorBrush x:Key="TextPrimaryBrush" Color="#F4F7FC" />
@@ -232,17 +232,17 @@
                                        MaxWidth="140"
                                        FontSize="13"
                                        Foreground="{StaticResource TextSecondaryBrush}"
-                                       Text="conquerloader.com"
+                                       Text="MoonQueen"
                                        TextAlignment="Center"
                                        TextWrapping="Wrap" />
                             </StackPanel>
                         </Border>
                         <StackPanel Grid.Column="2">
-                            <TextBlock x:Name="txtAboutHeading" FontSize="30" FontWeight="SemiBold" Foreground="{StaticResource TextPrimaryBrush}" Text="About ConquerLoader" TextWrapping="Wrap" />
-                            <TextBlock x:Name="txtAboutDescription" Margin="0,10,0,0" FontSize="15" Foreground="{StaticResource TextSecondaryBrush}" Text="A lightweight launcher with plugin support and server management for Conquer Online." TextWrapping="Wrap" />
-                            <TextBlock x:Name="txtAboutCreatedBy" Margin="0,24,0,0" FontSize="14" Foreground="{StaticResource TextPrimaryBrush}" Text="Created by Cristian Ocana Soler (DaRkFoxDeveloper)" TextWrapping="Wrap" />
-                            <TextBlock x:Name="txtAboutPortuguese" Margin="0,8,0,0" FontSize="14" Foreground="{StaticResource TextPrimaryBrush}" Text="Portuguese translation by Louan Fontenele" TextWrapping="Wrap" />
-                            <TextBlock x:Name="txtAboutTesters" Margin="0,8,0,0" FontSize="14" Foreground="{StaticResource TextPrimaryBrush}" Text="Testers: Robert Frias, Pezzi Tomas" TextWrapping="Wrap" />
+                            <TextBlock x:Name="txtAboutHeading" FontSize="30" FontWeight="SemiBold" Foreground="{StaticResource TextPrimaryBrush}" Text="About MoonQueen" TextWrapping="Wrap" />
+                            <TextBlock x:Name="txtAboutDescription" Margin="0,10,0,0" FontSize="15" Foreground="{StaticResource TextSecondaryBrush}" Text="Official MoonQueen Game Launcher (V6192)." TextWrapping="Wrap" />
+                            <TextBlock x:Name="txtAboutCreatedBy" Margin="0,24,0,0" FontSize="14" Foreground="{StaticResource TextPrimaryBrush}" Text="Developed by ahmedzahran" TextWrapping="Wrap" />
+                            <TextBlock x:Name="txtAboutPortuguese" Margin="0,8,0,0" FontSize="14" Foreground="{StaticResource TextPrimaryBrush}" Text="Server &amp; Client Edition: MoonQueen Classic+ V6192" TextWrapping="Wrap" />
+                            <TextBlock x:Name="txtAboutTesters" Margin="0,8,0,0" FontSize="14" Foreground="{StaticResource TextPrimaryBrush}" Text="All Rights Reserved - ahmedzahran" TextWrapping="Wrap" />
                             <DockPanel Margin="0,24,0,0" LastChildFill="False">
                                 <TextBlock x:Name="txtAboutVersionLabel" DockPanel.Dock="Left" FontSize="14" FontWeight="SemiBold" Foreground="{StaticResource TextPrimaryBrush}" Text="Version:" />
                                 <TextBlock x:Name="lblAboutVersionN" DockPanel.Dock="Left" Margin="8,0,0,0" FontSize="14" Foreground="{StaticResource TextSecondaryBrush}" Text="v1.0.0.0" TextWrapping="Wrap" />
@@ -250,18 +250,12 @@
                             <StackPanel Margin="0,26,0,0">
                                 <TextBlock x:Name="txtAboutLinks" FontSize="14" FontWeight="SemiBold" Foreground="{StaticResource TextPrimaryBrush}" Text="Links" />
                                 <TextBlock Margin="0,10,0,0" FontSize="14" Foreground="{StaticResource TextSecondaryBrush}" TextWrapping="Wrap">
-                                    <Run x:Name="runWebsiteLabel" Text="Website: " />
-                                    <Hyperlink NavigateUri="https://conquerloader.com/"
-                                               Foreground="#E0B36D"
-                                               RequestNavigate="Hyperlink_RequestNavigate"
-                                               TextDecorations="Underline">https://conquerloader.com/</Hyperlink>
+                                    <Run x:Name="runWebsiteLabel" Text="Server: " />
+                                    <Run Foreground="#E0B36D" Text="MoonQueen Online" />
                                 </TextBlock>
                                 <TextBlock Margin="0,8,0,0" FontSize="14" Foreground="{StaticResource TextSecondaryBrush}" TextWrapping="Wrap">
-                                    <Run x:Name="runChangelogLabel" Text="Changelog: " />
-                                    <Hyperlink NavigateUri="https://conquerloader.com/changelog/"
-                                               Foreground="#E0B36D"
-                                               RequestNavigate="Hyperlink_RequestNavigate"
-                                               TextDecorations="Underline">https://conquerloader.com/changelog/</Hyperlink>
+                                    <Run x:Name="runChangelogLabel" Text="Developer: " />
+                                    <Run Foreground="#E0B36D" Text="ahmedzahran" />
                                 </TextBlock>
                             </StackPanel>
                         </StackPanel>

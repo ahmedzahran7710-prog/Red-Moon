@@ -3560,5 +3560,23 @@ namespace Canyon.Game {
                 return ResourceManager.GetString("StrYourFriendAlready", resourceCulture);
             }
         }
+        
+        public static string StrWelcomeLoginTalk {
+            get {
+                return ResourceManager.GetString("StrWelcomeLoginTalk", resourceCulture);
+            }
+        }
+        
+        public static string StrWelcomeLoginTopLeft {
+            get {
+                return ResourceManager.GetString("StrWelcomeLoginTopLeft", resourceCulture);
+            }
+        }
+        
+        public static string StrWelcomeServerInfo {
+            get {
+                return ResourceManager.GetString("StrWelcomeServerInfo", resourceCulture);
+            }
+        }
     }
 }

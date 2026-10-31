@@ -29,7 +29,7 @@ namespace Canyon.GM.Server
                         x.SingleLine = true;
                         x.TimestampFormat = "[yyyyMMdd HHmmss.fff] ";
                     });
-                    logging.AddFile("Logs/CanyonGM-{Date}.log");
+                    logging.AddFile("Logs/MoonQueenGM-{Date}.log");
                 })
                 .ConfigureServices(async (hostContext, services) =>
                 {

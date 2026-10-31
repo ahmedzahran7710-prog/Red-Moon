@@ -5,12 +5,6 @@ VisualStudioVersion = 17.2.32602.215
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{B3BE9388-DD5C-4431-8461-6EA372BD3F5A}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "sql", "sql", "{949F7A5D-CD33-4C93-8E42-C216C240BAC4}"
-	ProjectSection(SolutionItems) = preProject
-		sql\Dump20230109.sql = sql\Dump20230109.sql
-		sql\Dump20230109_data.7z = sql\Dump20230109_data.7z
-	EndProjectSection
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "doc", "doc", "{F7ED419A-CAEA-485B-88D4-2347AE4F68FD}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Canyon.World", "src\Canyon.World\Canyon.World.csproj", "{0C871C4E-B80B-4D4A-90C7-0CC027F8BFCF}"

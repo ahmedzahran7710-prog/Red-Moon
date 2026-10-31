@@ -7,9 +7,9 @@
   "total_upstream_files": 170,
   "tracked_files": 163,
   "omitted_files": 5,
-  "patched_files": 10,
+  "patched_files": 32,
   "total_upstream_bytes": 42053216,
-  "tracked_bytes": 7759094,
+  "tracked_bytes": 7757780,
   "files": [
     {
       "path": ".github/FUNDING.yml",
@@ -44,8 +44,8 @@
     },
     {
       "path": "ConquerCipherHook/ConquerCipherHook.cpp",
-      "bytes": 4497,
-      "sha256": "f00618e2f39a3bfffd5531ad5d7e1da43424c572a33ac48fe73dc97d460d2cc5",
+      "bytes": 4541,
+      "sha256": "14b8986eb87ad24d51729ee497fea0cfcb9397fa913ff38f0d30f79cd054f325",
       "tracked": true,
       "upstream_sha256": "73726048c28504f8ece4caf0da9088e379d434bd8114cdb9b0440be19fd039ee"
     },
@@ -314,9 +314,10 @@
     },
     {
       "path": "ConquerLoader/CLAutoPatchPlugin/Properties/AssemblyInfo.cs",
-      "bytes": 602,
-      "sha256": "3ca1383e40f242575c23cf8e5a1cb6712b5a7e4ca965b554feeec40f9d574945",
-      "tracked": true
+      "bytes": 623,
+      "sha256": "95bf72ea5e9533af72fd511582ca4ae76616bcecde65b1ed2174904d02aec0bd",
+      "tracked": true,
+      "upstream_sha256": "3ca1383e40f242575c23cf8e5a1cb6712b5a7e4ca965b554feeec40f9d574945"
     },
     {
       "path": "ConquerLoader/CLAutoPatchPlugin/README.md",
@@ -393,9 +394,10 @@
     },
     {
       "path": "ConquerLoader/CLCore/Models/LogWritter.cs",
-      "bytes": 1365,
-      "sha256": "6ae4740f306e031a6ed002789ddf4aa1f43967d9977034303b86c92cffe602cd",
-      "tracked": true
+      "bytes": 1361,
+      "sha256": "e7d63e7932343341245ad005426b07bf301d580a02593613f7719a8a3b2c1b01",
+      "tracked": true,
+      "upstream_sha256": "6ae4740f306e031a6ed002789ddf4aa1f43967d9977034303b86c92cffe602cd"
     },
     {
       "path": "ConquerLoader/CLCore/Models/ServerConfiguration.cs",
@@ -460,15 +462,17 @@
     },
     {
       "path": "ConquerLoader/CLCore/Properties/AssemblyInfo.cs",
-      "bytes": 1589,
-      "sha256": "39e96d2d2415b5163e32fba002f12076eef148b18c474f48f9f9ff4e559832e3",
-      "tracked": true
+      "bytes": 1583,
+      "sha256": "12b8f0b611711abebea7f6c18d716ef44be3c4d2d1be0f905c45ac700e275ce2",
+      "tracked": true,
+      "upstream_sha256": "39e96d2d2415b5163e32fba002f12076eef148b18c474f48f9f9ff4e559832e3"
     },
     {
       "path": "ConquerLoader/CLCore/SocketSystem.cs",
-      "bytes": 11019,
-      "sha256": "224f56ef07c3a340ca6618b7b6e2d4337cc206a4746504dcaf6d2d6b673cbe6a",
-      "tracked": true
+      "bytes": 10980,
+      "sha256": "3535f9b19b42f841c8f4ad4223d328419823ec8aec082fc72b9fbd02330323c8",
+      "tracked": true,
+      "upstream_sha256": "224f56ef07c3a340ca6618b7b6e2d4337cc206a4746504dcaf6d2d6b673cbe6a"
     },
     {
       "path": "ConquerLoader/CLCore/app.config",
@@ -526,9 +530,10 @@
     },
     {
       "path": "ConquerLoader/CLServer/Properties/AssemblyInfo.cs",
-      "bytes": 1583,
-      "sha256": "38479356d28315d75bd897423390a9d6ecfa1ef2cd1aef923aeac667b59dccaa",
-      "tracked": true
+      "bytes": 1586,
+      "sha256": "2ed90ac95326491c3bdf2c73f9ecef50a99b8a9cc1c8c78f3e488916df037280",
+      "tracked": true,
+      "upstream_sha256": "38479356d28315d75bd897423390a9d6ecfa1ef2cd1aef923aeac667b59dccaa"
     },
     {
       "path": "ConquerLoader/CLServer/Properties/Resources.Designer.cs",
@@ -585,11 +590,12 @@
       "tracked": true
     },
     {
-      "path": "ConquerLoader/ConquerLoader.sln",
-      "bytes": 5910,
-      "sha256": "83521da519c9da08fcfa51768480adb8cdcb796c93dc58f10f6e3c4785409ae9",
+      "path": "ConquerLoader/MoonQueen.sln",
+      "bytes": 5906,
+      "sha256": "0539023af13dba12fe982f2cf2a1b0fb8f47a88bf433f6a0dd8fbb6a57da8604",
       "tracked": true,
-      "upstream_sha256": "3b21dfb87522d2d34e5faf06aed63bce55eeb0c00a873178725119f1b9e4ac47"
+      "upstream_sha256": "3b21dfb87522d2d34e5faf06aed63bce55eeb0c00a873178725119f1b9e4ac47",
+      "upstream_path": "ConquerLoader/ConquerLoader.sln"
     },
     {
       "path": "ConquerLoader/ConquerLoader/App.config",
@@ -599,8 +605,8 @@
     },
     {
       "path": "ConquerLoader/ConquerLoader/ConquerLoader.csproj",
-      "bytes": 22389,
-      "sha256": "5e8ab709721a69b94f03c295ff7fb561bc04e174f152504a15e26d7d19fab99e",
+      "bytes": 22385,
+      "sha256": "a37305038fbc40de7f3d4ef57fb31ff0e0453ea35f6681ce1f5f294a11a1f58b",
       "tracked": true,
       "upstream_sha256": "d1ca39835a10015806c800b37e12a14bb711b2cffca00e17865b86b883799510"
     },
@@ -612,9 +618,10 @@
     },
     {
       "path": "ConquerLoader/ConquerLoader/Core.cs",
-      "bytes": 12006,
-      "sha256": "6e2cbd1a7ac35a5fc6a582bfb615f061547b2ea56419176a09de955b8b02d0d6",
-      "tracked": true
+      "bytes": 12009,
+      "sha256": "29e19addf09927e8abba48a8495a1efa9d413b70fceb25a1c19fc79576ab401f",
+      "tracked": true,
+      "upstream_sha256": "6e2cbd1a7ac35a5fc6a582bfb615f061547b2ea56419176a09de955b8b02d0d6"
     },
     {
       "path": "ConquerLoader/ConquerLoader/FodyWeavers.xml",
@@ -624,15 +631,17 @@
     },
     {
       "path": "ConquerLoader/ConquerLoader/Forms/About.Designer.cs",
-      "bytes": 7342,
-      "sha256": "6d08983ed540a506717c9b88d33b0175d8369384cf34f23a091540015a6be268",
-      "tracked": true
+      "bytes": 7314,
+      "sha256": "a99f083b0de1c92725a6d3d2ef6cc8c57528f4f1936c4094eb4a65a0bec5a4b2",
+      "tracked": true,
+      "upstream_sha256": "6d08983ed540a506717c9b88d33b0175d8369384cf34f23a091540015a6be268"
     },
     {
       "path": "ConquerLoader/ConquerLoader/Forms/About.cs",
-      "bytes": 948,
-      "sha256": "0e742948f9bbeb75e0e9ef65899fec4520ce100e38a77bfee359b02ede03e483",
-      "tracked": true
+      "bytes": 926,
+      "sha256": "0399a845c87d0f1f8f8ec0096823065ef32d95cf35f30692d5d1cf48b7607662",
+      "tracked": true,
+      "upstream_sha256": "0e742948f9bbeb75e0e9ef65899fec4520ce100e38a77bfee359b02ede03e483"
     },
     {
       "path": "ConquerLoader/ConquerLoader/Forms/About.resx",
@@ -642,14 +651,15 @@
     },
     {
       "path": "ConquerLoader/ConquerLoader/Forms/Main.Designer.cs",
-      "bytes": 11270,
-      "sha256": "19200a683203d055818fa5a3b2be9268d24f617ce2537c79a4da23c8649f5710",
-      "tracked": true
+      "bytes": 11266,
+      "sha256": "585a2d509ec6d5e247f5adaf67273a4d48c69271909d522646e2d8b938d51324",
+      "tracked": true,
+      "upstream_sha256": "19200a683203d055818fa5a3b2be9268d24f617ce2537c79a4da23c8649f5710"
     },
     {
       "path": "ConquerLoader/ConquerLoader/Forms/Main.cs",
-      "bytes": 37051,
-      "sha256": "b5368b81c778054d7fe9e02026c184e1fda901bde9495f63ba4734f7b17699b9",
+      "bytes": 37071,
+      "sha256": "4450f4e5b8fa14612e8013f3a058518ad576f622a380c638f3bb36efabfb3dfa",
       "tracked": true,
       "upstream_sha256": "eabb41437d884211e02c7e143d989ec9eb3576b54075fbe5185fc7b97a1140a4"
     },
@@ -733,34 +743,38 @@
     },
     {
       "path": "ConquerLoader/ConquerLoader/Forms/WPF/AboutWindow.xaml",
-      "bytes": 17112,
-      "sha256": "bf5c0983252dd2e6fed93585e9f25af04ac976b6997a1ba646ca304a691aa4c1",
-      "tracked": true
+      "bytes": 16468,
+      "sha256": "0a26652118e59ef74244ef499b48923252013e67235b71c9e147336af0d0f93d",
+      "tracked": true,
+      "upstream_sha256": "bf5c0983252dd2e6fed93585e9f25af04ac976b6997a1ba646ca304a691aa4c1"
     },
     {
       "path": "ConquerLoader/ConquerLoader/Forms/WPF/AboutWindow.xaml.cs",
-      "bytes": 4928,
-      "sha256": "6afa97a5ffe80085d8b2db5ab3e96826e1a0b718ea1b67e8c7182d64f9210f65",
-      "tracked": true
+      "bytes": 4853,
+      "sha256": "5cd1d91bc5951358e71c7ed91317643530334a9eec1ac530ce25279c5a8f5e00",
+      "tracked": true,
+      "upstream_sha256": "6afa97a5ffe80085d8b2db5ab3e96826e1a0b718ea1b67e8c7182d64f9210f65"
     },
     {
       "path": "ConquerLoader/ConquerLoader/Forms/WPF/MainLite.xaml",
-      "bytes": 58273,
-      "sha256": "07d2f5d68b545e260f0e28dd556267ab0508fb6e0a7b4ff7bd2d6aad1fa42855",
-      "tracked": true
+      "bytes": 58245,
+      "sha256": "571233a866606376af31eb80831f609e52e5039d0cf8619bfed65abc8514820d",
+      "tracked": true,
+      "upstream_sha256": "07d2f5d68b545e260f0e28dd556267ab0508fb6e0a7b4ff7bd2d6aad1fa42855"
     },
     {
       "path": "ConquerLoader/ConquerLoader/Forms/WPF/MainLite.xaml.cs",
       "bytes": 44162,
-      "sha256": "dd0b5bc0c84bb9ed8806392ab75625aca11e434a480f14602d6e2c0599151b7e",
+      "sha256": "cd91acc9acf312896e9e87584df0c61cf55c8c766710b1c97a876ccde107bd79",
       "tracked": true,
       "upstream_sha256": "678dc16e3ec2f0255376e83799fcaea474a0918a9debb8dbd43adf46a777bb3d"
     },
     {
       "path": "ConquerLoader/ConquerLoader/Forms/WPF/PluginsWindow.xaml",
-      "bytes": 19375,
-      "sha256": "e2d881441369e89d1f7d306181c16cf4322fd3b6fcfa23e7a6fc23075bf54641",
-      "tracked": true
+      "bytes": 19371,
+      "sha256": "99887e332cc755046617cef228135fba917e06a143ebc01ba317571da8d92ec6",
+      "tracked": true,
+      "upstream_sha256": "e2d881441369e89d1f7d306181c16cf4322fd3b6fcfa23e7a6fc23075bf54641"
     },
     {
       "path": "ConquerLoader/ConquerLoader/Forms/WPF/PluginsWindow.xaml.cs",
@@ -770,9 +784,10 @@
     },
     {
       "path": "ConquerLoader/ConquerLoader/Forms/WPF/ServerDatManagerWindow.xaml",
-      "bytes": 16363,
-      "sha256": "43f801022a9790558a60a039e53452df5dfeab6fe70d7eef77c2ddd0d69d7c39",
-      "tracked": true
+      "bytes": 16359,
+      "sha256": "2253c1577a884a6e6520d55b43ac40a175767d193c06c5a051d70e005607d49d",
+      "tracked": true,
+      "upstream_sha256": "43f801022a9790558a60a039e53452df5dfeab6fe70d7eef77c2ddd0d69d7c39"
     },
     {
       "path": "ConquerLoader/ConquerLoader/Forms/WPF/ServerDatManagerWindow.xaml.cs",
@@ -782,9 +797,10 @@
     },
     {
       "path": "ConquerLoader/ConquerLoader/Forms/WPF/SettingsWindow.xaml",
-      "bytes": 34863,
-      "sha256": "9ae416cee2cfbc07ca6633e1d146a2f54a4bc55b0430e4b8310bbea7d33c161b",
-      "tracked": true
+      "bytes": 34859,
+      "sha256": "df3a1c801021656f9e18a6cf2e9bdf6ad522a265eb636b8453068814895e7f37",
+      "tracked": true,
+      "upstream_sha256": "9ae416cee2cfbc07ca6633e1d146a2f54a4bc55b0430e4b8310bbea7d33c161b"
     },
     {
       "path": "ConquerLoader/ConquerLoader/Forms/WPF/SettingsWindow.xaml.cs",
@@ -794,9 +810,10 @@
     },
     {
       "path": "ConquerLoader/ConquerLoader/Forms/WPF/SetupLicenseWindow.xaml",
-      "bytes": 14841,
-      "sha256": "477cdb4d00ff2ce9e070a0cff5e9443d0af527c4d4b24f77c009d337717d04cb",
-      "tracked": true
+      "bytes": 14837,
+      "sha256": "95147b57a1bc765e8a6bfe0e53affb72d13a5bb28e659e14f97631a262afa2ea",
+      "tracked": true,
+      "upstream_sha256": "477cdb4d00ff2ce9e070a0cff5e9443d0af527c4d4b24f77c009d337717d04cb"
     },
     {
       "path": "ConquerLoader/ConquerLoader/Forms/WPF/SetupLicenseWindow.xaml.cs",
@@ -812,9 +829,10 @@
     },
     {
       "path": "ConquerLoader/ConquerLoader/Forms/WPF/WizardWindow.xaml",
-      "bytes": 37725,
-      "sha256": "6fcde77e1eee60041f1c7195f9c515f87a78427a6f7ff8d8af854f0cc0bd8556",
-      "tracked": true
+      "bytes": 37721,
+      "sha256": "d7ce1121c8d02d5bb83c298ccf3600aa6aed38f7018be1e8b9105b2219b7d9a4",
+      "tracked": true,
+      "upstream_sha256": "6fcde77e1eee60041f1c7195f9c515f87a78427a6f7ff8d8af854f0cc0bd8556"
     },
     {
       "path": "ConquerLoader/ConquerLoader/Forms/WPF/WizardWindow.xaml.cs",
@@ -860,9 +878,10 @@
     },
     {
       "path": "ConquerLoader/ConquerLoader/Properties/AssemblyInfo.cs",
-      "bytes": 1640,
-      "sha256": "d30ebe13b8ab5fe49173b05bf9168c2627cc7b67b37cef8b1ea3b223e41b8b69",
-      "tracked": true
+      "bytes": 1681,
+      "sha256": "98104065e0f063bdd2376f33ceea97faf42d4a16fda17dc40d68f9df63ab9678",
+      "tracked": true,
+      "upstream_sha256": "d30ebe13b8ab5fe49173b05bf9168c2627cc7b67b37cef8b1ea3b223e41b8b69"
     },
     {
       "path": "ConquerLoader/ConquerLoader/Properties/Resources.Designer.cs",
@@ -967,9 +986,10 @@
     },
     {
       "path": "ConquerLoader/ConquerLoader/Resources/en.json",
-      "bytes": 6690,
-      "sha256": "22bfcdab0e81390fbab6b9a551e2caa68d0ff7251b9099ee71331248d19bd2a9",
-      "tracked": true
+      "bytes": 7557,
+      "sha256": "b09c009939b8c5fad216b554499ad03c0d0ac9933f8ef9224d4f721f5ff0258e",
+      "tracked": true,
+      "upstream_sha256": "22bfcdab0e81390fbab6b9a551e2caa68d0ff7251b9099ee71331248d19bd2a9"
     },
     {
       "path": "ConquerLoader/ConquerLoader/Resources/en.png",
@@ -979,9 +999,10 @@
     },
     {
       "path": "ConquerLoader/ConquerLoader/Resources/es.json",
-      "bytes": 21233,
-      "sha256": "a5a8346433dd83b0b794b28a779c4cacc5cd57637cfc09f4ccda56d63e75a68e",
-      "tracked": true
+      "bytes": 21188,
+      "sha256": "5c47dec57cfaf2fbd3eeb58b9716856dd3b12a2cad89125854f4089aa796039f",
+      "tracked": true,
+      "upstream_sha256": "a5a8346433dd83b0b794b28a779c4cacc5cd57637cfc09f4ccda56d63e75a68e"
     },
     {
       "path": "ConquerLoader/ConquerLoader/Resources/es.png",
@@ -991,9 +1012,10 @@
     },
     {
       "path": "ConquerLoader/ConquerLoader/Resources/pt.json",
-      "bytes": 21002,
-      "sha256": "330102c439226a66e539a7c58faa1085e8768c336f3bb9b740a8b45507e6f295",
-      "tracked": true
+      "bytes": 20959,
+      "sha256": "6d266f7dd19a818330e5e4b2f03c302d08f491e58dd1891f02eb5425d6f410af",
+      "tracked": true,
+      "upstream_sha256": "330102c439226a66e539a7c58faa1085e8768c336f3bb9b740a8b45507e6f295"
     },
     {
       "path": "ConquerLoader/ConquerLoader/Resources/pt.png",
@@ -1021,9 +1043,10 @@
     },
     {
       "path": "ConquerLoader/ExamplePlugin/Properties/AssemblyInfo.cs",
-      "bytes": 1557,
-      "sha256": "595c25e211e85324da8c569d2e605818d14b1f2eaacebf37601e4914ea7a3b38",
-      "tracked": true
+      "bytes": 1573,
+      "sha256": "baf375b8d1ab730ddf5a707bbebf8b520b39b4cfaa9e003586a2784ba26992cf",
+      "tracked": true,
+      "upstream_sha256": "595c25e211e85324da8c569d2e605818d14b1f2eaacebf37601e4914ea7a3b38"
     },
     {
       "path": "ConquerLoader/ExamplePlugin/app.config",
@@ -1039,8 +1062,8 @@
     },
     {
       "path": "README.md",
-      "bytes": 5726,
-      "sha256": "08562e57f51f9f15cec2c1bc94ee5fb939001dd31b95d73d1cf06dcf1a03468e",
+      "bytes": 4363,
+      "sha256": "72bcabbfb06ef52d87dda94d4fdd3efcbc71995d19a1d5f197fa42c52e68bff3",
       "tracked": true,
       "upstream_sha256": "5ca1a680991bbd381dfcce73aef464b0b0d67148f1da81d0d0a8ceb5f36852a1"
     }

@@ -9,8 +9,8 @@ namespace Canyon.GM.Server.Services
 {
     public sealed class RealmService
     {
-        private const string GAME_SERVER_EXE = "Canyon.Game.exe";
-        private const string AI_SERVER_EXE = "Canyon.Ai.exe";
+        private const string GAME_SERVER_EXE = "MoonQueen.Game.exe";
+        private const string AI_SERVER_EXE = "MoonQueen.Ai.exe";
 
         private readonly ILogger<RealmService> logger;
         private readonly IConfiguration configuration;

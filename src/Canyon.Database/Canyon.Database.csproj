@@ -2,6 +2,12 @@
 
 	<PropertyGroup>
 		<TargetFramework>net7.0</TargetFramework>
+		<AssemblyName>MoonQueen.Database</AssemblyName>
+		<RootNamespace>Canyon.Database</RootNamespace>
+		<Product>MoonQueen</Product>
+		<Authors>ahmedzahran</Authors>
+		<Company>ahmedzahran</Company>
+		<Copyright>Copyright © ahmedzahran</Copyright>
 		<ImplicitUsings>enable</ImplicitUsings>
 		<OutputPath>../Bin</OutputPath>
 	</PropertyGroup>

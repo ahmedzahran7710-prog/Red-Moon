@@ -3,6 +3,12 @@
 	<PropertyGroup>
 		<OutputType>Exe</OutputType>
 		<TargetFramework>net7.0</TargetFramework>
+		<AssemblyName>MoonQueen.GM.Server</AssemblyName>
+		<RootNamespace>Canyon.GM.Server</RootNamespace>
+		<Product>MoonQueen</Product>
+		<Authors>ahmedzahran</Authors>
+		<Company>ahmedzahran</Company>
+		<Copyright>Copyright © ahmedzahran</Copyright>
 		<ImplicitUsings>enable</ImplicitUsings>
 		<Version>1.0.2</Version>
 		<OutputPath>../Bin</OutputPath>
@@ -35,6 +41,12 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <None Update="MoonQueen.GM.Config.json">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </None>
+	  <None Update="MoonQueen.GM.Config.local.json">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </None>
 	  <None Update="Canyon.GM.Config.json">
 	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 	  </None>

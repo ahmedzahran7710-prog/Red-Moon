@@ -6,7 +6,7 @@ namespace Canyon.Login.Threading
     [DisallowConcurrentExecution]
     public sealed class BasicThread : IJob
     {
-        private const string CONSOLE_TITLE = "Conquer Online Login Server - Servers[{0}] - {1}";
+        private const string CONSOLE_TITLE = "[MoonQueen] Login Server (by ahmedzahran) - Servers[{0}] - {1}";
 
         public BasicThread()
         {

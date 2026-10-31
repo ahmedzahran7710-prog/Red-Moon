@@ -1,15 +1,15 @@
-# Preserve imported and patched CanyonV6192 files byte-for-byte (UTF-8 BOMs and exact line endings).
+# Preserve imported and patched MoonQueen (CanyonV6192-derived) files byte-for-byte (UTF-8 BOMs and exact line endings).
 src/** -text -whitespace
 RequiredAssetsForRun/** -text -whitespace
 .vscode/** -text -whitespace
 /.editorconfig -text -whitespace
 /.gitlab-ci.yml -text -whitespace
-/Canyon.sln -text -whitespace
+/MoonQueen.sln -text -whitespace
 /LICENSE -text -whitespace
 /dockerfile -text -whitespace
 /wait-for-it.sh -text -whitespace
 
-# Preserve imported and patched ConquerLoader files byte-for-byte inside the client loader folder.
+# Preserve imported and patched MoonQueen client loader files byte-for-byte inside the client loader folder.
 "/لورد الكلينت/**" -text -whitespace
 
 # Keep project governance, guides, manifests, and templates as clean UTF-8 LF text.

@@ -8,9 +8,9 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyTitle("ExamplePlugin")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("ExamplePlugin")]
-[assembly: AssemblyCopyright("Copyright © DaRkFoxDeveloper 2020")]
+[assembly: AssemblyCompany("ahmedzahran")]
+[assembly: AssemblyProduct("MoonQueen.ExamplePlugin")]
+[assembly: AssemblyCopyright("Copyright © ahmedzahran 2026")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 

@@ -61,7 +61,7 @@ namespace ConquerLoader.Forms
             this.lblAbout1.Name = "lblAbout1";
             this.lblAbout1.Size = new System.Drawing.Size(388, 20);
             this.lblAbout1.TabIndex = 1;
-            this.lblAbout1.Text = "Created by Cristian Ocaña Soler (DaRkFoxDeveloper)";
+            this.lblAbout1.Text = "Developed by ahmedzahran";
             // 
             // lblAbout2
             // 
@@ -71,7 +71,7 @@ namespace ConquerLoader.Forms
             this.lblAbout2.Name = "lblAbout2";
             this.lblAbout2.Size = new System.Drawing.Size(334, 20);
             this.lblAbout2.TabIndex = 2;
-            this.lblAbout2.Text = "Translation in Portuguese by Louan Fontenele";
+            this.lblAbout2.Text = "MoonQueen Classic+ Edition (V6192)";
             // 
             // lblAboutTesters
             // 
@@ -81,7 +81,7 @@ namespace ConquerLoader.Forms
             this.lblAboutTesters.Name = "lblAboutTesters";
             this.lblAboutTesters.Size = new System.Drawing.Size(256, 20);
             this.lblAboutTesters.TabIndex = 3;
-            this.lblAboutTesters.Text = "Testers: Robert Frias, Pezzi Tomas";
+            this.lblAboutTesters.Text = "All Rights Reserved - ahmedzahran";
             // 
             // lblAboutVersion
             // 
@@ -133,7 +133,7 @@ namespace ConquerLoader.Forms
             this.Name = "About";
             this.Padding = new System.Windows.Forms.Padding(30, 92, 30, 31);
             this.Resizable = false;
-            this.Text = "About";
+            this.Text = "About MoonQueen";
             this.Load += new System.EventHandler(this.About_Load);
             ((System.ComponentModel.ISupportInitialize)(this.pbAbout)).EndInit();
             this.ResumeLayout(false);
