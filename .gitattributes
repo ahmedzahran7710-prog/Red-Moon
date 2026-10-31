@@ -24,3 +24,10 @@ RequiredAssetsForRun/** -text -whitespace
 "/لورد الكلينت/README.md" text eol=lf
 "/لورد الكلينت/config.json" text eol=lf
 "/لورد الكلينت/loader-manifest.json" text eol=lf
+"/موقع السيرفر/**/*.php" text eol=lf
+"/موقع السيرفر/**/*.css" text eol=lf
+"/موقع السيرفر/**/*.js" text eol=lf
+"/موقع السيرفر/**/*.md" text eol=lf
+"/موقع السيرفر/.htaccess" text eol=lf
+"/موقع السيرفر/cache/.htaccess" text eol=lf
+"/موقع السيرفر/**/*.jpg" binary

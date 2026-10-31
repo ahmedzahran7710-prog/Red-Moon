@@ -14,9 +14,12 @@ artifacts/
 __pycache__/
 *.pyc
 
-# Machine-local Canyon configuration files and secrets (never commit to Git).
+# Machine-local Canyon & Web Portal configuration files and secrets (never commit to Git).
 *.Config.json
 *.Config.local.json
+موقع السيرفر/config.local.php
+موقع السيرفر/cache/*.json
+موقع السيرفر/cache/*.tmp
 **/Properties/launchSettings.json
 compose.debug*.yml
 .env

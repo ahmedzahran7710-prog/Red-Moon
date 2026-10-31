@@ -1,0 +1,17 @@
+# حماية ملفات الإعداد والكاش والكود الداخلي في Apache / XAMPP
+Options -Indexes
+
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+    RewriteRule ^(includes|cache)(/|$) - [F,L]
+</IfModule>
+
+<FilesMatch "^(config\.sample\.php|config\.local\.php|إعدادات_الموقع\.php|\.htaccess|README\.md)$">
+    Require all denied
+</FilesMatch>
+
+<IfModule mod_headers.c>
+    Header always set X-Content-Type-Options "nosniff"
+    Header always set X-Frame-Options "SAMEORIGIN"
+    Header always set Referrer-Policy "strict-origin-when-cross-origin"
+</IfModule>
