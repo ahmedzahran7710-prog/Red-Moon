@@ -26,7 +26,7 @@
 
 - تغيير اسم الحل إلى **`MoonQueen.sln`** واسم الملف التنفيذي الناتج إلى **`MoonQueen.exe`** مع الحفاظ الكامل على مسارات الـ namespaces والموارد الداخلية لضمان عدم تأثر استقرار البناء أو الـ WPF UI.
 - تحديث كافة بيانات الملكية وحقوق التطوير في جميع المشاريع الخمسة وواجهات `WPF` و`WinForms` وملفات اللغة (`en.json`, `es.json`, `pt.json`) لتكون باسم **`MoonQueen`** والمطور **`ahmedzahran`**.
-- تفعيل كود تشفير الباسورد لبروتوكول السورس (`Packet 1542` عند الإزاحة `60`) داخل `ConquerCipherHook/ConquerCipherHook.cpp` مع نسخ آمن بـ `strncpy_s` ومسح فوري لكلمة المرور من الذاكرة بـ `SecureZeroMemory`.
+- تفعيل كود تشفير الباسورد لبروتوكول السورس (`Packet 1542` عند الإزاحة `60`) داخل `ConquerCipherHook/ConquerCipherHook.cpp` مع نسخ آمن بـ `strncpy_s` وفحص حدود الباكت (`len >= 92`) وحفظ الطول الفعلي لكلمة المرور (`0xA0 | pwLen` عند `buf[91]`) لدعم كلمات المرور التي تحتوي أو تنتهي بحرف `'z'` الصغير بدون أي فقد أو اقتطاع، ومسح فوري لكلمة المرور من الذاكرة بـ `SecureZeroMemory`.
 - إلغاء فتح المتصفح على موقع خارجي عند الخروج من الكلينت (`Shellexec` في `ConquerCipherHook.cpp`)، وإيقاف استدعاءات الـ API الخارجية غير اللازمة في `Constants.cs` و`PluginLoader.cs`.
 - **تأمين متعدد الطبقات لحقوق المطور (`ahmedzahran`):**
   - خزنة مشفرة (`DeveloperRightsGuard` في `CLCore` + تحقق متبادل مستقل في `MoonQueen`) بتفك اسم المطور ونصوص الحقوق ديناميكيًا من بايتات مشفرة بـ `Rolling-XOR` وبتتحقق من بصمتها الرقمية `SHA-256` (`256-bit`) ومن خصائص الـ `AssemblyCompany` و`AssemblyCopyright` و`AssemblyProduct`، مع قفل تلقائي لنصوص الحقوق ضد أي تلاعب في `config.json` أو ملفات اللغات، وختم `FNV-1a 64-bit` أصيل بالـ C++ داخل `ConquerCipherHook.cpp`.

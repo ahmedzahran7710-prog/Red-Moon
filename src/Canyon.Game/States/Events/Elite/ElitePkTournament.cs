@@ -25,7 +25,7 @@ namespace Canyon.Game.States.Events.Elite
 
         private ElitePkGroupTournament[] groups = new ElitePkGroupTournament[4];
 
-        public static readonly IdentityManager ElitePkMap = new(BASE_PK_MAP_ID, BASE_PK_MAP_ID + 9999);
+        public static readonly IdentityManager ElitePkMap = new(BASE_PK_MAP_ID + 1, BASE_PK_MAP_ID + 9999);
 
         public ElitePkTournament() 
             : base("Elite PK Tournament", 1000)
@@ -128,9 +128,19 @@ namespace Canyon.Game.States.Events.Elite
             }
         }
 
-        public override Task OnExitAsync(Character sender)
+        public override async Task OnExitAsync(Character sender)
         {
-            return base.OnExitAsync(sender);
+            if (sender != null)
+            {
+                for (int i = 0; i < groups.Length; i++)
+                {
+                    if (groups[i] != null && groups[i].IsContestant(sender.Identity))
+                    {
+                        await groups[i].UnsubscribeAsync(sender.Identity);
+                    }
+                }
+            }
+            await base.OnExitAsync(sender);
         }
 
         public override async Task OnTimerAsync()

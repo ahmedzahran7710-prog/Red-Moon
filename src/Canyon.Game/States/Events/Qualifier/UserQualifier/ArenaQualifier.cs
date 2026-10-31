@@ -627,6 +627,18 @@ namespace Canyon.Game.States.Events.Qualifier.UserQualifier
 
         public async Task WatchAsync(Character user, uint target)
         {
+            if (user?.Map == null
+                || !user.IsAlive
+                || user.Map.IsPrisionMap()
+                || user.Map.IsTeleportDisable()
+                || user.Map.IsDynamicMap()
+                || user.Trade != null
+                || user.IsArenicWitness()
+                || user.IsInQualifierEvent())
+            {
+                return;
+            }
+
             ArenaQualifierUserMatch match = FindMatch(target);
             if (match == null)
             {
@@ -638,7 +650,7 @@ namespace Canyon.Game.States.Events.Qualifier.UserQualifier
                 return;
             }
 
-            if (!match.IsRunning)
+            if (!match.IsRunning || match.Map == null)
             {
                 return;
             }

@@ -9,6 +9,7 @@ using Canyon.Game.States.Magics;
 using Canyon.Game.States.User;
 using Canyon.Shared.Managers;
 using System.Collections.Concurrent;
+using System.Drawing;
 using static Canyon.Game.Sockets.Game.Packets.MsgArenicWitness;
 
 namespace Canyon.Game.States.Events.Qualifier.TeamQualifier
@@ -23,7 +24,7 @@ namespace Canyon.Game.States.Events.Qualifier.TeamQualifier
         public const uint TRIUMPH_HONOR_REWARD = 5000;
         public const int MATCH_TIME_SECONDS = 300;
 
-        public static IdentityManager MapIdentityGenerator = new(940000, 949999);
+        public static IdentityManager MapIdentityGenerator = new(BASE_MAP_ID_U + 1, 949999);
 
         private Dictionary<uint, ArenicInformation> pastSeasonArenics = new();
         private ConcurrentDictionary<uint, ArenicInformation> arenics = new();
@@ -545,6 +546,19 @@ namespace Canyon.Game.States.Events.Qualifier.TeamQualifier
             return null;
         }
 
+        public TeamArenaQualifierMatch FindMatchByTarget(uint idTarget)
+        {
+            foreach (var match in matches.Values)
+            {
+                if ((match.Company1 != null && (match.Company1.Identity == idTarget || match.TeamId1 == idTarget || match.Company1.Participants.ContainsKey(idTarget)))
+                    || (match.Company2 != null && (match.Company2.Identity == idTarget || match.TeamId2 == idTarget || match.Company2.Participants.ContainsKey(idTarget))))
+                {
+                    return match;
+                }
+            }
+            return null;
+        }
+
         public TeamArenaQualifierMatch FindMatchByMap(uint idMap)
         {
             return matches.TryGetValue(idMap, out TeamArenaQualifierMatch match) ? match : null;
@@ -676,33 +690,115 @@ namespace Canyon.Game.States.Events.Qualifier.TeamQualifier
 
         public bool IsWitness(Character user)
         {
-            var match = FindMatch(user.Identity);
-            if (match != null)
+            if (user == null)
             {
                 return false;
             }
-            match = FindMatchByMap(user.MapIdentity);
-            if (match != null)
+
+            if (FindMatch(user.Identity) != null)
             {
-                return true;
+                return false;
             }
-            return false;
 
+            var match = FindMatchByMap(user.MapIdentity);
+            if (match == null)
+            {
+                return false;
+            }
+
+            if ((match.Company1 != null && match.Company1.Participants.ContainsKey(user.Identity))
+                || (match.Company2 != null && match.Company2.Participants.ContainsKey(user.Identity)))
+            {
+                return false;
+            }
+
+            return true;
         }
 
-        public Task WatchAsync(Character user, uint target)
+        public async Task WatchAsync(Character user, uint target)
         {
-            throw new NotImplementedException();
+            if (user?.Map == null
+                || !user.IsAlive
+                || user.Map.IsPrisionMap()
+                || user.Map.IsTeleportDisable()
+                || user.Map.IsDynamicMap()
+                || user.Trade != null
+                || user.IsArenicWitness()
+                || user.IsInQualifierEvent())
+            {
+                return;
+            }
+
+            TeamArenaQualifierMatch match = FindMatchByTarget(target);
+            if (match == null || !match.IsRunning || match.Map == null)
+            {
+                return;
+            }
+
+            if (FindMatch(user.Identity) != null)
+            {
+                return;
+            }
+
+            Point targetPos = await match.Map.QueryRandomPositionAsync();
+            if (targetPos == default)
+            {
+                return;
+            }
+
+            if (user.Map.IsRecordDisable())
+            {
+                uint idMap = DEFAULT_MAP_ID;
+                Point pos = new(DEFAULT_MAP_X, DEFAULT_MAP_Y);
+                if (user.Map.GetRebornMap(ref idMap, ref pos))
+                {
+                    await user.SavePositionAsync(idMap, (ushort)pos.X, (ushort)pos.Y);
+                }
+                else
+                {
+                    await user.SavePositionAsync(DEFAULT_MAP_ID, DEFAULT_MAP_X, DEFAULT_MAP_Y);
+                }
+            }
+            else
+            {
+                await user.SavePositionAsync(user.MapIdentity, user.X, user.Y);
+            }
+
+            await user.FlyMapAsync(match.MapIdentity, targetPos.X, targetPos.Y);
+            await match.SendBoardAsync();
         }
 
-        public Task WitnessExitAsync(Character user)
+        public async Task WitnessExitAsync(Character user)
         {
-            throw new NotImplementedException();
+            if (user == null || !IsWitness(user))
+            {
+                return;
+            }
+
+            await user.SendAsync(new MsgArenicWitness
+            {
+                Action = WitnessAction.Leave
+            });
+            await user.FlyMapAsync(user.RecordMapIdentity, user.RecordMapX, user.RecordMapY);
         }
 
-        public Task WitnessVoteAsync(Character user, uint target)
+        public async Task WitnessVoteAsync(Character user, uint target)
         {
-            throw new NotImplementedException();
+            if (user == null)
+            {
+                return;
+            }
+
+            TeamArenaQualifierMatch match = FindMatchByTarget(target);
+            if (match == null || !match.IsRunning || match.MapIdentity != user.MapIdentity)
+            {
+                return;
+            }
+
+            if (match.Wave(user, target))
+            {
+                await match.SendBoardAsync();
+            }
         }
 
         #endregion
