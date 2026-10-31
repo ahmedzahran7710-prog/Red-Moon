@@ -29,12 +29,12 @@ namespace ConquerLoader.Forms.WPF
 
         private void BtnChangelog_Click(object sender, RoutedEventArgs e)
         {
-            OpenUrl("https://conquerloader.com/changelog/");
+            // External URL disabled for MoonQueen
         }
 
         private void BtnWebsite_Click(object sender, RoutedEventArgs e)
         {
-            OpenUrl("https://conquerloader.com/");
+            // External URL disabled for MoonQueen
         }
 
         private void Hyperlink_RequestNavigate(object sender, RequestNavigateEventArgs e)
@@ -45,7 +45,7 @@ namespace ConquerLoader.Forms.WPF
 
         private void BrandCard_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
-            OpenUrl("https://conquerloader.com/");
+            // External URL disabled for MoonQueen
         }
 
         private static void OpenUrl(string url)
@@ -129,15 +129,15 @@ namespace ConquerLoader.Forms.WPF
         {
             Title = T("aboutWindowTitle", "About");
             txtWindowTitleBar.Text = T("aboutWindowTitle", "About");
-            txtAboutHeading.Text = T("aboutHeading", "About ConquerLoader");
-            txtAboutDescription.Text = T("aboutDescription", "A lightweight launcher with plugin support and server management for Conquer Online.");
-            txtAboutCreatedBy.Text = T("aboutCreatedBy", "Created by Cristian Ocana Soler (DaRkFoxDeveloper)");
-            txtAboutPortuguese.Text = T("aboutPortuguese", "Portuguese translation by Louan Fontenele");
-            txtAboutTesters.Text = T("aboutTesters", "Testers: Robert Frias, Pezzi Tomas");
+            txtAboutHeading.Text = T("aboutHeading", "About MoonQueen");
+            txtAboutDescription.Text = T("aboutDescription", "Official MoonQueen Game Launcher (V6192).");
+            txtAboutCreatedBy.Text = T("aboutCreatedBy", "Developed by ahmedzahran");
+            txtAboutPortuguese.Text = T("aboutPortuguese", "Server & Client Edition: MoonQueen Classic+ V6192");
+            txtAboutTesters.Text = T("aboutTesters", "All Rights Reserved - ahmedzahran");
             txtAboutVersionLabel.Text = T("aboutVersionLabel", "Version:");
-            txtAboutLinks.Text = T("aboutLinks", "Links");
-            runWebsiteLabel.Text = T("aboutWebsiteLabel", "Website: ");
-            runChangelogLabel.Text = T("aboutChangelogLabel", "Changelog: ");
+            txtAboutLinks.Text = T("aboutLinks", "Details");
+            runWebsiteLabel.Text = T("aboutWebsiteLabel", "Server: ");
+            runChangelogLabel.Text = T("aboutChangelogLabel", "Developer: ");
         }
 
         private string T(string key, string fallback)

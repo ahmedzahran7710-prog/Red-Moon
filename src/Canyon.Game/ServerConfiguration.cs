@@ -9,12 +9,13 @@ namespace Canyon.Game
 
         public ServerConfiguration(params string[] args)
         {
-            var configFile = Environment.GetEnvironmentVariable("MACHINE_ENV") == "docker" ? 
-                             "Canyon.Game.Config.json" : 
-                             "Canyon.Game.Config.local.json";
+            bool isDocker = Environment.GetEnvironmentVariable("MACHINE_ENV") == "docker";
+            var legacyConfigFile = isDocker ? "Canyon.Game.Config.json" : "Canyon.Game.Config.local.json";
+            var configFile = isDocker ? "MoonQueen.Game.Config.json" : "MoonQueen.Game.Config.local.json";
 
             new ConfigurationBuilder()
-                .AddJsonFile(configFile, optional: true) // Set optional to true if the file might not exist
+                .AddJsonFile(legacyConfigFile, optional: true)
+                .AddJsonFile(configFile, optional: true)
                 .AddCommandLine(args)
                 .AddEnvironmentVariables()
                 .Build()

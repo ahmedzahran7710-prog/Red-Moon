@@ -3,7 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:sys="clr-namespace:System;assembly=mscorlib"
         xmlns:shell="clr-namespace:System.Windows.Shell;assembly=PresentationFramework"
-        Title="ConquerLoader"
+        Title="MoonQueen"
         Width="1280"
         Height="800"
         MinWidth="1280"
@@ -23,7 +23,7 @@
     <Window.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="/ConquerLoader;component/Forms/WPF/SharedTheme.xaml" />
+                <ResourceDictionary Source="/MoonQueen;component/Forms/WPF/SharedTheme.xaml" />
             </ResourceDictionary.MergedDictionaries>
             <SolidColorBrush x:Key="PrimaryBrush" Color="#CB4129" />
             <SolidColorBrush x:Key="PrimaryDarkBrush" Color="#941C17" />
@@ -462,7 +462,7 @@
             BorderThickness="0"
             CornerRadius="0">
         <Grid ClipToBounds="True">
-            <Image Source="/ConquerLoader;component/Resources/CL_BG.png"
+            <Image Source="/MoonQueen;component/Resources/CL_BG.png"
                    Stretch="UniformToFill"
                    Opacity="1"
                    IsHitTestVisible="False" />
@@ -531,7 +531,7 @@
                                        Height="24"
                                        HorizontalAlignment="Center"
                                        VerticalAlignment="Center"
-                                       Source="/ConquerLoader;component/Resources/ConquerLoaderICON.png"
+                                       Source="/MoonQueen;component/Resources/ConquerLoaderICON.png"
                                        Stretch="Uniform" />
                             </Border>
                             <TextBlock x:Name="txtTopBarTitle"
@@ -540,7 +540,7 @@
                                        FontSize="14"
                                        FontWeight="SemiBold"
                                        Foreground="{StaticResource TextPrimaryBrush}"
-                                       Text="ConquerLoader" />
+                                       Text="MoonQueen" />
                         </StackPanel>
 
                         <StackPanel Grid.Column="1"
@@ -584,7 +584,7 @@
                            Height="184"
                            Margin="0,0,0,0"
                            HorizontalAlignment="Center"
-                           Source="/ConquerLoader;component/Resources/ConquerLoaderICON.png"
+                           Source="/MoonQueen;component/Resources/ConquerLoaderICON.png"
                            Stretch="Uniform">
                                 <Image.Effect>
                                     <DropShadowEffect BlurRadius="42"
@@ -920,7 +920,7 @@
                                        Margin="0,14,0,0"
                                        FontSize="15"
                                        Foreground="{StaticResource TextSecondaryBrush}"
-                                       Text="ConquerLoader needs at least one server before it can launch the game. The guided wizard will walk you through the setup step by step."
+                                       Text="MoonQueen needs at least one server before it can launch the game. The guided wizard will walk you through the setup step by step."
                                        TextWrapping="Wrap" />
                                 </StackPanel>
 

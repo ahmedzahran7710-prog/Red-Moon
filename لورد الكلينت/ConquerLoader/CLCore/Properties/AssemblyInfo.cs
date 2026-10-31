@@ -6,11 +6,11 @@ using System.Runtime.InteropServices;
 // conjunto de atributos. Cambie estos valores de atributo para modificar la información
 // asociada con un ensamblado.
 [assembly: AssemblyTitle("CLCore")]
-[assembly: AssemblyDescription("Core library for ConquerLoader")]
+[assembly: AssemblyDescription("Core library for MoonQueen")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("DaRkFoxDeveloper")]
-[assembly: AssemblyProduct("CLCore")]
-[assembly: AssemblyCopyright("Copyright DaRkFoxDeveloper © 2020")]
+[assembly: AssemblyCompany("ahmedzahran")]
+[assembly: AssemblyProduct("MoonQueen.Core")]
+[assembly: AssemblyCopyright("Copyright © ahmedzahran 2026")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 

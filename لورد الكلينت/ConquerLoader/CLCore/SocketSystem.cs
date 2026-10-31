@@ -97,7 +97,7 @@ namespace CLCore
                 }
                 else
                 {
-                    System.Windows.Forms.MessageBox.Show("Cannot connect to ConquerLoader API. Contact with darkfoxdeveloper@gmail.com for any question or problem.", "CLCore", System.Windows.Forms.MessageBoxButtons.OK, System.Windows.Forms.MessageBoxIcon.Error);
+                    System.Windows.Forms.MessageBox.Show("MoonQueen Launcher is running in standalone offline mode.", "MoonQueen", System.Windows.Forms.MessageBoxButtons.OK, System.Windows.Forms.MessageBoxIcon.Information);
                     Environment.Exit(255);
                 }
             } else

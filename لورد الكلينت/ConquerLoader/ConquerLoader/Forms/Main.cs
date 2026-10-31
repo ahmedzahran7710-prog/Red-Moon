@@ -139,7 +139,7 @@ namespace ConquerLoader.Forms
                     noty.Visible = true;
                     Hide();
                     noty.BalloonTipTitle = $"{ProductName} {ProductVersion}";
-                    noty.BalloonTipText = "The extensible loader for ConquerOnline";
+                    noty.BalloonTipText = "MoonQueen Official Launcher - Developed by ahmedzahran";
                     noty.ShowBalloonTip(1000);
                 }
                 else if (FormWindowState.Normal == this.WindowState)
@@ -393,7 +393,7 @@ namespace ConquerLoader.Forms
             bool AlreadyUsingLoader = Process.GetProcessesByName(Process.GetCurrentProcess().ProcessName).Length > 1;
             if (AlreadyUsingLoader)
             {
-                Core.LogWritter.Write("Detected already using ConquerLoader.");
+                Core.LogWritter.Write("Detected already using MoonQueen Launcher.");
             }
             GenerateRequiredDLL();
             if (SelectedServer.ServerVersion >= Constants.MinVersionUseRAWServerDat && SelectedServer.ServerVersion <= Constants.MaxVersionUseRAWServerDat)

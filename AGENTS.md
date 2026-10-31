@@ -23,14 +23,14 @@ Before changing anything in this repository:
 - Always distinguish honestly between **static code review** and **actual build/runtime testing**. Never treat a clean read or compile as proof of end-to-end client/gameplay behavior.
 - Any GitHub Actions workflow added in the future must use manual `workflow_dispatch` only unless the owner explicitly requests automatic triggers.
 
-## CanyonV6192 Provenance & Byte Integrity
+## MoonQueen Provenance & Byte Integrity
 
-- The repository root contains the standalone **CanyonV6192** server stack derived from `darkfoxdeveloper/CanyonV6192` at commit `d08d13187599c2275972b83b81ff8e66296da2b2` under the MIT license (`LICENSE`).
-- `canyon-manifest.json` tracks all 845 repository-tracked upstream files, preserving `upstream_sha256` alongside the current `sha256` for every patched file.
-- Whenever any tracked file listed in `canyon-manifest.json` is modified:
-  1. Preserve `UTF-8 BOM` (`\xef\xbb\xbf`) and `LF` (`\n`) line endings on upstream C# files under `src/` (verify after `edit_file` / `write_file`, as editing tools can strip leading BOM bytes).
-  2. Update the file's `bytes` and `sha256` (while keeping `upstream_sha256` intact) and recompute `tracked_bytes` in `canyon-manifest.json`.
-  3. Record the engineering/security rationale in `CANYON-AUDIT.md` and `ميموري.md`.
+- The repository root contains the standalone **MoonQueen** server stack (`MoonQueen.sln` + `src/`, developer: **`ahmedzahran`**) derived from `darkfoxdeveloper/CanyonV6192` at commit `d08d13187599c2275972b83b81ff8e66296da2b2` under the MIT license (`LICENSE`), alongside the official **MoonQueen** client loader in `لورد الكلينت/` (`لورد الكلينت/ConquerLoader/MoonQueen.sln`, derived from `OpenConquerOrg/ConquerLoader@068898b70722a61dd3539028f458e5379b3fe9ad`).
+- `canyon-manifest.json` tracks all 845 repository-tracked server files (preserving `upstream_sha256` and optional `upstream_path` alongside the current `sha256`), and `لورد الكلينت/loader-manifest.json` tracks all 163 repository-tracked client loader files.
+- Whenever any tracked file listed in `canyon-manifest.json` or `لورد الكلينت/loader-manifest.json` is modified:
+  1. Preserve `UTF-8 BOM` (`\xef\xbb\xbf`) and `LF` (`\n`) line endings on server files under `src/` and `MoonQueen.sln`, and preserve the original BOM and line endings on files under `لورد الكلينت/`.
+  2. Never rename `<RootNamespace>Canyon.*</RootNamespace>` in `src/` `.csproj` files (so embedded `.resx` resource names such as `Canyon.Game.Language.resources` never break), and keep WPF Pack URIs in `لورد الكلينت/ConquerLoader/ConquerLoader/Forms/WPF/*.xaml` matched to `<AssemblyName>MoonQueen</AssemblyName>` (`/MoonQueen;component/...`).
+  3. Update `bytes`, `sha256`, `patched_files`, and `tracked_bytes` in the corresponding manifest (`canyon-manifest.json` / `لورد الكلينت/loader-manifest.json`) while keeping `upstream_sha256` intact, and record the rationale in `CANYON-AUDIT.md` and `ميموري.md`.
 - Keep copyrighted Conquer client binaries, map/data folders (`ini/`, `map/`), SQL dumps (`*.sql`), large archives (`*.rar`, `*.7z`), and machine-local config files (`*.Config*.json`, `launchSettings.json`) out of Git.
 
 ## Security & Network Hygiene

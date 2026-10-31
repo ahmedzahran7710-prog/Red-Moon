@@ -203,7 +203,7 @@
             this.MinimizeBox = false;
             this.Name = "Main";
             this.Padding = new System.Windows.Forms.Padding(20, 92, 20, 20);
-            this.Text = "ConquerLoader";
+            this.Text = "MoonQueen";
             this.Load += new System.EventHandler(this.Main_Load);
             this.SizeChanged += new System.EventHandler(this.TrayMinimizerForm_Resize);
             this.ResumeLayout(false);

@@ -6,12 +6,12 @@ using System.Runtime.InteropServices;
 // La información general de un ensamblado se controla mediante el siguiente 
 // conjunto de atributos. Cambie estos valores de atributo para modificar la información
 // asociada con un ensamblado.
-[assembly: AssemblyTitle("ConquerLoader")]
-[assembly: AssemblyDescription("")]
+[assembly: AssemblyTitle("MoonQueen")]
+[assembly: AssemblyDescription("MoonQueen Official Game Launcher - Developed by ahmedzahran")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("DaRkFoxDeveloper")]
-[assembly: AssemblyProduct("ConquerLoader")]
-[assembly: AssemblyCopyright("Copyright © DaRkFoxDeveloper 2020")]
+[assembly: AssemblyCompany("ahmedzahran")]
+[assembly: AssemblyProduct("MoonQueen")]
+[assembly: AssemblyCopyright("Copyright © ahmedzahran 2026")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 

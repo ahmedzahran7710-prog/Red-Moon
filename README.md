@@ -1,26 +1,25 @@
-# سيرفر Red Moon — قاعدة CanyonV6192 المؤمّنة
+# سيرفر MoonQueen (`V6192`) — تطوير `ahmedzahran`
 
-هذا المستودع يضم سورس سيرفر كونكر أونلاين **CanyonV6192** منظّمًا بالكامل في جذر المشروع مباشرة، ومبنيًا على معمارية حديثة ونظيفة بلغة C# (`.NET 7.0`) دون أي مكتبات مغلقة المصدر، بعد مراجعته سطرًا بسطر وإصلاح جميع الأخطاء الحرجة وتطبيق ثلاث حزم تأمين شاملة للتشفير والشبكة ومكافحة الغش عبر **35 ملف C#**.
+هذا المستودع يضم السورس الكامل لسيرفر ولودر لعبة **`MoonQueen`** (إصدار `6192` — تطوير **`ahmedzahran`**) منظّمًا بالكامل في جذر المشروع مباشرة، ومبنيًا بلغة C# (`.NET 7.0`) دون أي مكتبات مغلقة المصدر، بعد مراجعته سطرًا بسطر وإصلاح الأخطاء البرمجية الحرجة وتطبيق ثلاث حزم تأمين شاملة للتشفير والشبكة ومكافحة الغش.
 
 ---
 
 ## خريطة الملفات والفولدرات في جذر المستودع
 
-- `Canyon.sln` — ملف الحل الرئيسي لفتح السورس كاملًا مباشرة في **Visual Studio** أو **VS Code**.
-- `src/Canyon.Login` — سيرفر الحسابات وتسجيل الدخول (`Account / Login Server`).
-- `src/Canyon.Game` — سيرفر عالم اللعبة والقتال والتجارة والـ NPCs والمهام والفعاليات (`Game Server`).
-- `src/Canyon.Ai` — سيرفر مستقل لحركة وذكاء ورسبون الوحوش والـ Generators (`AI / Monster Server`).
-- `src/Canyon.World` — مكتبة تحميل وإدارة الخرائط (`GameMap.dat` و`.dmap`) والإحداثيات.
-- `src/Canyon.Network` — مكتبة الشبكة وتقسيم الباكتات وخوارزميات التشفير (`AES`, `DiffieHellman`, `Cast5`, `Blowfish`, `RC5`).
-- `src/Canyon.Database` — طبقة قواعد البيانات (`Entity Framework Core` + `Pomelo MySQL / MariaDB`).
-- `src/Canyon.Shared` — الأدوات والنماذج والـ Enums المشتركة بين السيرفرات.
-- `src/Canyon.GM.Server` — سيرفر الإدارة والأدوات المساعدة الاختياري.
+- `MoonQueen.sln` — ملف الحل الرئيسي لفتح سورس السيرفر كاملًا مباشرة في **Visual Studio** وبناء ملفات `MoonQueen.Login.exe` و`MoonQueen.Game.exe` و`MoonQueen.Ai.exe`.
+- `src/Canyon.Login` — مشروع سيرفر الحسابات وتسجيل الدخول (`MoonQueen.Login`).
+- `src/Canyon.Game` — مشروع سيرفر عالم اللعبة والقتال والتجارة والـ NPCs والمهام والفعاليات ورسائل ترحيب **`MoonQueen`** (`MoonQueen.Game`).
+- `src/Canyon.Ai` — مشروع سيرفر حركة وذكاء ورسبون الوحوش والـ Generators (`MoonQueen.Ai`).
+- `src/Canyon.World` — مكتبة تحميل وإدارة الخرائط (`GameMap.dat` و`.dmap`) والإحداثيات (`MoonQueen.World`).
+- `src/Canyon.Network` — مكتبة الشبكة وتقسيم الباكتات وخوارزميات التشفير (`MoonQueen.Network`).
+- `src/Canyon.Database` — طبقة قواعد البيانات عبر `Entity Framework Core` و`Pomelo MySQL / MariaDB` (`MoonQueen.Database`).
+- `src/Canyon.Shared` — الأدوات والنماذج والـ Logging المشتركة (`MoonQueen.Shared`).
+- `src/Canyon.GM.Server` — سيرفر الإدارة والأدوات المساعدة الاختياري (`MoonQueen.GM.Server`).
 - `src/Canyon.Network.Tests` — مشروع اختبارات الشبكة والتشفير.
-- `src/auto-patcher-server` — خدمة التحديث التلقائي الاختيارية (`Node.js`).
 - `RequiredAssetsForRun/lua` — حزمة سكربتات **Lua** الرسمية (33 ملفًا) للمهام والـ NPCs.
-- `لورد الكلينت` — اللودر المتوافق رسميًا مع الكلينت `6192` وسورس كانيون (`ConquerLoader` + `ConquerCipherHook` المظبوط على باكت `1542` + ملف `config.json` الجاهز بآي بي الهماشي `25.21.212.130`).
-- `متطلبات التشغيل.md` — الدليل العملي الكامل خطوة بخطوة (روابط الكلينت والـ SQL، البرامج المطلوبة، إعداد القواعد وملفات الكونفيج وتشغيل السيرفرات والكلينت).
-- `CANYON-AUDIT.md` — التقرير الهندسي والأمني الكامل لما تم فحصه وإصلاحه وتأمينه في السورس.
+- `لورد الكلينت` — اللودر الرسمي الكامل باسم **`MoonQueen`** والمطور **`ahmedzahran`** (`MoonQueen.sln` -> `MoonQueen.exe` + `ConquerCipherHook` المظبوط على باكت `1542` + ملف `config.json` الجاهز بآي بي الهماشي `25.21.212.130`).
+- `متطلبات التشغيل.md` — الدليل العملي المتجدد خطوة بخطوة (روابط الكلينت والـ SQL، البرامج المطلوبة، إعداد القواعد وملفات الكونفيج وتشغيل السيرفرات والكلينت).
+- `CANYON-AUDIT.md` — التقرير الهندسي والأمني الكامل لما تم فحصه وإصلاحه وتأمينه وتخصيصه في السورس.
 - `canyon-manifest.json` — سجل البصمات الرقمية (`SHA-256`) لجميع ملفات السورس الـ 845 وأصالتها.
 - `ميموري.md` — الذاكرة الدائمة للمشروع (أوامر العمل الثابتة، رؤية اللعب Classic+، بيانات بيئة المالك والربط، وسجل التعديلات).
 - `AGENTS.md` — قواعد العمل الإلزامية وحماية الأسرار ونظام النشر على المستودع.
@@ -32,16 +31,16 @@
 
 حفاظًا على سرية كلمات المرور ونظافة المستودع، لا تُرفع أي كلمات مرور أو ملفات إعداد محلية أو نسخ قواعد بيانات أو ملفات عميل إلى GitHub (جميعها محجوبة تلقائيًا في `.gitignore`):
 
-1. **ملفات الإعداد المحلية على Windows:**
-   - `src/Canyon.Login/Canyon.Login.Config.local.json`
-   - `src/Canyon.Game/Canyon.Game.Config.local.json`
-   - `src/Canyon.Ai/Canyon.Ai.Config.local.json`
+1. **ملفات الإعداد المحلية على Windows (داخل `src/Bin/net7.0/`):**
+   - `MoonQueen.Login.Config.local.json`
+   - `MoonQueen.Game.Config.local.json`
+   - `MoonQueen.Ai.Config.local.json`
 2. **قواعد البيانات المحلية (`MariaDB / MySQL` على `127.0.0.1:3306`):**
-   - قاعدة بيانات الحسابات لسيرفر `Canyon.Login`.
-   - قاعدة بيانات عالم اللعبة لسيرفرَي `Canyon.Game` و`Canyon.Ai`.
+   - `moonqueen_account` لسيرفر `MoonQueen.Login`.
+   - `moonqueen_game` لسيرفرَي `MoonQueen.Game` و`MoonQueen.Ai`.
 3. **ملفات عميل `6192` المطلوبة بجانب ملفات البناء (`src/Bin/net7.0/`):**
    - مجلد `ini/` (ويشمل `GameMap.dat` و`action_Res.ini`).
    - مجلد `map/` (ملفات خرائط العميل `.dmap` / المضغوطة).
    - مجلد `lua/` المنسوخ من `RequiredAssetsForRun/lua/`.
-4. **ترتيب التشغيل عند التجهيز:**
-   - تشغيل `Canyon.Login` ثم `Canyon.Game` ثم `Canyon.Ai` بالتوازي.
+4. **ترتيب التشغيل:**
+   - تشغيل `MoonQueen.Login.exe` ثم `MoonQueen.Game.exe` ثم `MoonQueen.Ai.exe` بالتوازي، ثم فتح الكلينت عبر `MoonQueen.exe`.

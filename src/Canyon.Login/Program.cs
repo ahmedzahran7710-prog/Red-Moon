@@ -19,10 +19,10 @@ namespace Canyon.Login
         {
             Console.Title = "Loading...";
 
-            Console.WriteLine("\tCanyon: Login Server");
-            Console.WriteLine($"\t\tCopyright 2022-{DateTime.Now:yyyy} Felipe Vieira Vendramini \"Konichu\"");
+            Console.WriteLine("\tMoonQueen: Login Server");
+            Console.WriteLine($"\t\tDeveloped by ahmedzahran | Copyright 2026-{DateTime.Now:yyyy}");
             Console.WriteLine($"\t\tVersion: {Version}");
-            Console.WriteLine("\tSome Rights Reserved");
+            Console.WriteLine("\tAll Rights Reserved - MoonQueen");
             Console.WriteLine();
 
             Console.WriteLine("Initializating log factory");
@@ -30,10 +30,10 @@ namespace Canyon.Login
             Kernel.LogProcessor = new LogProcessor(CancellationToken.None);
             _ = Kernel.LogProcessor.StartAsync(CancellationToken.None);
 
-            LogFactory.Initialize(Kernel.LogProcessor, "Canyon.Login");
+            LogFactory.Initialize(Kernel.LogProcessor, "MoonQueen.Login");
             logger = LogFactory.CreateLogger<Program>();
 
-            logger.LogInformation("Starting World Conquer Online login service");
+            logger.LogInformation("Starting MoonQueen login service");
 
             // Read configuration file and command-line arguments
             var config = new ServerConfiguration(args);
@@ -78,7 +78,7 @@ namespace Canyon.Login
 
             await Kernel.ShutdownAsync();
 
-            logger.LogInformation("Closing World Conquer Online login service");
+            logger.LogInformation("Closing MoonQueen login service");
             return 0;
         }
 

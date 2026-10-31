@@ -1284,4 +1284,13 @@
   <data name="StrYourFriendAlready" xml:space="preserve">
     <value>The target already is your friend.</value>
   </data>
+  <data name="StrWelcomeLoginTalk" xml:space="preserve">
+    <value>Welcome to MoonQueen! Developed by ahmedzahran. Please check your weapon &amp; Armor Durability before hunting.</value>
+  </data>
+  <data name="StrWelcomeLoginTopLeft" xml:space="preserve">
+    <value>Welcome to MoonQueen, {0}! Server developed by ahmedzahran - Enjoy your adventure!</value>
+  </data>
+  <data name="StrWelcomeServerInfo" xml:space="preserve">
+    <value>MoonQueen Online (V6192) - Developed by ahmedzahran | Online Players: {0}</value>
+  </data>
 </root>

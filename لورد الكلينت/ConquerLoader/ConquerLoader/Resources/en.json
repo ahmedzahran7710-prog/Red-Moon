@@ -326,5 +326,45 @@
   {
     "id": "pluginsActionError",
     "text": "The plugin action failed: {0}"
+  },
+  {
+    "id": "mainFirstRunDescription",
+    "text": "MoonQueen needs at least one server before it can launch the game. The guided wizard will walk you through the setup step by step."
+  },
+  {
+    "id": "aboutWindowTitle",
+    "text": "About MoonQueen"
+  },
+  {
+    "id": "aboutHeading",
+    "text": "About MoonQueen"
+  },
+  {
+    "id": "aboutDescription",
+    "text": "Official MoonQueen Game Launcher (V6192)."
+  },
+  {
+    "id": "aboutCreatedBy",
+    "text": "Developed by ahmedzahran"
+  },
+  {
+    "id": "aboutPortuguese",
+    "text": "Server & Client Edition: MoonQueen Classic+ V6192"
+  },
+  {
+    "id": "aboutTesters",
+    "text": "All Rights Reserved - ahmedzahran"
+  },
+  {
+    "id": "aboutLinks",
+    "text": "Details"
+  },
+  {
+    "id": "aboutWebsiteLabel",
+    "text": "Server: "
+  },
+  {
+    "id": "aboutChangelogLabel",
+    "text": "Developer: "
   }
 ]

@@ -100,8 +100,8 @@ int __stdcall csv3_send(SOCKET s, PBYTE buf, int len, int flags)
 	return ((LPFSEND)send_stub.Address)(s,buf,len,flags);
 }
 int __stdcall Shellexec(HWND hWnd, CHAR* lpOperation, CHAR* lpFile, CHAR* lpParams, CHAR* lpDir, INT nCmd) {
-	if (strcmp("http://co.99.com/signout/", lpFile) == 0) {
-		lpFile = "https://www.conquerloader.com";
+	if (lpFile != NULL && strcmp("http://co.99.com/signout/", lpFile) == 0) {
+		return 42; // Suppress external signout browser popup for MoonQueen
 	}
 	typedef INT(__stdcall* Shellexec)(HWND, CHAR*, CHAR*, CHAR*, CHAR*, INT);
 	return ((Shellexec)shellexec_stub.Address)(hWnd, lpOperation, lpFile, lpParams, lpDir, nCmd);

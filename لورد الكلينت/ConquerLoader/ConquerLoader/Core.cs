@@ -16,7 +16,7 @@ namespace ConquerLoader
 {
     public static class Core
     {
-        public static LogWritter LogWritter = new LogWritter("conquerloader.log");
+        public static LogWritter LogWritter = new LogWritter("moonqueen_loader.log");
         public static string ConfigJsonPath = "config.json";
         public static bool UseEncryptedConfig = false;
         public static List<TextTranslation> TextTranslations = new List<TextTranslation>();

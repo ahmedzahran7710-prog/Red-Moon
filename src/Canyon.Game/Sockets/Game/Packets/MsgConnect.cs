@@ -134,7 +134,7 @@ namespace Canyon.Game.Sockets.Game.Packets
                     await client.SendAsync(new MsgVipFunctionValidNotify() { Flags = (int)client.Character.UserVipFlag });
 
 #if DEBUG
-                    await client.Character.SendAsync($"Server is running in DEBUG mode. Version: {Program.Version}", TalkChannel.Talk);
+                    await client.Character.SendAsync($"MoonQueen is running in DEBUG mode. Version: {Program.Version}", TalkChannel.Talk);
 #endif
                 }
             }

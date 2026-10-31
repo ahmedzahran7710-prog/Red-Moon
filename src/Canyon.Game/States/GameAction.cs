@@ -7133,6 +7133,11 @@ namespace Canyon.Game.States
                 return false;
             }
 
+            if (string.IsNullOrWhiteSpace(param))
+            {
+                return true;
+            }
+
             await user.SendAsync(param, TalkChannel.Website);
             return true;
         }

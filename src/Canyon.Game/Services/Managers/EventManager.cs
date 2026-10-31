@@ -208,10 +208,46 @@ public class EventManager
                 }
             }
 
+            if (!string.IsNullOrEmpty(action.Param))
+            {
+                if (action.Id == 1000000
+                    && (action.Param.Contains("World Conquer", StringComparison.OrdinalIgnoreCase)
+                        || action.Param.Contains("Conquer Online", StringComparison.OrdinalIgnoreCase)))
+                {
+                    action.Param = StrWelcomeLoginTalk;
+                }
+                else if (action.Type == 1041 && action.Param.Contains("worldconquer.online", StringComparison.OrdinalIgnoreCase))
+                {
+                    action.Param = string.Empty;
+                }
+                else
+                {
+                    if (action.Param.Contains("https://worldconquer.online/Shop", StringComparison.OrdinalIgnoreCase))
+                        action.Param = action.Param.Replace("https://worldconquer.online/Shop", "MoonQueen", StringComparison.OrdinalIgnoreCase);
+                    if (action.Param.Contains("https://worldconquer.online.", StringComparison.OrdinalIgnoreCase))
+                        action.Param = action.Param.Replace("https://worldconquer.online.", "MoonQueen.", StringComparison.OrdinalIgnoreCase);
+                    if (action.Param.Contains("https://worldconquer.online/", StringComparison.OrdinalIgnoreCase))
+                        action.Param = action.Param.Replace("https://worldconquer.online/", "MoonQueen", StringComparison.OrdinalIgnoreCase);
+                    if (action.Param.Contains("https://worldconquer.online", StringComparison.OrdinalIgnoreCase))
+                        action.Param = action.Param.Replace("https://worldconquer.online", "MoonQueen", StringComparison.OrdinalIgnoreCase);
+                    if (action.Param.Contains("World Conquer Online", StringComparison.OrdinalIgnoreCase))
+                        action.Param = action.Param.Replace("World Conquer Online", "MoonQueen", StringComparison.OrdinalIgnoreCase);
+                    if (action.Param.Contains("World Conquer", StringComparison.OrdinalIgnoreCase))
+                        action.Param = action.Param.Replace("World Conquer", "MoonQueen", StringComparison.OrdinalIgnoreCase);
+                    if (action.Param.Contains("world of Conquer", StringComparison.OrdinalIgnoreCase))
+                        action.Param = action.Param.Replace("world of Conquer", "MoonQueen", StringComparison.OrdinalIgnoreCase);
+                }
+            }
+
             actions.TryAdd(action.Id, action);
         }
 
         logger.LogInformation("Loaded {Actions} actions from database", actions.Count);
+    }
+
+    public static bool HasAction(uint idAction)
+    {
+        return actions.ContainsKey(idAction);
     }
 
     public static async Task OnLoginAsync(Character user)

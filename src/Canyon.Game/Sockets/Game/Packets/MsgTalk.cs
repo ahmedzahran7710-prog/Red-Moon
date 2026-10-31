@@ -1915,6 +1915,13 @@ namespace Canyon.Game.Sockets.Game.Packets
                         await user.Screen.SynchroScreenAsync();
                         return true;
                     }
+
+                case "/server":
+                case "/about":
+                    {
+                        await user.SendAsync(string.Format(StrWelcomeServerInfo, RoleManager.OnlinePlayers), TalkChannel.Talk, System.Drawing.Color.Yellow);
+                        return true;
+                    }
             }
 
             return false;

@@ -19,12 +19,12 @@ namespace ConquerLoader.Forms
 
         private void LblAboutChangelog_LinkClicked(object sender, System.Windows.Forms.LinkLabelLinkClickedEventArgs e)
         {
-            Process.Start("https://conquerloader.com/changelog/");
+            // External URL disabled for MoonQueen
         }
 
         private void PbAbout_Click(object sender, EventArgs e)
         {
-            Process.Start("https://conquerloader.com/");
+            // External URL disabled for MoonQueen
         }
     }
 }
