@@ -325,10 +325,10 @@ namespace Canyon.Game.States
                 var dbTrade = new DbTrade
                 {
                     Type = DbTrade.TradeType.Trade,
-                    UserIpAddress = User1.Client.IpAddress,
-                    UserMacAddress = User1.Client.MacAddress,
-                    TargetIpAddress = User2.Client.IpAddress,
-                    TargetMacAddress = User2.Client.MacAddress,
+                    UserIpAddress = User1.Client?.IpAddress ?? string.Empty,
+                    UserMacAddress = User1.Client?.MacAddress ?? string.Empty,
+                    TargetIpAddress = User2.Client?.IpAddress ?? string.Empty,
+                    TargetMacAddress = User2.Client?.MacAddress ?? string.Empty,
                     MapIdentity = User1.MapIdentity,
                     TargetEmoney = emoney2,
                     TargetMoney = money2,

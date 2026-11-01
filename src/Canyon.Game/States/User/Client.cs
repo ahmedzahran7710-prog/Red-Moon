@@ -40,6 +40,7 @@ namespace Canyon.Game.States.User
         public uint Identity => Character?.Identity ?? 0;
         public uint AccountIdentity { get; set; }
         public ushort AuthorityLevel { get; set; }
+        public int VipLevel { get; set; }
         public string MacAddress { get; set; } = "Unknown";
         public int LastLogin { get; set; }
         public string GUID { get; }

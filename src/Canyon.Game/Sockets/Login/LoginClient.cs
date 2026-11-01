@@ -46,6 +46,7 @@ namespace Canyon.Game.Sockets.Login
             catch (Exception ex)
             {
                 logger.LogCritical(ex, "Error on exchange!!! {ex}", ex.Message);
+                ConnectionStage = ConnectionState.Disconnected;
                 return false;
             }
         }
@@ -67,7 +68,7 @@ namespace Canyon.Game.Sockets.Login
 
         private async Task ProcessAsync(LoginActor actor, byte[] packet)
         {
-            if (!actor.Socket.Connected)
+            if (actor?.Socket == null || !actor.Socket.Connected || packet == null || packet.Length < 4)
                 return;
 
             var length = BitConverter.ToUInt16(packet, 0);
@@ -114,12 +115,13 @@ namespace Canyon.Game.Sockets.Login
 
         protected override void Disconnected(LoginActor actor)
         {
-            if (actor != null && actor == Instance.Actor)
+            _ = packetProcessor.StopAsync(CancellationToken.None);
+            if (actor != null && Instance != null && actor == Instance.Actor)
             {
                 Instance.Actor = null;
                 Instance = null;
-                ConnectionStage = ConnectionState.Disconnected;
             }
+            ConnectionStage = ConnectionState.Disconnected;
         }
 
         public Task StopAsync()

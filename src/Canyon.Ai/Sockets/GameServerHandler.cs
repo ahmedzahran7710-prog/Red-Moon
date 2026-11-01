@@ -59,8 +59,8 @@ namespace Canyon.Ai.Sockets
 
         private async Task ProcessAsync(GameServer actor, byte[] packet)
         {
-            // Validate connection
-            if (!actor.Socket.Connected)
+            // Validate connection and minimum header length
+            if (actor?.Socket == null || !actor.Socket.Connected || packet == null || packet.Length < 4)
             {
                 return;
             }

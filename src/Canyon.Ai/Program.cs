@@ -44,6 +44,13 @@ namespace Canyon.Ai
 
             logger.LogInformation("Starting game server settings...");
             ServerConfiguration.Configuration = new ServerConfiguration(args);
+            if (ServerConfiguration.Configuration.Database == null
+                || ServerConfiguration.Configuration.Ai == null)
+            {
+                logger.LogCritical("Missing or incomplete MoonQueen.Ai.Config.local.json! Run 1-Setup-MoonQueen.bat first.");
+                Console.ReadLine();
+                return INITIALIZATION_ERROR;
+            }
             AbstractDbContext.Configuration = ServerConfiguration.Configuration.Database;
 
             logger.LogInformation("Initializating realm '{RealmName}'", ServerConfiguration.Configuration.Ai.Name);

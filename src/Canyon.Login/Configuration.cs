@@ -45,11 +45,17 @@ namespace Canyon.Login
         ///     Returns true if the server configuration is valid after reading.
         /// </summary>
         public bool Valid =>
-            Network != null
+            Auth != null
+            && !string.IsNullOrEmpty(Auth.SharedKey)
+            && !string.IsNullOrEmpty(Auth.SharedIV)
+            && Network != null
             && RealmNetwork != null
+#if !USE_MYSQL_DB
             && Authentication != null
             && Realm != null
-            && Account != null;
+            && Account != null
+#endif
+            ;
 
         public class AuthAesConfiguration
         {

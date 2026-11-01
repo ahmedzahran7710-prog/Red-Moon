@@ -75,15 +75,15 @@ namespace Canyon.Game.Sockets.Ai
         /// <param name="packet">An individual data packet to be processed</param>
         private async Task ProcessAsync(AiClient actor, byte[] packet)
         {
-            // Read in TQ's binary header
-            var length = BitConverter.ToUInt16(packet, 0);
-            var type = (PacketType)BitConverter.ToUInt16(packet, 2);
-
-            // Validate connection
-            if (!actor.Socket.Connected)
+            // Validate connection and minimum header length
+            if (actor?.Socket == null || !actor.Socket.Connected || packet == null || packet.Length < 4)
             {
                 return;
             }
+
+            // Read in TQ's binary header
+            var length = BitConverter.ToUInt16(packet, 0);
+            var type = (PacketType)BitConverter.ToUInt16(packet, 2);
 
             try
             {
