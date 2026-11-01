@@ -136,7 +136,7 @@ CREATE TABLE `realms_status` (
   `realm_name` varchar(255) NOT NULL DEFAULT 'MoonQueen',
   `old_status` tinyint(3) unsigned NOT NULL DEFAULT 0,
   `new_status` tinyint(3) unsigned NOT NULL DEFAULT 0,
-  `time` datetime NOT NULL DEFAULT current_timestamp(),
+  `time` int(11) NOT NULL DEFAULT 0,
   `players_online` int(10) unsigned NOT NULL DEFAULT 0,
   `max_players_online` int(10) unsigned NOT NULL DEFAULT 0,
   PRIMARY KEY (`id`)

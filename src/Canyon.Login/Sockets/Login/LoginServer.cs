@@ -50,44 +50,53 @@ namespace Canyon.Login.Sockets.Login
 
         private async Task ProcessAsync(Client actor, byte[] packet)
         {
-            // Validate connection
-            if (!actor.Socket.Connected)
+            // Validate connection and minimum TQ header length
+            if (actor?.Socket == null || !actor.Socket.Connected || packet == null || packet.Length < 4)
             {
                 return;
             }
 
-            // Read in TQ's binary header
-            var length = BitConverter.ToUInt16(packet, 0);
-            var type = (PacketType)BitConverter.ToUInt16(packet, 2);
-
-            // Switch on the packet type
-            MsgBase<Client> msg;
-            switch (type)
+            try
             {
-                case PacketType.MsgAccount:
-                    msg = new MsgAccount();
-                    break;
+                // Read in TQ's binary header
+                var length = BitConverter.ToUInt16(packet, 0);
+                var type = (PacketType)BitConverter.ToUInt16(packet, 2);
 
-                case PacketType.MsgConnect:
-                    msg = new MsgConnect();
-                    break;
+                // Switch on the packet type
+                MsgBase<Client> msg;
+                switch (type)
+                {
+                    case PacketType.MsgAccount:
+                        msg = new MsgAccount();
+                        break;
 
-                case PacketType.MsgPCNum:
-                    msg = new MsgPCNum();
-                    break;
+                    case PacketType.MsgConnect:
+                        msg = new MsgConnect();
+                        break;
 
-                default:
-                    logger.LogWarning("Missing packet {0}, Length {1}\n{2}", type, length, PacketDump.Hex(packet));
-                    return;
+                    case PacketType.MsgPCNum:
+                        msg = new MsgPCNum();
+                        break;
+
+                    default:
+                        logger.LogWarning("Missing packet {0}, Length {1}\n{2}", type, length, PacketDump.Hex(packet));
+                        return;
+                }
+
+                // Decode packet bytes into the structure and process
+                msg.Decode(packet);
+                await msg.ProcessAsync(actor);
             }
-
-            // Decode packet bytes into the structure and process
-            msg.Decode(packet);
-            await msg.ProcessAsync(actor);
+            catch (Exception ex)
+            {
+                logger.LogError(ex, "Error processing login packet from [{IpAddress}]: {Message}", actor.IpAddress, ex.Message);
+                actor.Disconnect();
+            }
         }
 
         protected override void Disconnected(Client actor)
         {
+            processor.DeselectPartition(actor.Partition);
             if (actor.AccountID != 0)
             {
                 ClientManager.RemoveClient(actor.Guid);

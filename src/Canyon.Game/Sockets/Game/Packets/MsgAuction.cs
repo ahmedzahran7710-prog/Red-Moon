@@ -71,32 +71,44 @@ namespace Canyon.Game.Sockets.Game.Packets
 
         public override async Task ProcessAsync(Client client)
         {
+            Character user = client.Character;
+            if (user == null)
+            {
+                return;
+            }
+
+            if (!user.IsUnlocked())
+            {
+                await user.SendSecondaryPasswordInterfaceAsync();
+                return;
+            }
+
             switch (Action)
             {
                 case Mode.NewListing:
                     {
-                        await AuctionManager.AddNewItemAsync(client.Character, ItemId, (AuctionManager.AuctionMoneyType)MoneyType, Bid, Buyout, Duration);
+                        await AuctionManager.AddNewItemAsync(user, ItemId, (AuctionManager.AuctionMoneyType)MoneyType, Bid, Buyout, Duration);
                         await client.SendAsync(this);
                         break;
                     }
 
                 case Mode.ListingBid:
                     {
-                        Confirm = await AuctionManager.PlaceBidAsync(client.Character, ItemId, Bid);
+                        Confirm = await AuctionManager.PlaceBidAsync(user, ItemId, Bid);
                         await client.SendAsync(this);
                         break;
                     }
 
                 case Mode.ListingCancel:
                     {
-                        Confirm = await AuctionManager.CancelAsync(client.Character, ItemId);
+                        Confirm = await AuctionManager.CancelAsync(user, ItemId);
                         await client.SendAsync(this);
                         break;
                     }
 
                 case Mode.ListingBuyout:
                     {
-                        Confirm = await AuctionManager.BuyAtFixedPriceAsync(client.Character, ItemId);
+                        Confirm = await AuctionManager.BuyAtFixedPriceAsync(user, ItemId);
                         await client.SendAsync(this);
                         break;
                     }

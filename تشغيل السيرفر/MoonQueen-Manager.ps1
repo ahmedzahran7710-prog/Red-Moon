@@ -1,5 +1,5 @@
 ﻿param(
-    [ValidateSet("Menu", "Check", "Offline", "Hamachi", "StartAll", "StopAll", "CryptoHelper", "InstallDb")]
+    [ValidateSet("Menu", "Check", "Offline", "Hamachi", "StartAll", "StopAll", "CryptoHelper", "InstallDb", "StaffBadge")]
     [string]$Mode = "Menu",
     [string]$HamachiIP = "25.21.212.130"
 )
@@ -318,13 +318,22 @@ function Resolve-ClientDirectory([bool]$PromptIfMissing = $false) {
 
 function Ensure-LuaAssets([string]$BinDir) {
     $srcLua = Join-Path $RepoRoot "RequiredAssetsForRun\lua"
+    $srcIni = Join-Path $srcLua "lua.ini"
     $dstLua = Join-Path $BinDir "lua"
     $dstIni = Join-Path $dstLua "lua.ini"
-    if (-not (Test-Path -LiteralPath $dstIni) -and (Test-Path -LiteralPath (Join-Path $srcLua "lua.ini"))) {
-        if (Test-Path -LiteralPath $BinDir) {
+    $dstBasic = Join-Path $dstLua "BasicData"
+    if (Test-Path -LiteralPath $srcIni) {
+        $needsSync = (-not (Test-Path -LiteralPath $dstIni)) -or (-not (Test-Path -LiteralPath $dstBasic))
+        if (-not $needsSync) {
+            $rawIni = Get-Content -LiteralPath $dstIni -Raw -ErrorAction SilentlyContinue
+            if ($rawIni -match "todo\.lua" -or $rawIni -match "V100\\") {
+                $needsSync = $true
+            }
+        }
+        if ($needsSync -and (Test-Path -LiteralPath $BinDir)) {
             New-Item -ItemType Directory -Path $dstLua -Force | Out-Null
             Copy-Item -Path (Join-Path $srcLua "*") -Destination $dstLua -Recurse -Force
-            Write-Host "[+] تم نسخ ملفات RequiredAssetsForRun\lua تلقائيًا إلى $dstLua" -ForegroundColor Green
+            Write-Host "[+] تم نسخ وتحديث ملفات RequiredAssetsForRun\lua تلقائيًا إلى $dstLua" -ForegroundColor Green
         }
     }
 }
@@ -1026,7 +1035,80 @@ INSERT INTO `conquer_account` (
     }
 
     Write-Host "[OK] تم تسجيل عالم MoonQueen ($targetIp) وإنشاء حساب الأدمن ($adminUser — رتبة PM=8) بنجاح تام!" -ForegroundColor Green
-    Write-Host "[تذكير] عند إنشاء شخصيتك الأولى داخل الكلينت، أضف [PM] في آخر اسم الشخصية (مثال: Ahmed[PM]) لتفعيل أوامر الإدارة الكاملة." -ForegroundColor Yellow
+    Write-Host "[معلومة مهمة] حسابك واخد رتبة PM=8، يعني أوامر الإدارة كلها شغالة تلقائيًا بمجرد إنشاء شخصية عادية بالكلينت (يفضل اسم من 4 إلى 11 حرفًا، وبعدها تقدر تركب شارة [PM] بضغطة واحدة من اختيار رقم 8 في القائمة)." -ForegroundColor Yellow
+}
+
+function Invoke-StaffBadgeHelper {
+    Write-Banner "تركيب شارة [PM] أو [GM] لشخصية الإدارة بأمان"
+    Write-Host "[ملاحظة] كلينت كونكر 6192 يمنع كتابة القوسين [ ] أثناء إنشاء الشخصية." -ForegroundColor Cyan
+    Write-Host "أنشئ شخصيتك أولًا باسم عادي (4 إلى 11 حرفًا) واخرج من اللعبة، ثم ركّب الشارة من هنا." -ForegroundColor Gray
+    Write-Host ""
+
+    $mysqlExe = Find-MySqlExe -PromptIfMissing:$true
+    if ($null -eq $mysqlExe) {
+        Write-Host "[!!] تعذر العثور على mysql.exe." -ForegroundColor Red
+        return
+    }
+
+    $binDir = Resolve-BinDirectory
+    $creds = Get-AccountDbCredentials $binDir -PromptIfMissing:$true
+    if (-not (Test-TcpPort $creds.Host $creds.Port)) {
+        Write-Host "[!!] خدمة MySQL / MariaDB متوقفة حاليًا." -ForegroundColor Red
+        return
+    }
+
+    $pingRes = Invoke-MySqlQuery $mysqlExe $creds.Host $creds.Port $creds.User $creds.Password "" "SELECT VERSION();"
+    if ($pingRes.ExitCode -ne 0) {
+        $sec = Read-Host "اكتب باسورد MySQL ($($creds.User)) لهذه العملية فقط" -AsSecureString
+        $bstr = [System.Runtime.InteropServices.Marshal]::SecureStringToBSTR($sec)
+        try {
+            $creds.Password = [System.Runtime.InteropServices.Marshal]::PtrToStringAuto($bstr)
+        } finally {
+            [System.Runtime.InteropServices.Marshal]::ZeroFreeBSTR($bstr)
+        }
+    }
+
+    $charName = (Read-Host "اكتب اسم الشخصية الحالي داخل moonqueen_game").Trim()
+    if ([string]::IsNullOrWhiteSpace($charName)) { return }
+
+    $tagChoice = (Read-Host "اختر الشارة المطلوبة: [1] شارة [PM] (افتراضي)  |  [2] شارة [GM]").Trim()
+    $badge = if ($tagChoice -eq "2") { "[GM]" } else { "[PM]" }
+
+    $baseName = $charName -replace '\[(PM|GM)\]$', ''
+    $targetName = $baseName + $badge
+    if ($targetName.Length -gt 15) {
+        Write-Host "[!!] الاسم النهائي ($targetName) طوله $($targetName.Length) حرفًا ويتجاوز حد كونكر الرسمي (15 حرفًا). اختر اسمًا أساسيًا من 11 حرفًا أو أقل." -ForegroundColor Red
+        return
+    }
+
+    $safeOld = $charName.Replace("'", "''")
+    $safeNew = $targetName.Replace("'", "''")
+
+    $existsOld = Invoke-MySqlQuery $mysqlExe $creds.Host $creds.Port $creds.User $creds.Password "moonqueen_game" "SELECT id FROM cq_user WHERE name='$safeOld' LIMIT 1;"
+    if ($existsOld.ExitCode -ne 0 -or [string]::IsNullOrWhiteSpace($existsOld.Output)) {
+        Write-Host "[!!] لم يتم العثور على شخصية باسم '$charName' داخل moonqueen_game." -ForegroundColor Red
+        return
+    }
+
+    if ($charName -ceq $targetName) {
+        Write-Host "[OK] الشخصية تحمل الشارة بالفعل: $targetName" -ForegroundColor Green
+        return
+    }
+
+    $existsNew = Invoke-MySqlQuery $mysqlExe $creds.Host $creds.Port $creds.User $creds.Password "moonqueen_game" "SELECT COUNT(*) FROM cq_user WHERE name='$safeNew';"
+    if ($existsNew.ExitCode -eq 0 -and $existsNew.Output -ne "0") {
+        Write-Host "[!!] يوجد شخصية أخرى تحمل الاسم '$targetName' بالفعل!" -ForegroundColor Red
+        return
+    }
+
+    $updSql = "UPDATE cq_user SET name='$safeNew' WHERE id=$($existsOld.Output) LIMIT 1;"
+    $updRes = Invoke-MySqlStdinScript $mysqlExe $creds.Host $creds.Port $creds.User $creds.Password "moonqueen_game" $updSql
+    if ($updRes.ExitCode -ne 0) {
+        Write-Host "[!!] فشل تحديث اسم الشخصية: $($updRes.Error)" -ForegroundColor Red
+        return
+    }
+
+    Write-Host "[OK] تم تركيب الشارة بنجاح: $charName -> $targetName (تأكد أن الشخصية خارج اللعبة أثناء التعديل ثم ادخل بالكلينت)." -ForegroundColor Green
 }
 
 switch ($Mode) {
@@ -1037,6 +1119,7 @@ switch ($Mode) {
     "StopAll"      { Stop-AllServices }
     "CryptoHelper" { Invoke-CryptoHelper }
     "InstallDb"    { Invoke-CleanDbInstaller }
+    "StaffBadge"   { Invoke-StaffBadgeHelper }
     default {
         while ($true) {
             Write-Banner "القائمة الرئيسية لإدارة وتشغيل السيرفر"
@@ -1047,6 +1130,7 @@ switch ($Mode) {
             Write-Host "  [5] إيقاف السيرفرات الثلاثة بأمان" -ForegroundColor Magenta
             Write-Host "  [6] مولّد تشفير الربط وحساب الأدمن (نسخ SQL جاهز لـ HeidiSQL)" -ForegroundColor Gray
             Write-Host "  [7] تثبيت قاعدة البيانات الرسمية النظيفة بضغطة واحدة (moonqueen_account + moonqueen_game)" -ForegroundColor DarkYellow
+            Write-Host "  [8] تركيب شارة [PM] أو [GM] لشخصية الإدارة بأمان" -ForegroundColor Cyan
             Write-Host "  [0] خروج" -ForegroundColor DarkGray
             Write-Host ""
             $choice = (Read-Host "اختر رقم العملية").Trim()
@@ -1058,6 +1142,7 @@ switch ($Mode) {
                 "5" { Stop-AllServices; Write-Host ""; Read-Host "اضغط Enter للعودة للقائمة" | Out-Null }
                 "6" { Invoke-CryptoHelper; Write-Host ""; Read-Host "اضغط Enter للعودة للقائمة" | Out-Null }
                 "7" { Invoke-CleanDbInstaller; Write-Host ""; Read-Host "اضغط Enter للعودة للقائمة" | Out-Null }
+                "8" { Invoke-StaffBadgeHelper; Write-Host ""; Read-Host "اضغط Enter للعودة للقائمة" | Out-Null }
                 "0" { break }
             }
             if ($choice -eq "0") { break }

@@ -16,6 +16,7 @@ namespace Canyon.Game.States.Mails
         private readonly TimeOut checkMailsTimer = new(60);
         private readonly Character user;
         private readonly ConcurrentDictionary<uint, MailMessage> emails = new();
+        private readonly SemaphoreSlim mailLock = new(1, 1);
 
         public MailBox(Character user)
         {
@@ -124,109 +125,156 @@ namespace Canyon.Game.States.Mails
 
         public async Task DeleteMessageAsync(uint idMail)
         {
-            if (!emails.TryRemove(idMail, out var mail))
+            await mailLock.WaitAsync();
+            try
             {
-                return;
-            }
+                if (!emails.TryRemove(idMail, out var mail))
+                {
+                    return;
+                }
 
-            await mail.DeleteAsync();
+                await mail.DeleteAsync();
+            }
+            finally
+            {
+                mailLock.Release();
+            }
         }
 
         public async Task ClaimMoneyAsync(uint idMail)
         {
-            if (!emails.TryGetValue(idMail, out var mail))
+            await mailLock.WaitAsync();
+            try
             {
-                return;
-            }
+                if (!emails.TryGetValue(idMail, out var mail) || mail.HasExpired || mail.HasClaimedMoney)
+                {
+                    return;
+                }
 
-            if (mail.HasClaimedMoney)
+                ulong amount = Math.Min(mail.Money, 10_000_000_000UL);
+                if (user.Silvers + amount > 10_000_000_000UL)
+                {
+                    return;
+                }
+
+                mail.Money = 0;
+                await mail.SaveAsync();
+                await user.AwardMoneyAsync((long)amount);
+            }
+            finally
             {
-                return;
+                mailLock.Release();
             }
-
-            await user.AwardMoneyAsync((int)mail.Money);
-            mail.Money = 0;
-            await mail.SaveAsync();
         }
 
         public async Task ClaimConquerPointsAsync(uint idMail)
         {
-            if (!emails.TryGetValue(idMail, out var mail))
+            await mailLock.WaitAsync();
+            try
             {
-                return;
-            }
+                if (!emails.TryGetValue(idMail, out var mail) || mail.HasExpired || mail.HasClaimedConquerPoints)
+                {
+                    return;
+                }
 
-            if (mail.HasClaimedConquerPoints)
-            {
-                return;
+                int amount = (int)Math.Min(mail.ConquerPoints, (uint)int.MaxValue);
+                if (mail.IsEmoneyMono)
+                {
+                    if ((long)user.ConquerPointsBound + amount > int.MaxValue)
+                    {
+                        return;
+                    }
+                    mail.ConquerPoints = 0;
+                    await mail.SaveAsync();
+                    await user.AwardBoundConquerPointsAsync(amount);
+                }
+                else
+                {
+                    if ((long)user.ConquerPoints + amount > int.MaxValue)
+                    {
+                        return;
+                    }
+                    mail.ConquerPoints = 0;
+                    await mail.SaveAsync();
+                    await user.AwardConquerPointsAsync(amount);
+                }
             }
-
-            if (mail.IsEmoneyMono)
+            finally
             {
-                await user.AwardBoundConquerPointsAsync((int)mail.ConquerPoints);
+                mailLock.Release();
             }
-            else
-            {
-                await user.AwardConquerPointsAsync((int)mail.ConquerPoints);
-            }
-
-            mail.ConquerPoints = 0;
-            await mail.SaveAsync();
         }
 
         public async Task ClaimActionAsync(uint idMail)
         {
-            if (!emails.TryGetValue(idMail, out var mail))
+            await mailLock.WaitAsync();
+            try
+            {
+                if (!emails.TryGetValue(idMail, out var mail) || mail.HasExpired)
+                {
+                    return;
+                }
+
+                await ClaimActionInternalAsync(mail);
+            }
+            finally
+            {
+                mailLock.Release();
+            }
+        }
+
+        private async Task ClaimActionInternalAsync(MailMessage mail)
+        {
+            if (mail == null || mail.HasClaimedAction)
             {
                 return;
             }
 
-            if (mail.HasClaimedAction)
-            {
-                return;
-            }
-
-            await GameAction.ExecuteActionAsync(mail.Action, user, null, null, null);
+            uint actionId = mail.Action;
             mail.Action = 0;
             await mail.SaveAsync();
+            await GameAction.ExecuteActionAsync(actionId, user, null, null, null);
         }
 
         public async Task ClaimItemAsync(uint idMail)
         {
-            if (!emails.TryGetValue(idMail, out var mail))
+            await mailLock.WaitAsync();
+            try
             {
-                return;
-            }
+                if (!emails.TryGetValue(idMail, out var mail) || mail.HasExpired || mail.HasClaimedItem)
+                {
+                    return;
+                }
 
-            if (mail.HasClaimedItem)
-            {
-                return;
-            }
+                DbItem dbItem = await ItemRepository.GetByIdAsync(mail.Item);
+                if (dbItem == null || (dbItem.PlayerId != 0 && dbItem.Position != (int)Item.ItemPosition.Auction))
+                {
+                    mail.Item = 0;
+                    await mail.SaveAsync();
+                    return;
+                }
 
-            DbItem dbItem = await ItemRepository.GetByIdAsync(mail.Item);
-            if (dbItem?.PlayerId != 0 && dbItem.Position != (int)Item.ItemPosition.Auction)
-            {
+                Item item = new(user);
+                if (!await item.CreateAsync(dbItem))
+                {
+                    return;
+                }
+
+                if (!user.UserPackage.IsPackSpare((int)item.AccumulateNum, item.Type))
+                {
+                    return;
+                }
+
                 mail.Item = 0;
                 await mail.SaveAsync();
-                return;
-            }
 
-            Item item = new(user);
-            if (!await item.CreateAsync(dbItem))
+                await user.UserPackage.AddItemAsync(item);
+                await ClaimActionInternalAsync(mail);
+            }
+            finally
             {
-                return;
+                mailLock.Release();
             }
-
-            if (!user.UserPackage.IsPackSpare((int)item.AccumulateNum, item.Type))
-            {
-                return;
-            }
-
-            await user.UserPackage.AddItemAsync(item);
-            await ClaimActionAsync(idMail);
-
-            mail.Item = 0;
-            await mail.SaveAsync();
         }
 
         public Task NotifyAsync()

@@ -87,6 +87,10 @@ namespace Canyon.Game.Sockets.Game.Packets
         public override async Task ProcessAsync(Client client)
         {
             Character user = client.Character;
+            if (user == null)
+            {
+                return;
+            }
 
             switch (Mode)
             {
@@ -188,8 +192,14 @@ namespace Canyon.Game.Sockets.Game.Packets
 
                 case SyndicateRequest.DonateSilvers:
                     {
-                        if (user.Syndicate == null)
+                        if (user.Syndicate == null || Identity == 0 || Identity > int.MaxValue)
                         {
+                            return;
+                        }
+
+                        if (!user.IsUnlocked())
+                        {
+                            await user.SendSecondaryPasswordInterfaceAsync();
                             return;
                         }
 
@@ -202,7 +212,7 @@ namespace Canyon.Game.Sockets.Game.Packets
 
                         user.Syndicate.Money += amount;
                         await user.Syndicate.SaveAsync();
-                        user.SyndicateMember.Silvers += (int)Identity;
+                        user.SyndicateMember.Silvers += amount;
                         user.SyndicateMember.SilversTotal += Identity;
                         await user.SyndicateMember.SaveAsync();
                         await user.SendSyndicateAsync();
@@ -226,8 +236,14 @@ namespace Canyon.Game.Sockets.Game.Packets
 
                 case SyndicateRequest.DonateConquerPoints:
                     {
-                        if (user.Syndicate == null)
+                        if (user.Syndicate == null || Identity == 0 || Identity > int.MaxValue)
                         {
+                            return;
+                        }
+
+                        if (!user.IsUnlocked())
+                        {
+                            await user.SendSecondaryPasswordInterfaceAsync();
                             return;
                         }
 

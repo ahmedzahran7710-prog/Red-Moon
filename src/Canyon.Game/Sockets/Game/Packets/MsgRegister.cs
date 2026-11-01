@@ -277,6 +277,7 @@ namespace Canyon.Game.Sockets.Game.Packets
                 {
                     AccountID = client.AccountIdentity,
                     AuthorityID = client.AuthorityLevel,
+                    VIPLevel = client.VipLevel,
                     IPAddress = client.IpAddress
                 };
                 // Store in the login cache with an absolute timeout

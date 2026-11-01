@@ -912,7 +912,12 @@ namespace Canyon.Game.States.Items
 
         public async Task<bool> CombineItemAsync(Item item, Item combine)
         {
-            if (item == null || combine == null || !item.IsPileEnable() || item.Type != combine.Type)
+            if (item == null || combine == null || item.Identity == combine.Identity || !item.IsPileEnable() || item.Type != combine.Type)
+            {
+                return false;
+            }
+
+            if (user.Trade != null || user.Booth?.QueryItem(item.Identity) != null || user.Booth?.QueryItem(combine.Identity) != null)
             {
                 return false;
             }
@@ -956,17 +961,22 @@ namespace Canyon.Game.States.Items
                 return false;
             }
 
+            if (user.Trade != null || user.Booth?.QueryItem(item.Identity) != null)
+            {
+                return false;
+            }
+
             if (amount <= 0)
             {
                 return false;
             }
 
-            if (amount >= item.MaxAccumulateNum)
+            if (amount >= item.AccumulateNum || amount >= item.MaxAccumulateNum)
             {
                 return false;
             }
 
-            if (!IsPackSpare(amount, item.Type))
+            if (!IsPackSpare(1))
             {
                 return false;
             }
@@ -991,7 +1001,8 @@ namespace Canyon.Game.States.Items
 
         public Item FindCombineItem(Item item)
         {
-            return inventory.Values.FirstOrDefault(x => x.Type == item.Type
+            return inventory.Values.FirstOrDefault(x => x.Identity != item.Identity
+                                                             && x.Type == item.Type
                                                              && x.AccumulateNum < x.MaxAccumulateNum
                                                              && x.IsBound == item.IsBound);
         }
@@ -999,14 +1010,15 @@ namespace Canyon.Game.States.Items
         public Item FindStorageCombineItem(Item item)
         {
             return GetStorageItems(item.OwnerIdentity, (StorageType)((int)item.Position % 10 * 10))
-                        .Values.FirstOrDefault(x => x.Type == item.Type
+                        .Values.FirstOrDefault(x => x.Identity != item.Identity
+                                                             && x.Type == item.Type
                                                              && x.AccumulateNum < x.MaxAccumulateNum
                                                              && x.IsBound == item.IsBound);
         }
 
         public async Task<bool> CombineStorageItemAsync(Item item, Item combine)
         {
-            if (item == null || combine == null || !item.IsPileEnable() || item.Type != combine.Type)
+            if (item == null || combine == null || item.Identity == combine.Identity || !item.IsPileEnable() || item.Type != combine.Type)
             {
                 return false;
             }
@@ -2063,8 +2075,18 @@ namespace Canyon.Game.States.Items
 
         public async Task ClearInventoryAsync()
         {
-            foreach (var item in inventory.Values)
+            if (!user.IsUnlocked() || user.Trade != null || user.Booth != null)
             {
+                return;
+            }
+
+            foreach (var item in inventory.Values.ToList())
+            {
+                if (item.IsLocked() || item.IsUnlocking())
+                {
+                    continue;
+                }
+
                 await RemoveFromInventoryAsync(item, RemovalType.RemoveAndDisappear);
                 await item.DeleteAsync(Item.ChangeOwnerType.ClearInventory);
             }

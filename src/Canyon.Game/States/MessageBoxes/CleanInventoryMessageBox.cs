@@ -13,10 +13,21 @@ namespace Canyon.Game.States.MessageBoxes
             TimeOut = 30;
         }
 
-        public override Task OnAcceptAsync()
+        public override async Task OnAcceptAsync()
         {
+            if (!user.IsUnlocked())
+            {
+                await user.SendSecondaryPasswordInterfaceAsync();
+                return;
+            }
+
+            if (user.Trade != null || user.Booth != null)
+            {
+                return;
+            }
+
             logger.LogInformation("User [{},{}] has accepted to clean inventory!", user.Identity, user.Name);
-            return user.UserPackage.ClearInventoryAsync();
+            await user.UserPackage.ClearInventoryAsync();
         }
     }
 }

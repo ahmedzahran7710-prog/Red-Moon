@@ -40,6 +40,17 @@ namespace Canyon.Game.Sockets.Game.Packets
         public override async Task ProcessAsync(Client client)
         {
             Character user = client.Character;
+            if (user == null)
+            {
+                return;
+            }
+
+            if (Action != Mode.Open && !user.IsUnlocked())
+            {
+                await user.SendSecondaryPasswordInterfaceAsync();
+                return;
+            }
+
             switch (Action)
             {
                 case Mode.Open:

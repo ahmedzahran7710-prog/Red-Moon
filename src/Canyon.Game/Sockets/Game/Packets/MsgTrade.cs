@@ -54,6 +54,21 @@ namespace Canyon.Game.Sockets.Game.Packets
         public override async Task ProcessAsync(Client client)
         {
             Character user = client.Character;
+            if (user == null)
+            {
+                return;
+            }
+
+            if (Action != TradeAction.Quit && !user.IsUnlocked())
+            {
+                await user.SendSecondaryPasswordInterfaceAsync();
+                if (user.Trade != null)
+                {
+                    await user.Trade.SendCloseAsync();
+                }
+                return;
+            }
+
             Character target = null;
 
             switch (Action)

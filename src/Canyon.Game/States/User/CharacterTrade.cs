@@ -105,11 +105,21 @@ namespace Canyon.Game.States.User
             }
 
             BoothItem item = Booth.QueryItem(idItem);
+            if (item == null || item.Item == null || item.Value == 0 || item.Value > int.MaxValue)
+            {
+                return false;
+            }
+
             var value = (int)item.Value;
             string moneyType = item.IsSilver ? Language.StrSilvers : Language.StrConquerPoints;
             if (item.IsSilver)
             {
-                if (!await target.SpendMoneyAsync((int)item.Value, true))
+                if (Silvers + (ulong)value > 10_000_000_000UL)
+                {
+                    return false;
+                }
+
+                if (!await target.SpendMoneyAsync(value, true))
                 {
                     return false;
                 }
@@ -118,7 +128,12 @@ namespace Canyon.Game.States.User
             }
             else
             {
-                if (!await target.SpendConquerPointsAsync((int)item.Value, true))
+                if ((long)ConquerPoints + value > int.MaxValue)
+                {
+                    return false;
+                }
+
+                if (!await target.SpendConquerPointsAsync(value, true))
                 {
                     return false;
                 }

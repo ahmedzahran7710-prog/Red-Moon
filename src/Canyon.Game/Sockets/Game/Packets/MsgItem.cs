@@ -258,6 +258,11 @@ namespace Canyon.Game.Sockets.Game.Packets
         public override async Task ProcessAsync(Client client)
         {
             Character user = client.Character;
+            if (user == null)
+            {
+                return;
+            }
+
             BaseNpc npc = null;
             Item item = null;
 
@@ -267,10 +272,14 @@ namespace Canyon.Game.Sockets.Game.Packets
                 case ItemActionType.ShopSell:
                 case ItemActionType.BankWithdraw:
                 case ItemActionType.BoothSell:
+                case ItemActionType.BoothSellPoints:
+                case ItemActionType.BoothPurchase:
                 case ItemActionType.TalismanProgress:
                 case ItemActionType.TalismanProgressEmoney:
                 case ItemActionType.InventoryDropItem:
                 case ItemActionType.InventoryDropSilver:
+                case ItemActionType.DegradeEquipment:
+                case ItemActionType.ForgingBuy:
                     {
                         if (!user.IsUnlocked())
                         {
@@ -553,12 +562,12 @@ namespace Canyon.Game.Sockets.Game.Packets
 
                 case ItemActionType.BankDeposit:
                     {
-                        if (user.Silvers < Command)
+                        if (Command == 0 || Command > int.MaxValue || user.Silvers < Command)
                         {
                             return;
                         }
 
-                        if (Command + user.StorageMoney > Role.MAX_STORAGE_MONEY)
+                        if ((long)Command + user.StorageMoney > Role.MAX_STORAGE_MONEY)
                         {
                             await user.SendAsync(string.Format(StrSilversExceedAmount, int.MaxValue));
                             return;
@@ -580,12 +589,12 @@ namespace Canyon.Game.Sockets.Game.Packets
 
                 case ItemActionType.BankWithdraw:
                     {
-                        if (Command > user.StorageMoney)
+                        if (Command == 0 || Command > int.MaxValue || Command > user.StorageMoney)
                         {
                             return;
                         }
 
-                        if (Command + user.Silvers > int.MaxValue)
+                        if ((ulong)Command + user.Silvers > int.MaxValue)
                         {
                             await user.SendAsync(string.Format(StrSilversExceedAmount, int.MaxValue));
                             return;

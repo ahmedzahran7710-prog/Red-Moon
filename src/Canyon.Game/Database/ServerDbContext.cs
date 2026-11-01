@@ -138,6 +138,16 @@ namespace Canyon.Game.Database
             base.OnModelCreating(modelBuilder);
 
             modelBuilder.Entity<DbTrade>().Property(x => x.Type).HasConversion<uint>();
+            modelBuilder.Entity<DbPigeon>()
+                .Property(x => x.Time)
+                .HasConversion(
+                    v => UnixTimestamp.FromDateTime(v),
+                    v => UnixTimestamp.ToDateTime(v));
+            modelBuilder.Entity<DbBonus>()
+                .Property(x => x.Time)
+                .HasConversion(
+                    v => v.HasValue ? (int?)UnixTimestamp.FromDateTime(v.Value) : null,
+                    v => UnixTimestamp.ToNullableDateTime(v));
             modelBuilder.Entity<DbFateRand>(e => e.HasNoKey());
             modelBuilder.Entity<DbSuperman>().Property(x => x.UserIdentity).ValueGeneratedNever();
             modelBuilder.Entity<DbAchievement>().Property(x => x.UserIdentity).ValueGeneratedNever();

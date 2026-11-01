@@ -92,10 +92,25 @@ namespace Canyon.Game.Services.Managers
 
         public static async Task AddNewItemAsync(Character sender, uint itemId, AuctionMoneyType moneyType, uint price, uint fixedPrice, int duration)
         {
+            if (sender == null || (moneyType != AuctionMoneyType.Money && moneyType != AuctionMoneyType.Emoney))
+            {
+                return;
+            }
+
+            if (price == 0 || price > int.MaxValue || fixedPrice > int.MaxValue || (fixedPrice != 0 && fixedPrice < price))
+            {
+                return;
+            }
+
+            if (sender.Trade != null || sender.Booth?.QueryItem(itemId) != null)
+            {
+                return;
+            }
+
             Item item = sender.UserPackage[itemId];
             if (!IsItemAuctionable(item))
             {
-                logger.LogWarning($"User[{sender.Identity},{sender.Name}] tried to auction invalid item {item.Identity} - {item.FullName}");
+                logger.LogWarning("User[{},{}] tried to auction invalid item {} - {}", sender.Identity, sender.Name, itemId, item?.FullName ?? "null");
                 return;
             }
 
@@ -289,6 +304,11 @@ namespace Canyon.Game.Services.Managers
 
         public static async Task<bool> PlaceBidAsync(Character user, uint itemId, uint value, int amount = 1)
         {
+            if (user == null || value == 0 || value > int.MaxValue)
+            {
+                return false;
+            }
+
             AuctionItem auctionItem;
             lock (Lock)
             {
@@ -296,6 +316,11 @@ namespace Canyon.Game.Services.Managers
                 {
                     return false;
                 }
+            }
+
+            if (auctionItem.SellerId == user.Identity || auctionItem.RemainingTime == AuctionRemainingTime.Expired)
+            {
+                return false;
             }
 
             if (auctionItem.CurrentPrice > value)
@@ -308,7 +333,15 @@ namespace Canyon.Game.Services.Managers
                 return false;
             }
 
-            await auctionItem.PlaceBidAsync(user, value, amount);
+            if (auctionItem.Buyout > 0 && value >= auctionItem.Buyout)
+            {
+                return await BuyAtFixedPriceAsync(user, itemId);
+            }
+
+            if (!await auctionItem.PlaceBidAsync(user, value, amount))
+            {
+                return false;
+            }
 
             AuctionBid currentBid = auctionItem.BiggestBid;
             MsgAuctionItem msg = new MsgAuctionItem
@@ -338,6 +371,11 @@ namespace Canyon.Game.Services.Managers
 
         public static async Task<bool> BuyAtFixedPriceAsync(Character user, uint itemId)
         {
+            if (user == null)
+            {
+                return false;
+            }
+
             AuctionItem auctionItem;
             lock (Lock)
             {
@@ -345,6 +383,16 @@ namespace Canyon.Game.Services.Managers
                 {
                     return false;
                 }
+            }
+
+            if (auctionItem.Buyout == 0 || auctionItem.Buyout > int.MaxValue || auctionItem.SellerId == user.Identity)
+            {
+                return false;
+            }
+
+            if (auctionItem.Buyout <= auctionItem.CurrentPrice && auctionItem.BiggestBid != null && auctionItem.BiggestBid.Price >= auctionItem.Buyout)
+            {
+                return false;
             }
 
             Item item = auctionItem.GetItem();
@@ -361,12 +409,16 @@ namespace Canyon.Game.Services.Managers
                     return false;
                 }
             }
-            else
+            else if (auctionItem.MoneyType == AuctionMoneyType.Emoney)
             {
                 if (user.ConquerPoints < auctionItem.Buyout)
                 {
                     return false;
                 }
+            }
+            else
+            {
+                return false;
             }
 
             if (await auctionItem.BuyoutAsync(user))
@@ -395,19 +447,17 @@ namespace Canyon.Game.Services.Managers
                 {
                     return false;
                 }
-            }
 
-            if (user.Identity != auctionItem.SellerId)
-            {
-                return false;
+                if (user.Identity != auctionItem.SellerId || auctionItem.Sold || auctionItem.RemainingTime == AuctionRemainingTime.Expired)
+                {
+                    return false;
+                }
+
+                AuctionItems.Remove(itemId);
             }
 
             await auctionItem.CancelAsync();
-
-            lock (Lock)
-            {
-                AuctionItems.Remove(itemId);
-            }
+            await auctionItem.DeleteAsync();
             return true;
         }
 
