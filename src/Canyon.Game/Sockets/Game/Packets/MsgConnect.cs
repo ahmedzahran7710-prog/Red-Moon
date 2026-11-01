@@ -85,6 +85,7 @@ namespace Canyon.Game.Sockets.Game.Packets
             DbCharacter character = await CharacterRepository.FindAsync(auth.AccountID);
             client.AccountIdentity = auth.AccountID;
             client.AuthorityLevel = auth.AuthorityID;
+            client.VipLevel = auth.VIPLevel;
             client.MacAddress = MacAddress;
 
 #if DEBUG || TEST_SERVER

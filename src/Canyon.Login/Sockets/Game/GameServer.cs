@@ -79,7 +79,7 @@ namespace Canyon.Login.Sockets.Game
 
         private async Task ProcessAsync(Realm actor, byte[] packet)
         {
-            if (!actor.Socket.Connected)
+            if (actor?.Socket == null || !actor.Socket.Connected || packet == null || packet.Length < 4)
             {
                 return;
             }
@@ -138,7 +138,7 @@ namespace Canyon.Login.Sockets.Game
             if (actor != null)
             {
                 logger.LogInformation("Realm [{},{}] has disconnected", actor.RealmID, actor.Data?.RealmName);
-                RealmManager.RemoveRealm(actor.RealmID);
+                RealmManager.RemoveRealm(actor.RealmID, actor);
             }
         }
     }

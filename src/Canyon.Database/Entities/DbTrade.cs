@@ -17,10 +17,10 @@
         [Column("target_x")] public virtual ushort TargetX { get; set; }
         [Column("target_y")] public virtual ushort TargetY { get; set; }
         [Column("timestamp")] public virtual DateTime Timestamp { get; set; }
-        [Column("user_ip_addr")] public virtual string UserIpAddress { get; set; }
-        [Column("user_mac_addr")] public virtual string UserMacAddress { get; set; }
-        [Column("target_ip_addr")] public virtual string TargetIpAddress { get; set; }
-        [Column("target_mac_addr")] public virtual string TargetMacAddress { get; set; }
+        [Column("user_ip_addr")] public virtual string UserIpAddress { get; set; } = string.Empty;
+        [Column("user_mac_addr")] public virtual string UserMacAddress { get; set; } = string.Empty;
+        [Column("target_ip_addr")] public virtual string TargetIpAddress { get; set; } = string.Empty;
+        [Column("target_mac_addr")] public virtual string TargetMacAddress { get; set; } = string.Empty;
 
         public enum TradeType
         {

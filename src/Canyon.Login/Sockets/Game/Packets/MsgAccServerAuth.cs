@@ -23,7 +23,7 @@ namespace Canyon.Login.Sockets.Game.Packets
                 return;
             }
 
-            if (!await RealmsRepository.ValidateRealmAsync(Guid.Parse(Data.RealmId), Data.Username, Data.Password))
+            if (!Guid.TryParse(Data.RealmId, out Guid realmGuid) || !await RealmsRepository.ValidateRealmAsync(realmGuid, Data.Username, Data.Password))
             {
                 logger.LogWarning("[{}] Invalid username or password", realmData.RealmName);
                 await DenyWithMessageAsync(client, MsgAccServerAuthEx.INVALID_USERNAME_PASSWORD);
@@ -48,8 +48,9 @@ namespace Canyon.Login.Sockets.Game.Packets
 #endif
 
             var oldRealm = RealmManager.GetRealm(realmData.RealmID);
-            if (oldRealm != null)
+            if (oldRealm != null && !ReferenceEquals(oldRealm, client))
             {
+                RealmManager.RemoveRealm(realmData.RealmID, oldRealm);
                 oldRealm.Disconnect();
                 logger.LogWarning("Duplicated login for realm [{}] from [{}]", realmData.RealmName, client.IpAddress);
             }

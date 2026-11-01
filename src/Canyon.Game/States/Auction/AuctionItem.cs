@@ -54,6 +54,11 @@ namespace Canyon.Game.States.Auction
                 Character user = User;
                 SellerName = user.Name;
                 item = user.UserPackage.FindByIdentity(auction.ItemId);
+                if (item == null)
+                {
+                    logger.LogCritical("Could not create auction item for auction id [missing user item]: {}", auction.Id);
+                    return false;
+                }
             }
 
             ItemName = item.Name;

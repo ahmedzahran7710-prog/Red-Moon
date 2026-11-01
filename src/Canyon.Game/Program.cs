@@ -50,6 +50,16 @@ namespace Canyon.Game
 
             logger.LogInformation("Starting game server settings...");
             ServerConfiguration.Configuration = new ServerConfiguration(args);
+            if (ServerConfiguration.Configuration.Database == null
+                || ServerConfiguration.Configuration.Realm == null
+                || ServerConfiguration.Configuration.Auth == null
+                || ServerConfiguration.Configuration.Login == null
+                || ServerConfiguration.Configuration.Ai == null)
+            {
+                logger.LogCritical("Missing or incomplete MoonQueen.Game.Config.local.json! Run 1-Setup-MoonQueen.bat first.");
+                Console.ReadLine();
+                return INVALID_RELEASE_SETTINGS;
+            }
             AbstractDbContext.Configuration = ServerConfiguration.Configuration.Database;
 
             if (ServerConfiguration.Configuration.Realm.ReleaseDate == default)

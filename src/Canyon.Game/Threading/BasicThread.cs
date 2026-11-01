@@ -57,9 +57,10 @@ namespace Canyon.Game.Threading
                 {
                     _ = LoginClient.Instance.StopAsync();
                     LoginClient.Instance = null;
+                    LoginClient.ConnectionStage = LoginClient.ConnectionState.Disconnected;
                 }
             }
-            else if (LoginClient.ConnectionStage == LoginClient.ConnectionState.Connected && accountPing.ToNextTime())
+            else if (LoginClient.ConnectionStage == LoginClient.ConnectionState.Connected && LoginClient.Instance?.Actor != null && accountPing.ToNextTime())
             {
                 await LoginClient.Instance.Actor.SendAsync(new MsgAccServerPing());
             }

@@ -9,6 +9,6 @@
         [Column("item_id")] public virtual uint ItemIdentity { get; set; }
         [Column("itemtype")] public virtual uint Itemtype { get; set; }
         [Column("chksum")] public virtual uint Chksum { get; set; }
-        [Column("json_data")] public virtual string JsonData { get; set; }
+        [Column("json_data")] public virtual string JsonData { get; set; } = string.Empty;
     }
 }
