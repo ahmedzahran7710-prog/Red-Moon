@@ -14,7 +14,7 @@ namespace Canyon.Game.States.Events.Mount
     public sealed class HorseRacing : GameEvent
     {
         private const int MAX_EVENT_DURATION = 60 * 30;
-        private const uint MAP_IDENTITY = 9929;
+        private const int MAP_IDENTITY = 9929;
 
         private static readonly ILogger logger = LogFactory.CreateLogger<HorseRacing>();
         private static readonly ILogger rewardLogger = LogFactory.CreateGmLogger("horse_racing_reward");
@@ -205,7 +205,7 @@ namespace Canyon.Game.States.Events.Mount
             uint mapId = (uint)(horseRacingClerk?.Data0 ?? MAP_IDENTITY);
             if (mapId == 0)
             {
-                mapId = MAP_IDENTITY;
+                mapId = (uint)MAP_IDENTITY;
             }
             await PrepareStartupAsync(mapId);
             return true;

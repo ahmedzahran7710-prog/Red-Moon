@@ -8,7 +8,7 @@
   "tracked_files": 853,
   "omitted_files": 18,
   "total_upstream_bytes": 53090052,
-  "tracked_bytes": 6496201,
+  "tracked_bytes": 6496212,
   "files": [
     {
       "path": ".editorconfig",
@@ -2312,8 +2312,8 @@
     },
     {
       "path": "src/Canyon.Game/Services/Managers/DynamicGlobalDataManager.cs",
-      "bytes": 83794,
-      "sha256": "e514d35a51a4d397ef421f7632c9565c137e596d19b301986b8dd34453b5ed88",
+      "bytes": 83800,
+      "sha256": "0cefaa3da926d69fe6e808493b0b5db63a048d4640622655dd7c5c4a53c441cb",
       "tracked": true,
       "upstream_sha256": "17cdc244dac123ec8456fc5c678880605211c37d95c6f6c39edeb22d2a6664c6",
       "upstream_bytes": 4378,
@@ -3905,8 +3905,8 @@
     },
     {
       "path": "src/Canyon.Game/States/Events/Mount/HorseRacing.cs",
-      "bytes": 17420,
-      "sha256": "26820f8fbf36b3f36cd9816627a69b4a45aea9e2c5d48824ba4059a1bd8ccec4",
+      "bytes": 17425,
+      "sha256": "008b521796b928a1b22263a3df9aded2fe95da72ad2ddfc01e978626279902d8",
       "tracked": true,
       "upstream_sha256": "3eef5f05ceef22503bdcaad730a6124aa6fb5eebcc0053983461ee0bc31cd3db",
       "upstream_bytes": 16630,
