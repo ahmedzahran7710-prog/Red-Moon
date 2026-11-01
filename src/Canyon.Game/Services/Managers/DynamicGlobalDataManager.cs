@@ -147,7 +147,7 @@ namespace Canyon.Game.Services.Managers
 
     public static class ServerRatesManager
     {
-        private static readonly ILogger logger = LogFactory.CreateLogger<ServerRatesManager>("ServerRatesManager");
+        private static readonly ILogger logger = LogFactory.CreateLogger<DynamicGlobalDataManager>("ServerRatesManager");
 
         private static readonly JsonSerializerOptions jsonOptions = new()
         {
