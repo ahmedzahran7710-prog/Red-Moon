@@ -2728,7 +2728,7 @@ namespace Canyon.Game.States.Items
 
         public async Task<bool> TryRollUpgradeSocketAsync(Character notifyUser = null)
         {
-            if (!IsEquipment() || IsGourd() || IsGarment() || IsMount() || IsMountArmor() || IsHossu())
+            if (!IsEquipment() || IsGourd() || IsGarment() || IsMount() || IsMountArmor() || IsHossuType())
             {
                 return false;
             }

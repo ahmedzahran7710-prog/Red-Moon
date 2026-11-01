@@ -324,8 +324,8 @@ public class EventManager
             {
                 key,
                 name = displayName,
-                is_active = ev?.IsActive == true || ev?.Stage == GameEvent.EventStage.Running,
-                stage = ev?.Stage.ToString() ?? "Unregistered",
+                is_active = ev?.IsActive == true || ev?.IsRunning == true,
+                stage = ev?.StageName ?? "Unregistered",
                 map_id = ev?.Map?.Identity ?? defaultMap,
                 owner = string.Empty,
                 manual_until = string.Empty
