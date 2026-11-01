@@ -1,5 +1,5 @@
 ﻿param(
-    [ValidateSet("Menu", "Check", "Offline", "Hamachi", "StartAll", "StopAll", "CryptoHelper")]
+    [ValidateSet("Menu", "Check", "Offline", "Hamachi", "StartAll", "StopAll", "CryptoHelper", "InstallDb")]
     [string]$Mode = "Menu",
     [string]$HamachiIP = "25.21.212.130"
 )
@@ -91,18 +91,31 @@ function Resolve-BinDirectory {
     return $candidates[0]
 }
 
-function Find-MySqlExe {
-    $paths = @(
+function Find-MySqlExe([bool]$PromptIfMissing = $false) {
+    $state = Load-LauncherState
+    $paths = @()
+    if ($null -ne $state -and -not [string]::IsNullOrWhiteSpace($state.MySqlExePath)) {
+        $paths += [string]$state.MySqlExePath
+    }
+    $paths += @(
         "C:\xampp\mysql\bin\mysql.exe",
         "D:\xampp\mysql\bin\mysql.exe",
         "E:\xampp\mysql\bin\mysql.exe",
         "F:\xampp\mysql\bin\mysql.exe"
     )
     foreach ($p in $paths) {
-        if (Test-Path -LiteralPath $p) { return $p }
+        if (-not [string]::IsNullOrWhiteSpace($p) -and (Test-Path -LiteralPath $p)) { return $p }
     }
     $cmd = Get-Command mysql -ErrorAction SilentlyContinue
     if ($null -ne $cmd) { return $cmd.Source }
+    if ($PromptIfMissing) {
+        Write-Host "[?] لم يتم العثور تلقائيًا على mysql.exe في المسارات المعتادة." -ForegroundColor Yellow
+        $entered = (Read-Host "اكتب مسار mysql.exe الكامل (مثال: C:\xampp\mysql\bin\mysql.exe)").Trim('"').Trim()
+        if (-not [string]::IsNullOrWhiteSpace($entered) -and (Test-Path -LiteralPath $entered)) {
+            Save-LauncherState @{ MySqlExePath = $entered }
+            return $entered
+        }
+    }
     return $null
 }
 
@@ -165,6 +178,73 @@ function Invoke-MySqlQuery([string]$MySqlExe, [string]$HostAddr, [int]$Port, [st
     $stdout = $proc.StandardOutput.ReadToEnd()
     $stderr = $proc.StandardError.ReadToEnd()
     $proc.WaitForExit()
+    return [pscustomobject]@{
+        ExitCode = $proc.ExitCode
+        Output   = $stdout.Trim()
+        Error    = $stderr.Trim()
+    }
+}
+
+function Invoke-MySqlImportFile([string]$MySqlExe, [string]$HostAddr, [int]$Port, [string]$User, [string]$Password, [string]$SqlFilePath) {
+    $psi = New-Object System.Diagnostics.ProcessStartInfo
+    $psi.FileName = $MySqlExe
+    $psi.Arguments = '-h "' + $HostAddr + '" -P ' + $Port + ' -u "' + $User + '" --default-character-set=utf8mb4 --binary-mode=1'
+    $psi.RedirectStandardInput  = $true
+    $psi.RedirectStandardOutput = $true
+    $psi.RedirectStandardError  = $true
+    $psi.UseShellExecute = $false
+    $psi.CreateNoWindow = $true
+    if (-not [string]::IsNullOrEmpty($Password)) {
+        $psi.EnvironmentVariables["MYSQL_PWD"] = $Password
+    }
+    $proc = [System.Diagnostics.Process]::Start($psi)
+    $outTask = $proc.StandardOutput.ReadToEndAsync()
+    $errTask = $proc.StandardError.ReadToEndAsync()
+    $fs = [System.IO.File]::OpenRead($SqlFilePath)
+    try {
+        $fs.CopyTo($proc.StandardInput.BaseStream)
+    } finally {
+        $fs.Dispose()
+        $proc.StandardInput.Close()
+    }
+    $proc.WaitForExit()
+    $stdout = $outTask.GetAwaiter().GetResult()
+    $stderr = $errTask.GetAwaiter().GetResult()
+    return [pscustomobject]@{
+        ExitCode = $proc.ExitCode
+        Output   = $stdout.Trim()
+        Error    = $stderr.Trim()
+    }
+}
+
+function Invoke-MySqlStdinScript([string]$MySqlExe, [string]$HostAddr, [int]$Port, [string]$User, [string]$Password, [string]$Database, [string]$SqlScript) {
+    $psi = New-Object System.Diagnostics.ProcessStartInfo
+    $psi.FileName = $MySqlExe
+    $dbArg = ""
+    if (-not [string]::IsNullOrWhiteSpace($Database)) {
+        $dbArg = ' -D "' + $Database + '"'
+    }
+    $psi.Arguments = '-h "' + $HostAddr + '" -P ' + $Port + ' -u "' + $User + '" --default-character-set=utf8mb4' + $dbArg
+    $psi.RedirectStandardInput  = $true
+    $psi.RedirectStandardOutput = $true
+    $psi.RedirectStandardError  = $true
+    $psi.UseShellExecute = $false
+    $psi.CreateNoWindow = $true
+    if (-not [string]::IsNullOrEmpty($Password)) {
+        $psi.EnvironmentVariables["MYSQL_PWD"] = $Password
+    }
+    $proc = [System.Diagnostics.Process]::Start($psi)
+    $outTask = $proc.StandardOutput.ReadToEndAsync()
+    $errTask = $proc.StandardError.ReadToEndAsync()
+    $utf8Bytes = [System.Text.Encoding]::UTF8.GetBytes($SqlScript)
+    try {
+        $proc.StandardInput.BaseStream.Write($utf8Bytes, 0, $utf8Bytes.Length)
+    } finally {
+        $proc.StandardInput.Close()
+    }
+    $proc.WaitForExit()
+    $stdout = $outTask.GetAwaiter().GetResult()
+    $stderr = $errTask.GetAwaiter().GetResult()
     return [pscustomobject]@{
         ExitCode = $proc.ExitCode
         Output   = $stdout.Trim()
@@ -369,16 +449,22 @@ function Invoke-ReadinessCheck {
                 Write-Host "[OK] قاعدة $accSchema جاهزة — العالم: $realmName | الآي بي الحالي: $realmIpInDb ($modeLabel)" -ForegroundColor Green
                 $okCount++
             } else {
-                Write-Host "[!!] تعذر قراءة جدول realm من قاعدة $accSchema — تأكد من استيراد SQL وتنفيذ استعلام التجهيز." -ForegroundColor Yellow
+                Write-Host "[!!] تعذر قراءة جدول realm من قاعدة $accSchema — شغّل 7-Install-Clean-Database.bat لتثبيت الداتابيز وتجهيز العالم بضغطة واحدة." -ForegroundColor Yellow
                 $warnCount++
             }
 
             $resGame = Invoke-MySqlQuery $mysqlExe $dbHost $dbPort ([string]$loginCfg.Database.Username) ([string]$loginCfg.Database.Password) $gameSchema "SELECT COUNT(*) FROM information_schema.tables WHERE table_schema = '$gameSchema';"
-            if ($resGame.ExitCode -eq 0 -and [int]$resGame.Output -ge 50) {
-                Write-Host "[OK] قاعدة $gameSchema جاهزة وتحتوي على $($resGame.Output) جدول." -ForegroundColor Green
-                $okCount++
+            if ($resGame.ExitCode -eq 0 -and [int]$resGame.Output -ge 300) {
+                $resInst = Invoke-MySqlQuery $mysqlExe $dbHost $dbPort ([string]$loginCfg.Database.Username) ([string]$loginCfg.Database.Password) $gameSchema "SELECT COUNT(*) FROM information_schema.tables WHERE table_schema = '$gameSchema' AND table_name = 'cq_instance_enter_condition';"
+                if ($resInst.ExitCode -eq 0 -and [int]$resInst.Output -eq 1) {
+                    Write-Host "[OK] قاعدة $gameSchema جاهزة 100% وتحتوي على $($resGame.Output) جدول مكتمل (شاملة جداول V6192 المحدثة)." -ForegroundColor Green
+                    $okCount++
+                } else {
+                    Write-Host "[!!] قاعدة $gameSchema تحتوي على $($resGame.Output) جدول لكن ينقصها تحديث V6192 (cq_instance_enter_condition) — شغّل 7-Install-Clean-Database.bat." -ForegroundColor Yellow
+                    $warnCount++
+                }
             } else {
-                Write-Host "[!!] قاعدة $gameSchema غير مستوردة بالكامل بعد." -ForegroundColor Yellow
+                Write-Host "[!!] قاعدة $gameSchema غير مستوردة بالكامل بعد — شغّل 7-Install-Clean-Database.bat لتثبيتها تلقائيًا." -ForegroundColor Yellow
                 $warnCount++
             }
         }
@@ -613,13 +699,16 @@ function Invoke-CryptoHelper {
     $sqlTemplate = @'
 USE `moonqueen_account`;
 
-TRUNCATE TABLE `conquer_account`;
+SET FOREIGN_KEY_CHECKS = 0;
 TRUNCATE TABLE `conquer_account_vip`;
+TRUNCATE TABLE `conquer_account`;
 TRUNCATE TABLE `realm`;
+SET FOREIGN_KEY_CHECKS = 1;
 
 INSERT INTO `realm` (
   `RealmID`, `Name`, `GameIPAddress`, `RpcIPAddress`,
   `GamePort`, `RpcPort`, `Status`, `Username`, `Password`,
+  `DatabaseHost`, `DatabaseUser`, `DatabasePass`, `DatabaseSchema`, `DatabasePort`,
   `Active`, `ProductionRealm`
 ) VALUES (
   'e418a91a-9574-4962-842b-4729238d3965',
@@ -631,6 +720,11 @@ INSERT INTO `realm` (
   1,
   '__ENC_RPC_USER__',
   '__ENC_RPC_PASS__',
+  '',
+  '',
+  '',
+  'moonqueen_game',
+  '3306',
   1,
   1
 );
@@ -672,6 +766,269 @@ INSERT INTO `conquer_account` (
     } catch {}
 }
 
+
+function Invoke-CleanDbInstaller {
+    Write-Banner "تثبيت قاعدة البيانات الرسمية النظيفة بضغطة واحدة (V6192 Pure 1.0x)"
+    Write-Host "[أمان تام] هذه الأداة تُنشئ وتُجهّز قاعدتَي moonqueen_account و moonqueen_game فقط." -ForegroundColor Cyan
+    Write-Host "[أمان تام] لن يتم لمس قاعدتَي redmoon_account أو redmoon_game نهائيًا." -ForegroundColor Green
+    Write-Host ""
+
+    $dbDir   = Join-Path $RepoRoot "قاعدة البيانات"
+    $accFile = Join-Path $dbDir "1-moonqueen_account.sql"
+    $gamFile = Join-Path $dbDir "2-moonqueen_game.sql"
+
+    if (-not (Test-Path -LiteralPath $accFile) -or -not (Test-Path -LiteralPath $gamFile)) {
+        Write-Host "[!!] ملفات الـ SQL غير موجودة داخل: $dbDir" -ForegroundColor Red
+        return
+    }
+
+    $mysqlExe = Find-MySqlExe -PromptIfMissing:$true
+    if ($null -eq $mysqlExe) {
+        Write-Host "[!!] تعذر العثور على mysql.exe — تأكد من تثبيت XAMPP والمحاولة مرة أخرى." -ForegroundColor Red
+        return
+    }
+    Write-Host "[OK] محرك الاستيراد: $mysqlExe" -ForegroundColor Gray
+
+    $binDir = Resolve-BinDirectory
+    $creds = Get-AccountDbCredentials $binDir -PromptIfMissing:$true
+    if (-not (Test-TcpPort $creds.Host $creds.Port)) {
+        Write-Host "[!!] خدمة MySQL / MariaDB متوقفة حاليًا على $($creds.Host):$($creds.Port) — افتح XAMPP واضغط Start أمام MySQL أولًا." -ForegroundColor Red
+        return
+    }
+
+    # Verify MySQL credentials; if config file password failed, prompt interactively without saving
+    $pingRes = Invoke-MySqlQuery $mysqlExe $creds.Host $creds.Port $creds.User $creds.Password "" "SELECT VERSION();"
+    if ($pingRes.ExitCode -ne 0) {
+        Write-Host "[!] تعذر الدخول بباسورد الملف الحالي ($($pingRes.Error))." -ForegroundColor Yellow
+        $sec = Read-Host "اكتب باسورد MySQL ($($creds.User)) الصحيح لهذه العملية فقط (لن يُحفظ على القرص)" -AsSecureString
+        $bstr = [System.Runtime.InteropServices.Marshal]::SecureStringToBSTR($sec)
+        try {
+            $creds.Password = [System.Runtime.InteropServices.Marshal]::PtrToStringAuto($bstr)
+        } finally {
+            [System.Runtime.InteropServices.Marshal]::ZeroFreeBSTR($bstr)
+        }
+        $pingRes = Invoke-MySqlQuery $mysqlExe $creds.Host $creds.Port $creds.User $creds.Password "" "SELECT VERSION();"
+        if ($pingRes.ExitCode -ne 0) {
+            Write-Host "[!!] فشل الاتصال بـ MySQL: $($pingRes.Error)" -ForegroundColor Red
+            return
+        }
+    }
+    Write-Host "[OK] متصل بنجاح بمحرك MariaDB / MySQL الإصدار: $($pingRes.Output)" -ForegroundColor Green
+
+    # Check if moonqueen_account or moonqueen_game already contain accounts or characters
+    $existingAcc = 0
+    $existingChr = 0
+    $chkAcc = Invoke-MySqlQuery $mysqlExe $creds.Host $creds.Port $creds.User $creds.Password "" "SELECT COUNT(*) FROM information_schema.tables WHERE table_schema='moonqueen_account' AND table_name='conquer_account';"
+    if ($chkAcc.ExitCode -eq 0 -and $chkAcc.Output -eq "1") {
+        $cntA = Invoke-MySqlQuery $mysqlExe $creds.Host $creds.Port $creds.User $creds.Password "moonqueen_account" "SELECT COUNT(*) FROM conquer_account;"
+        if ($cntA.ExitCode -eq 0) { [void][int]::TryParse($cntA.Output, [ref]$existingAcc) }
+    }
+    $chkGam = Invoke-MySqlQuery $mysqlExe $creds.Host $creds.Port $creds.User $creds.Password "" "SELECT COUNT(*) FROM information_schema.tables WHERE table_schema='moonqueen_game' AND table_name='cq_user';"
+    if ($chkGam.ExitCode -eq 0 -and $chkGam.Output -eq "1") {
+        $cntC = Invoke-MySqlQuery $mysqlExe $creds.Host $creds.Port $creds.User $creds.Password "moonqueen_game" "SELECT COUNT(*) FROM cq_user;"
+        if ($cntC.ExitCode -eq 0) { [void][int]::TryParse($cntC.Output, [ref]$existingChr) }
+    }
+
+    if ($existingAcc -gt 0 -or $existingChr -gt 0) {
+        Write-Host ""
+        Write-Host "[تحذير حماية مهم] يوجد بيانات حالية داخل قواعد MoonQueen:" -ForegroundColor Yellow
+        Write-Host "  - عدد الحسابات المسجلة في moonqueen_account: $existingAcc" -ForegroundColor Yellow
+        Write-Host "  - عدد الشخصيات الموجودة في moonqueen_game  : $existingChr" -ForegroundColor Yellow
+        $confirmOverwrite = (Read-Host "لو متأكد إنك عاوز تعيد تصفير وتثبيت القاعدتين من الصفر اكتب YES بالحروف الكبيرة").Trim()
+        if ($confirmOverwrite -cne "YES") {
+            Write-Host "[تم الإلغاء] لم يتم تعديل أي قاعدة بيانات حفاظًا على بياناتك." -ForegroundColor Cyan
+            return
+        }
+    } else {
+        $go = (Read-Host "جاهز لتثبيت moonqueen_account و moonqueen_game النظيفة الآن؟ [اضغط Enter للموافقة أو اكتب n للإلغاء]").Trim()
+        if ($go -eq "n" -or $go -eq "N") {
+            Write-Host "[تم الإلغاء] لم يتم تنفيذ أي تغيير." -ForegroundColor Gray
+            return
+        }
+    }
+
+    Write-Host ""
+    Write-Host "[1/2] جاري استيراد قاعدة الحسابات النظيفة (1-moonqueen_account.sql)..." -ForegroundColor Cyan
+    $sw = [System.Diagnostics.Stopwatch]::StartNew()
+    $impAcc = Invoke-MySqlImportFile $mysqlExe $creds.Host $creds.Port $creds.User $creds.Password $accFile
+    if ($impAcc.ExitCode -ne 0) {
+        Write-Host "[!!] فشل استيراد 1-moonqueen_account.sql: $($impAcc.Error)" -ForegroundColor Red
+        return
+    }
+    Write-Host "[OK] تم إنشاء وتجهيز moonqueen_account بنجاح في $([math]::Round($sw.Elapsed.TotalSeconds, 2)) ثانية." -ForegroundColor Green
+
+    Write-Host "[2/2] جاري استيراد قاعدة عالم اللعبة الكاملة (2-moonqueen_game.sql — 302 جدول)..." -ForegroundColor Cyan
+    $sw.Restart()
+    $impGam = Invoke-MySqlImportFile $mysqlExe $creds.Host $creds.Port $creds.User $creds.Password $gamFile
+    $sw.Stop()
+    if ($impGam.ExitCode -ne 0) {
+        Write-Host "[!!] فشل استيراد 2-moonqueen_game.sql: $($impGam.Error)" -ForegroundColor Red
+        return
+    }
+    Write-Host "[OK] تم إنشاء وتجهيز moonqueen_game الكاملة بنجاح في $([math]::Round($sw.Elapsed.TotalSeconds, 2)) ثانية!" -ForegroundColor Green
+
+    # Post-import verification
+    $verAcc = Invoke-MySqlQuery $mysqlExe $creds.Host $creds.Port $creds.User $creds.Password "moonqueen_account" "SELECT COUNT(*) FROM information_schema.tables WHERE table_schema='moonqueen_account';"
+    $verAuth = Invoke-MySqlQuery $mysqlExe $creds.Host $creds.Port $creds.User $creds.Password "moonqueen_account" "SELECT COUNT(*) FROM conquer_account_authority WHERE Id IN (1,7,8);"
+    $verGam = Invoke-MySqlQuery $mysqlExe $creds.Host $creds.Port $creds.User $creds.Password "moonqueen_game" "SELECT COUNT(*) FROM information_schema.tables WHERE table_schema='moonqueen_game';"
+    Write-Host "[تحقق تلقائي] جداول moonqueen_account = $($verAcc.Output) (رتب Player/GM/PM جاهزة: $($verAuth.Output)/3) | جداول moonqueen_game = $($verGam.Output)" -ForegroundColor Green
+
+    Write-Host ""
+    $seedChoice = (Read-Host "تحب نجهّزلك دلوقتي بالمرة سطر ربط عالم MoonQueen وحساب الأدمن [PM] مباشرة جوه الداتابيز؟ [اضغط Enter للموافقة أو n للتخطي]").Trim()
+    if ($seedChoice -eq "n" -or $seedChoice -eq "N") {
+        Write-Host "[تم] القاعدتان جاهزتان 100%! تقدر في أي وقت تشغّل 6-Generate-Realm-Admin-SQL.bat لتوليد سطر الـ Realm وحسابك." -ForegroundColor Cyan
+        return
+    }
+
+    $modeChoice = (Read-Host "اختر وضع التشغيل المبدئي: [1] أوفلاين بدون نت (127.0.0.1)  |  [2] هماشي ($HamachiIP) [افتراضي: 1]").Trim()
+    $targetIp = if ($modeChoice -eq "2") { $HamachiIP } else { "127.0.0.1" }
+
+    # Try auto-reading RPC Username/Password from MoonQueen.Game.Config.local.json if already configured
+    $gameCfg = Read-JsonConfigSafe (Join-Path $binDir "MoonQueen.Game.Config.local.json")
+    $defaultRpcUser = "MoonQueenRealmUser"
+    $existingRpcPass = ""
+    if ($null -ne $gameCfg -and $null -ne $gameCfg.Realm) {
+        if (-not [string]::IsNullOrWhiteSpace([string]$gameCfg.Realm.Username)) {
+            $defaultRpcUser = [string]$gameCfg.Realm.Username
+        }
+        if (-not [string]::IsNullOrWhiteSpace([string]$gameCfg.Realm.Password) -and [string]$gameCfg.Realm.Password -notmatch "اكتب") {
+            $existingRpcPass = [string]$gameCfg.Realm.Password
+        }
+    }
+
+    $rpcUser = (Read-Host "اسم مستخدم الربط الداخلي بين Login وGame [اضغط Enter لـ $defaultRpcUser]").Trim()
+    if ([string]::IsNullOrWhiteSpace($rpcUser)) { $rpcUser = $defaultRpcUser }
+
+    $rpcPass = ""
+    if (-not [string]::IsNullOrWhiteSpace($existingRpcPass)) {
+        $useExisting = (Read-Host "تم العثور على باسورد الربط الداخلي في MoonQueen.Game.Config.local.json — اضغط Enter لاستخدامه أوتوماتيك أو اكتب باسورد مختلف").Trim()
+        $rpcPass = if ([string]::IsNullOrWhiteSpace($useExisting)) { $existingRpcPass } else { $useExisting }
+    } else {
+        $rpcPass = (Read-Host "اكتب باسورد قوي للربط الداخلي (نفس اللي هتحطه في MoonQueen.Game.Config.local.json)").Trim()
+    }
+    if ([string]::IsNullOrWhiteSpace($rpcPass)) {
+        Write-Host "[!!] لم يتم إدخال باسورد الربط الداخلي — شغّل 6-Generate-Realm-Admin-SQL.bat لاحقًا لإكماله." -ForegroundColor Yellow
+        return
+    }
+
+    $adminUser = (Read-Host "اسم حساب الأدمن [PM] في اللعبة [اضغط Enter لـ ahmedzahran]").Trim()
+    if ([string]::IsNullOrWhiteSpace($adminUser)) { $adminUser = "ahmedzahran" }
+
+    $adminPass = (Read-Host "اكتب باسورد حسابك في اللعبة").Trim()
+    if ([string]::IsNullOrWhiteSpace($adminPass)) {
+        Write-Host "[!!] لم يتم إدخال باسورد حساب اللعبة — شغّل 6-Generate-Realm-Admin-SQL.bat لاحقًا لإكماله." -ForegroundColor Yellow
+        return
+    }
+
+    $rngBytes = New-Object byte[] 16
+    $rng = [System.Security.Cryptography.RandomNumberGenerator]::Create()
+    $rng.GetBytes($rngBytes)
+    $rng.Dispose()
+    $salt = "MQ" + (-join ($rngBytes | ForEach-Object { $_.ToString("x2") }))
+
+    $keyHex = [System.Text.Encoding]::UTF8.GetString([System.Convert]::FromBase64String("OTEzMTFhMjFlMDI4NWQ0NjY3N2FhNzVkNDRjNzI3YWM="))
+    $key = New-Object byte[] ($keyHex.Length / 2)
+    for ($i = 0; $i -lt $keyHex.Length; $i += 2) {
+        $key[$i / 2] = [System.Convert]::ToByte($keyHex.Substring($i, 2), 16)
+    }
+
+    $aes = [System.Security.Cryptography.Aes]::Create()
+    try {
+        $aes.Key = $key
+        $aes.IV  = New-Object byte[] 16
+
+        $msU = New-Object System.IO.MemoryStream
+        $csU = New-Object System.Security.Cryptography.CryptoStream($msU, $aes.CreateEncryptor(), [System.Security.Cryptography.CryptoStreamMode]::Write)
+        $swU = New-Object System.IO.StreamWriter($csU)
+        $swU.Write($rpcUser)
+        $swU.Dispose(); $csU.Dispose()
+        $encRpcUser = [System.Convert]::ToBase64String($msU.ToArray())
+
+        $msP = New-Object System.IO.MemoryStream
+        $csP = New-Object System.Security.Cryptography.CryptoStream($msP, $aes.CreateEncryptor(), [System.Security.Cryptography.CryptoStreamMode]::Write)
+        $swP = New-Object System.IO.StreamWriter($csP)
+        $swP.Write($rpcPass)
+        $swP.Dispose(); $csP.Dispose()
+        $encRpcPass = [System.Convert]::ToBase64String($msP.ToArray())
+    } finally {
+        $aes.Dispose()
+    }
+
+    $sha = [System.Security.Cryptography.SHA256]::Create()
+    try {
+        $hashBytes = $sha.ComputeHash([System.Text.Encoding]::ASCII.GetBytes($adminPass + $salt))
+        $passHash  = -join ($hashBytes | ForEach-Object { $_.ToString("x2") })
+    } finally {
+        $sha.Dispose()
+    }
+
+    $seedSqlTemplate = @'
+SET FOREIGN_KEY_CHECKS = 0;
+TRUNCATE TABLE `conquer_account_vip`;
+TRUNCATE TABLE `conquer_account`;
+TRUNCATE TABLE `realm`;
+SET FOREIGN_KEY_CHECKS = 1;
+
+INSERT INTO `realm` (
+  `RealmID`, `Name`, `GameIPAddress`, `RpcIPAddress`,
+  `GamePort`, `RpcPort`, `Status`, `Username`, `Password`,
+  `DatabaseHost`, `DatabaseUser`, `DatabasePass`, `DatabaseSchema`, `DatabasePort`,
+  `Active`, `ProductionRealm`
+) VALUES (
+  'e418a91a-9574-4962-842b-4729238d3965',
+  'MoonQueen',
+  '__TARGET_IP__',
+  '127.0.0.1',
+  5816,
+  9865,
+  1,
+  '__ENC_RPC_USER__',
+  '__ENC_RPC_PASS__',
+  '',
+  '',
+  '',
+  'moonqueen_game',
+  '3306',
+  1,
+  1
+);
+
+INSERT INTO `conquer_account` (
+  `Id`, `UserName`, `Password`, `Salt`,
+  `AuthorityId`, `Flag`, `IpAddress`, `MacAddress`,
+  `ParentId`, `Created`
+) VALUES (
+  1,
+  '__ADMIN_USER__',
+  '__PASS_HASH__',
+  '__SALT__',
+  8,
+  1,
+  '127.0.0.1',
+  '000000000000',
+  UUID(),
+  NOW()
+);
+'@
+
+    $seedSql = $seedSqlTemplate.
+        Replace("__TARGET_IP__", $targetIp).
+        Replace("__ENC_RPC_USER__", $encRpcUser.Replace("'", "''")).
+        Replace("__ENC_RPC_PASS__", $encRpcPass.Replace("'", "''")).
+        Replace("__ADMIN_USER__", $adminUser.Replace("'", "''")).
+        Replace("__PASS_HASH__", $passHash).
+        Replace("__SALT__", $salt)
+
+    $seedRes = Invoke-MySqlStdinScript $mysqlExe $creds.Host $creds.Port $creds.User $creds.Password "moonqueen_account" $seedSql
+    if ($seedRes.ExitCode -ne 0) {
+        Write-Host "[!!] فشل تسجيل سطر الـ Realm وحساب الأدمن: $($seedRes.Error)" -ForegroundColor Red
+        return
+    }
+
+    Write-Host "[OK] تم تسجيل عالم MoonQueen ($targetIp) وإنشاء حساب الأدمن ($adminUser — رتبة PM=8) بنجاح تام!" -ForegroundColor Green
+    Write-Host "[تذكير] عند إنشاء شخصيتك الأولى داخل الكلينت، أضف [PM] في آخر اسم الشخصية (مثال: Ahmed[PM]) لتفعيل أوامر الإدارة الكاملة." -ForegroundColor Yellow
+}
+
 switch ($Mode) {
     "Check"        { Invoke-ReadinessCheck }
     "Offline"      { Switch-NetworkMode -TargetIP "127.0.0.1" -ModeTitle "وضع الأوفلاين المحلي بدون إنترنت" }
@@ -679,6 +1036,7 @@ switch ($Mode) {
     "StartAll"     { Start-AllServices }
     "StopAll"      { Stop-AllServices }
     "CryptoHelper" { Invoke-CryptoHelper }
+    "InstallDb"    { Invoke-CleanDbInstaller }
     default {
         while ($true) {
             Write-Banner "القائمة الرئيسية لإدارة وتشغيل السيرفر"
@@ -688,6 +1046,7 @@ switch ($Mode) {
             Write-Host "  [4] تشغيل السيرفرات الثلاثة + استوديو التحكم بالترتيب" -ForegroundColor Yellow
             Write-Host "  [5] إيقاف السيرفرات الثلاثة بأمان" -ForegroundColor Magenta
             Write-Host "  [6] مولّد تشفير الربط وحساب الأدمن (نسخ SQL جاهز لـ HeidiSQL)" -ForegroundColor Gray
+            Write-Host "  [7] تثبيت قاعدة البيانات الرسمية النظيفة بضغطة واحدة (moonqueen_account + moonqueen_game)" -ForegroundColor DarkYellow
             Write-Host "  [0] خروج" -ForegroundColor DarkGray
             Write-Host ""
             $choice = (Read-Host "اختر رقم العملية").Trim()
@@ -698,6 +1057,7 @@ switch ($Mode) {
                 "4" { Start-AllServices; Write-Host ""; Read-Host "اضغط Enter للعودة للقائمة" | Out-Null }
                 "5" { Stop-AllServices; Write-Host ""; Read-Host "اضغط Enter للعودة للقائمة" | Out-Null }
                 "6" { Invoke-CryptoHelper; Write-Host ""; Read-Host "اضغط Enter للعودة للقائمة" | Out-Null }
+                "7" { Invoke-CleanDbInstaller; Write-Host ""; Read-Host "اضغط Enter للعودة للقائمة" | Out-Null }
                 "0" { break }
             }
             if ($choice -eq "0") { break }
