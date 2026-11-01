@@ -41,6 +41,10 @@ runtime/
 # Database dumps, archives, runtime logs, and external Conquer 6192 client assets.
 sql/
 *.sql
+!قاعدة البيانات/
+!قاعدة البيانات/1-moonqueen_account.sql
+!قاعدة البيانات/2-moonqueen_game.sql
+!قاعدة البيانات/README.md
 *.bak
 *.7z
 *.rar

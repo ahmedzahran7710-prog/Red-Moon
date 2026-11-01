@@ -31,7 +31,7 @@ Before changing anything in this repository:
   1. Preserve `UTF-8 BOM` (`\xef\xbb\xbf`) and `LF` (`\n`) line endings on server files under `src/` and `MoonQueen.sln`, and preserve the original BOM and line endings on files under `لورد الكلينت/`.
   2. Never rename `<RootNamespace>Canyon.*</RootNamespace>` in `src/` `.csproj` files (so embedded `.resx` resource names such as `Canyon.Game.Language.resources` never break), and keep WPF Pack URIs in `لورد الكلينت/ConquerLoader/ConquerLoader/Forms/WPF/*.xaml` matched to `<AssemblyName>MoonQueen</AssemblyName>` (`/MoonQueen;component/...`).
   3. Update `bytes`, `sha256`, `patched_files`, and `tracked_bytes` in the corresponding manifest (`canyon-manifest.json` / `لورد الكلينت/loader-manifest.json`) while keeping `upstream_sha256` intact, and record the rationale in `CANYON-AUDIT.md` and `ميموري.md`.
-- Keep copyrighted Conquer client binaries, map/data folders (`ini/`, `map/`), SQL dumps (`*.sql`), large archives (`*.rar`, `*.7z`), and machine-local config files (`*.Config*.json`, `launchSettings.json`) out of Git.
+- Keep copyrighted Conquer client binaries, map/data folders (`ini/`, `map/`), live/player SQL dumps (`*.sql` outside the owner-authorized sanitized seed package `قاعدة البيانات/1-moonqueen_account.sql` and `قاعدة البيانات/2-moonqueen_game.sql`), database backups (`لوحة تحكم السيرفر/backups/`), large archives (`*.rar`, `*.7z`), and machine-local config files (`*.Config*.json`, `launchSettings.json`) out of Git.
 
 ## Security & Network Hygiene
 

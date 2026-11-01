@@ -41,3 +41,5 @@ RequiredAssetsForRun/** -text -whitespace
 "/تشغيل السيرفر/*.ps1" -text -whitespace
 "/تشغيل السيرفر/*.bat" text eol=crlf
 "/تشغيل السيرفر/*.md" text eol=lf
+"/قاعدة البيانات/*.sql" text eol=lf
+"/قاعدة البيانات/*.md" text eol=lf
