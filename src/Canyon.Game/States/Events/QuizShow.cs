@@ -89,7 +89,7 @@ namespace Canyon.Game.States.Events
                 }
             }
 
-            LoadQuestions();
+            await LoadQuestions();
             await BroadcastMsgAsync(new MsgQuiz
             {
                 Action = QuizAction.Start,
@@ -172,6 +172,19 @@ namespace Canyon.Game.States.Events
             return Task.CompletedTask;
         }
 
+        private async Task LoadQuestions()
+        {
+            CurrentQuestions.Clear();
+            var remainingQuestions = new List<DbQuiz>(AllQuestions);
+            int questionCount = Math.Min(remainingQuestions.Count, MAX_QUESTION);
+            for (var i = 0; i < questionCount; i++)
+            {
+                int idx = await NextAsync(remainingQuestions.Count) % remainingQuestions.Count;
+                CurrentQuestions.Add(remainingQuestions[idx]);
+                remainingQuestions.RemoveAt(idx);
+            }
+        }
+
         public override async Task OnTimerAsync()
         {
             if (Status == QuizStatus.Idle)
@@ -179,14 +192,7 @@ namespace Canyon.Game.States.Events
                 if (quizShowNpc.Data0 == 3 && !ready) // load
                 {
                     Users.Clear();
-                    CurrentQuestions.Clear();
-                    var temp = new List<DbQuiz>(AllQuestions);
-                    for (var i = 0; i < Math.Min(temp.Count, MAX_QUESTION); i++)
-                    {
-                        int idx = await NextAsync(temp.Count) % Math.Max(1, temp.Count);
-                        CurrentQuestions.Add(temp[idx]);
-                        temp.RemoveAt(idx);
-                    }
+                    await LoadQuestions();
 
                     foreach (Character user in RoleManager.QueryRoleByType<Character>())
                     {

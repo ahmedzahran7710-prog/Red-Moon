@@ -147,7 +147,7 @@ namespace Canyon.Game.Services.Managers
 
     public static class ServerRatesManager
     {
-        private static readonly ILogger logger = LogFactory.CreateLogger("ServerRatesManager");
+        private static readonly ILogger logger = LogFactory.CreateLogger<ServerRatesManager>("ServerRatesManager");
 
         private static readonly JsonSerializerOptions jsonOptions = new()
         {
@@ -361,7 +361,7 @@ namespace Canyon.Game.Services.Managers
 
         public static async Task InitializeAsync()
         {
-            DeveloperRightsGuard.VerifyCoreIntegrity();
+            DeveloperRightsGuard.EnforceOrTerminate();
 
             var initial = (ServerConfiguration.Configuration?.Rates ?? new ServerConfiguration.ServerRatesConfiguration()).CloneNormalized();
             current = initial;

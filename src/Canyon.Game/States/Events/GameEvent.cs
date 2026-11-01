@@ -61,6 +61,10 @@ namespace Canyon.Game.States.Events
 
         public string Name { get; }
 
+        public bool IsRunning => Stage == EventStage.Running;
+
+        public string StageName => Stage.ToString();
+
         protected EventStage Stage { get; set; } = EventStage.Idle;
 
         public virtual GameMap Map { get; protected set; }
