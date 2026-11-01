@@ -651,8 +651,14 @@ namespace Canyon.Game.Sockets.Game.Packets
 
                 case FamilyAction.Dedicate:
                     {
-                        if (user.Family == null)
+                        if (user.Family == null || Identity == 0 || Identity > int.MaxValue)
                         {
+                            return;
+                        }
+
+                        if (!user.IsUnlocked())
+                        {
+                            await user.SendSecondaryPasswordInterfaceAsync();
                             return;
                         }
 

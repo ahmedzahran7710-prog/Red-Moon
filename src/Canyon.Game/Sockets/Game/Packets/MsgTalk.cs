@@ -1896,6 +1896,17 @@ namespace Canyon.Game.Sockets.Game.Packets
 
                 case "/clearinventory":
                     {
+                        if (!user.IsUnlocked())
+                        {
+                            await user.SendSecondaryPasswordInterfaceAsync();
+                            return true;
+                        }
+
+                        if (user.Trade != null || user.Booth != null)
+                        {
+                            return true;
+                        }
+
                         if (user.MessageBox != null)
                         {
                             await user.SendAsync(StrClearInventoryCloseBoxes);

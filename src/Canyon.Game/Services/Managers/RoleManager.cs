@@ -229,6 +229,11 @@ namespace Canyon.Game.Services.Managers
 
         public static int CountUserByMacAddress(string macAddress)
         {
+            if (string.IsNullOrWhiteSpace(macAddress))
+            {
+                return 0;
+            }
+
             return userSet.Values.Count(x => macAddress.Equals(x.Client?.MacAddress, StringComparison.InvariantCultureIgnoreCase));
         }
 

@@ -8,7 +8,7 @@
   "tracked_files": 845,
   "omitted_files": 18,
   "total_upstream_bytes": 53090052,
-  "tracked_bytes": 6435727,
+  "tracked_bytes": 6450283,
   "files": [
     {
       "path": ".editorconfig",
@@ -265,9 +265,12 @@
     },
     {
       "path": "RequiredAssetsForRun/lua/lua.ini",
-      "bytes": 2245,
-      "sha256": "9aacc125aaeddd3be5e3aafb0583be3659a210e230557dd25e27e65cb3b90782",
-      "tracked": true
+      "bytes": 2090,
+      "sha256": "f3d937e102bd019dfdc5941defd3d72053953275c4d87431d04412f3661a3704",
+      "tracked": true,
+      "upstream_sha256": "9aacc125aaeddd3be5e3aafb0583be3659a210e230557dd25e27e65cb3b90782",
+      "upstream_bytes": 2245,
+      "patched": true
     },
     {
       "path": "compose.debug-db-only.yml",
@@ -2192,9 +2195,12 @@
     },
     {
       "path": "src/Canyon.Game/Database/ServerDbContext.cs",
-      "bytes": 16597,
-      "sha256": "35bf2c5b355744ec681ab2c6b052d4bdc72930c77e3e9d60c56ce70098d5f462",
-      "tracked": true
+      "bytes": 17088,
+      "sha256": "1c43a66cf230dced6e7a0f29291025cb9ede2386f778af673cb9e82a83b85eb2",
+      "tracked": true,
+      "upstream_sha256": "35bf2c5b355744ec681ab2c6b052d4bdc72930c77e3e9d60c56ce70098d5f462",
+      "upstream_bytes": 16597,
+      "patched": true
     },
     {
       "path": "src/Canyon.Game/GlobalUsing.cs",
@@ -2285,9 +2291,12 @@
     },
     {
       "path": "src/Canyon.Game/Services/Managers/AuctionManager.cs",
-      "bytes": 14148,
-      "sha256": "16d32365379f51d1898b77196b914df406882b03a875dddd1cf8f75514530f5a",
-      "tracked": true
+      "bytes": 15863,
+      "sha256": "10a56085ed9791bfe7b00f447b01f0ec4e8f0dda9b7e82da6055ca390d6e5aec",
+      "tracked": true,
+      "upstream_sha256": "16d32365379f51d1898b77196b914df406882b03a875dddd1cf8f75514530f5a",
+      "upstream_bytes": 14148,
+      "patched": true
     },
     {
       "path": "src/Canyon.Game/Services/Managers/BattleSystemManager.cs",
@@ -2402,9 +2411,12 @@
     },
     {
       "path": "src/Canyon.Game/Services/Managers/PigeonManager.cs",
-      "bytes": 9098,
-      "sha256": "98de8437b7a7adc77a1c927da27fb6932591ac6b184ae0bb35fa14cb6b758ac0",
-      "tracked": true
+      "bytes": 9493,
+      "sha256": "3d8e6b6b5724b65c2d20985a93a157e7fa65bd415c89723249d5de3549c746fb",
+      "tracked": true,
+      "upstream_sha256": "98de8437b7a7adc77a1c927da27fb6932591ac6b184ae0bb35fa14cb6b758ac0",
+      "upstream_bytes": 9098,
+      "patched": true
     },
     {
       "path": "src/Canyon.Game/Services/Managers/ProcessGoalManager.cs",
@@ -2414,8 +2426,8 @@
     },
     {
       "path": "src/Canyon.Game/Services/Managers/RoleManager.cs",
-      "bytes": 17620,
-      "sha256": "791fad11dad899e521264e33871d201ce67921cea6cd3cbd2599cd282426d780",
+      "bytes": 17730,
+      "sha256": "76dd84acc9fec6e979b7c64b02b9c25bbfb642685f3efc2a3e30ccc58691dd4b",
       "tracked": true,
       "upstream_bytes": 17133,
       "upstream_sha256": "6a3722ff0974829f08497550b707547f8c60e2e0c12f2151b9531bc0792d7917",
@@ -2495,9 +2507,12 @@
     },
     {
       "path": "src/Canyon.Game/Services/Processors/Scripting/LuaProcessor.cs",
-      "bytes": 13440,
-      "sha256": "b827b9cc00bd8dc367c3f37f7a140a7d8a652c97b612cb5892dad07d1769143d",
-      "tracked": true
+      "bytes": 14981,
+      "sha256": "3525999cfb76aab30f8b083385655da20042a531373083a51aa3abff884d843a",
+      "tracked": true,
+      "upstream_sha256": "b827b9cc00bd8dc367c3f37f7a140a7d8a652c97b612cb5892dad07d1769143d",
+      "upstream_bytes": 13440,
+      "patched": true
     },
     {
       "path": "src/Canyon.Game/Services/Processors/ServerProcessor.cs",
@@ -2672,9 +2687,12 @@
     },
     {
       "path": "src/Canyon.Game/Sockets/Game/Packets/MsgAuction.cs",
-      "bytes": 3818,
-      "sha256": "1744429a879e2b5a8c456c1cc0889834fd0420800823daca8f31e207042e933b",
-      "tracked": true
+      "bytes": 4055,
+      "sha256": "3508ed946431565e6b018e3a5eb17b18df9c4f9b1d76666f4c4f9c204970e48c",
+      "tracked": true,
+      "upstream_sha256": "1744429a879e2b5a8c456c1cc0889834fd0420800823daca8f31e207042e933b",
+      "upstream_bytes": 3818,
+      "patched": true
     },
     {
       "path": "src/Canyon.Game/Sockets/Game/Packets/MsgAuctionItem.cs",
@@ -2702,9 +2720,12 @@
     },
     {
       "path": "src/Canyon.Game/Sockets/Game/Packets/MsgChangeName.cs",
-      "bytes": 4892,
-      "sha256": "ce1540b98f85301c499637b36f278c9ba79e960b75ee95449434263ad503deea",
-      "tracked": true
+      "bytes": 5186,
+      "sha256": "5a195d8e08112a4698c570899368558fda5be761c4b02608acd4c454a6f68e79",
+      "tracked": true,
+      "upstream_sha256": "ce1540b98f85301c499637b36f278c9ba79e960b75ee95449434263ad503deea",
+      "upstream_bytes": 4892,
+      "patched": true
     },
     {
       "path": "src/Canyon.Game/Sockets/Game/Packets/MsgCheatingProgram.cs",
@@ -2804,9 +2825,12 @@
     },
     {
       "path": "src/Canyon.Game/Sockets/Game/Packets/MsgFamily.cs",
-      "bytes": 23030,
-      "sha256": "51b6c845d6c5f6f330af6d627b236e6b4f7e15ee10633a77122faaccb5a9a0c1",
-      "tracked": true
+      "bytes": 23289,
+      "sha256": "10b0c6c01ee2c1d82562e2547fef59d38014379b32368cb467e858e39e04f6ac",
+      "tracked": true,
+      "upstream_sha256": "51b6c845d6c5f6f330af6d627b236e6b4f7e15ee10633a77122faaccb5a9a0c1",
+      "upstream_bytes": 23030,
+      "patched": true
     },
     {
       "path": "src/Canyon.Game/Sockets/Game/Packets/MsgFamilyOccupy.cs",
@@ -2927,8 +2951,8 @@
     },
     {
       "path": "src/Canyon.Game/Sockets/Game/Packets/MsgItem.cs",
-      "bytes": 61607,
-      "sha256": "1f651ef81f59770700288a69fd174bb021620f46cfdbb5d851af164918f27c58",
+      "bytes": 61993,
+      "sha256": "5c93096217f8bbbab110fc974cbbe3b2d5507ed0182455b7b621cd44622aef8e",
       "tracked": true,
       "upstream_sha256": "b9236f0522a0fa4bc940fc0305b1a4b42b91bd0d1c2ae5529e64f19164533a40",
       "upstream_bytes": 61987,
@@ -2990,9 +3014,12 @@
     },
     {
       "path": "src/Canyon.Game/Sockets/Game/Packets/MsgMailOperation.cs",
-      "bytes": 2676,
-      "sha256": "26e15ad9ad871e6af56c7da677789c23e9334aed20ff613316937504eb80c340",
-      "tracked": true
+      "bytes": 2937,
+      "sha256": "b4cfc2e628ad78be5898877fca6a7e0228feba8648cb97d8113560df56ecee02",
+      "tracked": true,
+      "upstream_sha256": "26e15ad9ad871e6af56c7da677789c23e9334aed20ff613316937504eb80c340",
+      "upstream_bytes": 2676,
+      "patched": true
     },
     {
       "path": "src/Canyon.Game/Sockets/Game/Packets/MsgMapInfo.cs",
@@ -3227,8 +3254,8 @@
     },
     {
       "path": "src/Canyon.Game/Sockets/Game/Packets/MsgRegister.cs",
-      "bytes": 170081,
-      "sha256": "ecf98ce9aa3132aa8c1cac9e0342fccf4845fe735a0cee3848a663620c1aca48",
+      "bytes": 170129,
+      "sha256": "8c6ee629aed0d1936719e6d22e9b25fe84fa828375d40b813dd86cf5b2e5adbe",
       "tracked": true,
       "upstream_bytes": 169723,
       "upstream_sha256": "110d40793ad3ffa688acee771f271ef35a4af253c4a36dd26f75db1a491fe9b1",
@@ -3320,9 +3347,12 @@
     },
     {
       "path": "src/Canyon.Game/Sockets/Game/Packets/MsgSyndicate.cs",
-      "bytes": 18308,
-      "sha256": "548e7f01461ff1e5adb9ca49df0ba6f7446f29f2082a55d623defe942caeacfc",
-      "tracked": true
+      "bytes": 18901,
+      "sha256": "f796cfe215d4f8756a4974652e77a5cac79c3f17c00a851406c13d2ea734c47a",
+      "tracked": true,
+      "upstream_sha256": "548e7f01461ff1e5adb9ca49df0ba6f7446f29f2082a55d623defe942caeacfc",
+      "upstream_bytes": 18308,
+      "patched": true
     },
     {
       "path": "src/Canyon.Game/Sockets/Game/Packets/MsgSyndicateAttributeInfo.cs",
@@ -3338,8 +3368,8 @@
     },
     {
       "path": "src/Canyon.Game/Sockets/Game/Packets/MsgTalk.cs",
-      "bytes": 87138,
-      "sha256": "fa362a985e96892be78465657d2bb73daaa2bceac2ff0116f7ed4d21773d072f",
+      "bytes": 87522,
+      "sha256": "49727efb49d136fbf657cbddc8238b7fcb6b5f2929a19905f7514664e3121510",
       "tracked": true,
       "upstream_bytes": 85054,
       "upstream_sha256": "6779d20b294c4b9c7742085f1d9f853d5ee41b8792c8d4a47329722e6bed8356",
@@ -3446,9 +3476,12 @@
     },
     {
       "path": "src/Canyon.Game/Sockets/Game/Packets/MsgTrade.cs",
-      "bytes": 5067,
-      "sha256": "828d838e8371f3b0a17dab0efbea744c7abe9b5495ea417c9cd0862011933410",
-      "tracked": true
+      "bytes": 5466,
+      "sha256": "f44ee1e2e134a5f9233efd4d98e246357fedd348d2370d87c0dca168baa3ead9",
+      "tracked": true,
+      "upstream_sha256": "828d838e8371f3b0a17dab0efbea744c7abe9b5495ea417c9cd0862011933410",
+      "upstream_bytes": 5067,
+      "patched": true
     },
     {
       "path": "src/Canyon.Game/Sockets/Game/Packets/MsgTradeBuddy.cs",
@@ -3752,9 +3785,12 @@
     },
     {
       "path": "src/Canyon.Game/States/Auction/AuctionItem.cs",
-      "bytes": 14475,
-      "sha256": "4683b684e637fb5ffed0e632630c1344ce430ab040b9845f9bf932543f4c4835",
-      "tracked": true
+      "bytes": 14825,
+      "sha256": "61132584b5780061f215f35eafaedfcbfeb0a8069fb702dfde1eab8f8cd53c78",
+      "tracked": true,
+      "upstream_sha256": "4683b684e637fb5ffed0e632630c1344ce430ab040b9845f9bf932543f4c4835",
+      "upstream_bytes": 14475,
+      "patched": true
     },
     {
       "path": "src/Canyon.Game/States/BattleSystem.cs",
@@ -3900,7 +3936,7 @@
     {
       "path": "src/Canyon.Game/States/Events/Qualifier/UserQualifier/ArenaQualifier.cs",
       "bytes": 24184,
-      "sha256": "6b9712f093efbc84474acf17019d0a36f44f35558b04299b97e9e47686419422",
+      "sha256": "45d5b5d9688621702c2e4e13e6184239916953e220f1b63d53ab24255669448b",
       "tracked": true,
       "upstream_bytes": 23783,
       "upstream_sha256": "a8d825fcdedcf20d4774b4bccc55df0eccbb0bb59490a272ccea3d0254e4422f",
@@ -4055,9 +4091,12 @@
     },
     {
       "path": "src/Canyon.Game/States/Items/UserPackage.cs",
-      "bytes": 71614,
-      "sha256": "32727baa45970660e3fdc53eefb8f75baf35bac5a30fca9c335ff85f3d0ac512",
-      "tracked": true
+      "bytes": 72493,
+      "sha256": "0f837616d65dbb4df63578a59294ae1311b859dde5bafb725e83df2a970d8076",
+      "tracked": true,
+      "upstream_sha256": "32727baa45970660e3fdc53eefb8f75baf35bac5a30fca9c335ff85f3d0ac512",
+      "upstream_bytes": 71614,
+      "patched": true
     },
     {
       "path": "src/Canyon.Game/States/JiangHu.cs",
@@ -4103,9 +4142,12 @@
     },
     {
       "path": "src/Canyon.Game/States/Mails/MailBox.cs",
-      "bytes": 7138,
-      "sha256": "a5600987e7f70cbc6411e50e32434dbd21e1d2fc9f69dd574323e690dd18f9c0",
-      "tracked": true
+      "bytes": 8999,
+      "sha256": "70e16e50152dcd63346345ab784fd71be8036a4862a62c6381cba055e8db4bce",
+      "tracked": true,
+      "upstream_sha256": "a5600987e7f70cbc6411e50e32434dbd21e1d2fc9f69dd574323e690dd18f9c0",
+      "upstream_bytes": 7138,
+      "patched": true
     },
     {
       "path": "src/Canyon.Game/States/Mails/MailMessage.cs",
@@ -4133,9 +4175,12 @@
     },
     {
       "path": "src/Canyon.Game/States/MessageBoxes/CleanInventoryMessageBox.cs",
-      "bytes": 667,
-      "sha256": "c09698be189db05c814a01582166be6c53fb47e1c917d54d70f683727b3d8225",
-      "tracked": true
+      "bytes": 938,
+      "sha256": "0c42dee3d1d3cf65acee88914895f8f8ffce84bfe7d1c42067152cd1d15dc528",
+      "tracked": true,
+      "upstream_sha256": "c09698be189db05c814a01582166be6c53fb47e1c917d54d70f683727b3d8225",
+      "upstream_bytes": 667,
+      "patched": true
     },
     {
       "path": "src/Canyon.Game/States/MessageBoxes/MessageBox.cs",
@@ -4331,8 +4376,8 @@
     },
     {
       "path": "src/Canyon.Game/States/User/Character.cs",
-      "bytes": 152054,
-      "sha256": "90be2e690d4aa53f3c2852dd1e0840cb66c914ea47ff4cb646512094e2fed5f4",
+      "bytes": 154073,
+      "sha256": "f77fa3c4509d48891d9814d5ca46e7f47759774784c76693fb4f9c9fa6fb468d",
       "tracked": true,
       "upstream_bytes": 149241,
       "upstream_sha256": "996ad9482e4ca9dadb626abae99ed76800ecc176dc733cf8bc070f457dbe79de",
@@ -4385,9 +4430,12 @@
     },
     {
       "path": "src/Canyon.Game/States/User/CharacterTrade.cs",
-      "bytes": 5563,
-      "sha256": "2002caba5f62da787382faddca4480d9bbdfa7ef9078f96ed0e6255772ac91b5",
-      "tracked": true
+      "bytes": 5970,
+      "sha256": "a1810ba53e5f278f8740de251e807d22327abf9f97ad96ddbfc0b86f48886bdb",
+      "tracked": true,
+      "upstream_sha256": "2002caba5f62da787382faddca4480d9bbdfa7ef9078f96ed0e6255772ac91b5",
+      "upstream_bytes": 5563,
+      "patched": true
     },
     {
       "path": "src/Canyon.Game/States/User/Client.cs",
@@ -4651,9 +4699,12 @@
     },
     {
       "path": "src/Canyon.Login/Sockets/Login/LoginServer.cs",
-      "bytes": 3105,
-      "sha256": "3e215e8c1dd5a20eda9b2727878166e6bc3e818e31b3be4f6ec244d4a0e53a11",
-      "tracked": true
+      "bytes": 3618,
+      "sha256": "62a679f8678361c4a35c470592cdbb7bba49a8a43bc3a8aa05161d86829e0647",
+      "tracked": true,
+      "upstream_sha256": "3e215e8c1dd5a20eda9b2727878166e6bc3e818e31b3be4f6ec244d4a0e53a11",
+      "upstream_bytes": 3105,
+      "patched": true
     },
     {
       "path": "src/Canyon.Login/Sockets/Login/Packets/MsgAccount.cs",
@@ -4969,9 +5020,12 @@
     },
     {
       "path": "src/Canyon.Network/Packets/PacketProcessor.cs",
-      "bytes": 8527,
-      "sha256": "d546555ec8aecafee439560fc4351ef4c78a9484507b0d1071ef33e1fa9d8e89",
-      "tracked": true
+      "bytes": 9825,
+      "sha256": "9b55a16606f0700fa5243921654e4a26f668f55b821581a422f8e4b4580aecd0",
+      "tracked": true,
+      "upstream_sha256": "d546555ec8aecafee439560fc4351ef4c78a9484507b0d1071ef33e1fa9d8e89",
+      "upstream_bytes": 8527,
+      "patched": true
     },
     {
       "path": "src/Canyon.Network/Packets/PacketReader.cs",
@@ -5469,5 +5523,5 @@
       "tracked": true
     }
   ],
-  "patched_files": 87
+  "patched_files": 105
 }

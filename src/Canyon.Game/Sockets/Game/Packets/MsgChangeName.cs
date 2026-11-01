@@ -55,6 +55,10 @@ namespace Canyon.Game.Sockets.Game.Packets
         public override async Task ProcessAsync(Client client)
         {
             Character user = client.Character;
+            if (user == null)
+            {
+                return;
+            }
 
             switch (Action)
             {
@@ -75,6 +79,12 @@ namespace Canyon.Game.Sockets.Game.Packets
                 case ChangeNameAction.NameError:
                 case ChangeNameAction.Request:
                     {
+                        if (!user.IsUnlocked())
+                        {
+                            await user.SendSecondaryPasswordInterfaceAsync();
+                            return;
+                        }
+
                         if (!user.Name.Contains("[Z"))
                         {
                             if (user.GetChangeNameRemainingAttempts() == 0)
@@ -84,6 +94,7 @@ namespace Canyon.Game.Sockets.Game.Packets
                             }
                         }
 
+                        Name = (Name ?? string.Empty).Replace(" ", "~");
                         if (!RoleManager.IsValidName(Name))
                         {
                             await user.SendMenuMessageAsync(StrChangeNameNoChange);
@@ -97,13 +108,12 @@ namespace Canyon.Game.Sockets.Game.Packets
                             return;
                         }
 
-                        if (user.ConquerPoints < CHANGE_NAME_COST)
+                        if (user.ConquerPoints < CHANGE_NAME_COST || !await user.SpendConquerPointsAsync(CHANGE_NAME_COST))
                         {
                             await user.SendMenuMessageAsync(StrChangeNameEmoneyNotEnough);
                             return;
                         }
 
-                        Name = Name.Replace(" ", "~");
                         await ServerDbContext.SaveAsync(new DbChangeNameBackup
                         {
                             IdUser = user.Identity,
@@ -118,7 +128,6 @@ namespace Canyon.Game.Sockets.Game.Packets
 
                         user.ChangeName(Name);
                         await user.SaveAsync();
-                        await user.SpendConquerPointsAsync(CHANGE_NAME_COST);
 
                         await user.Screen.SynchroScreenAsync();
 

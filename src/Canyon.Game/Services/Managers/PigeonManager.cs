@@ -159,6 +159,7 @@ namespace Canyon.Game.Services.Managers
 
         public static Task RebuildQueueAsync()
         {
+            DbPigeonQueue[] snapshot;
             uint idx = 0;
             lock (LockObject)
             {
@@ -166,38 +167,50 @@ namespace Canyon.Game.Services.Managers
                 {
                     queued.NextIdentity = idx++;
                 }
+                snapshot = nextPigeons.ToArray();
             }
-            return ServerDbContext.SaveRangeAsync(nextPigeons.ToArray());
+
+            if (snapshot.Length == 0)
+            {
+                return Task.CompletedTask;
+            }
+
+            return ServerDbContext.SaveRangeAsync(snapshot);
         }
 
         public static async Task SyncAsync()
         {
-            if (nextPigeons.Count == 0)
+            DbPigeonQueue queued;
+            DbPigeon broadcastPigeon;
+            lock (LockObject)
             {
-                return;
+                if (nextPigeons.Count == 0)
+                {
+                    return;
+                }
+
+                queued = nextPigeons[0];
+                nextPigeons.RemoveAt(0);
+                broadcastPigeon = new DbPigeon
+                {
+                    UserIdentity = queued.UserIdentity,
+                    UserName = queued.UserName,
+                    Addition = queued.Addition,
+                    Message = queued.Message,
+                    Time = DateTime.Now
+                };
+                currentPigeon = broadcastPigeon;
+                pastPigeons.Add(broadcastPigeon);
             }
 
             nextTimer.Startup(PIGEON_STAND_SECS);
 
-            await ServerDbContext.SaveAsync(currentPigeon = new DbPigeon
-            {
-                UserIdentity = nextPigeons[0].UserIdentity,
-                UserName = nextPigeons[0].UserName,
-                Addition = nextPigeons[0].Addition,
-                Message = nextPigeons[0].Message,
-                Time = DateTime.Now
-            });
-            await ServerDbContext.DeleteAsync(nextPigeons[0]);
-
-            lock (LockObject)
-            {
-                nextPigeons.RemoveAt(0);
-                pastPigeons.Add(currentPigeon);
-            }
+            await ServerDbContext.SaveAsync(broadcastPigeon);
+            await ServerDbContext.DeleteAsync(queued);
 
             await RebuildQueueAsync();
-            await BroadcastWorldMsgAsync(new MsgTalk(currentPigeon.UserIdentity, TalkChannel.Broadcast, Color.White,
-                                                            MsgTalk.ALLUSERS, currentPigeon.UserName, currentPigeon.Message));
+            await BroadcastWorldMsgAsync(new MsgTalk(broadcastPigeon.UserIdentity, TalkChannel.Broadcast, Color.White,
+                                                            MsgTalk.ALLUSERS, broadcastPigeon.UserName, broadcastPigeon.Message));
         }
 
         public static async Task OnTimerAsync()

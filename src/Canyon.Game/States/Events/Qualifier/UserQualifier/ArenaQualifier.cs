@@ -419,7 +419,7 @@ namespace Canyon.Game.States.Events.Qualifier.UserQualifier
                 arenic.HistoryHonor = match.Player2.HistoryHonorPoints;
                 await arenic.SaveAsync();
 
-                LuaScriptManager.Run(match.Player1, null, null, string.Empty, $"UserArenicCompetes({arenic.UserId},{arenic.DayWins + arenic.DayLoses})");
+                LuaScriptManager.Run(match.Player2, null, null, string.Empty, $"UserArenicCompetes({arenic.UserId},{arenic.DayWins + arenic.DayLoses})");
             }
         }
 

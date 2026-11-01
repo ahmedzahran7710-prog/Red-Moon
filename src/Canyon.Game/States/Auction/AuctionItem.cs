@@ -62,7 +62,7 @@ namespace Canyon.Game.States.Auction
             {
                 foreach (var dbAskBuy in await AuctionRepository.GetAskBuyAsync(auction.Id))
                 {
-                    DbCharacter user = await CharacterRepository.FindByIdentityAsync(auction.Seller);
+                    DbCharacter user = await CharacterRepository.FindByIdentityAsync(dbAskBuy.Buyer);
                     if (user == null)
                     {
                         logger.LogCritical("Could not create auction askbuy for auction id [invalid bidder({})]: {}", dbAskBuy.Buyer, auction.Id);
@@ -136,11 +136,11 @@ namespace Canyon.Game.States.Auction
 
                 DateTime timeOut = UnixTimestamp.ToDateTime(auction.TimeOut);
                 var difference = timeOut - DateTime.Now;
-                if (difference.TotalDays > 1)
+                if (difference.TotalHours > 24)
                 {
                     return AuctionRemainingTime.VeryLong;
                 }
-                else if (difference.TotalDays > 12)
+                else if (difference.TotalHours > 12)
                 {
                     return AuctionRemainingTime.Long;
                 }
@@ -148,7 +148,7 @@ namespace Canyon.Game.States.Auction
                 {
                     return AuctionRemainingTime.Medium;
                 }
-                else if (difference.TotalMinutes > 30)
+                else if (difference.TotalSeconds > 0)
                 {
                     return AuctionRemainingTime.Short;
                 }
@@ -159,19 +159,16 @@ namespace Canyon.Game.States.Auction
 
         public async Task CancelAsync()
         {
-            if (Sold)
-            {
-                return;
-            }
-
-            if (RemainingTime == AuctionRemainingTime.Expired)
-            {
-                return;
-            }
-
             List<DbMail> emails = new();
             lock (Lock)
             {
+                if (Sold)
+                {
+                    return;
+                }
+
+                Sold = true;
+
                 emails.Add(new DbMail
                 {
                     ReceiverId = SellerId,
@@ -219,28 +216,22 @@ namespace Canyon.Game.States.Auction
 
         public async Task<bool> BuyoutAsync(Character buyer)
         {
-            if (RemainingTime == AuctionRemainingTime.Expired)
+            if (buyer == null || Buyout == 0 || Buyout > int.MaxValue || buyer.Identity == SellerId)
+            {
+                return false;
+            }
+
+            if (Sold || RemainingTime == AuctionRemainingTime.Expired)
             {
                 logger.LogWarning("Attempt to buy expired auction!");
                 return false;
             }
 
-            if (MoneyType == AuctionMoneyType.Money)
+            if (!await PlaceBidAsync(buyer, Buyout))
             {
-                if (!await buyer.SpendMoneyAsync(Buyout, true))
-                {
-                    return false;
-                }
-            }
-            else
-            {
-                if (!await buyer.SpendConquerPointsAsync((int)Buyout, true))
-                {
-                    return false;
-                }
+                return false;
             }
 
-            await PlaceBidAsync(buyer, Buyout);
             Sold = true;
             return true;
         }
@@ -357,11 +348,11 @@ namespace Canyon.Game.States.Auction
             await ServerDbContext.SaveRangeAsync(emails);
         }
 
-        public async Task PlaceBidAsync(Character user, uint value, int amount = 1)
+        public async Task<bool> PlaceBidAsync(Character user, uint value, int amount = 1)
         {
-            if (Sold)
+            if (Sold || user == null || user.Identity == SellerId || value == 0 || value > int.MaxValue || amount <= 0)
             {
-                return;
+                return false;
             }
 
             AuctionBid bid = null;
@@ -369,29 +360,47 @@ namespace Canyon.Game.States.Auction
             bool add = false;
             lock (Lock)
             {
+                if (Sold)
+                {
+                    return false;
+                }
+
                 if (!AskBuy.TryGetValue(user.Identity, out bid))
                 {
                     add = true;
                 }
                 else
                 {
+                    if (value <= bid.Price)
+                    {
+                        return false;
+                    }
                     payment = value - bid.Price;
                 }
             }
 
+            if (payment == 0 || payment > int.MaxValue)
+            {
+                return false;
+            }
+
             if (MoneyType == AuctionMoneyType.Money)
             {
-                if (!await user.SpendMoneyAsync((int)payment, true))
+                if (!await user.SpendMoneyAsync(payment, true))
                 {
-                    return;
+                    return false;
+                }
+            }
+            else if (MoneyType == AuctionMoneyType.Emoney)
+            {
+                if (!await user.SpendConquerPointsAsync((int)payment, true))
+                {
+                    return false;
                 }
             }
             else
             {
-                if (!await user.SpendConquerPointsAsync((int)payment, true))
-                {
-                    return;
-                }
+                return false;
             }
 
             bid ??= new AuctionBid(new DbAuctionAskBuy
@@ -407,11 +416,12 @@ namespace Canyon.Game.States.Auction
             {
                 lock (Lock)
                 {
-                    AskBuy.Add(bid.BidderId, bid);
+                    AskBuy[bid.BidderId] = bid;
                 }
             }
 
             await bid.SaveAsync();
+            return true;
         }
 
         public Task SaveAsync()

@@ -1902,13 +1902,22 @@ namespace Canyon.Game.States.User
             }
             if (amount < 0)
             {
-                return await SpendMoneyAsync((amount * -1), notify);
+                if (amount == long.MinValue)
+                {
+                    return false;
+                }
+                return await SpendMoneyAsync(-amount, notify);
             }
             return false;
         }
 
         public async Task AwardMoneyAsync(long amount)
         {
+            if (amount <= 0)
+            {
+                return;
+            }
+
             Silvers = Math.Max(0, Math.Min(Silvers + (ulong)amount, 10_000_000_000));
             await SaveAsync();
             await SynchroAttributesAsync(ClientUpdateType.Money, Silvers);
@@ -1948,20 +1957,35 @@ namespace Canyon.Game.States.User
             }
             if (amount < 0)
             {
-                return await SpendConquerPointsAsync(amount * -1, notify);
+                if (amount == int.MinValue)
+                {
+                    return false;
+                }
+                return await SpendConquerPointsAsync(-amount, notify);
             }
             return false;
         }
 
         public async Task AwardConquerPointsAsync(int amount)
         {
-            ConquerPoints = (uint)(ConquerPoints + amount);
+            if (amount <= 0)
+            {
+                return;
+            }
+
+            ConquerPoints = (uint)Math.Min((long)ConquerPoints + amount, int.MaxValue);
             await SaveAsync();
             await SynchroAttributesAsync(ClientUpdateType.ConquerPoints, ConquerPoints);
         }
 
         public async Task<bool> SpendConquerPointsAsync(int amount, bool notify = false)
         {
+            if (amount < 0)
+            {
+                logger.LogWarning("[Cheat] [{}] {} tried to submit negative amount of ConquerPoints to be discounted.", Identity, Name);
+                return false;
+            }
+
             if (amount > ConquerPoints)
             {
                 if (notify)
@@ -1980,12 +2004,18 @@ namespace Canyon.Game.States.User
 
         public async Task<bool> SpendConquerPointsAsync(int amount, bool bound, bool notify)
         {
+            if (amount < 0)
+            {
+                logger.LogWarning("[Cheat] [{}] {} tried to submit negative amount of ConquerPoints to be discounted.", Identity, Name);
+                return false;
+            }
+
             if (!bound || ConquerPointsBound == 0)
             {
                 return await SpendConquerPointsAsync(amount, notify);
             }
 
-            if (amount > ConquerPoints + ConquerPointsBound)
+            if (amount > (long)ConquerPoints + ConquerPointsBound)
             {
                 if (notify)
                 {
@@ -2016,20 +2046,35 @@ namespace Canyon.Game.States.User
             }
             if (amount < 0)
             {
-                return await SpendBoundConquerPointsAsync(amount * -1, notify);
+                if (amount == int.MinValue)
+                {
+                    return false;
+                }
+                return await SpendBoundConquerPointsAsync(-amount, notify);
             }
             return false;
         }
 
         public async Task AwardBoundConquerPointsAsync(int amount)
         {
-            ConquerPointsBound = (uint)(ConquerPointsBound + amount);
+            if (amount <= 0)
+            {
+                return;
+            }
+
+            ConquerPointsBound = (uint)Math.Min((long)ConquerPointsBound + amount, int.MaxValue);
             await SaveAsync();
             await SynchroAttributesAsync(ClientUpdateType.BoundConquerPoints, ConquerPointsBound);
         }
 
         public async Task<bool> SpendBoundConquerPointsAsync(int amount, bool notify = false)
         {
+            if (amount < 0)
+            {
+                logger.LogWarning("[Cheat] [{}] {} tried to submit negative amount of BoundConquerPoints to be discounted.", Identity, Name);
+                return false;
+            }
+
             int emoney = 0;
             if (amount > ConquerPointsBound)
             {
@@ -2063,14 +2108,23 @@ namespace Canyon.Game.States.User
             }
             if (amount < 0)
             {
-                return await SpendCultivationAsync(amount * -1);
+                if (amount == int.MinValue)
+                {
+                    return false;
+                }
+                return await SpendCultivationAsync(-amount);
             }
             return false;
         }
 
         public async Task AwardCultivationAsync(int amount)
         {
-            StudyPoints = (uint)(StudyPoints + amount);
+            if (amount <= 0)
+            {
+                return;
+            }
+
+            StudyPoints = (uint)Math.Min((long)StudyPoints + amount, uint.MaxValue);
             await SaveAsync();
 
             await SendAsync(new MsgSubPro
@@ -2083,7 +2137,7 @@ namespace Canyon.Game.States.User
 
         public async Task<bool> SpendCultivationAsync(int amount)
         {
-            if (amount > StudyPoints)
+            if (amount < 0 || amount > StudyPoints)
             {
                 return false;
             }
@@ -2107,14 +2161,23 @@ namespace Canyon.Game.States.User
             }
             if (amount < 0)
             {
-                return await SpendStrengthValueAsync(amount * -1);
+                if (amount == int.MinValue)
+                {
+                    return false;
+                }
+                return await SpendStrengthValueAsync(-amount);
             }
             return false;
         }
 
         public async Task AwardStrengthValueAsync(int amount)
         {
-            ChiPoints = (uint)(ChiPoints + amount);
+            if (amount <= 0)
+            {
+                return;
+            }
+
+            ChiPoints = (uint)Math.Min((long)ChiPoints + amount, uint.MaxValue);
             if (Fate != null)
             {
                 await Fate.SendAsync(true);
@@ -2124,7 +2187,7 @@ namespace Canyon.Game.States.User
 
         public async Task<bool> SpendStrengthValueAsync(int amount, bool sync = true)
         {
-            if (amount > ChiPoints)
+            if (amount < 0 || amount > ChiPoints)
             {
                 return false;
             }
@@ -2146,21 +2209,30 @@ namespace Canyon.Game.States.User
             }
             if (amount < 0)
             {
-                return await SpendHorseRacePointsAsync(amount * -1);
+                if (amount == int.MinValue)
+                {
+                    return false;
+                }
+                return await SpendHorseRacePointsAsync(-amount);
             }
             return false;
         }
 
         public async Task AwardHorseRacePointsAsync(int amount)
         {
-            HorseRacingPoints = (uint)(HorseRacingPoints + amount);
+            if (amount <= 0)
+            {
+                return;
+            }
+
+            HorseRacingPoints = (uint)Math.Min((long)HorseRacingPoints + amount, uint.MaxValue);
             await SynchroAttributesAsync(ClientUpdateType.RidePetPoint, HorseRacingPoints);
             await SaveAsync();
         }
 
         public async Task<bool> SpendHorseRacePointsAsync(int amount)
         {
-            if (amount > HorseRacingPoints)
+            if (amount < 0 || amount > HorseRacingPoints)
             {
                 return false;
             }

@@ -32,14 +32,56 @@ namespace Canyon.Game.Services.Processors.Scripting
             Initialize();
         }
 
+        private static string ResolveScriptPath(string rawRelativePath)
+        {
+            if (string.IsNullOrWhiteSpace(rawRelativePath))
+            {
+                return string.Empty;
+            }
+
+            string[] splitPath = rawRelativePath.Split(new[] { '\\', '/' }, StringSplitOptions.RemoveEmptyEntries);
+            if (splitPath.Length == 0)
+            {
+                return string.Empty;
+            }
+
+            string luaRoot = Path.Combine(Environment.CurrentDirectory, "lua");
+            string directPath = Path.Combine(luaRoot, Path.Combine(splitPath));
+            if (File.Exists(directPath))
+            {
+                return directPath;
+            }
+
+            if (splitPath.Length > 1 && splitPath[0].Equals("V100", StringComparison.OrdinalIgnoreCase))
+            {
+                string flattenedPath = Path.Combine(luaRoot, Path.Combine(splitPath[1..]));
+                if (File.Exists(flattenedPath))
+                {
+                    return flattenedPath;
+                }
+            }
+            else
+            {
+                string nestedPath = Path.Combine(luaRoot, "V100", Path.Combine(splitPath));
+                if (File.Exists(nestedPath))
+                {
+                    return nestedPath;
+                }
+            }
+
+            return directPath;
+        }
+
         private void Initialize()
         {
-            foreach (var item in LuaScriptsSettings.Settings.MOD)
+            RegisterLocalFunctions();
+
+            foreach (var item in LuaScriptsSettings.Settings.MOD
+                .OrderBy(x => int.TryParse(x.Key, out int keyId) ? keyId : int.MaxValue)
+                .ThenBy(x => x.Key, StringComparer.Ordinal))
             {
-                string[] splitPath = item.Value.Split('\\');
-                string realPath = Path.Combine(splitPath);
-                realPath = Path.Combine(Environment.CurrentDirectory, "lua", realPath);
-                if (!File.Exists(realPath))
+                string realPath = ResolveScriptPath(item.Value);
+                if (string.IsNullOrEmpty(realPath) || !File.Exists(realPath))
                 {
                     logger.LogWarning("Script file \"{path}\" not found!", item.Value);
                     continue;
@@ -47,10 +89,6 @@ namespace Canyon.Game.Services.Processors.Scripting
 
                 lua.DoFile(realPath);
             }
-
-            RegisterLocalFunctions();
-
-            Execute(null, null, null, string.Empty, "Event_Server_Start()");
         }
 
         private void RegisterLocalFunctions()
@@ -76,12 +114,18 @@ namespace Canyon.Game.Services.Processors.Scripting
         {
             lock (syncObject)
             {
-                if (LuaScriptsSettings.Settings.MOD.TryGetValue(idScript.ToString(), out var file))
+                string matchedFile = null;
+                if (!LuaScriptsSettings.Settings.MOD.TryGetValue(idScript.ToString(), out matchedFile))
                 {
-                    string[] splitPath = file.Split('\\');
-                    string realPath = Path.Combine(splitPath);
-                    realPath = Path.Combine(Environment.CurrentDirectory, "lua", realPath);
-                    if (!File.Exists(realPath))
+                    matchedFile = LuaScriptsSettings.Settings.MOD
+                        .FirstOrDefault(x => int.TryParse(x.Key, out int parsed) && parsed == idScript)
+                        .Value;
+                }
+
+                if (!string.IsNullOrEmpty(matchedFile))
+                {
+                    string realPath = ResolveScriptPath(matchedFile);
+                    if (string.IsNullOrEmpty(realPath) || !File.Exists(realPath))
                     {
                         logger.LogWarning("Script file \"{path}\" not found!", realPath);
                         return;
@@ -95,12 +139,12 @@ namespace Canyon.Game.Services.Processors.Scripting
         {
             lock (syncObject)
             {
-                foreach (var file in LuaScriptsSettings.Settings.MOD.Where(x => int.Parse(x.Key) > 99_999))
+                foreach (var file in LuaScriptsSettings.Settings.MOD
+                    .OrderBy(x => int.TryParse(x.Key, out int keyId) ? keyId : int.MaxValue)
+                    .ThenBy(x => x.Key, StringComparer.Ordinal))
                 {
-                    string[] splitPath = file.Value.Split('\\');
-                    string realPath = Path.Combine(splitPath);
-                    realPath = Path.Combine(Environment.CurrentDirectory, "lua", realPath);
-                    if (!File.Exists(realPath))
+                    string realPath = ResolveScriptPath(file.Value);
+                    if (string.IsNullOrEmpty(realPath) || !File.Exists(realPath))
                     {
                         logger.LogWarning("Script file \"{path}\" not found!", realPath);
                         continue;

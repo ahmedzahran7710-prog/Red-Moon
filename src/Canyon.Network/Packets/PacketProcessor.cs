@@ -14,6 +14,8 @@ namespace Canyon.Network.Packets
     public class PacketProcessor<TClient> : BackgroundService
         where TClient : TcpServerActor
     {
+        private static readonly ILogger logger = LogFactory.CreateLogger<PacketProcessor<TClient>>();
+
         // Fields and Properties
         protected readonly Task[] ReadBackgroundTasks;
         protected readonly Channel<Message>[] ReadChannels;
@@ -21,8 +23,10 @@ namespace Canyon.Network.Packets
         protected readonly Channel<Message>[] WriteChannels;
         protected readonly Partition[] Partitions;
         protected readonly Func<TClient, byte[], Task> Process;
-        protected CancellationToken CancelReads;
-        protected CancellationToken CancelWrites;
+        private readonly CancellationTokenSource cancelReadsSource = new();
+        private readonly CancellationTokenSource cancelWritesSource = new();
+        protected CancellationToken CancelReads => cancelReadsSource.Token;
+        protected CancellationToken CancelWrites => cancelWritesSource.Token;
 
         /// <summary>
         ///     Instantiates a new instance of <see cref="PacketProcessor{TClient}" /> using a default
@@ -36,8 +40,6 @@ namespace Canyon.Network.Packets
         {
             // Initialize the channels and tasks as parallel arrays
             count = count == 0 ? Math.Max(1, Environment.ProcessorCount / 2) : count;
-            CancelReads = new CancellationToken();
-            CancelWrites = new CancellationToken();
             ReadBackgroundTasks = new Task[count];
             ReadChannels = new Channel<Message>[count];
             WriteBackgroundTasks = new Task[count];
@@ -123,10 +125,26 @@ namespace Canyon.Network.Packets
         {
             while (!CancelReads.IsCancellationRequested)
             {
-                Message msg = await channel.Reader.ReadAsync(CancelReads);
+                Message msg;
+                try
+                {
+                    msg = await channel.Reader.ReadAsync(CancelReads);
+                }
+                catch (OperationCanceledException) when (CancelReads.IsCancellationRequested)
+                {
+                    break;
+                }
+
                 if (msg != null)
                 {
-                    await Process(msg.Actor, msg.Packet).ConfigureAwait(false);
+                    try
+                    {
+                        await Process(msg.Actor, msg.Packet).ConfigureAwait(false);
+                    }
+                    catch (Exception ex)
+                    {
+                        logger.LogError(ex, "Unhandled exception processing incoming packet for [{IpAddress}]: {Message}", msg.Actor?.IpAddress, ex.Message);
+                    }
                 }
             }
         }
@@ -135,13 +153,29 @@ namespace Canyon.Network.Packets
         {
             while (!CancelReads.IsCancellationRequested)
             {
-                Message msg = await channel.Reader.ReadAsync(CancelReads);
+                Message msg;
+                try
+                {
+                    msg = await channel.Reader.ReadAsync(CancelReads);
+                }
+                catch (OperationCanceledException) when (CancelReads.IsCancellationRequested)
+                {
+                    break;
+                }
+
                 if (msg != null)
                 {
-                    await msg.Actor.InternalSendAsync(msg.Packet).ConfigureAwait(false);
-                    if (msg.Action != null)
+                    try
                     {
-                        await msg.Action().ConfigureAwait(false);
+                        await msg.Actor.InternalSendAsync(msg.Packet).ConfigureAwait(false);
+                        if (msg.Action != null)
+                        {
+                            await msg.Action().ConfigureAwait(false);
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        logger.LogError(ex, "Unhandled exception sending outgoing packet to [{IpAddress}]: {Message}", msg.Actor?.IpAddress, ex.Message);
                     }
                 }
             }
@@ -154,8 +188,8 @@ namespace Canyon.Network.Packets
         /// </summary>
         public new async Task StopAsync(CancellationToken cancellationToken)
         {
-            CancelWrites = new CancellationToken(true);
-            CancelReads = new CancellationToken(true);
+            cancelWritesSource.Cancel();
+            cancelReadsSource.Cancel();
             await base.StopAsync(cancellationToken);
         }
 
