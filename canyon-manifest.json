@@ -8,7 +8,7 @@
   "tracked_files": 853,
   "omitted_files": 18,
   "total_upstream_bytes": 53090052,
-  "tracked_bytes": 6497398,
+  "tracked_bytes": 6499174,
   "files": [
     {
       "path": ".editorconfig",
@@ -4699,8 +4699,8 @@
     },
     {
       "path": "src/Canyon.Login/Sockets/Game/Packets/MsgAccServerLoginExchangeEx.cs",
-      "bytes": 1742,
-      "sha256": "018d5ec4bfc0c9d644389c805f2a0f76dadd1ee31632707b8664a0835d6bb624",
+      "bytes": 2200,
+      "sha256": "59b8233b85bb0d982250d5fa506500d27df3a546a138bbcacd8942eac67851b9",
       "tracked": true,
       "upstream_bytes": 1317,
       "upstream_sha256": "4353d130bc211717381b56bdaa72ce73e9414bae6b18e264cd740829e85becf4",
@@ -4714,8 +4714,8 @@
     },
     {
       "path": "src/Canyon.Login/Sockets/Login/LoginServer.cs",
-      "bytes": 3618,
-      "sha256": "62a679f8678361c4a35c470592cdbb7bba49a8a43bc3a8aa05161d86829e0647",
+      "bytes": 3799,
+      "sha256": "b90ebefa202bba41e972a1c834c274c47de7199adfbe501de281a5106c738214",
       "tracked": true,
       "upstream_sha256": "3e215e8c1dd5a20eda9b2727878166e6bc3e818e31b3be4f6ec244d4a0e53a11",
       "upstream_bytes": 3105,
@@ -5036,8 +5036,8 @@
     },
     {
       "path": "src/Canyon.Network/Packets/PacketProcessor.cs",
-      "bytes": 9882,
-      "sha256": "bf061f9b62a317555d8643917d93d9cce2b369c386d4e8459fe0f50c4f6c15a0",
+      "bytes": 10640,
+      "sha256": "c1004357c8fc24a78a12707122296cafc8a2c178b8ead361128b9555b8f5e226",
       "tracked": true,
       "upstream_sha256": "d546555ec8aecafee439560fc4351ef4c78a9484507b0d1071ef33e1fa9d8e89",
       "upstream_bytes": 8527,
@@ -5285,9 +5285,12 @@
     },
     {
       "path": "src/Canyon.Network/Sockets/TcpServerActor.cs",
-      "bytes": 5331,
-      "sha256": "231901d8aef36f7181fae3afaff6a33addda05f3a42d99fae1bea27b46c15b0b",
-      "tracked": true
+      "bytes": 5710,
+      "sha256": "b1b85a00404074ef21f6cfc8a9463fa33b1aae3a5e6628e200cd57cb8fa4c72f",
+      "tracked": true,
+      "upstream_sha256": "231901d8aef36f7181fae3afaff6a33addda05f3a42d99fae1bea27b46c15b0b",
+      "upstream_bytes": 5331,
+      "patched": true
     },
     {
       "path": "src/Canyon.Network/Sockets/TcpServerEvents.cs",
@@ -5635,5 +5638,5 @@
       "tracked": true
     }
   ],
-  "patched_files": 119
+  "patched_files": 120
 }

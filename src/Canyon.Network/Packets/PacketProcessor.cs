@@ -117,6 +117,21 @@ namespace Canyon.Network.Packets
             }
         }
 
+        /// <summary>Queue a packet and report whether all bytes were sent to the local socket.</summary>
+        public void QueueWriteWithResult(TClient actor, byte[] packet, Action<bool> completion)
+        {
+            if (CancelWrites.IsCancellationRequested ||
+                !WriteChannels[actor.Partition].Writer.TryWrite(new Message
+                {
+                    Actor = actor,
+                    Packet = packet,
+                    Completion = completion
+                }))
+            {
+                completion?.Invoke(false);
+            }
+        }
+
         /// <summary>
         ///     Dequeues work in a loop. For as long as the thread is running and work is
         ///     available, work will be dequeued and processed. After dequeuing a message,
@@ -169,7 +184,8 @@ namespace Canyon.Network.Packets
                 {
                     try
                     {
-                        await msg.Actor.InternalSendAsync(msg.Packet).ConfigureAwait(false);
+                        bool sent = await msg.Actor.InternalSendAsync(msg.Packet).ConfigureAwait(false);
+                        msg.Completion?.Invoke(sent);
                         if (msg.Action != null)
                         {
                             await msg.Action().ConfigureAwait(false);
@@ -177,6 +193,7 @@ namespace Canyon.Network.Packets
                     }
                     catch (Exception ex)
                     {
+                        msg.Completion?.Invoke(false);
                         logger.LogError(ex, "Unhandled exception sending outgoing packet to [{IpAddress}]: {Message}", msg.Actor?.IpAddress, ex.Message);
                     }
                 }
@@ -227,6 +244,7 @@ namespace Canyon.Network.Packets
             public TClient Actor { get; set; }
             public byte[] Packet { get; set; }
             public Func<Task> Action { get; set; }
+            public Action<bool> Completion { get; set; }
         }
 
         /// <summary>

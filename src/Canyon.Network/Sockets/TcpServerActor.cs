@@ -80,7 +80,17 @@ namespace Canyon.Network.Sockets
                 try
                 {
                     Cipher?.Encrypt(data, data);
-                    return Task.FromResult(Socket.Send(data, SocketFlags.None) > 0);
+                    int sent = 0;
+                    while (sent < data.Length)
+                    {
+                        int count = Socket.Send(data, sent, data.Length - sent, SocketFlags.None);
+                        if (count <= 0)
+                        {
+                            return Task.FromResult(false);
+                        }
+                        sent += count;
+                    }
+                    return Task.FromResult(true);
                 }
                 catch (SocketException ex)
                 {

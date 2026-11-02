@@ -43,6 +43,11 @@ namespace Canyon.Login.Sockets.Login
             processor.QueueWrite(actor, packet.ToArray());
         }
 
+        public void SendWithResult(Client actor, byte[] packet, Action<bool> completion)
+        {
+            processor.QueueWriteWithResult(actor, packet, completion);
+        }
+
         public override void Send(Client actor, ReadOnlySpan<byte> packet, Func<Task> task)
         {
             processor.QueueWrite(actor, packet.ToArray(), task);

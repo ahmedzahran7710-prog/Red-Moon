@@ -259,3 +259,7 @@
 
 ## 2026-11-02 — game login stage diagnostics
 - Added non-secret game connection, handshake and login-stage logs plus the destination address/port to the Login redirect log, to locate the client's failure after authentication. These do not change the protocol or claim to fix the client exit. The AI's orphan monster types remain unresolved; no player or gameplay data was altered. Static review only.
+
+## 2026-11-02 — packet send integrity and AI orphan research
+- Socket.Send may send fewer bytes than requested. Send the complete already-encrypted packet under the existing lock or report failure. Login redirect now reports the actual local socket send result through its existing write queue; local send does not guarantee client receipt. No protocol or credential changes.
+- Static inspection of the supplied seed found 37 generators referencing 15 absent monster types; 2002 generators reference existing types. No authoritative matching data found; no live DB or gameplay definitions modified. Build and runtime verification are outstanding.
