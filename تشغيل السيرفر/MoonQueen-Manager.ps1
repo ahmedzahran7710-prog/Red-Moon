@@ -763,7 +763,7 @@ function Ensure-ServerLocalConfigs([string]$BinDir, $DbCreds) {
     Write-JsonUtf8NoBom $gamePath  $gameOut  8
     Write-JsonUtf8NoBom $aiPath    $aiOut    8
 
-    Write-Host "[OK] Generated and synchronized three local configuration files in $BinDir:" -ForegroundColor Green
+    Write-Host "[OK] Generated and synchronized three local configuration files in ${BinDir}:" -ForegroundColor Green
     Write-Host "     - SharedKey (32 characters) and SharedIV (16 characters) match between Login and Game." -ForegroundColor Gray
     Write-Host "     - Realm (port 9865) and AI (port 9866) are bound to 127.0.0.1." -ForegroundColor Gray
 
@@ -1101,7 +1101,7 @@ function Invoke-ReadinessCheck([bool]$QuietHeader = $false) {
             $resGame = Invoke-MySqlQuery $mysqlExe $dbHost $dbPort ([string]$loginCfg.Database.Username) ([string]$loginCfg.Database.Password) $gameSchema "SELECT COUNT(*) FROM information_schema.tables WHERE table_schema = '$gameSchema';"
             $resProc = Invoke-MySqlQuery $mysqlExe $dbHost $dbPort ([string]$loginCfg.Database.Username) ([string]$loginCfg.Database.Password) $gameSchema "SELECT COUNT(*) FROM information_schema.routines WHERE routine_schema = '$gameSchema' AND routine_type = 'PROCEDURE';"
             if ($resGame.ExitCode -eq 0 -and [int]$resGame.Output -ge 302) {
-                Write-Host "[OK] Database $gameSchema: $($resGame.Output) tables, $($resProc.Output) procedures." -ForegroundColor Green
+                Write-Host "[OK] Database ${gameSchema}: $($resGame.Output) tables, $($resProc.Output) procedures." -ForegroundColor Green
                 $okCount++
             } else {
                 Write-Host "[!!] Database $gameSchema has only $($resGame.Output) tables. Run setup." -ForegroundColor Red
