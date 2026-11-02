@@ -30,6 +30,9 @@
     <ClInclude Include="buffer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="CFlashFix.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -49,9 +52,6 @@
     </ClCompile>
     <ClCompile Include="CFlashFix.cpp">
       <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="CFlashFix.h">
-      <Filter>Header Files</Filter>
     </ClCompile>
     <ClCompile Include="ConquerCipherHook.cpp">
       <Filter>Source Files</Filter>

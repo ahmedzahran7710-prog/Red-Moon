@@ -15,9 +15,9 @@
 3. انسخ ملف **`config.json`** الجاهز من هذا الفولدر (`لورد الكلينت/config.json`) وحطه مباشرة جوّه فولدر الكلينت جنب `Conquer.exe`.
    - الملف مضبوط جاهزًا على اسم السيرفر **`MoonQueen`**، وعنوان اللودر **`MoonQueen`**، والوصف **`Welcome to MoonQueen (V6192) - Developed by ahmedzahran`**، وإصدار **`6192`**، وآي بي الهماشي **`25.21.212.130`**، وبورت الدخول **`9958`**، وبورت الجيم **`5816`**.
 4. لبناء ملف التشغيل المسمى رسميًا **`MoonQueen.exe`** وهوك **`ConquerCipherHook.dll`** المحدثين باسمك:
-   - افتح ملف الحل **`لورد الكلينت/ConquerLoader/MoonQueen.sln`** في **Visual Studio**.
-   - ابنِ مشروع `ConquerCipherHook` على وضع **`Release | x86`** لإنتاج `ConquerCipherHook.dll`، وابنِ مشروع `MoonQueen` لإنتاج **`MoonQueen.exe`**.
-   - انسخ **`MoonQueen.exe`** و**`ConquerCipherHook.dll`** الناتجين وحطهم جوه فولدر الكلينت جنب `Conquer.exe` و`config.json` (وممكن تمسح `ConquerLoader.exe` القديم من فولدر الكلينت عشان تفتح اللعبة دايمًا من **`MoonQueen.exe`**).
+   - افتح ملف الحل **`لورد الكلينت/ConquerLoader/MoonQueen.sln`** في **Visual Studio** (مدعوم تلقائيًا على **Visual Studio 2026 `v145`** و**Visual Studio 2022 `v143`** بدون الحاجة لتثبيت أدوات `v143` أو مكتبات `MFC` القديمة).
+   - اختر وضع **`Release`** من الأعلى واضغط **Build -> Build Solution**، وهيطلعلك **`MoonQueen.exe`** و**`ConquerCipherHook.dll`** معًا داخل فولدر **`لورد الكلينت/ConquerLoader/Release/`**.
+   - انسخ **`MoonQueen.exe`** و**`ConquerCipherHook.dll`** الناتجين وحطهم جوه فولدر الكلينت جنب `Conquer.exe` و`config.json` (أو شغّل `تشغيل السيرفر\1-Setup-MoonQueen.bat` وهو هينسخهم أوتوماتيك، وممكن تمسح `ConquerLoader.exe` القديم من فولدر الكلينت عشان تفتح اللعبة دايمًا من **`MoonQueen.exe`**).
 5. شغّل **`MoonQueen.exe`** كمسؤول (`Run as Administrator`) واضغط **`ENTER`** لبدء اللعب.
 
 ---
