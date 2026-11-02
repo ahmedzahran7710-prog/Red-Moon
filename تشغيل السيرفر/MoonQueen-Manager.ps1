@@ -41,7 +41,7 @@ $LocalStateFile = Join-Path $ScriptDir "launcher.local.json"
 function Write-Banner([string]$Subtitle) {
     Write-Host ""
     Write-Host "======================================================================" -ForegroundColor DarkRed
-    Write-Host "  MoonQueen V6192 — Developed by ahmedzahran (احمد زهران)" -ForegroundColor Yellow
+    Write-Host "  MoonQueen V6192 - Developed by ahmedzahran" -ForegroundColor Yellow
     Write-Host "  $Subtitle" -ForegroundColor Cyan
     Write-Host "======================================================================" -ForegroundColor DarkRed
     Write-Host ""
@@ -152,8 +152,8 @@ function Find-MySqlExe([bool]$PromptIfMissing = $false) {
     $cmd = Get-Command mysql -ErrorAction SilentlyContinue
     if ($null -ne $cmd) { return $cmd.Source }
     if ($PromptIfMissing) {
-        Write-Host "[?] لم يتم العثور تلقائيًا على mysql.exe في المسارات المعتادة." -ForegroundColor Yellow
-        $entered = (Read-Host "اكتب مسار mysql.exe الكامل (مثال: C:\xampp\mysql\bin\mysql.exe)").Trim('"').Trim()
+        Write-Host "[?] mysql.exe was not found automatically." -ForegroundColor Yellow
+        $entered = (Read-Host "Enter the full path to mysql.exe (example: C:\xampp\mysql\bin\mysql.exe)").Trim('"').Trim()
         if (-not [string]::IsNullOrWhiteSpace($entered) -and (Test-Path -LiteralPath $entered)) {
             Save-LauncherState @{ MySqlExePath = $entered }
             return $entered
@@ -368,13 +368,13 @@ function Resolve-ClientDirectory([bool]$PromptIfMissing = $false, [bool]$AllowCh
     }
 
     if ($AllowChange -and $null -ne $detected) {
-        $inp = (Read-Host "مسار فولدر الكلينت [$detected] (اضغط Enter للتأكيد أو اكتب مسارًا مختلفًا)").Trim('"').Trim()
+        $inp = (Read-Host "Client folder [$detected] (Enter to confirm, or enter a different path)").Trim('"').Trim()
         if (-not [string]::IsNullOrWhiteSpace($inp)) {
             if (Test-Path -LiteralPath $inp) {
                 Save-LauncherState @{ ClientDirectory = $inp }
                 return $inp
             } else {
-                Write-Host "[!] المسار المدخل غير موجود؛ سيتم استخدام [$detected]." -ForegroundColor Yellow
+                Write-Host "[!] Path not found; using [$detected]." -ForegroundColor Yellow
             }
         }
         Save-LauncherState @{ ClientDirectory = $detected }
@@ -386,14 +386,14 @@ function Resolve-ClientDirectory([bool]$PromptIfMissing = $false, [bool]$AllowCh
     }
 
     if ($PromptIfMissing) {
-        Write-Host "[?] اكتب مسار فولدر كلينت Conquer 6192 على جهازك (مثال: F:\AhmedZahran\MoonQueen-Client)" -ForegroundColor Cyan
-        $entered = (Read-Host "مسار فولدر الكلينت (أو اضغط Enter للتخطي مؤقتًا)").Trim('"').Trim()
+        Write-Host "[?] Enter your Conquer 6192 client folder (example: F:\AhmedZahran\MoonQueen-Client)" -ForegroundColor Cyan
+        $entered = (Read-Host "Client folder (or press Enter to skip)").Trim('"').Trim()
         if (-not [string]::IsNullOrWhiteSpace($entered)) {
             if (Test-Path -LiteralPath $entered) {
                 Save-LauncherState @{ ClientDirectory = $entered }
                 return $entered
             }
-            Write-Host "[!] لم يتم العثور على الفولدر: $entered — سيتم المتابعة بدون نسخ ملفات الكلينت." -ForegroundColor Yellow
+            Write-Host "[!] Folder not found: $entered. Continuing without copying client assets." -ForegroundColor Yellow
         }
     }
     return $null
@@ -416,9 +416,9 @@ function Ensure-LuaAssets([string]$BinDir) {
         if ($needsSync) {
             New-Item -ItemType Directory -Path $dstLua -Force | Out-Null
             Copy-Item -Path (Join-Path $srcLua "*") -Destination $dstLua -Recurse -Force
-            Write-Host "[OK] تم نسخ وتحديث سكربتات RequiredAssetsForRun\lua (31 اسكريبت) إلى $dstLua" -ForegroundColor Green
+            Write-Host "[OK] Copied RequiredAssetsForRun\lua scripts to $dstLua." -ForegroundColor Green
         } else {
-            Write-Host "[OK] سكربتات السيرفر (lua\lua.ini + BasicData) محدثة وسليمة." -ForegroundColor Green
+            Write-Host "[OK] Server Lua scripts are present." -ForegroundColor Green
         }
     }
 }
@@ -427,7 +427,7 @@ function Sync-ClientAndServerAssets([string]$BinDir, [string]$ClientDir, [string
     Ensure-LuaAssets $BinDir
 
     if ([string]::IsNullOrWhiteSpace($ClientDir) -or -not (Test-Path -LiteralPath $ClientDir)) {
-        Write-Host "[i] لم يتم تحديد فولدر الكلينت بعد — تم تجهيز lua فقط داخل السيرفر." -ForegroundColor Gray
+        Write-Host "[i] No client folder selected; only Lua assets were prepared." -ForegroundColor Gray
         return
     }
 
@@ -437,24 +437,24 @@ function Sync-ClientAndServerAssets([string]$BinDir, [string]$ClientDir, [string
     $dstGameMap = Join-Path $dstIniDir "GameMap.dat"
 
     if ((Test-Path -LiteralPath $srcIniDir) -and -not (Test-Path -LiteralPath $dstGameMap)) {
-        Write-Host "[+] جاري نسخ فولدر ini من الكلينت إلى مسار السيرفر ($dstIniDir)..." -ForegroundColor Cyan
+        Write-Host "[+] Copying client ini files to $dstIniDir..." -ForegroundColor Cyan
         New-Item -ItemType Directory -Path $dstIniDir -Force | Out-Null
         Copy-Item -Path (Join-Path $srcIniDir "*") -Destination $dstIniDir -Recurse -Force
-        Write-Host "[OK] تم نسخ فولدر ini بنجاح إلى السيرفر." -ForegroundColor Green
+        Write-Host "[OK] Copied client ini files." -ForegroundColor Green
     } elseif (Test-Path -LiteralPath $dstGameMap) {
-        Write-Host "[OK] ملفات الخرائط التعريفية (ini\GameMap.dat) موجودة داخل مسار السيرفر." -ForegroundColor Green
+        Write-Host "[OK] ini\GameMap.dat exists in the server folder." -ForegroundColor Green
     }
 
     $srcMapDir = Join-Path $ClientDir "map"
     $dstMapDir = Join-Path $BinDir "map"
     $hasDmaps  = (Test-Path -LiteralPath $dstMapDir) -and ($null -ne (Get-ChildItem -Path $dstMapDir -Recurse -File -ErrorAction SilentlyContinue | Select-Object -First 1))
     if ((Test-Path -LiteralPath $srcMapDir) -and -not $hasDmaps) {
-        Write-Host "[+] جاري نسخ فولدر الخرائط map من الكلينت إلى مسار السيرفر ($dstMapDir)..." -ForegroundColor Cyan
+        Write-Host "[+] Copying client map folder to $dstMapDir..." -ForegroundColor Cyan
         New-Item -ItemType Directory -Path $dstMapDir -Force | Out-Null
         Copy-Item -Path (Join-Path $srcMapDir "*") -Destination $dstMapDir -Recurse -Force
-        Write-Host "[OK] تم نسخ فولدر الخرائط map بالكامل إلى السيرفر." -ForegroundColor Green
+        Write-Host "[OK] Copied client map folder." -ForegroundColor Green
     } elseif ($hasDmaps) {
-        Write-Host "[OK] فولدر الخرائط (map) موجود ومكتمل داخل مسار السيرفر." -ForegroundColor Green
+        Write-Host "[OK] Server map folder contains files." -ForegroundColor Green
     }
 
     # 2. Copy built MoonQueen.exe & ConquerCipherHook.dll from لورد الكلينت if available
@@ -472,7 +472,7 @@ function Sync-ClientAndServerAssets([string]$BinDir, [string]$ClientDir, [string
                     Copy-Item -LiteralPath $dllSrc -Destination (Join-Path $ClientDir $dllName) -Force
                 }
             }
-            Write-Host "[OK] تم نسخ أحدث نسخة مبنية من اللودر (MoonQueen.exe) ومكتباته إلى الكلينت." -ForegroundColor Green
+            Write-Host "[OK] Copied the built MoonQueen launcher and available libraries to the client." -ForegroundColor Green
             break
         }
     }
@@ -480,7 +480,7 @@ function Sync-ClientAndServerAssets([string]$BinDir, [string]$ClientDir, [string
     foreach ($candHook in @((Join-Path $loaderRelDir2 "ConquerCipherHook.dll"), (Join-Path $loaderRelDir1 "ConquerCipherHook.dll"))) {
         if (Test-Path -LiteralPath $candHook) {
             Copy-Item -LiteralPath $candHook -Destination (Join-Path $ClientDir "ConquerCipherHook.dll") -Force
-            Write-Host "[OK] تم نسخ أحدث ConquerCipherHook.dll (تشفير باسورد Canyon الكامل) إلى الكلينت." -ForegroundColor Green
+            Write-Host "[OK] Copied ConquerCipherHook.dll to the client." -ForegroundColor Green
             break
         }
     }
@@ -492,7 +492,7 @@ function Sync-ClientAndServerAssets([string]$BinDir, [string]$ClientDir, [string
 
     if (Test-Path -LiteralPath $clientLockPath) {
         Remove-Item -LiteralPath $clientLockPath -Force
-        Write-Host "[OK] تم حذف القفل القديم config.json.lock من فولدر الكلينت لقراءة الإعدادات المحدثة." -ForegroundColor Green
+        Write-Host "[OK] Removed the old config.json.lock from the client." -ForegroundColor Green
     }
 
     $cfgObj = Read-JsonConfigSafe $clientCfgPath
@@ -519,7 +519,7 @@ function Sync-ClientAndServerAssets([string]$BinDir, [string]$ClientDir, [string
         }
         $cfgObj.Title = "[MoonQueen] Official Client Loader - Developed by ahmedzahran"
         Write-JsonUtf8NoBom $clientCfgPath $cfgObj 8
-        Write-Host "[OK] تم ضبط config.json داخل الكلينت (LoginHost & GameHost = $TargetIP | Ports = 9958 / 5816)." -ForegroundColor Green
+        Write-Host "[OK] Updated client config.json (LoginHost and GameHost = $TargetIP | Ports = 9958 / 5816)." -ForegroundColor Green
     }
 }
 
@@ -549,7 +549,7 @@ function Resolve-VerifiedMySqlCredentials([string]$MySqlExe, [string]$BinDir) {
     if ($null -ne $loginCfg -and $null -ne $loginCfg.Database) {
         $trySaved = Invoke-MySqlQuery $MySqlExe $dbHost $dbPort $dbUser $dbPass "" "SELECT VERSION();"
         if ($trySaved.ExitCode -eq 0) {
-            Write-Host "[OK] تم التحقق تلقائيًا من اتصال MariaDB / MySQL ($($trySaved.Output)) عبر إعدادات السيرفر المحلية." -ForegroundColor Green
+            Write-Host "[OK] Connected to MariaDB / MySQL using saved local settings ($($trySaved.Output))." -ForegroundColor Green
             return [pscustomobject]@{
                 Host     = $dbHost
                 Port     = $dbPort
@@ -561,9 +561,9 @@ function Resolve-VerifiedMySqlCredentials([string]$MySqlExe, [string]$BinDir) {
         # Also test empty root password common on fresh XAMPP before prompting
         $tryEmpty = Invoke-MySqlQuery $MySqlExe $dbHost $dbPort $dbUser "" "" "SELECT VERSION();"
         if ($tryEmpty.ExitCode -eq 0) {
-            $useEmpty = (Read-Host "حساب MySQL ($dbUser) يعمل بدون باسورد — اضغط Enter لاستخدامه أو اكتب باسورد لو مخصص").Trim()
+            $useEmpty = (Read-Host "MySQL user $dbUser works without a password. Press Enter to use it, or enter a password").Trim()
             if ([string]::IsNullOrEmpty($useEmpty)) {
-                Write-Host "[OK] متصل بمحرك MariaDB / MySQL ($($tryEmpty.Output))." -ForegroundColor Green
+                Write-Host "[OK] Connected to MariaDB / MySQL ($($tryEmpty.Output))." -ForegroundColor Green
                 return [pscustomobject]@{
                     Host     = $dbHost
                     Port     = $dbPort
@@ -577,11 +577,11 @@ function Resolve-VerifiedMySqlCredentials([string]$MySqlExe, [string]$BinDir) {
 
     while ($true) {
         if ([string]::IsNullOrEmpty($dbPass)) {
-            $dbPass = Read-PlainFromSecurePrompt "اكتب باسورد MySQL ($dbUser على ${dbHost}:${dbPort}) — أو اضغط Enter لو بدون باسورد"
+            $dbPass = Read-PlainFromSecurePrompt "Enter the MySQL password for $dbUser at ${dbHost}:${dbPort}, or press Enter for none"
         }
         $ping = Invoke-MySqlQuery $MySqlExe $dbHost $dbPort $dbUser $dbPass "" "SELECT VERSION();"
         if ($ping.ExitCode -eq 0) {
-            Write-Host "[OK] متصل بنجاح بمحرك MariaDB / MySQL الإصدار: $($ping.Output)" -ForegroundColor Green
+            Write-Host "[OK] Connected to MariaDB / MySQL version: $($ping.Output)" -ForegroundColor Green
             return [pscustomobject]@{
                 Host     = $dbHost
                 Port     = $dbPort
@@ -589,9 +589,9 @@ function Resolve-VerifiedMySqlCredentials([string]$MySqlExe, [string]$BinDir) {
                 Password = $dbPass
             }
         }
-        Write-Host "[!!] تعذر الاتصال بـ MySQL: $($ping.Error)" -ForegroundColor Red
+        Write-Host "[!!] MySQL connection failed: $($ping.Error)" -ForegroundColor Red
         $dbPass = ""
-        $uInput = (Read-Host "اضغط Enter لإعادة كتابة باسورد ($dbUser) أو اكتب اسم مستخدم MySQL مختلف").Trim()
+        $uInput = (Read-Host "Press Enter to retry the password for $dbUser, or enter a different MySQL user").Trim()
         if (-not [string]::IsNullOrWhiteSpace($uInput)) {
             $dbUser = $uInput
         }
@@ -659,7 +659,7 @@ function Ensure-ServerLocalConfigs([string]$BinDir, $DbCreds) {
         $value = Get-Variable -Name $field -ValueOnly
         if ($value -notmatch '^[\x21-\x7E]{1,16}$') {
             Set-Variable -Name $field -Value (New-CryptoRandomString 16)
-            Write-Host "[تنبيه] تم تجديد بيانات اتصال AI غير المتوافقة ومزامنتها؛ أعد تشغيل Game و AI معًا." -ForegroundColor Yellow
+            Write-Host "[WARNING] Incompatible AI credentials were regenerated and synchronized. Restart Game and AI together." -ForegroundColor Yellow
         }
     }
 
@@ -763,9 +763,9 @@ function Ensure-ServerLocalConfigs([string]$BinDir, $DbCreds) {
     Write-JsonUtf8NoBom $gamePath  $gameOut  8
     Write-JsonUtf8NoBom $aiPath    $aiOut    8
 
-    Write-Host "[OK] تم توليد ومزامنة ملفات الكونفيج الثلاثة (*.Config.local.json) داخل $BinDir بنجاح:" -ForegroundColor Green
-    Write-Host "     - SharedKey (32 حرفًا) + SharedIV (16 حرفًا) متطابقان بين Login وGame." -ForegroundColor Gray
-    Write-Host "     - بيانات ربط Realm (بورت 9865) وAi (بورت 9866) مشفرة ومقفولة على 127.0.0.1." -ForegroundColor Gray
+    Write-Host "[OK] Generated and synchronized three local configuration files in $BinDir:" -ForegroundColor Green
+    Write-Host "     - SharedKey (32 characters) and SharedIV (16 characters) match between Login and Game." -ForegroundColor Gray
+    Write-Host "     - Realm (port 9865) and AI (port 9866) are bound to 127.0.0.1." -ForegroundColor Gray
 
     return [pscustomobject]@{
         RealmId   = $realmId
@@ -782,7 +782,7 @@ function Ensure-CleanDatabases([string]$MySqlExe, $DbCreds) {
     $gamFile = Join-Path $dbDir "2-moonqueen_game.sql"
 
     if (-not (Test-Path -LiteralPath $accFile) -or -not (Test-Path -LiteralPath $gamFile)) {
-        throw "ملفات قاعدة البيانات الرسمية غير موجودة داخل: $dbDir"
+        throw "Database seed files are missing from: $dbDir"
     }
 
     $accTablesRes = Invoke-MySqlQuery $MySqlExe $DbCreds.Host $DbCreds.Port $DbCreds.User $DbCreds.Password "" "SELECT COUNT(*) FROM information_schema.tables WHERE table_schema='moonqueen_account';"
@@ -795,13 +795,13 @@ function Ensure-CleanDatabases([string]$MySqlExe, $DbCreds) {
 
     $shouldImport = $false
     if ($accCount -lt 5 -or $gamCount -lt 302 -or (-not $hasV6192)) {
-        Write-Host "[+] جاري تثبيت قاعدتَي moonqueen_account و moonqueen_game النظيفتين لأول مرة (بدون لمس redmoon_*)..." -ForegroundColor Cyan
+        Write-Host "[+] Installing clean moonqueen_account and moonqueen_game databases for the first time..." -ForegroundColor Cyan
         $shouldImport = $true
     } else {
         $accRows = Invoke-MySqlQuery $MySqlExe $DbCreds.Host $DbCreds.Port $DbCreds.User $DbCreds.Password "moonqueen_account" "SELECT COUNT(*) FROM conquer_account;"
         $chrRows = Invoke-MySqlQuery $MySqlExe $DbCreds.Host $DbCreds.Port $DbCreds.User $DbCreds.Password "moonqueen_game" "SELECT COUNT(*) FROM cq_user;"
-        Write-Host "[OK] قواعد MoonQueen مثبتة ومكتملة بالفعل (moonqueen_account: $accCount جداول / $($accRows.Output) حساب | moonqueen_game: $gamCount جدول / $($chrRows.Output) شخصية)." -ForegroundColor Green
-        $resetInput = (Read-Host "اضغط Enter للحفاظ على بياناتك الحالية والمتابعة (أو اكتب RESET لإعادة تثبيت القاعدتين من الصفر)").Trim()
+        Write-Host "[OK] MoonQueen databases already exist (account tables: $accCount, accounts: $($accRows.Output); game tables: $gamCount, characters: $($chrRows.Output))." -ForegroundColor Green
+        $resetInput = (Read-Host "Press Enter to keep existing data, or type RESET to reinstall both databases from scratch").Trim()
         if ($resetInput -ceq "RESET") {
             $shouldImport = $true
         }
@@ -809,21 +809,21 @@ function Ensure-CleanDatabases([string]$MySqlExe, $DbCreds) {
 
     if ($shouldImport) {
         $sw = [System.Diagnostics.Stopwatch]::StartNew()
-        Write-Host "[1/2] جاري استيراد 1-moonqueen_account.sql..." -ForegroundColor Cyan
+        Write-Host "[1/2] Importing 1-moonqueen_account.sql..." -ForegroundColor Cyan
         $impAcc = Invoke-MySqlImportFile $MySqlExe $DbCreds.Host $DbCreds.Port $DbCreds.User $DbCreds.Password $accFile
         if ($impAcc.ExitCode -ne 0) {
-            throw "فشل استيراد 1-moonqueen_account.sql: $($impAcc.Error)"
+            throw "Failed to import 1-moonqueen_account.sql: $($impAcc.Error)"
         }
-        Write-Host "[OK] تم استيراد moonqueen_account في $([math]::Round($sw.Elapsed.TotalSeconds, 2)) ثانية." -ForegroundColor Green
+        Write-Host "[OK] Imported moonqueen_account in $([math]::Round($sw.Elapsed.TotalSeconds, 2)) seconds." -ForegroundColor Green
 
         $sw.Restart()
-        Write-Host "[2/2] جاري استيراد 2-moonqueen_game.sql (302 جدول + 10 إجراءات مخزنة Pure 1.0x)..." -ForegroundColor Cyan
+        Write-Host "[2/2] Importing 2-moonqueen_game.sql..." -ForegroundColor Cyan
         $impGam = Invoke-MySqlImportFile $MySqlExe $DbCreds.Host $DbCreds.Port $DbCreds.User $DbCreds.Password $gamFile
         $sw.Stop()
         if ($impGam.ExitCode -ne 0) {
-            throw "فشل استيراد 2-moonqueen_game.sql: $($impGam.Error)"
+            throw "Failed to import 2-moonqueen_game.sql: $($impGam.Error)"
         }
-        Write-Host "[OK] تم استيراد moonqueen_game بالكامل في $([math]::Round($sw.Elapsed.TotalSeconds, 2)) ثانية!" -ForegroundColor Green
+        Write-Host "[OK] Imported moonqueen_game in $([math]::Round($sw.Elapsed.TotalSeconds, 2)) seconds." -ForegroundColor Green
     }
 }
 
@@ -870,9 +870,9 @@ INSERT INTO `realm` (
 
     $rRes = Invoke-MySqlStdinScript $MySqlExe $DbCreds.Host $DbCreds.Port $DbCreds.User $DbCreds.Password "moonqueen_account" $realmSqlFinal
     if ($rRes.ExitCode -ne 0) {
-        throw "فشل تحديث جدول realm: $($rRes.Error)"
+        throw "Failed to update realm table: $($rRes.Error)"
     }
-    Write-Host "[OK] تم ربط وتشفير سطر عالم MoonQueen في جدول realm على الآي بي: $TargetIP" -ForegroundColor Green
+    Write-Host "[OK] Updated the MoonQueen realm entry with IP: $TargetIP" -ForegroundColor Green
 
     # Check existing PM account (AuthorityId >= 8)
     $pmRes = Invoke-MySqlQuery $MySqlExe $DbCreds.Host $DbCreds.Port $DbCreds.User $DbCreds.Password "moonqueen_account" "SELECT UserName FROM conquer_account WHERE AuthorityId >= 8 ORDER BY Id ASC LIMIT 1;"
@@ -882,8 +882,8 @@ INSERT INTO `realm` (
     $adminUser = "ahmedzahran"
 
     if (-not $needAdminSetup) {
-        Write-Host "[OK] حساب الإدارة [PM] مسجل بالفعل باسم: $existingPm (رتبة AuthorityId = 8)." -ForegroundColor Green
-        $updChoice = (Read-Host "اضغط Enter للمتابعة بنفس الحساب، أو اكتب PASS لتحديث باسورده / إنشاء حساب PM جديد").Trim()
+        Write-Host "[OK] Existing PM account: $existingPm (AuthorityId = 8)." -ForegroundColor Green
+        $updChoice = (Read-Host "Press Enter to keep this account, or type PASS to update its password or create a PM account").Trim()
         if ($updChoice -ceq "PASS") {
             $adminUser = $existingPm
             $needAdminSetup = $true
@@ -891,15 +891,15 @@ INSERT INTO `realm` (
     }
 
     if ($needAdminSetup) {
-        $enteredUser = (Read-Host "اسم حساب الأدمن [PM] في اللعبة [اضغط Enter لـ $adminUser]").Trim()
+        $enteredUser = (Read-Host "PM account name [Enter for $adminUser]").Trim()
         if (-not [string]::IsNullOrWhiteSpace($enteredUser)) {
             $adminUser = $enteredUser
         }
         $adminPass = ""
         while ([string]::IsNullOrWhiteSpace($adminPass)) {
-            $adminPass = Read-PlainFromSecurePrompt "اكتب باسورد دخولك للعبة لحساب ($adminUser)"
+            $adminPass = Read-PlainFromSecurePrompt "Enter the game password for account $adminUser"
             if ([string]::IsNullOrWhiteSpace($adminPass)) {
-                Write-Host "[!] لا يمكن ترك باسورد حساب اللعبة فارغًا." -ForegroundColor Yellow
+                Write-Host "[!] Game account password cannot be empty." -ForegroundColor Yellow
             }
         }
         $salt = "MQ" + (New-CryptoRandomString 34)
@@ -915,35 +915,35 @@ INSERT INTO `realm` (
         }
         $aRes = Invoke-MySqlStdinScript $MySqlExe $DbCreds.Host $DbCreds.Port $DbCreds.User $DbCreds.Password "moonqueen_account" $accSql
         if ($aRes.ExitCode -ne 0) {
-            throw "فشل حفظ حساب الأدمن في conquer_account: $($aRes.Error)"
+            throw "Failed to save admin account: $($aRes.Error)"
         }
-        Write-Host "[OK] تم حفظ وتفعيل حساب الأدمن ($adminUser) برتبة PM = 8 بنجاح!" -ForegroundColor Green
+        Write-Host "[OK] Saved PM account $adminUser (AuthorityId = 8)." -ForegroundColor Green
     }
 
     # Optional [PM]/[GM] character badge if characters exist in cq_user
     $charsRes = Invoke-MySqlQuery $MySqlExe $DbCreds.Host $DbCreds.Port $DbCreds.User $DbCreds.Password "moonqueen_game" "SELECT name FROM cq_user ORDER BY id ASC LIMIT 10;"
     if ($charsRes.ExitCode -eq 0 -and -not [string]::IsNullOrWhiteSpace($charsRes.Output)) {
         $charLines = $charsRes.Output -split "`r?`n" | Where-Object { -not [string]::IsNullOrWhiteSpace($_) }
-        Write-Host "[i] الشخصيات الموجودة حاليًا داخل السيرفر: $($charLines -join ' ، ')" -ForegroundColor Cyan
-        $wantBadge = (Read-Host "لو حابب تركّب شارة [PM] لشخصية منهم دلوقتي اكتب اسمها (أو اضغط Enter للتخطي)").Trim()
+        Write-Host "[i] Existing characters: $($charLines -join ', ')" -ForegroundColor Cyan
+        $wantBadge = (Read-Host "Enter a character name to add the PM badge now, or press Enter to skip").Trim()
         if (-not [string]::IsNullOrWhiteSpace($wantBadge)) {
             Set-CharacterStaffBadge $MySqlExe $DbCreds $wantBadge "[PM]"
         }
     } else {
-        Write-Host "[i] بعد أول دخول بالكلينت وإنشاء شخصيتك باسم عادي (4-11 حرفًا)، تقدر تركب شارة [PM] في أي وقت بتشغيل 1-Setup-MoonQueen.bat." -ForegroundColor Gray
+        Write-Host "[i] After creating a character (4-11 characters), run setup again to add the PM badge." -ForegroundColor Gray
     }
 }
 
 function Set-CharacterStaffBadge([string]$MySqlExe, $DbCreds, [string]$CharName, [string]$Badge = "[PM]") {
     $runningGame = Get-Process -Name "MoonQueen.Game" -ErrorAction SilentlyContinue
     if ($null -ne $runningGame) {
-        Write-Host "[!] تنبيه: تأكد أن الشخصية خارج اللعبة (Offline) قبل تغيير اسمها." -ForegroundColor Yellow
+        Write-Host "[!] Make sure the character is offline before changing its name." -ForegroundColor Yellow
     }
 
     $baseName = $CharName -replace '\[(PM|GM)\]$', ''
     $targetName = $baseName + $Badge
     if ($targetName.Length -gt 15) {
-        Write-Host "[!!] الاسم النهائي ($targetName) طوله $($targetName.Length) حرفًا ويتجاوز حد كونكر الرسمي (15 حرفًا). اختر اسمًا من 11 حرفًا أو أقل." -ForegroundColor Red
+        Write-Host "[!!] Final name $targetName has $($targetName.Length) characters; choose a name of at most 11 characters." -ForegroundColor Red
         return
     }
 
@@ -951,29 +951,29 @@ function Set-CharacterStaffBadge([string]$MySqlExe, $DbCreds, [string]$CharName,
     $safeNew = $targetName.Replace("'", "''")
     $existsOld = Invoke-MySqlQuery $MySqlExe $DbCreds.Host $DbCreds.Port $DbCreds.User $DbCreds.Password "moonqueen_game" "SELECT id FROM cq_user WHERE name='$safeOld' LIMIT 1;"
     if ($existsOld.ExitCode -ne 0 -or [string]::IsNullOrWhiteSpace($existsOld.Output)) {
-        Write-Host "[!!] لم يتم العثور على شخصية باسم '$CharName' داخل moonqueen_game." -ForegroundColor Red
+        Write-Host "[!!] Character '$CharName' not found in moonqueen_game." -ForegroundColor Red
         return
     }
     if ($CharName -ceq $targetName) {
-        Write-Host "[OK] الشخصية تحمل الشارة بالفعل: $targetName" -ForegroundColor Green
+        Write-Host "[OK] Character already has the badge: $targetName" -ForegroundColor Green
         return
     }
     $existsNew = Invoke-MySqlQuery $MySqlExe $DbCreds.Host $DbCreds.Port $DbCreds.User $DbCreds.Password "moonqueen_game" "SELECT COUNT(*) FROM cq_user WHERE name='$safeNew';"
     if ($existsNew.ExitCode -eq 0 -and $existsNew.Output -ne "0") {
-        Write-Host "[!!] يوجد شخصية أخرى تحمل الاسم '$targetName' بالفعل!" -ForegroundColor Red
+        Write-Host "[!!] Character '$targetName' already exists!" -ForegroundColor Red
         return
     }
     $updRes = Invoke-MySqlStdinScript $MySqlExe $DbCreds.Host $DbCreds.Port $DbCreds.User $DbCreds.Password "moonqueen_game" "UPDATE cq_user SET name='$safeNew' WHERE id=$($existsOld.Output.Trim()) LIMIT 1;"
     if ($updRes.ExitCode -eq 0) {
-        Write-Host "[OK] تم تركيب الشارة بنجاح: $CharName -> $targetName" -ForegroundColor Green
+        Write-Host "[OK] Badge applied: $CharName -> $targetName" -ForegroundColor Green
     } else {
-        Write-Host "[!!] فشل تحديث اسم الشخصية: $($updRes.Error)" -ForegroundColor Red
+        Write-Host "[!!] Failed to update character name: $($updRes.Error)" -ForegroundColor Red
     }
 }
 
 function Invoke-ReadinessCheck([bool]$QuietHeader = $false) {
     if (-not $QuietHeader) {
-        Write-Banner "فحص الجاهزية الشامل للسورس والداتابيز والكلينت (Pre-Flight Check)"
+        Write-Banner "Server, database and client pre-flight check"
     }
     $okCount   = 0
     $warnCount = 0
@@ -984,27 +984,27 @@ function Invoke-ReadinessCheck([bool]$QuietHeader = $false) {
     if ($null -ne $dotnetCmd) {
         $runtimes = & dotnet --list-runtimes 2>$null
         if ($runtimes -match "Microsoft\.NETCore\.App 7\.0\.") {
-            Write-Host "[OK] حزمة .NET 7.0 Runtime مثبتة وجاهزة." -ForegroundColor Green
+            Write-Host "[OK] .NET 7.0 runtime is installed." -ForegroundColor Green
             $okCount++
         } else {
-            Write-Host "[!!] أمر dotnet موجود لكن لم يظهر .NET 7.0 Runtime — ثبّت .NET 7.0 SDK (x64)." -ForegroundColor Red
+            Write-Host "[!!] .NET 7.0 runtime not found. Install .NET 7.0 SDK (x64)." -ForegroundColor Red
             $failCount++
         }
     } else {
-        Write-Host "[!!] لم يتم العثور على أمر dotnet — ثبّت .NET 7.0 SDK (x64)." -ForegroundColor Red
+        Write-Host "[!!] dotnet not found. Install .NET 7.0 SDK (x64)." -ForegroundColor Red
         $failCount++
     }
 
     # 2. Binaries check
     $binDir = Resolve-BinDirectory
-    Write-Host "[i] مسار تشغيل السيرفر: $binDir" -ForegroundColor Gray
+    Write-Host "[i] Server directory: $binDir" -ForegroundColor Gray
 
     foreach ($exe in @("MoonQueen.Login.exe", "MoonQueen.Game.exe", "MoonQueen.Ai.exe")) {
         if (Test-Path -LiteralPath (Join-Path $binDir $exe)) {
-            Write-Host "[OK] ملف السيرفر التنفيذي جاهز: $exe" -ForegroundColor Green
+            Write-Host "[OK] Server executable found: $exe" -ForegroundColor Green
             $okCount++
         } else {
-            Write-Host "[!] ملف $exe لم يُبنَ بعد (افتح MoonQueen.sln في Visual Studio على Release واعمل Build Solution)." -ForegroundColor Yellow
+            Write-Host "[!] $exe is not built. Build MoonQueen.sln in Release mode." -ForegroundColor Yellow
             $warnCount++
         }
     }
@@ -1015,53 +1015,53 @@ function Invoke-ReadinessCheck([bool]$QuietHeader = $false) {
     $aiCfg    = Read-JsonConfigSafe (Join-Path $binDir "MoonQueen.Ai.Config.local.json")
 
     if ($null -ne $loginCfg -and $null -ne $gameCfg -and $null -ne $aiCfg) {
-        Write-Host "[OK] ملفات الكونفيج الثلاثة (*.Config.local.json) موجودة وسليمة." -ForegroundColor Green
+        Write-Host "[OK] Three local configuration files are present." -ForegroundColor Green
         $okCount++
         $lk = [string]$loginCfg.Auth.SharedKey
         $gk = [string]$gameCfg.Auth.SharedKey
         $li = [string]$loginCfg.Auth.SharedIV
         $gi = [string]$gameCfg.Auth.SharedIV
         if ($lk.Length -eq 32 -and $lk -eq $gk -and $li.Length -eq 16 -and $li -eq $gi) {
-            Write-Host "[OK] مفاتيح التشفير المشتركة SharedKey (32) وSharedIV (16) متطابقة 100%." -ForegroundColor Green
+            Write-Host "[OK] Login and Game shared encryption keys match." -ForegroundColor Green
             $okCount++
         } else {
-            Write-Host "[!!] عدم تطابق في SharedKey/SharedIV بين Login وGame!" -ForegroundColor Red
+            Write-Host "[!!] SharedKey/SharedIV mismatch between Login and Game!" -ForegroundColor Red
             $failCount++
         }
         if ($gameCfg.Realm.Name -eq "MoonQueen" -and $aiCfg.Ai.Name -eq "MoonQueen" -and [int]$gameCfg.Ai.Port -eq [int]$aiCfg.Ai.Port) {
-            Write-Host "[OK] ربط اسم العالم MoonQueen وبورت الوحوش ($($aiCfg.Ai.Port)) متطابق بين Game وAi." -ForegroundColor Green
+            Write-Host "[OK] Game and AI realm name and port match ($($aiCfg.Ai.Port))." -ForegroundColor Green
             $okCount++
         } else {
-            Write-Host "[!!] عدم تطابق في إعدادات العالم أو بورت Ai بين Game وAi!" -ForegroundColor Red
+            Write-Host "[!!] Game and AI realm name or port mismatch!" -ForegroundColor Red
             $failCount++
         }
     } else {
-        Write-Host "[!!] ملفات الكونفيج المحلية غير مكتملة في $binDir — شغّل 1-Setup-MoonQueen.bat." -ForegroundColor Red
+        Write-Host "[!!] Local configuration files are incomplete in $binDir. Run 1-Setup-MoonQueen.bat." -ForegroundColor Red
         $failCount++
     }
 
     # 4. Assets inside BinDir
     if (Test-Path -LiteralPath (Join-Path $binDir "lua\lua.ini")) {
-        Write-Host "[OK] سكربتات السيرفر موجودة: lua\lua.ini" -ForegroundColor Green
+        Write-Host "[OK] Server Lua scripts found: lua\lua.ini" -ForegroundColor Green
         $okCount++
     } else {
-        Write-Host "[!] ناقص: فولدر lua داخل مسار السيرفر." -ForegroundColor Yellow
+        Write-Host "[!] Missing server lua folder." -ForegroundColor Yellow
         $warnCount++
     }
 
     if (Test-Path -LiteralPath (Join-Path $binDir "ini\GameMap.dat")) {
-        Write-Host "[OK] ملف تعريف الخرائط موجود: ini\GameMap.dat" -ForegroundColor Green
+        Write-Host "[OK] Map index found: ini\GameMap.dat" -ForegroundColor Green
         $okCount++
     } else {
-        Write-Host "[!] ناقص: فولدر ini من كلينت 6192 داخل $binDir\ini" -ForegroundColor Yellow
+        Write-Host "[!] Missing client 6192 ini folder at $binDir\ini" -ForegroundColor Yellow
         $warnCount++
     }
 
     if (Test-Path -LiteralPath (Join-Path $binDir "map")) {
-        Write-Host "[OK] فولدر الخرائط موجود: map" -ForegroundColor Green
+        Write-Host "[OK] Map folder exists." -ForegroundColor Green
         $okCount++
     } else {
-        Write-Host "[!] ناقص: فولدر map من كلينت 6192 داخل $binDir\map" -ForegroundColor Yellow
+        Write-Host "[!] Missing client 6192 map folder at $binDir\map" -ForegroundColor Yellow
         $warnCount++
     }
 
@@ -1071,7 +1071,7 @@ function Invoke-ReadinessCheck([bool]$QuietHeader = $false) {
     $realmIpInDb = $null
 
     if (Test-TcpPort $dbHost $dbPort) {
-        Write-Host "[OK] خدمة MariaDB / MySQL شغالة على ${dbHost}:${dbPort}" -ForegroundColor Green
+        Write-Host "[OK] MariaDB / MySQL is listening on ${dbHost}:${dbPort}" -ForegroundColor Green
         $okCount++
 
         $mysqlExe = Find-MySqlExe
@@ -1083,33 +1083,33 @@ function Invoke-ReadinessCheck([bool]$QuietHeader = $false) {
                 $parts = $res.Output.Split('|')
                 $realmIpInDb = $parts[1]
                 $expectedEncUser = if ($null -ne $gameCfg -and $null -ne $gameCfg.Realm) { Protect-RealmCredential ([string]$gameCfg.Realm.Username) } else { "" }
-                $modeLabel = if ($realmIpInDb -eq "127.0.0.1") { "أوفلاين محلي بدون نت" } else { "شبكة / هماشي" }
-                Write-Host "[OK] جدول realm مربوط — العالم: $($parts[0]) | الآي بي: $realmIpInDb ($modeLabel)" -ForegroundColor Green
+                $modeLabel = if ($realmIpInDb -eq "127.0.0.1") { "local offline" } else { "network / Hamachi" }
+                Write-Host "[OK] Realm: $($parts[0]) | IP: $realmIpInDb ($modeLabel)" -ForegroundColor Green
                 $okCount++
                 if (-not [string]::IsNullOrEmpty($expectedEncUser) -and $parts[3] -eq $expectedEncUser) {
-                    Write-Host "[OK] تشفير AES لبيانات ربط Realm متطابق 100% بين الكونفيج والداتابيز." -ForegroundColor Green
+                    Write-Host "[OK] Realm credentials match the configuration." -ForegroundColor Green
                     $okCount++
                 } else {
-                    Write-Host "[!!] بيانات تشفير جدول realm مختلفة عن الكونفيج الحالي — شغّل 1-Setup-MoonQueen.bat لمزامنتها." -ForegroundColor Red
+                    Write-Host "[!!] Realm credentials differ from configuration. Run 1-Setup-MoonQueen.bat." -ForegroundColor Red
                     $failCount++
                 }
             } else {
-                Write-Host "[!!] جدول realm في $accSchema غير مهيأ — شغّل 1-Setup-MoonQueen.bat." -ForegroundColor Red
+                Write-Host "[!!] Realm table in $accSchema is not configured. Run setup." -ForegroundColor Red
                 $failCount++
             }
 
             $resGame = Invoke-MySqlQuery $mysqlExe $dbHost $dbPort ([string]$loginCfg.Database.Username) ([string]$loginCfg.Database.Password) $gameSchema "SELECT COUNT(*) FROM information_schema.tables WHERE table_schema = '$gameSchema';"
             $resProc = Invoke-MySqlQuery $mysqlExe $dbHost $dbPort ([string]$loginCfg.Database.Username) ([string]$loginCfg.Database.Password) $gameSchema "SELECT COUNT(*) FROM information_schema.routines WHERE routine_schema = '$gameSchema' AND routine_type = 'PROCEDURE';"
             if ($resGame.ExitCode -eq 0 -and [int]$resGame.Output -ge 302) {
-                Write-Host "[OK] قاعدة $gameSchema مكتملة 100% ($($resGame.Output) جدول + $($resProc.Output) إجراء مخزن)." -ForegroundColor Green
+                Write-Host "[OK] Database $gameSchema: $($resGame.Output) tables, $($resProc.Output) procedures." -ForegroundColor Green
                 $okCount++
             } else {
-                Write-Host "[!!] قاعدة $gameSchema غير مكتملة ($($resGame.Output) جدول) — شغّل 1-Setup-MoonQueen.bat." -ForegroundColor Red
+                Write-Host "[!!] Database $gameSchema has only $($resGame.Output) tables. Run setup." -ForegroundColor Red
                 $failCount++
             }
         }
     } else {
-        Write-Host "[!!] خدمة MySQL متوقفة على ${dbHost}:${dbPort} — افتح XAMPP واضغط Start أمام MySQL." -ForegroundColor Red
+        Write-Host "[!!] MySQL is not listening on ${dbHost}:${dbPort}. Start MySQL in XAMPP." -ForegroundColor Red
         $failCount++
     }
 
@@ -1119,32 +1119,32 @@ function Invoke-ReadinessCheck([bool]$QuietHeader = $false) {
         $cIp = Get-ClientConfiguredIp $clientDir
         $lockExists = Test-Path -LiteralPath (Join-Path $clientDir "config.json.lock")
         if ($lockExists) {
-            Write-Host "[!] تنبيه: يوجد config.json.lock في الكلينت ($clientDir) — شغّل 1-Setup-MoonQueen.bat لحذفه وتحديث الـ IP." -ForegroundColor Yellow
+            Write-Host "[!] config.json.lock exists in $clientDir. Run setup to update the IP." -ForegroundColor Yellow
             $warnCount++
         }
         if (-not [string]::IsNullOrWhiteSpace($cIp)) {
-            Write-Host "[OK] إعداد الكلينت (config.json -> LoginHost/GameHost) مضبوط على: $cIp" -ForegroundColor Green
+            Write-Host "[OK] Client config.json points to $cIp" -ForegroundColor Green
             $okCount++
             if (-not [string]::IsNullOrWhiteSpace($realmIpInDb) -and $cIp -ne $realmIpInDb) {
-                Write-Host "[!!] عدم تطابق IP! الداتابيز على ($realmIpInDb) والكلينت على ($cIp) — شغّل 1-Setup-MoonQueen.bat لتوحيدهما." -ForegroundColor Red
+                Write-Host "[!!] IP mismatch: database $realmIpInDb, client $cIp. Run setup." -ForegroundColor Red
                 $failCount++
             }
         } else {
-            Write-Host "[!] ملف config.json داخل الكلينت يحتاج مزامنة — شغّل 1-Setup-MoonQueen.bat." -ForegroundColor Yellow
+            Write-Host "[!] Client config.json needs synchronization. Run setup." -ForegroundColor Yellow
             $warnCount++
         }
         if (Test-Path -LiteralPath (Join-Path $clientDir "MoonQueen.exe")) {
-            Write-Host "[OK] اللودر الرسمي MoonQueen.exe موجود داخل فولدر الكلينت." -ForegroundColor Green
+            Write-Host "[OK] MoonQueen.exe exists in the client folder." -ForegroundColor Green
             $okCount++
         } else {
-            Write-Host "[!] ملف MoonQueen.exe لم يُنسخ بعد داخل الكلينت ($clientDir)." -ForegroundColor Yellow
+            Write-Host "[!] MoonQueen.exe not found in $clientDir." -ForegroundColor Yellow
             $warnCount++
         }
     }
 
     Write-Host ""
     Write-Host "======================================================================" -ForegroundColor DarkGray
-    Write-Host "  نتيجة الفحص الشامل: سليم ($okCount) | ملاحظات ($warnCount) | أخطاء ($failCount)" -ForegroundColor Cyan
+    Write-Host "  Pre-flight results: OK ($okCount) | warnings ($warnCount) | errors ($failCount)" -ForegroundColor Cyan
     Write-Host "======================================================================" -ForegroundColor DarkGray
 
     return [pscustomobject]@{
@@ -1155,45 +1155,45 @@ function Invoke-ReadinessCheck([bool]$QuietHeader = $false) {
 }
 
 function Invoke-FullSequentialSetup {
-    Write-Banner "[1] الإعداد والتجهيز الموحد الشامل خطوة بخطوة (All-in-One Setup)"
-    Write-Host "الاسكريبت ده هينفّذ كل أوامر التجهيز والربط والفحص ورا بعض تلقائيًا بالترتيب!" -ForegroundColor Gray
+    Write-Banner "[1] MoonQueen all-in-one setup"
+    Write-Host "This setup prepares and checks the server, database and client in sequence." -ForegroundColor Gray
 
     # ------------------------------------------------------------------------
     # [1/6] البيئة + وضع الشبكة + مسار الكلينت
     # ------------------------------------------------------------------------
-    Write-StepHeader "[1/6]" "اختيار وضع التشغيل وفحص البيئة (MySQL + .NET 7 + الكلينت)"
+    Write-StepHeader "[1/6]" "Select mode and check environment (MySQL, .NET 7 and client)"
 
     $state = Load-LauncherState
     $savedIp = if ($null -ne $state -and -not [string]::IsNullOrWhiteSpace([string]$state.PreferredIP)) { [string]$state.PreferredIP } else { "127.0.0.1" }
     $defaultChoice = if ($savedIp -eq "127.0.0.1") { "1" } else { "2" }
 
-    Write-Host "  [1] وضع الأوفلاين المحلي بدون إنترنت (127.0.0.1)" -ForegroundColor Green
-    Write-Host "  [2] وضع شبكة الهماشي مع الأصدقاء ($HamachiIP)" -ForegroundColor Cyan
-    $netChoice = (Read-Host "اختر وضع التشغيل [افتراضي: $defaultChoice]").Trim()
+    Write-Host "  [1] Local offline mode (127.0.0.1)" -ForegroundColor Green
+    Write-Host "  [2] Hamachi network mode ($HamachiIP)" -ForegroundColor Cyan
+    $netChoice = (Read-Host "Select mode [default: $defaultChoice]").Trim()
     if ([string]::IsNullOrWhiteSpace($netChoice)) { $netChoice = $defaultChoice }
 
     $targetIp = "127.0.0.1"
     if ($netChoice -eq "2") {
-        $customIp = (Read-Host "آي بي الهماشي [$HamachiIP] (اضغط Enter للتأكيد أو اكتب آي بي آخر)").Trim()
+        $customIp = (Read-Host "Hamachi IP [$HamachiIP] (press Enter to confirm or enter another IP)").Trim()
         $targetIp = if ([string]::IsNullOrWhiteSpace($customIp)) { $HamachiIP } else { $customIp }
     }
     Save-LauncherState @{ PreferredIP = $targetIp }
-    Write-Host "[OK] تم اعتماد آي بي التشغيل الموحد للسيرفر والكلينت: $targetIp" -ForegroundColor Green
+    Write-Host "[OK] Selected server and client IP: $targetIp" -ForegroundColor Green
 
     if (-not (Test-TcpPort "127.0.0.1" 3306)) {
         Write-Host ""
-        Write-Host "[!!] خدمة MySQL / MariaDB غير شغالة حاليًا على 127.0.0.1:3306!" -ForegroundColor Red
-        Write-Host "     افتح XAMPP Control Panel واضغط Start قدام MySQL، ثم اضغط Enter هنا للمتابعة..." -ForegroundColor Yellow
+        Write-Host "[!!] MySQL / MariaDB is not listening on 127.0.0.1:3306!" -ForegroundColor Red
+        Write-Host "     Start MySQL in XAMPP Control Panel, then press Enter to continue..." -ForegroundColor Yellow
         Read-Host | Out-Null
         if (-not (Test-TcpPort "127.0.0.1" 3306)) {
-            Write-Host "[!!] ما زالت خدمة MySQL متوقفة — شغّل MySQL من XAMPP وأعد فتح 1-Setup-MoonQueen.bat." -ForegroundColor Red
+            Write-Host "[!!] MySQL is still stopped. Start it in XAMPP and rerun setup." -ForegroundColor Red
             return
         }
     }
 
     $mysqlExe = Find-MySqlExe -PromptIfMissing:$true
     if ($null -eq $mysqlExe) {
-        Write-Host "[!!] تعذر العثور على mysql.exe — تأكد من تثبيت XAMPP." -ForegroundColor Red
+        Write-Host "[!!] mysql.exe was not found. Check your XAMPP installation." -ForegroundColor Red
         return
     }
 
@@ -1202,41 +1202,41 @@ function Invoke-FullSequentialSetup {
     # ------------------------------------------------------------------------
     # [2/6] تجهيز ملفات السيرفر والـ Lua والكلينت واللودر وconfig.json
     # ------------------------------------------------------------------------
-    Write-StepHeader "[2/6]" "نسخ ومزامنة ملفات السيرفر والـ Lua والكلينت واللودر (config.json)"
+    Write-StepHeader "[2/6]" "Copy and synchronize server Lua and client assets"
     $binDir = Resolve-BinDirectory -CreateIfMissing:$true
     Sync-ClientAndServerAssets -BinDir $binDir -ClientDir $clientDir -TargetIP $targetIp
 
     # ------------------------------------------------------------------------
     # [3/6] التحقق من باسورد MySQL وتوليد ملفات *.Config.local.json تلقائيًا
     # ------------------------------------------------------------------------
-    Write-StepHeader "[3/6]" "توليد ومزامنة ملفات الكونفيج المحلية الثلاثة (*.Config.local.json)"
+    Write-StepHeader "[3/6]" "Generate and synchronize three local configuration files"
     $dbCreds = Resolve-VerifiedMySqlCredentials -MySqlExe $mysqlExe -BinDir $binDir
     $realmSecrets = Ensure-ServerLocalConfigs -BinDir $binDir -DbCreds $dbCreds
 
     # ------------------------------------------------------------------------
     # [4/6] تثبيت أو مراجعة قاعدتَي moonqueen_account و moonqueen_game
     # ------------------------------------------------------------------------
-    Write-StepHeader "[4/6]" "تثبيت ومراجعة قاعدتَي البيانات النظيفتين (moonqueen_account + moonqueen_game)"
+    Write-StepHeader "[4/6]" "Install or review the two MoonQueen databases"
     Ensure-CleanDatabases -MySqlExe $mysqlExe -DbCreds $dbCreds
 
     # ------------------------------------------------------------------------
     # [5/6] ربط وتشفير سطر Realm + تجهيز حساب الأدمن [PM] وشارة الإدارة
     # ------------------------------------------------------------------------
-    Write-StepHeader "[5/6]" "ربط جدول realm بالآي بي ($targetIp) وتجهيز حساب الأدمن [PM]"
+    Write-StepHeader "[5/6]" "Update realm IP ($targetIp) and prepare the PM account"
     Sync-RealmAndAdminAccount -MySqlExe $mysqlExe -DbCreds $dbCreds -RealmSecrets $realmSecrets -TargetIP $targetIp
 
     # ------------------------------------------------------------------------
     # [6/6] بناء اختياري (لو لسه متبناش) + الفحص النهائي الشامل
     # ------------------------------------------------------------------------
-    Write-StepHeader "[6/6]" "الفحص النهائي الشامل للجاهزية (Final Readiness Verification)"
+    Write-StepHeader "[6/6]" "Final readiness verification"
     $gameExePath = Join-Path $binDir "MoonQueen.Game.exe"
     if (-not (Test-Path -LiteralPath $gameExePath)) {
         $dotnetCmd = Get-Command dotnet -ErrorAction SilentlyContinue
         $slnPath = Join-Path $RepoRoot "MoonQueen.sln"
         if ($null -ne $dotnetCmd -and (Test-Path -LiteralPath $slnPath)) {
-            $wantBuild = (Read-Host "ملفات السيرفر التنفيذية (*.exe) لم تُبنَ بعد — تحب أبني MoonQueen.sln على وضع Release الآن؟ [اضغط Enter للموافقة أو n للبناء يدويًا من Visual Studio]").Trim()
+            $wantBuild = (Read-Host "Server executables are missing. Build MoonQueen.sln in Release now? [Enter = yes; n = build manually]").Trim()
             if ($wantBuild -ne "n" -and $wantBuild -ne "N") {
-                Write-Host "[+] جاري بناء MoonQueen.sln على وضع Release..." -ForegroundColor Cyan
+                Write-Host "[+] Building MoonQueen.sln in Release..." -ForegroundColor Cyan
                 & dotnet build $slnPath -c Release
                 $binDir = Resolve-BinDirectory -CreateIfMissing:$true
                 Sync-ClientAndServerAssets -BinDir $binDir -ClientDir $clientDir -TargetIP $targetIp
@@ -1250,16 +1250,16 @@ function Invoke-FullSequentialSetup {
     $runningLogin = Get-Process -Name "MoonQueen.Login" -ErrorAction SilentlyContinue
     if ($null -ne $runningLogin) {
         Write-Host ""
-        Write-Host "[تنبيه] السيرفر شغال في الخلفية حاليًا — افتح 2-Start-MoonQueen-Server.bat واختر [1] إعادة تشغيل السيرفر لتطبيق أي تغييرات جديدة." -ForegroundColor Yellow
+        Write-Host "[WARNING] Server is running. Restart all services to apply changes." -ForegroundColor Yellow
     } elseif ($summary.FailCount -eq 0) {
         Write-Host ""
-        Write-Host "[تم التجهيز بنجاح 100%] كل الأوامر اتنفذت ورا بعض بدون أي أخطاء!" -ForegroundColor Green
-        Write-Host "تقدر دلوقتي تشغّل السيرفر في أي وقت من الاسكريبت المنفصل: 2-Start-MoonQueen-Server.bat" -ForegroundColor Yellow
+        Write-Host "[OK] Setup finished with no readiness errors." -ForegroundColor Green
+        Write-Host "Start the server using 2-Start-MoonQueen-Server.bat." -ForegroundColor Yellow
     }
 }
 
 function Start-AllServices {
-    Write-Banner "[2] تشغيل سيرفرات MoonQueen الثلاثة + استوديو التحكم الفوري"
+    Write-Banner "[2] Start MoonQueen services and Control Studio"
     $binDir = Resolve-BinDirectory
     Ensure-LuaAssets $binDir
 
@@ -1268,8 +1268,8 @@ function Start-AllServices {
     $aiCfgPath    = Join-Path $binDir "MoonQueen.Ai.Config.local.json"
 
     if (-not (Test-Path -LiteralPath $loginCfgPath) -or -not (Test-Path -LiteralPath $gameCfgPath) -or -not (Test-Path -LiteralPath $aiCfgPath)) {
-        Write-Host "[!!] ملفات الكونفيج المحلية (*.Config.local.json) غير موجودة بعد!" -ForegroundColor Red
-        Write-Host "     شغّل أولًا: 1-Setup-MoonQueen.bat لتجهيز الكونفيج والداتابيز والكلينت أوتوماتيك." -ForegroundColor Yellow
+        Write-Host "[!!] Local configuration files are missing!" -ForegroundColor Red
+        Write-Host "     Run 1-Setup-MoonQueen.bat first." -ForegroundColor Yellow
         return
     }
 
@@ -1282,45 +1282,45 @@ function Start-AllServices {
         [string]$gameAiCheck.Ai.Password -notmatch '^[\x21-\x7E]{1,16}$' -or
         [string]$gameAiCheck.Ai.Username -cne [string]$aiCheck.Ai.Username -or
         [string]$gameAiCheck.Ai.Password -cne [string]$aiCheck.Ai.Password) {
-        Write-Host "[!!] إعدادات اتصال AI غير متوافقة أو غير متطابقة. أوقف السيرفرات وشغّل 1-Setup-MoonQueen.bat لمزامنتها، ثم أعد التشغيل." -ForegroundColor Red
+        Write-Host "[!!] AI credentials are incompatible or mismatched. Stop services, run setup, then restart." -ForegroundColor Red
         return
     }
 
     if (-not (Test-TcpPort "127.0.0.1" 3306)) {
-        Write-Host "[!!] خدمة MySQL متوقفة على 127.0.0.1:3306 — افتح XAMPP واضغط Start قدام MySQL أولًا." -ForegroundColor Red
+        Write-Host "[!!] MySQL is not listening on 127.0.0.1:3306. Start MySQL in XAMPP." -ForegroundColor Red
         return
     }
 
     foreach ($exe in @("MoonQueen.Login.exe", "MoonQueen.Game.exe", "MoonQueen.Ai.exe")) {
         if (-not (Test-Path -LiteralPath (Join-Path $binDir $exe))) {
-            Write-Host "[!!] ملف $exe غير موجود داخل $binDir — ابنِ MoonQueen.sln على وضع Release الأول (أو شغّل 1-Setup-MoonQueen.bat)." -ForegroundColor Red
+            Write-Host "[!!] $exe is missing from $binDir. Build MoonQueen.sln in Release or run setup." -ForegroundColor Red
             return
         }
     }
 
     # 1. Start Login Server & wait for RPC port 9865
     if ($null -ne (Get-Process -Name "MoonQueen.Login" -ErrorAction SilentlyContinue)) {
-        Write-Host "[=] سيرفر تسجيل الدخول (MoonQueen.Login) شغال بالفعل." -ForegroundColor Yellow
+        Write-Host "[=] MoonQueen.Login is already running." -ForegroundColor Yellow
     } else {
-        Write-Host "[1/3] جاري تشغيل سيرفر الحسابات (MoonQueen.Login.exe)..." -ForegroundColor Green
+        Write-Host "[1/3] Starting MoonQueen.Login.exe..." -ForegroundColor Green
         Start-Process -FilePath (Join-Path $binDir "MoonQueen.Login.exe") -WorkingDirectory $binDir
         [void](Wait-TcpPort "127.0.0.1" 9865 10)
     }
 
     # 2. Start Game Server & wait for AI RPC port 9866
     if ($null -ne (Get-Process -Name "MoonQueen.Game" -ErrorAction SilentlyContinue)) {
-        Write-Host "[=] سيرفر عالم اللعبة (MoonQueen.Game) شغال بالفعل." -ForegroundColor Yellow
+        Write-Host "[=] MoonQueen.Game is already running." -ForegroundColor Yellow
     } else {
-        Write-Host "[2/3] جاري تشغيل سيرفر عالم اللعبة (MoonQueen.Game.exe)..." -ForegroundColor Green
+        Write-Host "[2/3] Starting MoonQueen.Game.exe..." -ForegroundColor Green
         Start-Process -FilePath (Join-Path $binDir "MoonQueen.Game.exe") -WorkingDirectory $binDir
         [void](Wait-TcpPort "127.0.0.1" 9866 15)
     }
 
     # 3. Start AI Server
     if ($null -ne (Get-Process -Name "MoonQueen.Ai" -ErrorAction SilentlyContinue)) {
-        Write-Host "[=] سيرفر الوحوش والـ Spawns (MoonQueen.Ai) شغال بالفعل." -ForegroundColor Yellow
+        Write-Host "[=] MoonQueen.Ai is already running." -ForegroundColor Yellow
     } else {
-        Write-Host "[3/3] جاري تشغيل سيرفر الوحوش والـ Spawns (MoonQueen.Ai.exe)..." -ForegroundColor Green
+        Write-Host "[3/3] Starting MoonQueen.Ai.exe..." -ForegroundColor Green
         Start-Process -FilePath (Join-Path $binDir "MoonQueen.Ai.exe") -WorkingDirectory $binDir
         Start-Sleep -Seconds 2
     }
@@ -1330,7 +1330,7 @@ function Start-AllServices {
     $phpExe = Find-PhpExe
     if ((Test-Path -LiteralPath $studioDir) -and $null -ne $phpExe) {
         if (-not (Test-TcpPort "127.0.0.1" 8099)) {
-            Write-Host "[+] جاري تشغيل لوحة تحكم السيرفر على http://127.0.0.1:8099 ..." -ForegroundColor Green
+            Write-Host "[+] Starting Control Studio at http://127.0.0.1:8099 ..." -ForegroundColor Green
             Start-Process -FilePath $phpExe -ArgumentList '-S 127.0.0.1:8099 router.php' -WorkingDirectory $studioDir -WindowStyle Minimized
             Start-Sleep -Seconds 1
         }
@@ -1338,25 +1338,25 @@ function Start-AllServices {
     }
 
     Write-Host ""
-    Write-Host "[تم التشغيل بنجاح] سيرفرات MoonQueen شغالة وجاهزة الآن! افتح MoonQueen.exe من فولدر الكلينت وادخل اللعبة." -ForegroundColor Cyan
+    Write-Host "[i] Start commands issued. Check each server log for successful startup and AI authentication." -ForegroundColor Cyan
 }
 
 function Stop-AllServices {
-    Write-Banner "إيقاف سيرفرات MoonQueen بأمان (Ai -> Game -> Login)"
+    Write-Banner "Stopping MoonQueen services (AI -> Game -> Login)"
     foreach ($name in @("MoonQueen.Ai", "MoonQueen.Game", "MoonQueen.Login")) {
         $procs = Get-Process -Name $name -ErrorAction SilentlyContinue
         if ($null -ne $procs) {
             foreach ($p in $procs) {
-                Write-Host "[-] جاري إيقاف $name (PID: $($p.Id))..." -ForegroundColor Yellow
+                Write-Host "[-] Stopping $name (PID: $($p.Id))..." -ForegroundColor Yellow
                 Stop-Process -Id $p.Id -Force
             }
             Start-Sleep -Seconds 1
         } else {
-            Write-Host "[=] $name متوقف بالفعل." -ForegroundColor DarkGray
+            Write-Host "[=] $name is already stopped." -ForegroundColor DarkGray
         }
     }
     Write-Host ""
-    Write-Host "[OK] تم إيقاف سيرفرات MoonQueen الثلاثة بأمان." -ForegroundColor Green
+    Write-Host "[OK] Stop commands completed." -ForegroundColor Green
 }
 
 function Invoke-ServerLauncher {
@@ -1371,20 +1371,20 @@ function Invoke-ServerLauncher {
         return
     }
 
-    Write-Banner "[2] مشغّل ومدير تشغيل سيرفر MoonQueen"
-    Write-Host ("  - MoonQueen.Login : " + $(if ($loginRunning) { "شغال (ONLINE)" } else { "متوقف (OFFLINE)" })) -ForegroundColor $(if ($loginRunning) { "Green" } else { "Yellow" })
-    Write-Host ("  - MoonQueen.Game  : " + $(if ($gameRunning)  { "شغال (ONLINE)" } else { "متوقف (OFFLINE)" })) -ForegroundColor $(if ($gameRunning)  { "Green" } else { "Yellow" })
-    Write-Host ("  - MoonQueen.Ai    : " + $(if ($aiRunning)    { "شغال (ONLINE)" } else { "متوقف (OFFLINE)" })) -ForegroundColor $(if ($aiRunning)    { "Green" } else { "Yellow" })
-    Write-Host ("  - Control Studio  : " + $(if ($studioUp)     { "شغال على http://127.0.0.1:8099" } else { "متوقف" })) -ForegroundColor $(if ($studioUp) { "Cyan" } else { "DarkGray" })
+    Write-Banner "[2] MoonQueen server manager"
+    Write-Host ("  - MoonQueen.Login : " + $(if ($loginRunning) { "ONLINE" } else { "OFFLINE" })) -ForegroundColor $(if ($loginRunning) { "Green" } else { "Yellow" })
+    Write-Host ("  - MoonQueen.Game  : " + $(if ($gameRunning)  { "ONLINE" } else { "OFFLINE" })) -ForegroundColor $(if ($gameRunning)  { "Green" } else { "Yellow" })
+    Write-Host ("  - MoonQueen.Ai    : " + $(if ($aiRunning)    { "ONLINE" } else { "OFFLINE" })) -ForegroundColor $(if ($aiRunning)    { "Green" } else { "Yellow" })
+    Write-Host ("  - Control Studio  : " + $(if ($studioUp)     { "ONLINE at http://127.0.0.1:8099" } else { "OFFLINE" })) -ForegroundColor $(if ($studioUp) { "Cyan" } else { "DarkGray" })
     Write-Host ""
 
     if ((-not $loginRunning) -or (-not $gameRunning) -or (-not $aiRunning)) {
-        Write-Host "  [1] استكمال تشغيل الخدمات المتوقفة الآن" -ForegroundColor Green
-        Write-Host "  [2] إعادة تشغيل السيرفر بالكامل بأمان (Restart)" -ForegroundColor Yellow
-        Write-Host "  [3] إيقاف السيرفر بالكامل بأمان (Stop)" -ForegroundColor Red
-        Write-Host "  [4] فتح لوحة تحكم السيرفر في المتصفح (http://127.0.0.1:8099)" -ForegroundColor Cyan
-        Write-Host "  [0] خروج" -ForegroundColor DarkGray
-        $c = (Read-Host "اختر رقم العملية [افتراضي: 1]").Trim()
+        Write-Host "  [1] Start stopped services" -ForegroundColor Green
+        Write-Host "  [2] Restart all server services" -ForegroundColor Yellow
+        Write-Host "  [3] Stop all server services" -ForegroundColor Red
+        Write-Host "  [4] Open Control Studio (http://127.0.0.1:8099)" -ForegroundColor Cyan
+        Write-Host "  [0] Exit" -ForegroundColor DarkGray
+        $c = (Read-Host "Select an option [default: 1]").Trim()
         if ([string]::IsNullOrWhiteSpace($c)) { $c = "1" }
         switch ($c) {
             "1" { Start-AllServices }
@@ -1393,11 +1393,11 @@ function Invoke-ServerLauncher {
             "4" { Start-Process "http://127.0.0.1:8099" }
         }
     } else {
-        Write-Host "  [1] إعادة تشغيل السيرفر بالكامل بأمان (Restart)" -ForegroundColor Yellow
-        Write-Host "  [2] إيقاف السيرفر بالكامل بأمان (Stop)" -ForegroundColor Red
-        Write-Host "  [3] فتح لوحة تحكم السيرفر في المتصفح (http://127.0.0.1:8099)" -ForegroundColor Cyan
-        Write-Host "  [0] خروج (ترك السيرفر شغال)" -ForegroundColor DarkGray
-        $c = (Read-Host "اختر رقم العملية [افتراضي: 0]").Trim()
+        Write-Host "  [1] Restart all server services" -ForegroundColor Yellow
+        Write-Host "  [2] Stop all server services" -ForegroundColor Red
+        Write-Host "  [3] Open Control Studio (http://127.0.0.1:8099)" -ForegroundColor Cyan
+        Write-Host "  [0] Exit (leave services running)" -ForegroundColor DarkGray
+        $c = (Read-Host "Select an option [default: 0]").Trim()
         switch ($c) {
             "1" { Stop-AllServices; Start-Sleep -Seconds 2; Start-AllServices }
             "2" { Stop-AllServices }
@@ -1407,7 +1407,7 @@ function Invoke-ServerLauncher {
 }
 
 function Invoke-QuickIpSwitch([string]$TargetIP, [string]$Label) {
-    Write-Banner "تحويل آي بي السيرفر والكلينت إلى $Label ($TargetIP)"
+    Write-Banner "Switch server and client IP to $Label ($TargetIP)"
     $binDir   = Resolve-BinDirectory -CreateIfMissing:$true
     $mysqlExe = Find-MySqlExe -PromptIfMissing:$true
     if ($null -eq $mysqlExe) { return }
@@ -1423,8 +1423,8 @@ switch ($Mode) {
     "SetupAll"       { Invoke-FullSequentialSetup }
     "ServerLauncher" { Invoke-ServerLauncher }
     "Check"          { [void](Invoke-ReadinessCheck) }
-    "Offline"        { Invoke-QuickIpSwitch -TargetIP "127.0.0.1" -Label "الأوفلاين المحلي" }
-    "Hamachi"        { Invoke-QuickIpSwitch -TargetIP $HamachiIP  -Label "شبكة الهماشي" }
+    "Offline"        { Invoke-QuickIpSwitch -TargetIP "127.0.0.1" -Label "local offline" }
+    "Hamachi"        { Invoke-QuickIpSwitch -TargetIP $HamachiIP  -Label "Hamachi network" }
     "StartAll"       { Start-AllServices }
     "StopAll"        { Stop-AllServices }
     "StaffBadge"     {
@@ -1432,7 +1432,7 @@ switch ($Mode) {
         $mysqlExe = Find-MySqlExe -PromptIfMissing:$true
         if ($null -ne $mysqlExe) {
             $dbCreds = Resolve-VerifiedMySqlCredentials -MySqlExe $mysqlExe -BinDir $binDir
-            $name = (Read-Host "اكتب اسم الشخصية الحالي").Trim()
+            $name = (Read-Host "Enter the current character name").Trim()
             if (-not [string]::IsNullOrWhiteSpace($name)) {
                 Set-CharacterStaffBadge $mysqlExe $dbCreds $name "[PM]"
             }

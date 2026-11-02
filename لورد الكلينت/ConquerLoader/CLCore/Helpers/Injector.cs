@@ -37,6 +37,9 @@
         [DllImport("KERNEL32.DLL")]
         private static extern uint WaitForSingleObject(IntPtr hHandle, uint dwMilliSeconds);
 
+        [DllImport("KERNEL32.DLL", SetLastError = true)]
+        private static extern bool GetExitCodeThread(IntPtr hThread, out uint exitCode);
+
         private const uint PROCESS_ALL_ACCESS = (uint)(0x0002 | 0x0400 | 0x0008 | 0x0010 | 0x0020);
         private const uint MEM_COMMIT = 0x1000;
         private const uint MEM_RELEASE = 0x8000;
@@ -61,7 +64,8 @@
                 IntPtr hModule = new IntPtr(0); //vritualAllocex
                 IntPtr Injector = new IntPtr(0); //getprocadress
                 IntPtr hThread = new IntPtr(0); //createremotethread
-                int LenWrite = DllName.Length + 1;
+                byte[] dllPath = Encoding.Unicode.GetBytes(DllName + "\0");
+                int LenWrite = dllPath.Length;
                 hProcess = OpenProcess(PROCESS_ALL_ACCESS, false, ProcessID);
                 if (hProcess != IntPtr.Zero)
                 {
@@ -69,11 +73,10 @@
                     if (hModule != IntPtr.Zero)
                     {
                         Worker.ReportProgress(30);
-                        ASCIIEncoding Encoder = new ASCIIEncoding();
                         int Written = 0;
-                        if (WriteProcessMemory(hProcess, hModule, Encoder.GetBytes(DllName), LenWrite, Written))
+                        if (WriteProcessMemory(hProcess, hModule, dllPath, LenWrite, Written))
                         {
-                            Injector = GetProcAddress(GetModuleHandle("kernel32.dll"), "LoadLibraryA");
+                            Injector = GetProcAddress(GetModuleHandle("kernel32.dll"), "LoadLibraryW");
 
                             Worker.ReportProgress(40);
                             if (Injector != IntPtr.Zero)
@@ -90,8 +93,13 @@
                                             if (hThread != IntPtr.Zero)
                                             {
                                                 Worker.ReportProgress(99);
+                                                uint moduleHandle;
+                                                bool loaded = GetExitCodeThread(hThread, out moduleHandle) && moduleHandle != 0;
                                                 CloseHandle(hThread);
-                                                return ReturnInjectionStatus(true, "Injection success");
+                                                CloseHandle(hProcess);
+                                                return loaded
+                                                    ? ReturnInjectionStatus(true, "DLL loaded (hook activation not verified)")
+                                                    : ReturnInjectionStatus(false, "LoadLibraryW failed to load the DLL in the client process");
                                             }
                                             else ReturnInjectionStatus(false, "Bad thread handle ... Injection failed");
                                         }
@@ -101,7 +109,7 @@
                                 }
                                 else ReturnInjectionStatus(false, "Problem when starting the thread ... Injection failed");
                             }
-                            else ReturnInjectionStatus(false, "LoadLibraryA address not found ... Injection failed");
+                            else ReturnInjectionStatus(false, "LoadLibraryW address not found ... Injection failed");
                         }
                         else ReturnInjectionStatus(false, "Write error in process ... Injection failed");
                     }
