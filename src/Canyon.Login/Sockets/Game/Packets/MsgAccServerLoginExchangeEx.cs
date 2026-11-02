@@ -38,8 +38,20 @@ namespace Canyon.Login.Sockets.Game.Packets
                 return;
             }
 
-            await actor.SendAsync(new MsgConnectEx(client.Data.GameIPAddress, client.Data.GamePort, Data.Token));
-            logger.LogInformation("User [{}] has been redirected to game server [{Address}:{Port}]", actor.Username, client.Data.GameIPAddress, client.Data.GamePort);
+            string gameAddress = client.Data.GameIPAddress;
+            uint gamePort = client.Data.GamePort;
+            var redirect = new MsgConnectEx(gameAddress, gamePort, Data.Token);
+            Kernel.Sockets.LoginServer.SendWithResult(actor, redirect.Encode(), sent =>
+            {
+                if (sent)
+                {
+                    logger.LogInformation("Game redirect sent to local socket for [{IpAddress}] (destination [{Address}:{Port}]); client receipt is not confirmed.", actor.IpAddress, gameAddress, gamePort);
+                }
+                else
+                {
+                    logger.LogWarning("Failed to send game redirect to [{IpAddress}].", actor.IpAddress);
+                }
+            });
         }
     }
 }
