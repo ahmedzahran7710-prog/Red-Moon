@@ -39,7 +39,7 @@ namespace Canyon.Login.Sockets.Game.Packets
             }
 
             await actor.SendAsync(new MsgConnectEx(client.Data.GameIPAddress, client.Data.GamePort, Data.Token));
-            logger.LogInformation("User [{}] has been redirected to game server", actor.Username);
+            logger.LogInformation("User [{}] has been redirected to game server [{Address}:{Port}]", actor.Username, client.Data.GameIPAddress, client.Data.GamePort);
         }
     }
 }

@@ -33,6 +33,7 @@ namespace Canyon.Game.Sockets.Game
         {
             uint partition = processor.SelectPartition();
             var client = new Client(socket, buffer, partition);
+            logger.LogInformation("Game connection accepted from [{IpAddress}]; preparing handshake.", client.IpAddress);
 
             await client.NdDiffieHellman.ComputePublicKeyAsync();
 
@@ -46,6 +47,7 @@ namespace Canyon.Game.Sockets.Game
 
             await handshakeRequest.RandomizeAsync();
             await client.SendAsync(handshakeRequest);
+            logger.LogInformation("Game handshake queued for [{IpAddress}].", client.IpAddress);
             return client;
         }
 
@@ -76,6 +78,7 @@ namespace Canyon.Game.Sockets.Game
                 actor.ReceiveTimeOutSeconds = 5; // somehow exchange is breaking after this sometimes
 
                 actor.NdDiffieHellman = null;
+                logger.LogInformation("Game key exchange completed for [{IpAddress}].", actor.IpAddress);
                 return true;
             }
             catch (Exception e)

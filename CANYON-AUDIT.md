@@ -256,3 +256,6 @@
 
 ## 2026-11-02 — login disconnect race
 - The owner's Login log shows SocketError.NotConnected (10057) from MsgPCNum disconnect after redirect. Handle only the already-disconnected/disposed race locally in MsgPCNum; other socket errors remain visible. This does not establish or fix the cause of the client exit. Static review only; rebuild and Windows runtime verification required.
+
+## 2026-11-02 — game login stage diagnostics
+- Added non-secret game connection, handshake and login-stage logs plus the destination address/port to the Login redirect log, to locate the client's failure after authentication. These do not change the protocol or claim to fix the client exit. The AI's orphan monster types remain unresolved; no player or gameplay data was altered. Static review only.

@@ -8,7 +8,7 @@
   "tracked_files": 853,
   "omitted_files": 18,
   "total_upstream_bytes": 53090052,
-  "tracked_bytes": 6496645,
+  "tracked_bytes": 6497398,
   "files": [
     {
       "path": ".editorconfig",
@@ -2624,8 +2624,8 @@
     },
     {
       "path": "src/Canyon.Game/Sockets/Game/GameServer.cs",
-      "bytes": 24763,
-      "sha256": "ea64491cb182362844f14a835374c7d524a5b00f6e4aa51890ba74908a233da4",
+      "bytes": 25088,
+      "sha256": "68acbc43cbffeb5a3595055bcb43f6423dc3275d3aa0c0d7fa98eab329bd957e",
       "tracked": true,
       "upstream_bytes": 24275,
       "upstream_sha256": "ba15e4d6801344c6ade4d57ff125624dfcbdaa24617300d337e42af572efa2a0",
@@ -2747,8 +2747,8 @@
     },
     {
       "path": "src/Canyon.Game/Sockets/Game/Packets/MsgConnect.cs",
-      "bytes": 6508,
-      "sha256": "3f67a46af3e8f5d90d2f079682078336aeadb6e927db4de82467ef09399fa630",
+      "bytes": 6868,
+      "sha256": "c66d7165060ddfaf752d592e8b50ad3ba38df262e95a9e42aa23641e1b447454",
       "tracked": true,
       "upstream_bytes": 6144,
       "upstream_sha256": "b5f4caceae3a5c9fa0f73296d7f05e4abc960524d27e3dca94e21515ddf0c677",
@@ -4699,8 +4699,8 @@
     },
     {
       "path": "src/Canyon.Login/Sockets/Game/Packets/MsgAccServerLoginExchangeEx.cs",
-      "bytes": 1674,
-      "sha256": "159530fe531b2e322b5e96f0720887d0f832643cb66db290e71cc7682c6ef2cf",
+      "bytes": 1742,
+      "sha256": "018d5ec4bfc0c9d644389c805f2a0f76dadd1ee31632707b8664a0835d6bb624",
       "tracked": true,
       "upstream_bytes": 1317,
       "upstream_sha256": "4353d130bc211717381b56bdaa72ce73e9414bae6b18e264cd740829e85becf4",
