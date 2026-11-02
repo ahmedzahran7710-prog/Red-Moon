@@ -9,7 +9,7 @@
   "omitted_files": 5,
   "patched_files": 38,
   "total_upstream_bytes": 42053216,
-  "tracked_bytes": 5373539,
+  "tracked_bytes": 5999000,
   "files": [
     {
       "path": ".github/FUNDING.yml",
@@ -363,8 +363,8 @@
     },
     {
       "path": "ConquerLoader/CLCore/Helpers/Injector.cs",
-      "bytes": 6569,
-      "sha256": "e24e75be4db51c8a21d7003a68b050595770a5bb40107ebb9faf7cbe2303d21f",
+      "bytes": 7197,
+      "sha256": "04b9e42a2c55649855b1e04d063595ef61f4425cc11268f2819338f0faa1a118",
       "tracked": true
     },
     {
@@ -617,8 +617,8 @@
     },
     {
       "path": "ConquerLoader/ConquerLoader/ConquerLoaderLogo.ico",
-      "bytes": 63970,
-      "sha256": "8bea5ba1cced8ade03173d44939f240a3b75258e965b7ef5ae4246980c0e2115",
+      "bytes": 194824,
+      "sha256": "591d55ddc945129bebf6e4bc3fd330687ad7e0c8e32a21c3ded99a3532578ca1",
       "tracked": true
     },
     {
@@ -769,8 +769,8 @@
     },
     {
       "path": "ConquerLoader/ConquerLoader/Forms/WPF/MainLite.xaml.cs",
-      "bytes": 44177,
-      "sha256": "91c953f5f370933d6ed4bdde543ce39ecf1e6f80e5be08f94269a62f762040d8",
+      "bytes": 44344,
+      "sha256": "3a5fbc21f6426b29058086114f86f1f3a72618c4f19246ef0df7c3ae4933b88f",
       "tracked": true,
       "upstream_sha256": "678dc16e3ec2f0255376e83799fcaea474a0918a9debb8dbd43adf46a777bb3d"
     },
@@ -923,8 +923,8 @@
     },
     {
       "path": "ConquerLoader/ConquerLoader/Resources/CL_BG.png",
-      "bytes": 1105340,
-      "sha256": "6248d415972b37f8eec0d5ddfee37270c3011129313725b98d86f69ed485b647",
+      "bytes": 1332747,
+      "sha256": "1bac770992d8ab57e4e04c88eb63fcb26aaabd076b74bf7ece701fcc9453f1b9",
       "tracked": true
     },
     {
@@ -947,14 +947,14 @@
     },
     {
       "path": "ConquerLoader/ConquerLoader/Resources/ConquerLoaderICON.png",
-      "bytes": 1105340,
-      "sha256": "6248d415972b37f8eec0d5ddfee37270c3011129313725b98d86f69ed485b647",
+      "bytes": 1240891,
+      "sha256": "c2a00a7bd584301c29a25c5a5e9b24743b4d0a7bc583d766a56a29462fdc5298",
       "tracked": true
     },
     {
       "path": "ConquerLoader/ConquerLoader/Resources/ConquerLoaderLogo.ico",
-      "bytes": 63970,
-      "sha256": "8bea5ba1cced8ade03173d44939f240a3b75258e965b7ef5ae4246980c0e2115",
+      "bytes": 194824,
+      "sha256": "591d55ddc945129bebf6e4bc3fd330687ad7e0c8e32a21c3ded99a3532578ca1",
       "tracked": true
     },
     {

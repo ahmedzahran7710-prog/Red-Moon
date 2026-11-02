@@ -247,3 +247,9 @@
 - The local setup generated AI credentials exceeding the existing 16-byte login packet fields. It now generates compatible random credentials and rotates incompatible legacy values on both sides during setup; startup rejects invalid or mismatched settings without printing them. Existing wire format remains unchanged.
 - Loader WPF main window fits the desktop via uniform scaling; the owner's supplied red moon image replaces the launcher background and emblem. Loader manifest hashes and tracked bytes updated.
 - Terrain warnings and the original client server list remain unverified: client assets and a Windows runtime were not available. Static review only; no build or end-to-end test was performed.
+
+## 2026-11-02 — client diagnostics, console and branding
+- Setup console text translated to English without changing legacy path names or secret detection; misleading service-start success text replaced with a request to check logs.
+- Launcher uses the registration site's hero image and a transparent red-moon emblem and application/tray icon. Launcher must be rebuilt to apply.
+- DLL injection uses Unicode LoadLibraryW and checks its remote thread return value; successful loading does not prove hook activation. Upstream CanyonV6192 README links a preconfigured 6192 client, but it was not accessible for inspection; server-list behavior is not verified.
+- Static seed inspection confirms some reported generator monster IDs are absent. No game data was invented or removed. No build or runtime testing performed.

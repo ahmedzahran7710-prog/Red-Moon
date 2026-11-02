@@ -589,7 +589,7 @@ namespace ConquerLoader.Forms.WPF
                 if (!Injector.StartInjection(WinForms.Application.StartupPath + @"\" + HookDLL, (uint)conquerProc.Id, worker).Injected)
                 {
                     Core.LogWritter.Write("Injection of Custom DLL failed! [" + HookDLL + "] Reason: " + Injector.LastStatus.ResultMessage);
-                    ShowWarning("[" + SelectedServer.ServerName + "] Cannot inject " + HookDLL);
+                    ShowWarning("[" + SelectedServer.ServerName + "] Cannot inject " + HookDLL + ": " + Injector.LastStatus.ResultMessage);
                 }
                 else
                 {
@@ -650,7 +650,7 @@ namespace ConquerLoader.Forms.WPF
                     if (!Injector.StartInjection(WinForms.Application.StartupPath + @"\ConquerCipherHook.dll", (uint)conquerProc.Id, worker).Injected)
                     {
                         Core.LogWritter.Write("Injection ConquerCipherHook failed! Reason: " + Injector.LastStatus.ResultMessage);
-                        ShowWarning("[" + SelectedServer.ServerName + "] Cannot inject ConquerCipherHook.dll");
+                        ShowWarning("[" + SelectedServer.ServerName + "] Cannot inject ConquerCipherHook.dll: " + Injector.LastStatus.ResultMessage);
                     }
                     else
                     {
@@ -663,7 +663,7 @@ namespace ConquerLoader.Forms.WPF
                 if (!Injector.StartInjection(WinForms.Application.StartupPath + @"\" + HookDLL, (uint)conquerProc.Id, worker).Injected)
                 {
                     Core.LogWritter.Write("Injection " + HookDLL + " failed! Reason: " + Injector.LastStatus.ResultMessage);
-                    ShowWarning("[" + SelectedServer.ServerName + "] Cannot inject " + HookDLL);
+                    ShowWarning("[" + SelectedServer.ServerName + "] Cannot inject " + HookDLL + ": " + Injector.LastStatus.ResultMessage);
                 }
                 else
                 {
@@ -690,7 +690,7 @@ namespace ConquerLoader.Forms.WPF
                 if (!Injector.StartInjection(WinForms.Application.StartupPath + @"\" + HookDLL, (uint)conquerProc.Id, worker).Injected)
                 {
                     Core.LogWritter.Write("Injection " + HookDLL + " failed! Reason: " + Injector.LastStatus.ResultMessage);
-                    ShowWarning("[" + SelectedServer.ServerName + "] Cannot inject " + HookDLL);
+                    ShowWarning("[" + SelectedServer.ServerName + "] Cannot inject " + HookDLL + ": " + Injector.LastStatus.ResultMessage);
                 }
                 else
                 {
