@@ -253,3 +253,6 @@
 - Launcher uses the registration site's hero image and a transparent red-moon emblem and application/tray icon. Launcher must be rebuilt to apply.
 - DLL injection uses Unicode LoadLibraryW and checks its remote thread return value; successful loading does not prove hook activation. Upstream CanyonV6192 README links a preconfigured 6192 client, but it was not accessible for inspection; server-list behavior is not verified.
 - Static seed inspection confirms some reported generator monster IDs are absent. No game data was invented or removed. No build or runtime testing performed.
+
+## 2026-11-02 — login disconnect race
+- The owner's Login log shows SocketError.NotConnected (10057) from MsgPCNum disconnect after redirect. Handle only the already-disconnected/disposed race locally in MsgPCNum; other socket errors remain visible. This does not establish or fix the cause of the client exit. Static review only; rebuild and Windows runtime verification required.
