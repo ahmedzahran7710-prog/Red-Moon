@@ -7,9 +7,9 @@
   "total_upstream_files": 170,
   "tracked_files": 163,
   "omitted_files": 5,
-  "patched_files": 34,
+  "patched_files": 38,
   "total_upstream_bytes": 42053216,
-  "tracked_bytes": 7775979,
+  "tracked_bytes": 7777544,
   "files": [
     {
       "path": ".github/FUNDING.yml",
@@ -51,15 +51,17 @@
     },
     {
       "path": "ConquerCipherHook/ConquerCipherHook.vcxproj",
-      "bytes": 6369,
-      "sha256": "0293e7b74eb6c63055c58c9c5b96438288ed3e03f058582544b420ffc66edd64",
-      "tracked": true
+      "bytes": 6845,
+      "sha256": "e9b9642e4496842b9e22f904b52af0fa540a87991d00eabf771354a2c0bfd549",
+      "tracked": true,
+      "upstream_sha256": "0293e7b74eb6c63055c58c9c5b96438288ed3e03f058582544b420ffc66edd64"
     },
     {
       "path": "ConquerCipherHook/ConquerCipherHook.vcxproj.filters",
       "bytes": 2216,
-      "sha256": "8bd2847a2863bd1f614b04b7688558b5f82d7a2e9cca249c127c2eef0e7c1fd1",
-      "tracked": true
+      "sha256": "12f93d99e02c0caca67d919402dc968de2ac2c83816d6b639a3a6e0dbd6e1f1c",
+      "tracked": true,
+      "upstream_sha256": "8bd2847a2863bd1f614b04b7688558b5f82d7a2e9cca249c127c2eef0e7c1fd1"
     },
     {
       "path": "ConquerCipherHook/Hook.cpp",
@@ -170,15 +172,17 @@
     },
     {
       "path": "ConquerHook/CLHook.vcxproj",
-      "bytes": 6271,
-      "sha256": "8663c0876c25a9cfd796d9f8f3d251b96f641672f4a6a3977eef9126a59b8b5e",
-      "tracked": true
+      "bytes": 6694,
+      "sha256": "2d3cf85728268ecfbf4036403ff1d96a9047e0ec0c22db58de8106fbec2ab933",
+      "tracked": true,
+      "upstream_sha256": "8663c0876c25a9cfd796d9f8f3d251b96f641672f4a6a3977eef9126a59b8b5e"
     },
     {
       "path": "ConquerHook/CLHook.vcxproj.filters",
       "bytes": 2027,
-      "sha256": "33b5db402aeb0485d0eadf88f94f951b3ae92dfbe2b678f3f90ad2e90ecfd758",
-      "tracked": true
+      "sha256": "5ec47595a6c5ac1f472e46d62eee7cc3b29cee8e0047ef80559378d349fb4f41",
+      "tracked": true,
+      "upstream_sha256": "33b5db402aeb0485d0eadf88f94f951b3ae92dfbe2b678f3f90ad2e90ecfd758"
     },
     {
       "path": "ConquerHook/Hook.cpp",
@@ -592,8 +596,8 @@
     },
     {
       "path": "ConquerLoader/MoonQueen.sln",
-      "bytes": 5906,
-      "sha256": "0539023af13dba12fe982f2cf2a1b0fb8f47a88bf433f6a0dd8fbb6a57da8604",
+      "bytes": 6216,
+      "sha256": "2cf5c394201359bc50fce2ab61535c4823bb4b4f62880c2ef2908f7a7d5cc721",
       "tracked": true,
       "upstream_sha256": "3b21dfb87522d2d34e5faf06aed63bce55eeb0c00a873178725119f1b9e4ac47",
       "upstream_path": "ConquerLoader/ConquerLoader.sln"
@@ -1064,8 +1068,8 @@
     },
     {
       "path": "README.md",
-      "bytes": 5525,
-      "sha256": "dab4ef3bd590863d1831608b99ca0b21ed581d13b1dd82a281f2251eb66c097c",
+      "bytes": 5881,
+      "sha256": "a770d078bd7da9b89192a0531b70eca998ef93416136da05cd9d97248bc48ab5",
       "tracked": true,
       "upstream_sha256": "5ca1a680991bbd381dfcce73aef464b0b0d67148f1da81d0d0a8ceb5f36852a1"
     }
