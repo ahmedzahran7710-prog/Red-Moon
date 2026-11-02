@@ -9,7 +9,7 @@
   "omitted_files": 5,
   "patched_files": 38,
   "total_upstream_bytes": 42053216,
-  "tracked_bytes": 7777544,
+  "tracked_bytes": 5373539,
   "files": [
     {
       "path": ".github/FUNDING.yml",
@@ -762,15 +762,15 @@
     },
     {
       "path": "ConquerLoader/ConquerLoader/Forms/WPF/MainLite.xaml",
-      "bytes": 58245,
-      "sha256": "571233a866606376af31eb80831f609e52e5039d0cf8619bfed65abc8514820d",
+      "bytes": 58317,
+      "sha256": "33f1b245b1852ebb2d3ebc1597ee2482742c5659ac1588896eeebb8f5ccd4926",
       "tracked": true,
       "upstream_sha256": "07d2f5d68b545e260f0e28dd556267ab0508fb6e0a7b4ff7bd2d6aad1fa42855"
     },
     {
       "path": "ConquerLoader/ConquerLoader/Forms/WPF/MainLite.xaml.cs",
-      "bytes": 43869,
-      "sha256": "ec7673a7aafacc6bd9573ea0753bfaddc24b1beccfc5716ed1d02309aa6d38db",
+      "bytes": 44177,
+      "sha256": "91c953f5f370933d6ed4bdde543ce39ecf1e6f80e5be08f94269a62f762040d8",
       "tracked": true,
       "upstream_sha256": "678dc16e3ec2f0255376e83799fcaea474a0918a9debb8dbd43adf46a777bb3d"
     },
@@ -923,8 +923,8 @@
     },
     {
       "path": "ConquerLoader/ConquerLoader/Resources/CL_BG.png",
-      "bytes": 2961884,
-      "sha256": "79b394a73049ac803f3efa26a55208bd117f819106deba990179f3a7a54ccfa6",
+      "bytes": 1105340,
+      "sha256": "6248d415972b37f8eec0d5ddfee37270c3011129313725b98d86f69ed485b647",
       "tracked": true
     },
     {
@@ -947,8 +947,8 @@
     },
     {
       "path": "ConquerLoader/ConquerLoader/Resources/ConquerLoaderICON.png",
-      "bytes": 1653181,
-      "sha256": "b3beb8b2644b6e9173b263ffcf3481f6f585de2732987fedce4dd7eadbf3114b",
+      "bytes": 1105340,
+      "sha256": "6248d415972b37f8eec0d5ddfee37270c3011129313725b98d86f69ed485b647",
       "tracked": true
     },
     {
