@@ -60,6 +60,7 @@ namespace Canyon.Game.Sockets.Game.Packets
             }
 #endif
 
+            logger.LogInformation("Game login packet received from [{IpAddress}].", client.IpAddress);
             string tokenKey = Token.ToString();
             var auth = Kernel.Logins.Remove(tokenKey) as TransferAuthArgs;
             if (auth == null)
@@ -99,6 +100,7 @@ namespace Canyon.Game.Sockets.Game.Packets
 
             if (character == null)
             {
+                logger.LogInformation("Game login accepted for [{IpAddress}]; requesting character creation.", client.IpAddress);
                 // Create a new character
                 client.Creation = new Creation { AccountID = auth.AccountID, Token = (uint)Token };
                 Kernel.Registration.Add(client.Creation.Token);
@@ -116,6 +118,7 @@ namespace Canyon.Game.Sockets.Game.Packets
                 // The character exists, so we will turn the timeout back.
                 client.ReceiveTimeOutSeconds = 30; // 30 seconds or DC
 
+                logger.LogInformation("Game login accepted for [{IpAddress}]; loading existing character.", client.IpAddress);
                 // Character already exists
                 client.Character = new Character(character, client);
                 if (await RoleManager.LoginUserAsync(client))
