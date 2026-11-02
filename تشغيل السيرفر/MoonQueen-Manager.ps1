@@ -644,13 +644,23 @@ function Ensure-ServerLocalConfigs([string]$BinDir, $DbCreds) {
     $aiUser = if ($null -ne $gameCfg -and $null -ne $gameCfg.Ai -and -not [string]::IsNullOrWhiteSpace([string]$gameCfg.Ai.Username) -and [string]$gameCfg.Ai.Username -ne "yD3Ni6tMW1NNU1QH") {
         [string]$gameCfg.Ai.Username
     } else {
-        "MoonQueenAi_" + (New-CryptoRandomString 6)
+        New-CryptoRandomString 16
     }
 
     $aiPass = if ($null -ne $gameCfg -and $null -ne $gameCfg.Ai -and -not [string]::IsNullOrWhiteSpace([string]$gameCfg.Ai.Password) -and [string]$gameCfg.Ai.Password -ne "jETqqIKi9LuFvOgu" -and [string]$gameCfg.Ai.Password -notmatch "اكتب") {
         [string]$gameCfg.Ai.Password
     } else {
-        New-CryptoRandomString 24
+        New-CryptoRandomString 16
+    }
+
+    # The AI login packet has three fixed 16-byte CP1252 fields. Never truncate
+    # credentials: regenerate invalid old setup-generated values on both sides.
+    foreach ($field in @('aiUser', 'aiPass')) {
+        $value = Get-Variable -Name $field -ValueOnly
+        if ($value -notmatch '^[\x21-\x7E]{1,16}$') {
+            Set-Variable -Name $field -Value (New-CryptoRandomString 16)
+            Write-Host "[تنبيه] تم تجديد بيانات اتصال AI غير المتوافقة ومزامنتها؛ أعد تشغيل Game و AI معًا." -ForegroundColor Yellow
+        }
     }
 
     $maxOnline = if ($null -ne $gameCfg -and $null -ne $gameCfg.Realm -and [int]$gameCfg.Realm.MaxOnlinePlayers -gt 0) {
@@ -1260,6 +1270,19 @@ function Start-AllServices {
     if (-not (Test-Path -LiteralPath $loginCfgPath) -or -not (Test-Path -LiteralPath $gameCfgPath) -or -not (Test-Path -LiteralPath $aiCfgPath)) {
         Write-Host "[!!] ملفات الكونفيج المحلية (*.Config.local.json) غير موجودة بعد!" -ForegroundColor Red
         Write-Host "     شغّل أولًا: 1-Setup-MoonQueen.bat لتجهيز الكونفيج والداتابيز والكلينت أوتوماتيك." -ForegroundColor Yellow
+        return
+    }
+
+    # Check without exposing credentials or editing configs while services may be running.
+    $gameAiCheck = Read-JsonConfigSafe $gameCfgPath
+    $aiCheck = Read-JsonConfigSafe $aiCfgPath
+    if ($null -eq $gameAiCheck -or $null -eq $gameAiCheck.Ai -or $null -eq $aiCheck -or $null -eq $aiCheck.Ai -or
+        [string]$aiCheck.Ai.Name -notmatch '^[\x21-\x7E]{1,16}$' -or
+        [string]$gameAiCheck.Ai.Username -notmatch '^[\x21-\x7E]{1,16}$' -or
+        [string]$gameAiCheck.Ai.Password -notmatch '^[\x21-\x7E]{1,16}$' -or
+        [string]$gameAiCheck.Ai.Username -cne [string]$aiCheck.Ai.Username -or
+        [string]$gameAiCheck.Ai.Password -cne [string]$aiCheck.Ai.Password) {
+        Write-Host "[!!] إعدادات اتصال AI غير متوافقة أو غير متطابقة. أوقف السيرفرات وشغّل 1-Setup-MoonQueen.bat لمزامنتها، ثم أعد التشغيل." -ForegroundColor Red
         return
     }
 

@@ -42,6 +42,11 @@ namespace ConquerLoader.Forms.WPF
             noty = new WinForms.NotifyIcon();
 
             InitializeComponent();
+            // Fit the initial window to the usable desktop, including the taskbar.
+            var workArea = SystemParameters.WorkArea;
+            double scale = Math.Min(1.0, Math.Min(workArea.Width / 1280.0, workArea.Height / 800.0));
+            Width = 1280 * scale;
+            Height = 800 * scale;
             ApplyStaticTexts();
             noty.MouseDoubleClick += NotifyIcon_MouseDoubleClick;
 

@@ -6,8 +6,8 @@
         Title="MoonQueen"
         Width="1280"
         Height="800"
-        MinWidth="1280"
-        MinHeight="800"
+        MinWidth="640"
+        MinHeight="400"
         Background="#07090E"
         ResizeMode="CanResize"
         WindowStyle="None"
@@ -456,7 +456,8 @@
         </ResourceDictionary>
     </Window.Resources>
 
-    <Border Margin="0"
+    <Viewbox Stretch="Uniform">
+    <Border Width="1280" Height="800" Margin="0"
             Background="#020203"
             BorderBrush="#00FFFFFF"
             BorderThickness="0"
@@ -979,4 +980,5 @@
             </Grid>
         </Grid>
     </Border>
+    </Viewbox>
 </Window>
